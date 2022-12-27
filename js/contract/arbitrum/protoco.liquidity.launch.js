@@ -30,7 +30,7 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             let self = this;
             setTimeout(function() {
                 self.initData();
-            }, 5000);
+            }, 17000);
         },
 
         async getData() {
@@ -65,9 +65,10 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
                 salePrice: coreHelper.parseFloatNumber(parseInt(_r[6]) / 1e18, 8),
                 totalOffered: _contractsObj.protocolLiquidityLaunch.totalOffered
             };
-            _data.totalSaleGarbi = coreHelper.parseFloatNumber(parseInt(_r[5]) / 1e18, 18);
-            _data.totalTurBuyed = _data.config.totalOffered - _data.totalSaleGarbi;
-            // _data.totalTurBuyed = coreHelper.numberWithCommas(_data.config.totalOffered - _data.totalSaleGarbi, 6)
+            _data.totalSaleGrb = coreHelper.parseFloatNumber(parseInt(_r[5]) / 1e18, 18);
+            _data.totalGRBBuyed = _data.config.totalOffered - _data.totalSaleGrb;
+
+            // _data.totalGRBBuyed = coreHelper.numberWithCommas(_data.config.totalOffered - _data.totalSaleGrb, 6)
             // self.processAmt(null, _data);
             self.drawUI( _data);
             await self._initUserData(_user, _data);
@@ -76,7 +77,7 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
 
         async drawUI(_data) {
             let self = this;
-            let _ratioProgess = _data.totalTurBuyed * 100 / _data.config.totalOffered;
+            let _ratioProgess = _data.totalGRBBuyed * 100 / _data.config.totalOffered;
 
             // $(`.total-usdc-perchased`).html(`${ coreHelper.formatBalance(_data.totalPurchased, 3) }`);
             // $(`.total-grb-offered`).html(`${ coreHelper.formatBalance(_data.config.totalOffered, 0) }`);
@@ -166,10 +167,14 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
                         coreHelper.showPopup('confirm-popup');
                     })
                     .on("confirmation", function(confirmationNumber, receipt) {
-                        self._showSuccessPopup(receipt, self._buy);
+                        if (self._showSuccessPopup(receipt)) {
+                            self._buy();
+                        }
                     })
                     .on('receipt', (receipt) => {
-                        self._showSuccessPopup(receipt, self._buy);
+                        if (self._showSuccessPopup(receipt)) {
+                            self._buy();
+                        }
                     })
                     .on('error', (err, receipt) => {
                         console.log(err);
@@ -195,10 +200,14 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
                     coreHelper.showPopup('confirm-popup');
                 })
                 .on("confirmation", function(confirmationNumber, receipt) {
-                    self._showSuccessPopup(receipt);
+                        if (self._showSuccessPopup(receipt)) {
+                            $('input[name=amount_buy]').val("");
+                        }
                 })
                 .on('receipt', (receipt) => {
-                        self._showSuccessPopup(receipt);
+                        if (self._showSuccessPopup(receipt)) {
+                            $('input[name=amount_buy]').val("");
+                        }
                 })
                 .on('error', (err, receipt) => {
                     console.log(err);
@@ -208,12 +217,12 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
 
         _showSuccessPopup(receipt, next = null) {
             if (receipt.status == true && !transactions[receipt.transactionHash]) {
-                if (next) next();
+                // if (next) next();
                 transactions[receipt.transactionHash] = true;
                 coreHelper.hidePopup('confirm-popup', 0);
                 coreHelper.showPopup('success-confirm-popup');
                 coreHelper.hidePopup('success-confirm-popup', 10000);
-                 $('input[name=amount_buy]').val("");
+                 // $('input[name=amount_buy]').val("");
                  return true;
             }
             return false;

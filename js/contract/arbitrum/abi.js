@@ -460,7 +460,12 @@ $.ABI.prototype = (function() {
 					"inputs": [
 						{
 							"internalType": "contract IERC20",
-							"name": "_gar",
+							"name": "_grb",
+							"type": "address"
+						},
+						{
+							"internalType": "contract IERC20",
+							"name": "_usdc",
 							"type": "address"
 						}
 					],
@@ -485,13 +490,7 @@ $.ABI.prototype = (function() {
 						{
 							"indexed": false,
 							"internalType": "uint256",
-							"name": "_refundAmt",
-							"type": "uint256"
-						},
-						{
-							"indexed": false,
-							"internalType": "uint256",
-							"name": "_garReceive",
+							"name": "_grbReceive",
 							"type": "uint256"
 						}
 					],
@@ -513,7 +512,7 @@ $.ABI.prototype = (function() {
 				},
 				{
 					"inputs": [],
-					"name": "GAR",
+					"name": "GRB",
 					"outputs": [
 						{
 							"internalType": "contract IERC20",
@@ -539,6 +538,19 @@ $.ABI.prototype = (function() {
 				},
 				{
 					"inputs": [],
+					"name": "USDC",
+					"outputs": [
+						{
+							"internalType": "contract IERC20",
+							"name": "",
+							"type": "address"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [],
 					"name": "VERSION",
 					"outputs": [
 						{
@@ -551,22 +563,21 @@ $.ABI.prototype = (function() {
 					"type": "function"
 				},
 				{
-					"inputs": [],
+					"inputs": [
+						{
+							"internalType": "uint256",
+							"name": "_payAmt",
+							"type": "uint256"
+						}
+					],
 					"name": "buy",
-					"outputs": [],
-					"stateMutability": "payable",
-					"type": "function"
-				},
-				{
-					"inputs": [],
-					"name": "disable",
 					"outputs": [],
 					"stateMutability": "nonpayable",
 					"type": "function"
 				},
 				{
 					"inputs": [],
-					"name": "emergencyWithdraw",
+					"name": "disable",
 					"outputs": [],
 					"stateMutability": "nonpayable",
 					"type": "function"
@@ -589,22 +600,9 @@ $.ABI.prototype = (function() {
 					"name": "getData",
 					"outputs": [
 						{
-							"internalType": "uint256[8]",
+							"internalType": "uint256[9]",
 							"name": "data_",
-							"type": "uint256[8]"
-						}
-					],
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"inputs": [],
-					"name": "getETHBalance",
-					"outputs": [
-						{
-							"internalType": "uint256",
-							"name": "",
-							"type": "uint256"
+							"type": "uint256[9]"
 						}
 					],
 					"stateMutability": "view",
@@ -631,6 +629,25 @@ $.ABI.prototype = (function() {
 				},
 				{
 					"inputs": [],
+					"name": "getUSDCBalance",
+					"outputs": [
+						{
+							"internalType": "uint256",
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "contract IERC20",
+							"name": "_token",
+							"type": "address"
+						}
+					],
 					"name": "moveFund",
 					"outputs": [],
 					"stateMutability": "nonpayable",
@@ -666,11 +683,11 @@ $.ABI.prototype = (function() {
 					"inputs": [
 						{
 							"internalType": "contract IERC20",
-							"name": "_gar",
+							"name": "_grb",
 							"type": "address"
 						}
 					],
-					"name": "setGARToken",
+					"name": "setGRBToken",
 					"outputs": [],
 					"stateMutability": "nonpayable",
 					"type": "function"
@@ -710,6 +727,19 @@ $.ABI.prototype = (function() {
 						}
 					],
 					"name": "setTotalSale",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "contract IERC20",
+							"name": "_usdc",
+							"type": "address"
+						}
+					],
+					"name": "setUSDCToken",
 					"outputs": [],
 					"stateMutability": "nonpayable",
 					"type": "function"
