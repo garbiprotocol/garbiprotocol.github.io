@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+              />
+        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+              referrerpolicy="no-referrer" />
+        <link href="../assets/css/style.css" rel="stylesheet">
+        <link rel="shortcut icon" href="../assets/images/protocal_logo.png" type="image/x-icon">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="../assets/js/web3.min.js"></script>
+        <script src="../assets/js/trustwallet.js"></script>
+        <script src="../js/contract/arbitrum/abi.js"></script>
+        <script src="../js/contract/arbitrum/config.js"></script>
+        <script src="../js/data/store.js"></script>
+        <script src="../js/contract/arbitrum/core.js"></script>
+        <script src="../js/contract/arbitrum/base.contract.js"></script>
+        <script src="../js/contract/arbitrum/data.js"></script>
+
+        <title>Swap - Garbi Protocol</title>
+
+        <style id="svelte-166mr51-style">
+            ul.svelte-166mr51 {
+                display: flex;
+                flex-flow: column nowrap;
+                position: fixed;
+                font-size: 16px;
+                padding: 0 0.75em;
+                margin: 0;
+                list-style-type: none;
+                width: 20em;
+                bottom: 0;
+                right: 0;
+                font-family: 'Helvetica Neue';
+                max-height: 100vh;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                color: #4a4a4a;
+                background: transparent;
+                scrollbar-width: none;
+                box-sizing: border-box;
+                height: 100vh;
+                pointer-events: none;
+                z-index: 99999999
+            }
+
+            @media only screen and (max-width: 450px) {
+                ul.svelte-166mr51 {
+                    width: 100%
+                }
+            }
+
+            .bn-notify-custom.bn-notify-dark-mode {
+                background: #283944;
+                color: #ffffff;
+                background: rgba(40, 57, 68, 0.9)
+            }
+
+            .bn-notify-clickable:hover {
+                cursor: pointer
+            }
+
+            .svelte-166mr51::-webkit-scrollbar {
+                display: none
+            }
+
+            li.svelte-166mr51 {
+                position: relative;
+                display: flex;
+                padding: 0.75em;
+                font-size: 0.889em;
+                font-family: inherit;
+                border-radius: 10px;
+                background: #ffffff;
+                box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+                color: inherit;
+                transition: background 300ms ease-in-out, color 300ms ease-in-out;
+                pointer-events: all;
+                background: #ffffff;
+                backdrop-filter: blur(5px);
+                background: rgba(255, 255, 255, 0.9)
+            }
+
+            div.svelte-166mr51 {
+                position: absolute;
+                top: 0.75em;
+                right: 0.75em;
+                font-size: inherit;
+                font-family: inherit
+            }
+        </style>
+        <style id="svelte-7rn0pv-style">
+            div.svelte-7rn0pv {
+                height: 100%;
+                font-size: inherit;
+                font-family: inherit;
+                width: 1.5em
+            }
+        </style>
+        <style id="svelte-5f7pqk-style">
+            div.svelte-5f7pqk {
+                display: flex;
+                flex-flow: column nowrap;
+                justify-content: center;
+                font-size: inherit;
+                font-family: inherit;
+                margin-left: 0.75em;
+                max-width: 78%
+            }
+
+            p.svelte-5f7pqk {
+                display: flex;
+                align-items: center;
+                margin: 0.5em 0 0 0;
+                opacity: 0.7;
+                font-size: 0.889em;
+                line-height: 1.15;
+                font-family: inherit
+            }
+
+            span.svelte-5f7pqk {
+                font-family: inherit;
+                display: flex;
+                align-items: center
+            }
+        </style>
+        <style id="svelte-12gqi36-style">
+            p.svelte-12gqi36 {
+                margin: 0;
+                font-family: inherit;
+                font-size: inherit
+            }
+        </style>
+        <style id="svelte-1ociadw-style">
+            svg.svelte-1ociadw {
+                margin: 0 0.25em 0 0.5em
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <header class="header" id="header">
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container container-1">
+                        <div class="row flex-grow-1 align-items-center">
+                            <div class="col-6 col-lg-2">
+                                <div class="d-flex align-items-center">
+                                    <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                                        <i class="fas fa-bars"></i>
+                                    </button>
+                                    <div class="logo" onclick="window.location = 'index.html'">
+                                        <img src="../assets/images/garbi.png" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-6 col-lg-2 order-lg-3">
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <span class="wrap-user-acct">0x000</span>
+                                    <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect to a wallet</a>
+                                    <span class="dropMenu">
+                                        <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                        <div class="ctmenu-sub  swap-box">
+                                            <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="collapse navbar-collapse" id="navbar-header">
+                                    <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="swap.html">Swap</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="swap.html">Farms</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="swap.html">Lottery</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" target="_blank" href="swap.html">Docs</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <main class="page__swap">
+                <section class="blog__container">
+                    <article class="swap__main garbi__box-1 p-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between mb-14">
+                            <div class="f-700">Swap</div>
+                            <div class="transaction__setting">
+                                <img src="../assets/images/setting.svg" class="cursor-pointer" id="transaction__setting-icon" />
+
+                                <div class="transaction__setting-description swap-box" id="transaction__setting-description">
+                                    <header class="f-14 f-700 text-white title">Transaction Settings</header>
+                                    <section class="f-12">
+                                        <div class="mb-2">
+                                            <div class="f-roboto f-700 mb-1">Slippage tolerance?</div>
+                                            <div class="d-flex align-items-center transaction__setting-slippage">
+                                                <button type="button" class="btn-auto f-12 f-roboto f-400 text-white btn-auto-slippage">Auto</button>
+                                                <div class="slippage-input ml-2 flex-grow-1">
+                                                    <input type="text" class="input-transaction-deadline  input-transaction-slippage f-12 f-roboto color-2 text-end" name="slippage" value="0.5" />
+                                                    <span class="percent text-white f-12">%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="swap__form mb-2 pb-1">
+                            <div class="swap__form-item mb-1">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <select class="selectpicker swap__form-select mb-1" name="from">
+                                            <option
+                                                value="usdt"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/usdt_logo.png' /></span>USDT</div>"
+                                                >USDT</option>
+                                            <option
+                                                value="busd"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/busd_logo.png' /></span>BUSD</div>"
+                                                >BUSD</option>
+
+                                            <option
+                                                value="usdc"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/usdc_logo.png' /></span>USDC</div>"
+                                                >USDC</option>
+                                            <option
+                                                value="dai"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/dai_logo.png' /></span>DAI</div>"
+                                                >DAI</option>
+                                            <option
+                                                value="vai"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/vai_logo.png' /></span>VAI</div>"
+                                                >VAI</option>
+                                        </select>
+                                        <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">-</span></div>
+                                    </div>
+                                    <div class="col-7">
+                                        <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
+                                        <div class="text-end">
+                                            <span class="color-2 f-roboto f-14 f-400">~$</span>
+                                            <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img src="../assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
+
+                            <div class="swap__form-item">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <select class="selectpicker swap__form-select mb-1" name="to">
+
+                                            <option
+                                                value="busd"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/busd_logo.png' /></span>BUSD</div>"
+                                                >BUSD</option>
+                                            <option
+                                                value="usdt"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/usdt_logo.png' /></span>USDT</div>"
+                                                >USDT</option>
+                                            <option
+                                                value="usdc"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/usdc_logo.png' /></span>USDC</div>"
+                                                >USDC</option>
+                                            <option
+                                                value="dai"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/dai_logo.png' /></span>DAI</div>"
+                                                >DAI</option>
+                                            <option
+                                                value="vai"
+                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/vai_logo.png' /></span>VAI</div>"
+                                                >VAI</option>
+                                        </select>
+                                        <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">-</span></div>
+                                    </div>
+                                    <div class="col-7">
+                                        <input class="swap__form-input" value="0.0" name="amountOut" readonly/>
+                                        <div class="text-end">
+                                            <span class="color-2 f-roboto f-14 f-400">~$</span>
+                                            <span class="text-white f-700 f-roboto f-14 to-volume">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between mb-2 pb-1">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            </svg>
+
+                            <div class="d-flex align-items-center">
+                                <span class="text-white f-roboto f-14 f-400 estimate-price"></span>
+                                <div class="transaction__tooltip ms-1">
+                                    <img src="../assets/images/transaction-detail.svg" class="cursor-pointer icon-swap" />
+
+                                    <div class="transaction__tooltip-description swap-box">
+                                        <header class="f-14 f-700 text-white title">Transaction Detail</header>
+                                        <section>
+                                            <div class="d-flex align-items-center justify-content-between text-white f-14 mb-1">
+                                                <span class="f-roboto f-400">Liquidity Provider Fee</span>
+                                                <span class="f-700 trxn-liquidity-provider-fee">-</span>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between text-white f-14 mb-1">
+                                                <span class="f-roboto f-400">Price Impact</span>
+                                                <span class="f-roboto trxn-price-impact">-</span>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between text-white f-14 mb-1">
+                                                <span class="f-roboto f-400">Allowed Slippage</span>
+                                                <span class="f-700 trxn-allowed-slippage">-</span>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between text-white f-14">
+                                                <span class="f-roboto f-400">Minimum received</span>
+                                                <span class="f-700 trxn-min-receiver">-</span>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <button type="button" class="header__btn-connect w-100 text-center btn-swap">Connect to a wallet</button>
+
+                    </article>
+
+                    <article class="garbi__box-1 p-3 mb-3">
+                        <p class="f-700">What is Swap?</p>
+
+                        <p>Garbi Protocol Swap is an AMM (like Pancakeswap) focused on stablecoin trading, so it is lower risk and nearly no impermanent loss.</p>
+
+                        <p>With Garbi Swap, Liquidity Providers will not earn only from trading fees, and the protocol is also supplied to Venus protocol or other DeFi pools to create more interest.</p>
+
+                        <p>The Garbi Swap Contract will move the liquidity around to do both works (trading and farming).</p>
+
+                        <p>What is Refund Program?</p>
+
+                        <p>When you use Garbi Swap to trade the assets, you'll automatically begin getting GAR from our Refund Pool.</p>
+
+                        <p>Risks of using Garbi Swap Liquidity Pool?</p>
+
+                        <div>Check it <a href="risks.html" target="_blank" rel="noopener noreferrer"><b> here.</b></a> </div>
+                    </article>
+
+                    <article class="garbi__box-1 p-3 mb-3">
+                        <p class="f-700">Liquidity Pool's stats</p>
+
+                        <div>BUSD: <span class="swap-liquidity-busd">-</span></div>
+                        <div>USDT: <span class="swap-liquidity-usdt">-</span></div>
+                        <div>USDC: <span class="swap-liquidity-usdc">-</span></div>
+                        <div>DAI: <span class="swap-liquidity-dai">-</span></div>
+                        <div>VAI: <span class="swap-liquidity-vai">-</span></div>
+                        <div>Trade Fee: 0.2%</div>
+                        <div>Profit Model: 0.05% to buy TURING then burn, 0.01% send to SAFU contract.</div>
+                    </article>
+                </section>
+            </main>
+
+            <footer class="footer">
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container container-1">
+                        <div class="row flex-grow-1 align-items-center">
+                            <div class="col-lg-6">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>© 2022 Garbi Protocol</div>
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                                        <i class="fas fa-bars"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="collapse navbar-collapse" id="navbar-footer">
+                                    <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="risks.html" class="">Risks</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" target="_blank" href="https://twitter.com/garbi_protocol/" rel="noopener noreferrer">#Twitter</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" target="_blank" href="https://t.me/GarbiProtocolOfficialChannel/4" rel="noopener noreferrer">@Telegram</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol/">git@</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Version 1.0.0</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </footer>
+        </div>
+        <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
+            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Your transaction is sent to the blockchain.</p>
+                </div>
+                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#confirm-popup').hide()">
+                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
+                        <path d="m.1.1 7.82304289 7.82304289"></path>
+                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
+                        </g>
+                        </svg>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul id="success-confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none; top: 0; justify-content: unset;">
+            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Successful confirm the transaction.</p>
+                </div>
+                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#success-confirm-popup').hide()">
+                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
+                        <path d="m.1.1 7.82304289 7.82304289"></path>
+                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
+                        </g>
+                        </svg>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <script src="../assets/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="../assets/js/custom.js"></script>
+        <script src="../assets/js/custom.menu.js"></script>
+
+    </body>
+    <script>
+                    var abiHelper = new $.ABI();
+                    var coreHelper = new $.Core();
+                    var configHelper = new $.CONFIG();
+                    var contractBaseHelper = new $.CONTRACTBASE();
+                    var storeHelper = new $.STORE();
+                    var dataHelper = new $.DATA();
+                    $(document).ready(function () {
+                        abiHelper.init({});
+                        coreHelper.init({});
+                        configHelper.init({});
+                        storeHelper.init({});
+                        contractBaseHelper.init({
+                            chainId: 56
+                        });
+                        dataHelper.init({
+                            chainId: 56
+                        });
+                        coreHelper.initBTNName('btn-swap', 'Swap');
+                    });
+    </script>
+
+</html>
