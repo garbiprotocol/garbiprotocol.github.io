@@ -1,1 +1,1 @@
-# garbiprotocol.github.io
+Garbi Protocol
