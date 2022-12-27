@@ -6,14 +6,15 @@ $.CONFIG.prototype = (function() {
     var CONTRACTS = {
         421613: {
             protocolLiquidityLaunch: {
-                contract: "0x86755259649354a63a6ebad207803424296db6d2",
-                totalOffered: 50000000000
+                contract: "0x6FA8564842a78ceeDfDF52e0bE70Fe4437ae60F2",
+                totalOffered: 250000
             }
         },
     };
     var TOKENS = {
         421613: {
-            'gar': '0x5707A65bBE46B6D5c4cF4E981A1Fe680242C00FE'
+            'grb': '0xF957881C60ec9E1a436f4C5e2bfC115b800E5be7',
+            'usdc': '0xC667C0e84bEfB80099372d4062B3076b232EF157'
         }
     }
     return {
@@ -24,18 +25,18 @@ $.CONFIG.prototype = (function() {
             setting = $.extend({}, setting, options);
         },
         /**
-         * @param _chainId {Number} 56 || 97
+         * @param _chainId {Number} 42161 || 421613
          */
-        getContracts(_chainId = 56) {
+        getContracts(_chainId = 42161) {
             return CONTRACTS[_chainId];
         },
         /**
-         * @param _chainId {Number} 56 || 97
+         * @param _chainId {Number} 56 || 421613
          */
-        getTokens(_chainId = 56) {
+        getTokens(_chainId = 42161) {
             return TOKENS[_chainId];
         },
-        getTokenList(_chainId = 56) {
+        getTokenList(_chainId = 42161) {
             let _tokenObj = this.getTokens(_chainId);
             let _tokenList = [];
             for (let idx in _tokenObj) {
@@ -44,10 +45,10 @@ $.CONFIG.prototype = (function() {
             return _tokenList;
         },
         /**
-         * @param _chainId {Number} 56 || 97
+         * @param _chainId {Number} 42161 || 421613
          * @param _tokenName {String}
          */
-        getTokenByTokenName(_chainId = 56, _tokenName = '') {
+        getTokenByTokenName(_chainId = 42161, _tokenName = '') {
             _tokenName = _tokenName.toLowerCase();
             return TOKENS[_chainId][_tokenName];
         },

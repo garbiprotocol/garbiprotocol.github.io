@@ -15,7 +15,7 @@ pragma solidity >=0.6.12;
  * Using this library instead of the unchecked operations eliminates an entire
  * class of bugs, so it's recommended to use it always.
  */
-library SafeMath {
+library SafeMath { 
     /**
      * @dev Returns the addition of two unsigned integers, reverting on
      * overflow.
@@ -247,14 +247,15 @@ contract ProtocolLiquidityLaunch {
     
     address public owner;
 
-    IERC20 public GAR;
+    IERC20 public GRB; 
+    IERC20 public USDC; 
 
-    uint256 public salePrice = 1e15; // 1 gar = 0.001 ETH
-    uint256 public totalSale = 50 * 1e27; // 50B gar
+    uint256 public salePrice = 4 * 1e16; // 1 grb = 0.04 USDC
+    uint256 public totalSale = 250000 * 1e18; // 250k grb
     uint256 public totalPurchased = 0;
 
     bool public ENABLE = true;    
-    uint256 public HARD_CAP_PER_USER = 120 * 1e24; // 120M
+    uint256 public HARD_CAP_PER_USER = 5000 * 1e18; // 120M
 
     mapping(address => uint256) public totalBoughtOf;
 
@@ -268,12 +269,14 @@ contract ProtocolLiquidityLaunch {
         _;
     }
 
-    event onBuy(address _user, uint256 _payAmt, uint256 _refundAmt, uint256 _garReceive);
+    event onBuy(address _user, uint256 _payAmt, uint256 _grbReceive);
 
     constructor(
-        IERC20 _gar
+        IERC20 _grb,
+        IERC20 _usdc
     ) {
-        GAR = _gar;
+        GRB = _grb;
+        USDC = _usdc;
 
         owner = msg.sender;
     }
@@ -291,9 +294,14 @@ contract ProtocolLiquidityLaunch {
         owner = _newOwner;
     }
 
-    function setGARToken(IERC20 _gar) public onlyOwner {
-        require(address(_gar) != address(0), "INVALID_ADDRESS");
-        GAR = _gar;
+    function setGRBToken(IERC20 _grb) public onlyOwner {
+        require(address(_grb) != address(0), "INVALID_ADDRESS");
+        GRB = _grb;
+    }
+
+    function setUSDCToken(IERC20 _usdc) public onlyOwner {
+        require(address(_usdc) != address(0), "INVALID_ADDRESS");
+        USDC = _usdc;
     }
 
     function setSalePrice(uint256 _value) public onlyOwner {
@@ -308,48 +316,42 @@ contract ProtocolLiquidityLaunch {
         HARD_CAP_PER_USER = _value;
     }
 
-    function buy() public payable onlyWhitelisted {
+    function buy(uint256 _payAmt) public onlyWhitelisted {
         require(ENABLE == true, "SYSTEM_STOP");
-        require(msg.value > 0, "INVALID_AMOUNT_1");
+        require(_payAmt > 0, "INVALID_AMOUNT_1");
 
         uint256 _maxBuy = getMaxBuyOf(msg.sender);
-        require(_maxBuy > 0, 'INVALID_PERMISSION');
+        require(_maxBuy > 0, "INVALID_PERMISSION");
 
-        uint256 _payAmt   = msg.value;
-        uint256 _refundAmt = 0;
         uint256 _quatity  = _payAmt.mul(1e18).div(salePrice);
         // limit quatity
         if(_quatity > _maxBuy) {
             _quatity = _maxBuy;
             _payAmt = _quatity.mul(salePrice).div(1e18);
-            _refundAmt = msg.value.sub(_payAmt);
         }
         require(_quatity > 0, "INVALID_QUATITY");
-        require(_payAmt > 0, "INVALID_PAYMENT");
-        require(_payAmt.add(_refundAmt) <= msg.value, "INVALID_AMOUNT_2");
+        require(_payAmt > 0, "INVALID_PAYMENT:01");
+        require(_claimUSDC(_payAmt) == true, "INVALID_PAYMENT:02");
 
-        GAR.transfer(msg.sender, _quatity);
+        GRB.transfer(msg.sender, _quatity);
         totalPurchased = totalPurchased.add(_payAmt);
         totalSale = totalSale.sub(_quatity);
         totalBoughtOf[msg.sender] = totalBoughtOf[msg.sender].add(_quatity);
 
-        if(_refundAmt >  0) {
-            bool sent = payable(msg.sender).send(_refundAmt);
-            require(sent, "Failed to send Ether");
-        }
-        emit onBuy(msg.sender, _payAmt, _refundAmt, _quatity);
+        emit onBuy(msg.sender, _payAmt, _quatity);
     }
-
-    function moveFund() public onlyOwner {
-        uint256 _cBal = getETHBalance();
-        bool sent = payable(owner).send(_cBal);
-        require(sent, "Failed to send Ether");
+    function _claimUSDC(uint256 _amt) private returns(bool)
+    {
+        uint256 _cBalBefore = USDC.balanceOf(address(this));
+        USDC.transferFrom(msg.sender, address(this), _amt);
+        uint256 _cBalAfter = USDC.balanceOf(address(this));
+        if (_cBalAfter <= _cBalBefore) return false;
+        if (_cBalAfter < _cBalBefore.add(_amt)) return false;
+        return true;
     }
-
-    function emergencyWithdraw() public onlyOwner {
-        uint256 _cBal = GAR.balanceOf(address(this));
-        require(_cBal > 0, "NO ASSET");
-        GAR.transfer(owner, _cBal);
+    function moveFund(IERC20 _token) public onlyOwner {
+        uint256 _cBal = _token.balanceOf(address(this));
+        _token.transfer(owner, _cBal);
     }
     function getMaxBuyOf(address _user) public view returns(uint256) {
         if (
@@ -368,28 +370,30 @@ contract ProtocolLiquidityLaunch {
         return _maxBuy;
     }
     
-    function getETHBalance() public view returns(uint256) {
-        return address(this).balance;
+    function getUSDCBalance() public view returns(uint256) {
+        return USDC.balanceOf(address(this));
     }
     /**
-    data_[0] = uint256 userETHBalance;
-    data_[1] = uint256 userMaxGabBuy;
-    data_[2] = uint256 userMaxETHPay;
-    data_[3] = uint256 contractETHBalance;
+    data_[0] = uint256 userUSDCBalance;
+    data_[1] = uint256 userMaxGrbBuy;
+    data_[2] = uint256 userMaxUSDCPay;
+    data_[3] = uint256 contractUSDCBalance;
     data_[4] = uint256 HARD_CAP_PER_USER;
     data_[5] = uint256 totalSaleGab;
     data_[6] = uint256 salePrice;
     data_[7] = uint256 totalPurchased;
+    data_[8] = uint256 usdcAllowedAmt;
      */
-    function getData(address _user) public view returns(uint256[8] memory data_) {
-        data_[0] = _user.balance;
+    function getData(address _user) public view returns(uint256[9] memory data_) {
+        data_[0] = USDC.balanceOf(_user);
         data_[1] = getMaxBuyOf(_user);
         data_[2] = data_[1].mul(salePrice).div(1e18);
-        data_[3] = getETHBalance();
+        data_[3] = getUSDCBalance();
         data_[4] = HARD_CAP_PER_USER;
         data_[5] = totalSale;
         data_[6] = salePrice;
         data_[7] = totalPurchased;
+        data_[8] = USDC.allowance(_user, address(this));
     }
 
 
