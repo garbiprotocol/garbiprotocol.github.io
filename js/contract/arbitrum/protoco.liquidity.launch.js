@@ -54,15 +54,15 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             data_[7] = uint256 totalPurchased;
             data_[8] = uint256 usdcAllowed;
              */
-            _data.uUSDCBal = coreHelper.parseFloatNumber(parseInt(_r[0]) / 1e18, 18);
+            _data.uUSDCBal = coreHelper.parseFloatNumber(parseInt(_r[0]) / 1e6, 6);
             _data.uMaxGrbBuy = coreHelper.parseFloatNumber(parseInt(_r[1]) / 1e18, 18);
-            _data.uMaxUSDCPay =  coreHelper.parseFloatNumber(parseInt(_r[2]) / 1e18, 18);
-            _data.cUSDCBal = coreHelper.parseFloatNumber(parseInt(_r[3]) / 1e18, 18);
-            _data.totalPurchased = coreHelper.parseFloatNumber(parseInt(_r[7]) / 1e18, 18);
+            _data.uMaxUSDCPay =  coreHelper.parseFloatNumber(parseInt(_r[2]) / 1e6, 6);
+            _data.cUSDCBal = coreHelper.parseFloatNumber(parseInt(_r[3]) / 1e6, 6);
+            _data.totalPurchased = coreHelper.parseFloatNumber(parseInt(_r[7]) / 1e6, 6);
             _data.usdcAllowed = coreHelper.parseFloatNumber(parseInt(_r[8]) / 1e18, 18);
             _data.config = {
                 hardCapPerUser: coreHelper.parseFloatNumber(parseInt(_r[4]) / 1e18, 8),
-                salePrice: coreHelper.parseFloatNumber(parseInt(_r[6]) / 1e18, 8),
+                salePrice: coreHelper.parseFloatNumber(parseInt(_r[6]) / 1e6, 6),
                 totalOffered: _contractsObj.protocolLiquidityLaunch.totalOffered
             };
             _data.totalSaleGrb = coreHelper.parseFloatNumber(parseInt(_r[5]) / 1e18, 18);
@@ -70,6 +70,7 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
 
             // _data.totalGRBBuyed = coreHelper.numberWithCommas(_data.config.totalOffered - _data.totalSaleGrb, 6)
             // self.processAmt(null, _data);
+            console.log("_data", _data)
             self.drawUI( _data);
             await self._initUserData(_user, _data);
 
@@ -192,7 +193,7 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
 
             callContarct
                 .methods
-                .buy(coreHelper.toBN(input))
+                .buy(coreHelper.toBN(input, 6))
                 .send({ 
                     from: _user
                 })

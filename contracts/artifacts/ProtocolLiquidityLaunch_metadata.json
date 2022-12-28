@@ -9,7 +9,12 @@
 				"inputs": [
 					{
 						"internalType": "contract IERC20",
-						"name": "_gar",
+						"name": "_grb",
+						"type": "address"
+					},
+					{
+						"internalType": "contract IERC20",
+						"name": "_usdc",
 						"type": "address"
 					}
 				],
@@ -34,13 +39,7 @@
 					{
 						"indexed": false,
 						"internalType": "uint256",
-						"name": "_refundAmt",
-						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "_garReceive",
+						"name": "_grbReceive",
 						"type": "uint256"
 					}
 				],
@@ -62,7 +61,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "GAR",
+				"name": "GRB",
 				"outputs": [
 					{
 						"internalType": "contract IERC20",
@@ -88,6 +87,32 @@
 			},
 			{
 				"inputs": [],
+				"name": "MIN_BUY",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "USDC",
+				"outputs": [
+					{
+						"internalType": "contract IERC20",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "VERSION",
 				"outputs": [
 					{
@@ -100,22 +125,21 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_payAmt",
+						"type": "uint256"
+					}
+				],
 				"name": "buy",
-				"outputs": [],
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "disable",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
 				"inputs": [],
-				"name": "emergencyWithdraw",
+				"name": "disable",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -138,22 +162,9 @@
 				"name": "getData",
 				"outputs": [
 					{
-						"internalType": "uint256[8]",
+						"internalType": "uint256[9]",
 						"name": "data_",
-						"type": "uint256[8]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getETHBalance",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
+						"type": "uint256[9]"
 					}
 				],
 				"stateMutability": "view",
@@ -180,6 +191,57 @@
 			},
 			{
 				"inputs": [],
+				"name": "getTotalSale",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getUSDCBalance",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "isPrivateSale",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "contract IERC20",
+						"name": "_token",
+						"type": "address"
+					}
+				],
 				"name": "moveFund",
 				"outputs": [],
 				"stateMutability": "nonpayable",
@@ -215,11 +277,11 @@
 				"inputs": [
 					{
 						"internalType": "contract IERC20",
-						"name": "_gar",
+						"name": "_grb",
 						"type": "address"
 					}
 				],
-				"name": "setGARToken",
+				"name": "setGRBToken",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -233,6 +295,37 @@
 					}
 				],
 				"name": "setHardCapPerUser",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "_status",
+						"type": "uint8"
+					}
+				],
+				"name": "setIsPrivateSale",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_value",
+						"type": "uint256"
+					}
+				],
+				"name": "setMinBuy",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -254,11 +347,24 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_totalSale",
+						"name": "_value",
 						"type": "uint256"
 					}
 				],
-				"name": "setTotalSale",
+				"name": "setTotalPrivateSale",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "contract IERC20",
+						"name": "_usdc",
+						"type": "address"
+					}
+				],
+				"name": "setUSDCToken",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -284,7 +390,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "totalPurchased",
+				"name": "totalPrivateSale",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -297,7 +403,7 @@
 			},
 			{
 				"inputs": [],
-				"name": "totalSale",
+				"name": "totalPurchased",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -335,7 +441,7 @@
 			"kind": "user",
 			"methods": {
 				"getData(address)": {
-					"notice": "data_[0] = uint256 userETHBalance; data_[1] = uint256 userMaxGabBuy; data_[2] = uint256 userMaxETHPay; data_[3] = uint256 contractETHBalance; data_[4] = uint256 HARD_CAP_PER_USER; data_[5] = uint256 totalSaleGab; data_[6] = uint256 salePrice; data_[7] = uint256 totalPurchased;"
+					"notice": "data_[0] = uint256 userUSDCBalance; data_[1] = uint256 userMaxGrbBuy; data_[2] = uint256 userMaxUSDCPay; data_[3] = uint256 contractUSDCBalance; data_[4] = uint256 HARD_CAP_PER_USER; data_[5] = uint256 totalSaleGab; data_[6] = uint256 salePrice; data_[7] = uint256 totalPurchased; data_[8] = uint256 usdcAllowedAmt;"
 				}
 			},
 			"version": 1
@@ -358,11 +464,11 @@
 	},
 	"sources": {
 		"contracts/ProtocolLiquidityLaunch.sol": {
-			"keccak256": "0x035254281dff8331b72737221f01e1be66519bd85a5d364e22b2e3dbc0946149",
+			"keccak256": "0xad43a01205009c48ae21294ca2d4707d810e436aca5e074fda0bccfc1f2dd539",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e73940ac50335c01ff03b3a8ee4935f61c67f3d61fc88a86bfa5390cbe247773",
-				"dweb:/ipfs/QmPdCRDEBUNboZPvJBYoiHrztQzvZDJZuTD9r9i58SGPxQ"
+				"bzz-raw://a85806f842c8975271cea4d64fa0978d144ffed9704235adbdfe2c462f178cf9",
+				"dweb:/ipfs/QmcNcB7zcWE851HmfUVQSXhVtBYwFzvvPCnHMCR4DAaa3D"
 			]
 		}
 	},
