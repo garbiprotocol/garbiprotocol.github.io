@@ -6,15 +6,15 @@ $.CONFIG.prototype = (function() {
     var CONTRACTS = {
         421613: {
             protocolLiquidityLaunch: {
-                contract: "0x6FA8564842a78ceeDfDF52e0bE70Fe4437ae60F2",
+                contract: "0x658fA49C37c41833923ef48E4eCfDB527D2cc6b0",
                 totalOffered: 250000
             }
         },
     };
     var TOKENS = {
         421613: {
-            'grb': '0xF957881C60ec9E1a436f4C5e2bfC115b800E5be7',
-            'usdc': '0xC667C0e84bEfB80099372d4062B3076b232EF157'
+            'grb': '0x940dFF7Edbc24FbB683a8d002eCbA6C0a62cCc75',
+            'usdc': '0x6ac7b107e0eea2db04aaac9e0eae7eda8c3e9d57'
         }
     }
     return {

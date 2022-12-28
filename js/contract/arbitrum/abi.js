@@ -459,6 +459,98 @@ $.ABI.prototype = (function() {
 				{
 					"inputs": [
 						{
+							"internalType": "uint256",
+							"name": "_payAmt",
+							"type": "uint256"
+						}
+					],
+					"name": "buy",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"name": "disable",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"name": "enable",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "contract IERC20",
+							"name": "_token",
+							"type": "address"
+						}
+					],
+					"name": "moveFund",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "contract IERC20",
+							"name": "_grb",
+							"type": "address"
+						}
+					],
+					"name": "setGRBToken",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "uint256",
+							"name": "_value",
+							"type": "uint256"
+						}
+					],
+					"name": "setHardCapPerUser",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "uint256",
+							"name": "_value",
+							"type": "uint256"
+						}
+					],
+					"name": "setTotalPrivateSale",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "address",
+							"name": "_newOwner",
+							"type": "address"
+						}
+					],
+					"name": "transferOwnership",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
 							"internalType": "contract IERC20",
 							"name": "_grb",
 							"type": "address"
@@ -498,6 +590,67 @@ $.ABI.prototype = (function() {
 					"type": "event"
 				},
 				{
+					"inputs": [
+						{
+							"internalType": "address",
+							"name": "_user",
+							"type": "address"
+						},
+						{
+							"internalType": "uint8",
+							"name": "_status",
+							"type": "uint8"
+						}
+					],
+					"name": "setIsPrivateSale",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "uint256",
+							"name": "_value",
+							"type": "uint256"
+						}
+					],
+					"name": "setMinBuy",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "uint256",
+							"name": "_value",
+							"type": "uint256"
+						}
+					],
+					"name": "setSalePrice",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "contract IERC20",
+							"name": "_usdc",
+							"type": "address"
+						}
+					],
+					"name": "setUSDCToken",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"stateMutability": "payable",
+					"type": "receive"
+				},
+				{
 					"inputs": [],
 					"name": "ENABLE",
 					"outputs": [
@@ -508,85 +661,6 @@ $.ABI.prototype = (function() {
 						}
 					],
 					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"inputs": [],
-					"name": "GRB",
-					"outputs": [
-						{
-							"internalType": "contract IERC20",
-							"name": "",
-							"type": "address"
-						}
-					],
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"inputs": [],
-					"name": "HARD_CAP_PER_USER",
-					"outputs": [
-						{
-							"internalType": "uint256",
-							"name": "",
-							"type": "uint256"
-						}
-					],
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"inputs": [],
-					"name": "USDC",
-					"outputs": [
-						{
-							"internalType": "contract IERC20",
-							"name": "",
-							"type": "address"
-						}
-					],
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"inputs": [],
-					"name": "VERSION",
-					"outputs": [
-						{
-							"internalType": "uint8",
-							"name": "",
-							"type": "uint8"
-						}
-					],
-					"stateMutability": "view",
-					"type": "function"
-				},
-				{
-					"inputs": [
-						{
-							"internalType": "uint256",
-							"name": "_payAmt",
-							"type": "uint256"
-						}
-					],
-					"name": "buy",
-					"outputs": [],
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"inputs": [],
-					"name": "disable",
-					"outputs": [],
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"inputs": [],
-					"name": "enable",
-					"outputs": [],
-					"stateMutability": "nonpayable",
 					"type": "function"
 				},
 				{
@@ -629,7 +703,46 @@ $.ABI.prototype = (function() {
 				},
 				{
 					"inputs": [],
+					"name": "getTotalSale",
+					"outputs": [
+						{
+							"internalType": "uint256",
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [],
 					"name": "getUSDCBalance",
+					"outputs": [
+						{
+							"internalType": "uint256",
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"name": "GRB",
+					"outputs": [
+						{
+							"internalType": "contract IERC20",
+							"name": "",
+							"type": "address"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"name": "HARD_CAP_PER_USER",
 					"outputs": [
 						{
 							"internalType": "uint256",
@@ -643,14 +756,33 @@ $.ABI.prototype = (function() {
 				{
 					"inputs": [
 						{
-							"internalType": "contract IERC20",
-							"name": "_token",
+							"internalType": "address",
+							"name": "",
 							"type": "address"
 						}
 					],
-					"name": "moveFund",
-					"outputs": [],
-					"stateMutability": "nonpayable",
+					"name": "isPrivateSale",
+					"outputs": [
+						{
+							"internalType": "bool",
+							"name": "",
+							"type": "bool"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"name": "MIN_BUY",
+					"outputs": [
+						{
+							"internalType": "uint256",
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"stateMutability": "view",
 					"type": "function"
 				},
 				{
@@ -682,77 +814,25 @@ $.ABI.prototype = (function() {
 				{
 					"inputs": [
 						{
-							"internalType": "contract IERC20",
-							"name": "_grb",
-							"type": "address"
-						}
-					],
-					"name": "setGRBToken",
-					"outputs": [],
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"inputs": [
-						{
-							"internalType": "uint256",
-							"name": "_value",
-							"type": "uint256"
-						}
-					],
-					"name": "setHardCapPerUser",
-					"outputs": [],
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"inputs": [
-						{
-							"internalType": "uint256",
-							"name": "_value",
-							"type": "uint256"
-						}
-					],
-					"name": "setSalePrice",
-					"outputs": [],
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"inputs": [
-						{
-							"internalType": "uint256",
-							"name": "_totalSale",
-							"type": "uint256"
-						}
-					],
-					"name": "setTotalSale",
-					"outputs": [],
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"inputs": [
-						{
-							"internalType": "contract IERC20",
-							"name": "_usdc",
-							"type": "address"
-						}
-					],
-					"name": "setUSDCToken",
-					"outputs": [],
-					"stateMutability": "nonpayable",
-					"type": "function"
-				},
-				{
-					"inputs": [
-						{
 							"internalType": "address",
 							"name": "",
 							"type": "address"
 						}
 					],
 					"name": "totalBoughtOf",
+					"outputs": [
+						{
+							"internalType": "uint256",
+							"name": "",
+							"type": "uint256"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"name": "totalPrivateSale",
 					"outputs": [
 						{
 							"internalType": "uint256",
@@ -778,33 +858,29 @@ $.ABI.prototype = (function() {
 				},
 				{
 					"inputs": [],
-					"name": "totalSale",
+					"name": "USDC",
 					"outputs": [
 						{
-							"internalType": "uint256",
+							"internalType": "contract IERC20",
 							"name": "",
-							"type": "uint256"
+							"type": "address"
 						}
 					],
 					"stateMutability": "view",
 					"type": "function"
 				},
 				{
-					"inputs": [
+					"inputs": [],
+					"name": "VERSION",
+					"outputs": [
 						{
-							"internalType": "address",
-							"name": "_newOwner",
-							"type": "address"
+							"internalType": "uint8",
+							"name": "",
+							"type": "uint8"
 						}
 					],
-					"name": "transferOwnership",
-					"outputs": [],
-					"stateMutability": "nonpayable",
+					"stateMutability": "view",
 					"type": "function"
-				},
-				{
-					"stateMutability": "payable",
-					"type": "receive"
 				}
 			];
 		}
