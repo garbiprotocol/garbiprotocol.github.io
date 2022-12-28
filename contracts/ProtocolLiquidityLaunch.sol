@@ -250,14 +250,17 @@ contract ProtocolLiquidityLaunch {
     IERC20 public GRB; 
     IERC20 public USDC; 
 
-    uint256 public salePrice = 4 * 1e16; // 1 grb = 0.04 USDC
-    uint256 public totalSale = 250000 * 1e18; // 250k grb
+    uint256 public salePrice = 4 * 1e4; // 1 grb = 0.04 USDC
+    // uint256 public totalSale = 250000 * 1e18; // 250k grb
+    uint256 public totalPrivateSale = 2 * 5000 * 1e18; // 250k grb
     uint256 public totalPurchased = 0;
 
     bool public ENABLE = true;    
-    uint256 public HARD_CAP_PER_USER = 5000 * 1e18; // 120M
+    uint256 public HARD_CAP_PER_USER = 5000 * 1e18; // 200$
+    uint256 public MIN_BUY = 750 * 1e18; // 30$
 
     mapping(address => uint256) public totalBoughtOf;
+    mapping(address => bool) public isPrivateSale;
 
     modifier onlyOwner() {
         require(msg.sender == owner, 'INVALID_PERMISSION');
@@ -307,13 +310,24 @@ contract ProtocolLiquidityLaunch {
     function setSalePrice(uint256 _value) public onlyOwner {
         salePrice = _value; 
     }
-
-    function setTotalSale(uint256 _totalSale) public onlyOwner {
-        totalSale = _totalSale;
+    function setTotalPrivateSale(uint256 _value) public onlyOwner {
+        totalPrivateSale = _value;
+    }
+    function setIsPrivateSale(address _user, uint8 _status) public onlyOwner 
+    {
+        if (_status == 1) {
+            isPrivateSale[_user] = true;
+        } else {
+            isPrivateSale[_user] = false;
+        }
     }
 
     function setHardCapPerUser(uint256 _value) public onlyOwner {
         HARD_CAP_PER_USER = _value;
+    }
+
+    function setMinBuy(uint256 _value) public onlyOwner {
+        MIN_BUY = _value;
     }
 
     function buy(uint256 _payAmt) public onlyWhitelisted {
@@ -322,21 +336,24 @@ contract ProtocolLiquidityLaunch {
 
         uint256 _maxBuy = getMaxBuyOf(msg.sender);
         require(_maxBuy > 0, "INVALID_PERMISSION");
-
+        // quatity = pay / price
         uint256 _quatity  = _payAmt.mul(1e18).div(salePrice);
         // limit quatity
         if(_quatity > _maxBuy) {
             _quatity = _maxBuy;
             _payAmt = _quatity.mul(salePrice).div(1e18);
         }
-        require(_quatity > 0, "INVALID_QUATITY");
+        require(_quatity > 0, "INVALID_QUATITY:01");
+        require(_quatity >= MIN_BUY, "INVALID_QUATITY:02");
         require(_payAmt > 0, "INVALID_PAYMENT:01");
         require(_claimUSDC(_payAmt) == true, "INVALID_PAYMENT:02");
 
         GRB.transfer(msg.sender, _quatity);
         totalPurchased = totalPurchased.add(_payAmt);
-        totalSale = totalSale.sub(_quatity);
         totalBoughtOf[msg.sender] = totalBoughtOf[msg.sender].add(_quatity);
+        if (isPrivateSale[msg.sender] == true) {
+            totalPrivateSale = totalPrivateSale.sub(_quatity);
+        }
 
         emit onBuy(msg.sender, _payAmt, _quatity);
     }
@@ -354,24 +371,35 @@ contract ProtocolLiquidityLaunch {
         _token.transfer(owner, _cBal);
     }
     function getMaxBuyOf(address _user) public view returns(uint256) {
+        uint256 _totalSale = getTotalSale();
         if (
             totalBoughtOf[_user] >= HARD_CAP_PER_USER ||
-            totalSale <= 0 ||
+            _totalSale <= 0 ||
             ENABLE == false
             ) {
             return 0;
         }
         // limit by user
         uint256 _maxBuy = HARD_CAP_PER_USER.sub(totalBoughtOf[_user]);
+        if (isPrivateSale[_user] == true) {
+            return _maxBuy;
+        }
         // limit by total sale
-        if (_maxBuy > totalSale) {
-            _maxBuy = totalSale;
+        if (_totalSale <= totalPrivateSale) {
+            return 0;
+        }
+        _totalSale = _totalSale.sub(totalPrivateSale);
+        if (_maxBuy > _totalSale) {
+            _maxBuy = _totalSale;
         }
         return _maxBuy;
     }
     
     function getUSDCBalance() public view returns(uint256) {
         return USDC.balanceOf(address(this));
+    }
+    function getTotalSale() public view returns(uint256) {
+        return GRB.balanceOf(address(this));
     }
     /**
     data_[0] = uint256 userUSDCBalance;
@@ -390,7 +418,7 @@ contract ProtocolLiquidityLaunch {
         data_[2] = data_[1].mul(salePrice).div(1e18);
         data_[3] = getUSDCBalance();
         data_[4] = HARD_CAP_PER_USER;
-        data_[5] = totalSale;
+        data_[5] = getTotalSale();
         data_[6] = salePrice;
         data_[7] = totalPurchased;
         data_[8] = USDC.allowance(_user, address(this));
