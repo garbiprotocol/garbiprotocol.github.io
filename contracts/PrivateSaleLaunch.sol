@@ -241,7 +241,7 @@ interface IERC20 {
         event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-contract ProtocolLiquidityLaunch {
+contract PrivateSaleLaunch {
     uint8 public VERSION = 100;
     using SafeMath for uint256;
     
@@ -252,15 +252,16 @@ contract ProtocolLiquidityLaunch {
 
     uint256 public salePrice = 4 * 1e4; // 1 grb = 0.04 USDC
     // uint256 public totalSale = 250000 * 1e18; // 250k grb
-    uint256 public totalPrivateSale = 2 * 5000 * 1e18; // 250k grb
     uint256 public totalPurchased = 0;
+    uint256 public endTime = 0;
 
-    bool public ENABLE = true;    
-    uint256 public HARD_CAP_PER_USER = 5000 * 1e18; // 200$
+    bool public ENABLE = false;    
+    uint256 public HARD_CAP_PER_USER = 1250 * 1e18; // 50$
     uint256 public MIN_BUY = 750 * 1e18; // 30$
+    uint256 public SALE_TIME_PERIOD = 2 * 60 * 60; // 2h
 
     mapping(address => uint256) public totalBoughtOf;
-    mapping(address => bool) public isPrivateSale;
+    mapping(address => bool) public whiteListed;
 
     modifier onlyOwner() {
         require(msg.sender == owner, 'INVALID_PERMISSION');
@@ -268,7 +269,7 @@ contract ProtocolLiquidityLaunch {
     }
 
     modifier onlyWhitelisted() {
-        require(msg.sender == tx.origin, "INVALID_WHITElIST");
+        require(whiteListed[msg.sender] == true, "INVALID_WHITElIST");
         _;
     }
 
@@ -296,7 +297,10 @@ contract ProtocolLiquidityLaunch {
     function transferOwnership(address _newOwner) public onlyOwner {
         owner = _newOwner;
     }
-
+    function start() public onlyOwner {
+        endTime = block.timestamp.add(SALE_TIME_PERIOD);
+        ENABLE = true;
+    }
     function setGRBToken(IERC20 _grb) public onlyOwner {
         require(address(_grb) != address(0), "INVALID_ADDRESS");
         GRB = _grb;
@@ -310,15 +314,12 @@ contract ProtocolLiquidityLaunch {
     function setSalePrice(uint256 _value) public onlyOwner {
         salePrice = _value; 
     }
-    function setTotalPrivateSale(uint256 _value) public onlyOwner {
-        totalPrivateSale = _value;
-    }
-    function setIsPrivateSale(address _user, uint8 _status) public onlyOwner 
+    function setWhiteList(address _user, uint8 _status) public onlyOwner 
     {
         if (_status == 1) {
-            isPrivateSale[_user] = true;
+            whiteListed[_user] = true;
         } else {
-            isPrivateSale[_user] = false;
+            whiteListed[_user] = false;
         }
     }
 
@@ -332,6 +333,7 @@ contract ProtocolLiquidityLaunch {
 
     function buy(uint256 _payAmt) public onlyWhitelisted {
         require(ENABLE == true, "SYSTEM_STOP");
+        require(endTime > 0 && endTime <= block.timestamp, "SYSTEM_NOT_RUNNING");
         require(_payAmt > 0, "INVALID_AMOUNT_1");
 
         uint256 _maxBuy = getMaxBuyOf(msg.sender);
@@ -351,9 +353,6 @@ contract ProtocolLiquidityLaunch {
         GRB.transfer(msg.sender, _quatity);
         totalPurchased = totalPurchased.add(_payAmt);
         totalBoughtOf[msg.sender] = totalBoughtOf[msg.sender].add(_quatity);
-        if (isPrivateSale[msg.sender] == true) {
-            totalPrivateSale = totalPrivateSale.sub(_quatity);
-        }
 
         emit onBuy(msg.sender, _payAmt, _quatity);
     }
@@ -373,22 +372,14 @@ contract ProtocolLiquidityLaunch {
     function getMaxBuyOf(address _user) public view returns(uint256) {
         uint256 _totalSale = getTotalSale();
         if (
-            totalBoughtOf[_user] >= HARD_CAP_PER_USER ||
+            totalBoughtOf[_user] > 0 ||
             _totalSale <= 0 ||
             ENABLE == false
             ) {
             return 0;
         }
         // limit by user
-        uint256 _maxBuy = HARD_CAP_PER_USER.sub(totalBoughtOf[_user]);
-        if (isPrivateSale[_user] == true) {
-            return _maxBuy;
-        }
-        // limit by total sale
-        if (_totalSale <= totalPrivateSale) {
-            return 0;
-        }
-        _totalSale = _totalSale.sub(totalPrivateSale);
+        uint256 _maxBuy = HARD_CAP_PER_USER;
         if (_maxBuy > _totalSale) {
             _maxBuy = _totalSale;
         }
