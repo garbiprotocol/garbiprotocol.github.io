@@ -883,6 +883,165 @@ $.ABI.prototype = (function() {
 					"type": "function"
 				}
 			];
+		},
+		getLaunchDataABI() {
+			return [
+				{
+					"inputs": [
+						{
+							"internalType": "contract ISaleLaunch",
+							"name": "_cPrivateSale",
+							"type": "address"
+						},
+						{
+							"internalType": "contract ISaleLaunch",
+							"name": "_cPublicSale",
+							"type": "address"
+						}
+					],
+					"stateMutability": "nonpayable",
+					"type": "constructor"
+				},
+				{
+					"inputs": [],
+					"name": "ContractPrivateSale",
+					"outputs": [
+						{
+							"internalType": "contract ISaleLaunch",
+							"name": "",
+							"type": "address"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"name": "ContractPublicSale",
+					"outputs": [
+						{
+							"internalType": "contract ISaleLaunch",
+							"name": "",
+							"type": "address"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "address",
+							"name": "_user",
+							"type": "address"
+						}
+					],
+					"name": "getData",
+					"outputs": [
+						{
+							"components": [
+								{
+									"internalType": "uint256",
+									"name": "uUSDCBal",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "uMaxGrbBuy",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "uMaxUSDCPay",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "cUSDCBal",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "totalSale",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "salePrice",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "totalPurchased",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "allowed",
+									"type": "uint256"
+								}
+							],
+							"internalType": "struct ProtocolLaunchData.SaleLaunch[2]",
+							"name": "data_",
+							"type": "tuple[2]"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [],
+					"name": "owner",
+					"outputs": [
+						{
+							"internalType": "address",
+							"name": "",
+							"type": "address"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "contract ISaleLaunch",
+							"name": "_cPrivateSale",
+							"type": "address"
+						}
+					],
+					"name": "setContractPrivateSale",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "contract ISaleLaunch",
+							"name": "_cPublicSale",
+							"type": "address"
+						}
+					],
+					"name": "setContractPublicSale",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				},
+				{
+					"inputs": [
+						{
+							"internalType": "address",
+							"name": "_newOwner",
+							"type": "address"
+						}
+					],
+					"name": "transferOwnership",
+					"outputs": [],
+					"stateMutability": "nonpayable",
+					"type": "function"
+				}
+			];
 		}
 
 	};

@@ -8,6 +8,17 @@ $.CONFIG.prototype = (function() {
             protocolLiquidityLaunch: {
                 contract: "0x658fA49C37c41833923ef48E4eCfDB527D2cc6b0",
                 totalOffered: 250000
+            },
+            publicSale: {
+                contract: "0xC535363F6E4BFf54d5A3d489194956baE2F9eA61",
+                totalOffered: 200000
+            },
+            privateSale: {
+                contract: "0xb62153e33C14B8B5fC37c94031E24579144745dF",
+                totalOffered: 50000
+            },
+            launchData: {
+                contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
             }
         },
     };

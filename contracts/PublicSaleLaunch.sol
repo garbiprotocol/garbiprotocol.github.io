@@ -397,7 +397,7 @@ contract PublicSaleLaunch {
         uint256 totalSale_,
         uint256 salePrice_,
         uint256 totalPurchased_,
-        uint256 allowed_,
+        uint256 allowed_
     ) {
         uUSDCBal_ = USDC.balanceOf(_user);
         uMaxGrbBuy_ = getMaxBuyOf(_user);

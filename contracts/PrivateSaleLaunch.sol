@@ -373,6 +373,7 @@ contract PrivateSaleLaunch {
         _token.transfer(owner, _cBal);
     }
     function getMaxBuyOf(address _user) public view returns(uint256) {
+        if (whiteListed[_user] == false) return 0;
         uint256 _totalSale = getTotalSale();
         if (
             totalBoughtOf[_user] > 0 ||
@@ -403,7 +404,7 @@ contract PrivateSaleLaunch {
         uint256 totalSale_,
         uint256 salePrice_,
         uint256 totalPurchased_,
-        uint256 allowed_,
+        uint256 allowed_
     ) {
         uUSDCBal_ = USDC.balanceOf(_user);
         uMaxGrbBuy_ = getMaxBuyOf(_user);

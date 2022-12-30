@@ -35,60 +35,66 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
 
         async getData() {
             let self = this;
-            let _abi = abiHelper.getProtocolLiquidityLaunchABI();
+            let _abi = abiHelper.getLaunchDataABI();
             let _user = coreHelper.getUserAccount();
             let _contractsObj = configHelper.getContracts(setting.chainId);
-            let _contract = _contractsObj.protocolLiquidityLaunch.contract;
+            let _contract = _contractsObj.launchData.contract;
             let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
             let _r = await _readContract.methods.getData(_user).call();
+            let _data = [];
 
-            let _data = {};
-            /**
-            data_[0] = uint256 userUSDCBalance;
-            data_[1] = uint256 userMaxGrbBuy;
-            data_[2] = uint256 userMaxUSDCPay;
-            data_[3] = uint256 contractUSDCBalance;
-            data_[4] = uint256 HARD_CAP_PER_USER;
-            data_[5] = uint256 totalSaleGab;
-            data_[6] = uint256 salePrice;
-            data_[7] = uint256 totalPurchased;
-            data_[8] = uint256 usdcAllowed;
-             */
-            _data.uUSDCBal = coreHelper.parseFloatNumber(parseInt(_r[0]) / 1e6, 6);
-            _data.uMaxGrbBuy = coreHelper.parseFloatNumber(parseInt(_r[1]) / 1e18, 18);
-            _data.uMaxUSDCPay =  coreHelper.parseFloatNumber(parseInt(_r[2]) / 1e6, 6);
-            _data.cUSDCBal = coreHelper.parseFloatNumber(parseInt(_r[3]) / 1e6, 6);
-            _data.totalPurchased = coreHelper.parseFloatNumber(parseInt(_r[7]) / 1e6, 6);
-            _data.usdcAllowed = coreHelper.parseFloatNumber(parseInt(_r[8]) / 1e18, 18);
-            _data.config = {
-                hardCapPerUser: coreHelper.parseFloatNumber(parseInt(_r[4]) / 1e18, 8),
-                salePrice: coreHelper.parseFloatNumber(parseInt(_r[6]) / 1e6, 6),
-                totalOffered: _contractsObj.protocolLiquidityLaunch.totalOffered
-            };
-            _data.totalSaleGrb = coreHelper.parseFloatNumber(parseInt(_r[5]) / 1e18, 18);
-            _data.totalGRBBuyed = _data.config.totalOffered - _data.totalSaleGrb;
-
-            // _data.totalGRBBuyed = coreHelper.numberWithCommas(_data.config.totalOffered - _data.totalSaleGrb, 6)
-            // self.processAmt(null, _data);
+            for (let _idx = 0; _idx < _r.length; _idx++) {
+                let _content = {};
+                let _isPrivateSale = _idx == 0;
+                _content["allowed"] = coreHelper.parseFloatNumber(parseInt(_r[_idx]["allowed"]) / 1e18, 18);
+                _content["uUSDCBal"] = coreHelper.parseFloatNumber(parseInt(_r[_idx]["uUSDCBal"]) / 1e6, 6);
+                _content["cUSDCBal"] = coreHelper.parseFloatNumber(parseInt(_r[_idx]["cUSDCBal"]) / 1e6, 6);
+                _content["uMaxUSDCPay"] = coreHelper.parseFloatNumber(parseInt(_r[_idx]["uMaxUSDCPay"]) / 1e6, 6);
+                _content["salePrice"] = coreHelper.parseFloatNumber(parseInt(_r[_idx]["salePrice"]) / 1e6, 6);
+                _content["totalPurchased"] = coreHelper.parseFloatNumber(parseInt(_r[_idx]["totalPurchased"]) / 1e6, 6);
+                _content["totalSale"] = coreHelper.parseFloatNumber(parseInt(_r[_idx]["totalSale"]) / 1e18, 18);
+                _content["uMaxGrbBuy"] = coreHelper.parseFloatNumber(parseInt(_r[_idx]["uMaxGrbBuy"]) / 1e18, 18);
+                _content["config"] = {
+                    salePrice: _content["salePrice"],
+                    totalOffered: _isPrivateSale == true ? _contractsObj["privateSale"]["totalOffered"] : _contractsObj["publicSale"]["totalOffered"],
+                };
+                _content["totalGRBBuyed"] = _content["config"]["totalOffered"] - _content["totalSale"];
+                _data.push(_content);
+            }
+            
             console.log("_data", _data)
             self.drawUI( _data);
             await self._initUserData(_user, _data);
 
         },
-
         async drawUI(_data) {
             let self = this;
-            let _ratioProgess = _data.totalGRBBuyed * 100 / _data.config.totalOffered;
+            let _ratioProgess = self.getTotalGRBBuyed(_data) * 100 / self.getTotalOffered(_data);
 
-            // $(`.total-usdc-perchased`).html(`${ coreHelper.formatBalance(_data.totalPurchased, 3) }`);
-            // $(`.total-grb-offered`).html(`${ coreHelper.formatBalance(_data.config.totalOffered, 0) }`);
-            // $(`.sale-price`).html(`${ coreHelper.numberWithCommas(_data.config.salePrice, 3) }`);
-            // $(`.hard-cap-per-user`).html(`${ coreHelper.formatBalance(_data.config.hardCapPerUser, 2) }`);
-            $(`.u-usdc-max-pay`).html(`${ coreHelper.numberWithCommas(self.getMaxPay(_data), 8) }`)
+            $(`.u-usdc-max-pay-public-sale`).html(`${ coreHelper.numberWithCommas(self.getMaxPay(_data, false), 8) }`)
+            $(`.u-usdc-max-pay-private-sale`).html(`${ coreHelper.numberWithCommas(self.getMaxPay(_data, true), 8) }`)
             $(`.launch-process`).html(`${ coreHelper.numberWithCommas(_ratioProgess, 2) }`);
         },
-
-        getMaxPay(_data) {
+        getTotalGRBBuyed(_data) {
+            let _total = 0;
+            for (let _idx = 0; _idx < _data.length; _idx++) {
+                _total += _data[_idx]["totalGRBBuyed"];
+            }
+            return _total;
+        },
+        getTotalOffered(_data) {
+            let _total = 0;
+            for (let _idx = 0; _idx < _data.length; _idx++) {
+                _total += _data[_idx]["totalOffered"];
+            }
+            return _total;
+        },
+        getMaxPay(_data, _isPrivateSale = false) {
+            if (_isPrivateSale == true) {
+                _data = _data[0];
+            } else {
+                _data = _data[1];
+            }
             let _maxPay = _data.uMaxUSDCPay;
             let _uBal = _data.uUSDCBal;
             let _fee = setting.transactionFee;
@@ -100,56 +106,72 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             }
             return _maxPay;
         },
-        async processAmt(_payAmt = null, _data = null) {
-            if (_data == null) {
-                let _user = coreHelper.getUserAccount();
-                let _protocolLauchInfoOf = storeHelper.getValue('protocolLauchInfoOf');
-                _data = _protocolLauchInfoOf && _protocolLauchInfoOf[_user] ? _protocolLauchInfoOf[_user] : {};
+        getAllowedAmount(_data, _isPrivateSale = false) {
+            if (_isPrivateSale == true) {
+                _data = _data[0];
+            } else {
+                _data = _data[1];
             }
-            if (!_data) return false;
-            if (_payAmt == null) _payAmt = $(`input[name=amount_buy]`).val();
-
-            let _salePrice = _data.config.salePrice;
-            let _uMaxGrbBuy = _data.uMaxGrbBuy;
-            let _uMaxUSDCPay = _data.uMaxUSDCPay <= _data.uUSDCBal ? _data.uMaxUSDCPay : _data.uUSDCBal;
-
-            let _quatity = _payAmt / _salePrice;
-            _quatity = _quatity <= _uMaxGrbBuy ? _quatity : _uMaxGrbBuy;
-
+            let _allowed = _data.allowed ? _data.allowed : 0;
+            return _allowed;
         },
-        onAmountPayChange() {
+        clickMaxPrivateSale() {
             let self = this;
-            $(`input[name=amount_buy]`).on('input', (e) => {
-               self.processAmt(e.target.value);
-            });
-        },
-        clickMax() {
-            let self = this;
-            $(`.max-usdc`).on("click", () => {
+            let _isPrivateSale = true;
+            $(`.max-usdc-private-sale`).on("click", () => {
                 let _user = coreHelper.getUserAccount();
                 let _protocolLauchInfoOf = storeHelper.getValue('protocolLauchInfoOf');
                 let _data = _protocolLauchInfoOf && _protocolLauchInfoOf[_user] ? _protocolLauchInfoOf[_user] : {};
                 
-                $(`input[name=amount_buy`).val(self.getMaxPay(_data));
+                $(`input[name=amount_buy_private_sale`).val(self.getMaxPay(_data, _isPrivateSale));
             });
         },
 
-        buy() {
+        clickMaxPublicSale() {
             let self = this;
-            $(`.btn-buy`).click(function(e) {
+            let _isPrivateSale = false;
+            $(`.max-usdc-private-sale`).on("click", () => {
                 let _user = coreHelper.getUserAccount();
                 let _protocolLauchInfoOf = storeHelper.getValue('protocolLauchInfoOf');
                 let _data = _protocolLauchInfoOf && _protocolLauchInfoOf[_user] ? _protocolLauchInfoOf[_user] : {};
-                let _usdcAllowed = _data.usdcAllowed ? _data.usdcAllowed : 0;
+                
+                $(`input[name=amount_buy_public_sale`).val(self.getMaxPay(_data, _isPrivateSale));
+            });
+        },
+
+        buyPrivateSale() {
+            let self = this;
+            let _isPrivateSale = true;
+            $(`.btn-buy-private-sale`).click(function(e) {
+                let _user = coreHelper.getUserAccount();
+                let _protocolLauchInfoOf = storeHelper.getValue('protocolLauchInfoOf');
+                let _data = _protocolLauchInfoOf && _protocolLauchInfoOf[_user] ? _protocolLauchInfoOf[_user] : {};
+                let _usdcAllowed = self.getAllowedAmount(_data, _isPrivateSale);
                 if (_usdcAllowed > 100000) {
-                    self._buy();
+                    self._buy(_isPrivateSale);
                 } else {
-                    self._approve();
+                    self._approve(_isPrivateSale);
                 }
             });
         },
 
-        _approve() {
+        buyPublicSale() {
+            let self = this;
+            let _isPrivateSale = false;
+            $(`.btn-buy-public-sale`).click(function(e) {
+                let _user = coreHelper.getUserAccount();
+                let _protocolLauchInfoOf = storeHelper.getValue('protocolLauchInfoOf');
+                let _data = _protocolLauchInfoOf && _protocolLauchInfoOf[_user] ? _protocolLauchInfoOf[_user] : {};
+                let _usdcAllowed = self.getAllowedAmount(_data, _isPrivateSale);
+                if (_usdcAllowed > 100000) {
+                    self._buy(_isPrivateSale);
+                } else {
+                    self._approve(_isPrivateSale);
+                }
+            });
+        },
+
+        _approve(_isPrivateSale = false) {
             let self = this;
             let _abi = abiHelper.getTokenABI();
             let _user = coreHelper.getUserAccount();
@@ -157,10 +179,16 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             let _tokensObj = configHelper.getTokens(setting.chainId);
             let _contract = _tokensObj["usdc"];
             let callContarct = contractBaseHelper.getMainContract(_contract, _abi);
+            let _spender = "";
+            if (_isPrivateSale == true) {
+                _spender = _contractsObj.privateSale.contract;
+            } else {
+                _spender = _contractsObj.publicSale.contract;
+            }
 
             callContarct
                     .methods
-                    .approve(_contractsObj.protocolLiquidityLaunch.contract, configHelper.getAmountLimit())
+                    .approve(_spender, configHelper.getAmountLimit())
                     .send({ 
                         from: _user
                     })
@@ -181,15 +209,23 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
                         console.log(err);
                     });
         },
-        _buy() {
+        _buy(_isPrivateSale = false) {
             let self = this;
             let _abi = abiHelper.getProtocolLiquidityLaunchABI();
             let _user = coreHelper.getUserAccount();
             let _contractsObj = configHelper.getContracts(setting.chainId);
-            let _contract = _contractsObj.protocolLiquidityLaunch.contract;
+            let _contract = "";
+            let _inputName = "";
+            if (_isPrivateSale == true) {
+                _contract = _contractsObj.privateSale.contract;
+                _inputName = "amount_buy_private_sale";
+            } else {
+                _contract = _contractsObj.publicSale.contract;
+                _inputName = "amount_buy_public_sale";
+            }
             let callContarct = contractBaseHelper.getMainContract(_contract, _abi);
-
-            let input = $(`input[name=amount_buy]`).val();
+             
+            let input = $(`input[name=${_inputName}]`).val();
 
             callContarct
                 .methods
@@ -202,12 +238,12 @@ $.PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
                 })
                 .on("confirmation", function(confirmationNumber, receipt) {
                         if (self._showSuccessPopup(receipt)) {
-                            $('input[name=amount_buy]').val("");
+                            $(`input[name=${_inputName}]`).val("");
                         }
                 })
                 .on('receipt', (receipt) => {
                         if (self._showSuccessPopup(receipt)) {
-                            $('input[name=amount_buy]').val("");
+                            $(`input[name=${_inputName}]`).val("");
                         }
                 })
                 .on('error', (err, receipt) => {
