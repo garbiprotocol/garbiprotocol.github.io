@@ -258,12 +258,12 @@ contract PublicSaleLaunch {
     bool public ENABLE = false;    
     uint256 public HARD_CAP_PER_USER = 1250 * 1e18; // 50$
     uint256 public MIN_BUY = 750 * 1e18; // 30$
-    uint256 public SALE_TIME_PERIOD = 2 * 60 * 60; // 2h
+    uint256 public SALE_TIME_PERIOD = 3 * 60 * 60; // 3h
 
     mapping(address => uint256) public totalBoughtOf;
 
     modifier onlyOwner() {
-        require(msg.sender == owner, 'INVALID_PERMISSION');
+        require(msg.sender == owner, "INVALID_PERMISSION");
         _;
     }
 
@@ -299,6 +299,9 @@ contract PublicSaleLaunch {
     function start() public onlyOwner {
         endTime = block.timestamp.add(SALE_TIME_PERIOD);
         ENABLE = true;
+    }
+    function setEndTime(uint256 _value) public onlyOwner {
+        endTime = _value;
     }
     function setGRBToken(IERC20 _grb) public onlyOwner {
         require(address(_grb) != address(0), "INVALID_ADDRESS");
@@ -385,29 +388,24 @@ contract PublicSaleLaunch {
     function getTotalSale() public view returns(uint256) {
         return GRB.balanceOf(address(this));
     }
-    /**
-    data_[0] = uint256 userUSDCBalance;
-    data_[1] = uint256 userMaxGrbBuy;
-    data_[2] = uint256 userMaxUSDCPay;
-    data_[3] = uint256 contractUSDCBalance;
-    data_[4] = uint256 HARD_CAP_PER_USER;
-    data_[5] = uint256 totalSaleGab;
-    data_[6] = uint256 salePrice;
-    data_[7] = uint256 totalPurchased;
-    data_[8] = uint256 usdcAllowedAmt;
-     */
-    function getData(address _user) public view returns(uint256[9] memory data_) {
-        data_[0] = USDC.balanceOf(_user);
-        data_[1] = getMaxBuyOf(_user);
-        data_[2] = data_[1].mul(salePrice).div(1e18);
-        data_[3] = getUSDCBalance();
-        data_[4] = HARD_CAP_PER_USER;
-        data_[5] = getTotalSale();
-        data_[6] = salePrice;
-        data_[7] = totalPurchased;
-        data_[8] = USDC.allowance(_user, address(this));
+    
+    function getData(address _user) public view returns(
+        uint256 uUSDCBal_,
+        uint256 uMaxGrbBuy_,
+        uint256 uMaxUSDCPay_,
+        uint256 cUSDCBal_,
+        uint256 totalSale_,
+        uint256 salePrice_,
+        uint256 totalPurchased_,
+        uint256 allowed_,
+    ) {
+        uUSDCBal_ = USDC.balanceOf(_user);
+        uMaxGrbBuy_ = getMaxBuyOf(_user);
+        uMaxUSDCPay_ = uMaxGrbBuy_.mul(salePrice).div(1e18);
+        cUSDCBal_ = getUSDCBalance();
+        totalSale_ = getTotalSale();
+        salePrice_ = salePrice;
+        totalPurchased_ = totalPurchased;
+        allowed_ = USDC.allowance(_user, address(this));
     }
-
-
-
 }
