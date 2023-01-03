@@ -2,34 +2,26 @@
 pragma solidity >=0.6.12;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 interface IGRB {
 	function mint(address _user, uint256 _amount) external;
 }
 
-contract GRBProxy {
+contract GRBProxy is Ownable {
 	using SafeMath for uint256;
-	address public owner;
 	IGRB public GRB;
-	uint public constant GRACE_PERIOD = 30 days;
 	uint public constant DELAY = 14 days;
 	bool public queued = false;
 	uint public timeOfExecute;
 	address public userMint;
     uint256 public amountMint;
 
-	modifier onlyOwner()
-    {
-        require(msg.sender == owner, "INVALID_PERMISSION");
-        _;
-    }
-
     event onQueuedMint(address _user, uint256 _amount);
     event onCancelQueuedMint(address _user, uint256 _amount);
 
 	constructor(IGRB _grbToken) {
 		GRB = _grbToken;
-        owner = msg.sender;
     }
     /**
      *  OWNER ACTION
@@ -54,7 +46,6 @@ contract GRBProxy {
     	// verify timelock
     	require(queued == true, "Transaction hasn't been queued.");
         require(timeOfExecute <= block.timestamp, "Transaction hasn't surpassed time lock.");
-        require(timeOfExecute.add(GRACE_PERIOD) >= block.timestamp, "Transaction is stale.");
         // mint
         GRB.mint(userMint, amountMint);
         // cancel timelock
