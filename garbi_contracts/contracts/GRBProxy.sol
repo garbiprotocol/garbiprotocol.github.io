@@ -24,16 +24,15 @@ contract GRBProxy is Ownable {
         GRB = _grbToken;
     }
 
-    /**
-     *  OWNER ACTION
-     */
+    //remove the transaction from the queue
     function cancelTransactionMint() public onlyOwner
     {
     	require(queued == true, "INVALID_QUEUED");
     	queued = false;
     	emit onCancelQueuedMint(userMint, amountMint);
     }
-
+    
+    //queue the transaction to the timelock
     function queuedTransactionMint(address _user, uint256 _amount) public onlyOwner 
     {
     	require(queued == false, "INVALID_QUEUED");
@@ -44,6 +43,7 @@ contract GRBProxy is Ownable {
         emit onQueuedMint(_user, _amount);
     }
 
+    //process function that only can call when queued transaction and timelock passed
     function delayMint() public onlyOwner
     {
     	// verify timelock
