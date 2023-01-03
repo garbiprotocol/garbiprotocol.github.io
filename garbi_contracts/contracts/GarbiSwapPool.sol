@@ -31,12 +31,10 @@ contract GarbiSwapPool is ERC20Burnable, Ownable {
         IERC20 _base,
         IERC20 _token,
         string memory name, 
-        string memory symbol, 
-        uint8 decimal
-        ) public {
+        string memory symbol
+        ) ERC20(name, symbol) {
         base = _base;
         token = _token;
-        super.initToken(name, symbol, decimal, 0);
     }
 
     function getK() public view returns(uint256) {
@@ -181,7 +179,7 @@ contract GarbiSwapPool is ERC20Burnable, Ownable {
       return tokenInputAmount;
     }
 
-    function swapBaseToTokenWithBaseInput(uint256 baseInputAmount, uint256 minTokenOutput, uint256 deadline) public onlyWhitelist {
+    function swapBaseToTokenWithBaseInput(uint256 baseInputAmount, uint256 minTokenOutput, uint256 deadline) public {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(baseInputAmount > 0, 'INVALID_BASE_INPUT');
         require(minTokenOutput > 0, 'INVALID_MIN_TOKEN_OUTPUT');
@@ -211,7 +209,7 @@ contract GarbiSwapPool is ERC20Burnable, Ownable {
         emit onSwapBaseToTokenWithBaseInput(msg.sender, minTokenOutput, baseInputAmount, tokenOutputAmount, baseReserve, tokenReserve);
     }
 
-    function swapBaseToTokenWithTokenOutput(uint256 maxBaseInput, uint256 tokenOutputAmount, uint256 deadline) public onlyWhitelist {
+    function swapBaseToTokenWithTokenOutput(uint256 maxBaseInput, uint256 tokenOutputAmount, uint256 deadline) public {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(maxBaseInput > 0, 'INVALID_MAX_BASE_INPUT');
         require(tokenOutputAmount > 0, 'INVALID_TOKEN_OUTPUT');
@@ -241,7 +239,7 @@ contract GarbiSwapPool is ERC20Burnable, Ownable {
         emit onSwapBaseToTokenWithTokenOutput(msg.sender, maxBaseInput, baseInputAmount, tokenOutputAmount, baseReserve, tokenReserve);
     }
 
-    function swapTokenToBaseWithTokenInput(uint256 tokenInputAmount, uint256 minBaseOutput, uint256 deadline) public onlyWhitelist {
+    function swapTokenToBaseWithTokenInput(uint256 tokenInputAmount, uint256 minBaseOutput, uint256 deadline) public {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(minBaseOutput > 0, 'INVALID_MIN_BASE_OUTPUT');
         require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
@@ -271,7 +269,7 @@ contract GarbiSwapPool is ERC20Burnable, Ownable {
         emit onSwapTokenToBaseWithTokenInput(msg.sender, minBaseOutput, tokenInputAmount, baseOutputAmount, baseReserve, tokenReserve);
     }
 
-    function swapTokenToBaseWithBaseOutput(uint256 maxTokenInput, uint256 baseOutputAmount, uint256 deadline) public onlyWhitelist {
+    function swapTokenToBaseWithBaseOutput(uint256 maxTokenInput, uint256 baseOutputAmount, uint256 deadline) public {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(maxTokenInput > 0, 'INVALID_MAX_TOKEN_INPUT');
         require(baseOutputAmount > 0, 'INVALID_BASE_OUTPUT');
@@ -301,7 +299,7 @@ contract GarbiSwapPool is ERC20Burnable, Ownable {
         emit onSwapTokenToBaseWithBaseOutput(msg.sender, maxTokenInput, tokenInputAmount, baseOutputAmount, baseReserve, tokenReserve);
     }
 
-    function addLP(uint256 minLP, uint256 baseInputAmount, uint256 maxTokenInputAmount, uint256 deadline) public onlyWhitelist returns (uint256) {
+    function addLP(uint256 minLP, uint256 baseInputAmount, uint256 maxTokenInputAmount, uint256 deadline) public returns (uint256) {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(minLP > 0, 'INVALID_MIN_LP');
         require(baseInputAmount > 0, 'INVALID_BASE_INPUT');
@@ -340,7 +338,7 @@ contract GarbiSwapPool is ERC20Burnable, Ownable {
         }
     }
 
-    function removeLP(uint256 amountLP, uint256 minBaseOutput, uint256 minTokenOutput, uint256 deadline) public onlyWhitelist returns (uint256, uint256){
+    function removeLP(uint256 amountLP, uint256 minBaseOutput, uint256 minTokenOutput, uint256 deadline) public returns (uint256, uint256){
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(amountLP > 0, 'INVALID_AMOUNT_LP');
         require(minBaseOutput > 0, 'INVALID_MIN_BASE_OUTPUT');
