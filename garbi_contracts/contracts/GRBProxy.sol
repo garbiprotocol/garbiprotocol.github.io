@@ -27,7 +27,7 @@ contract GRBProxy is Ownable {
     /**
      *  OWNER ACTION
      */
-    function cancelMint() public onlyOwner
+    function cancelTransactionMint() public onlyOwner
     {
     	require(queued == true, "INVALID_QUEUED");
     	queued = false;
