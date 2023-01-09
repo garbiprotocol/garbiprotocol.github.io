@@ -10,22 +10,23 @@
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
               referrerpolicy="no-referrer" />
+        <link rel="shortcut icon" href="../assets/images/garbi-logo.svg" type="image/x-icon">
         <link href="../assets/css/style.css" rel="stylesheet">
-        <link rel="shortcut icon" href="../assets/images/garbi_favicon.png" type="image/x-icon">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="../assets/js/web3.min.js"></script>
         <script src="../assets/js/trustwallet.js"></script>
-        <script src="../js/contract/arbitrum/abi.js"></script>
-        <script src="../js/contract/arbitrum/config.js"></script>
+        <script src="../js/contract/bsc/abi.js"></script>
+        <script src="../js/contract/bsc/config.js"></script>
         <script src="../js/data/store.js"></script>
-        <script src="../js/contract/arbitrum/core.js"></script>
-        <script src="../js/contract/arbitrum/base.contract.js"></script>
-        <script src="../js/contract/arbitrum/protoco.liquidity.launch.js"></script>
-        <script src="../js/contract/arbitrum/data.js"></script>
+        <script src="../js/contract/bsc/core.js"></script>
+        <script src="../js/contract/bsc/base.contract.js"></script>
+        <script src="../js/contract/bsc/data.js"></script>
+        <script src="../js/contract/bsc/garbi-venus-lp-info.contract.js"></script>
+        <script src="../js/contract/bsc/garbi-venus.remove.contract.js"></script>
 
-        <title>Garbi Protocol</title>
+        <title>Remove Liquidity - Garbi Protocol</title>
         <style id="svelte-166mr51-style">
             ul.svelte-166mr51 {
                 display: flex;
@@ -161,21 +162,30 @@
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="col-6 col-lg-2 order-lg-3">
                                 <div class="d-flex align-items-center justify-content-end">
-                                    <a href="/whitelist.html" class="header__btn-connect wrap-btn-connect">Early Whitelist Access</a>
+                                    <span class="wrap-user-acct"></span>
+                                    <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
+                                    <span class="dropMenu">
+                                        <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                        <div class="ctmenu-sub  swap-box">
+                                            <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-lg-8">
                                 <div class="collapse navbar-collapse" id="navbar-header">
-                                    <ul class="navbar-nav menu-header ms-auto mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
                                         <li class="nav-item">
                                             <a class="nav-link" href="swap.html">Swap</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="deposit.html">Deposit</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item active">
                                             <a class="nav-link" href="withdraw.html">Withdraw</a>
                                         </li>
                                         <li class="nav-item">
@@ -194,93 +204,108 @@
                     </div>
                 </nav>
             </header>
-            <main class="page__home" style="min-height: calc(100vh - 73px);">
-                <article class="home__banner d-flex align-items-end">
-                    <div class="container container-2">
-                        <h1 class="home__banner-title">Garbi Protocol</h1>
-                        <div class="home__title-medium">Swap, earn and farm all on one decentralized, community-driven platform.</div>
-                    </div>
-                </article>
+            <main class="page__swap">
+                <section class="blog__container">
+                    <article class="swap__main garbi__box-1 p-3 mb-3">
+                        <div class=" d-flex align-items-center justify-content-between mb-14">
+                            <div class="f-700">
+                                <span>Remove Liquidity</span>
+                                <span class="addlp__form-item">
+                                    <div class="dropdown bootstrap-select" style="width: 130px;">
+                                        <select name="lp__pool" class="selectpicker">
+                                            <option value="default">Default Pool</option>
+                                        </select>
+                                    </div>
+                                    <select name="lp_token" class="selectpicker" id="selectPool">
+                                        <option 
+                                            data-contet="<div> class = 'addLp__form-item-select'</div>" 
+                                            value="usdtusdc">
+                                            USDT-USDC
+                                        </option>
+                                        <option 
+                                            data-contet="<div> class = 'addLp__form-item-select'</div>" 
+                                            value="daiusdc">
+                                            DAI-USDC
+                                        </option>
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="transaction__setting">
+                                <img src="../assets/images/setting.svg" class="cursor-pointer" id="transaction__setting-icon" />
 
-                <article class="home__analytics section" id="home__analytics">
-                    <div class="container container-2">
-                         <header class="home__title-normal mb-5 d-flex align-items-center">
-                            Token Launch
-                            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"></path><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>
-                        </header>
-                        <div class="container container-2">
-                            <div class="row">
-                                <div class="col-sm mb-4 text-center">
-                                    <div class="title">250,128 GRB</div>
-                                    <div class="description">Tokens Offered</div>
-                                </div>
-                                <div class="col-sm mb-4 text-center">
-                                    <div class="title">147,825.648 GRB</div>
-                                    <div class="description">Tokens for Liquidity</div>
-                                </div>
-                                <div class="col-sm mb-4 text-center">
-                                    <div class="title">$0.085</div>
-                                    <div class="description">Price per GRB</div>
-                                </div>
-                                <div class="col-sm mb-4 text-center">
-                                    <div class="title">$42,992.59</div>
-                                    <div class="description">Initial Market Cap</div>
+                                <div class="transaction__setting-description swap-box" id="transaction__setting-description">
+                                    <header class="f-14 f-700 text-white title">Transaction Settings</header>
+                                    <section class="f-12">
+                                        <div class="mb-2">
+                                            <div class="f-roboto f-700 mb-1">Slippage tolerance?</div>
+                                            <div class="d-flex align-items-center transaction__setting-slippage">
+                                                <button type="button" class="btn-auto f-12 f-roboto f-400 text-white btn-auto-slippage">Auto</button>
+                                                <div class="slippage-input ml-2 flex-grow-1">
+                                                    <input type="text" class="input-transaction-deadline  input-transaction-slippage f-12 f-roboto color-2 text-end" name="slippage" value="0.5" />
+                                                    <span class="percent text-white f-12">%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                        </div>
+                                    </section>
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="container container-3">
-                            <span>Sales process ... </span>
-                            <div class="progress progress-infinite mt-3">
-                                <div class="progress-bar" role="progressbar" aria-valuemax="100000"><span class="ratio"></span></div>
+                        <div class="currency">
+                            <label for="currency_0">
+                                <span class="currency-laybal" style="margin-left: 0px;">
+                                    <span>Amount of liquidity (%)</span>
+                                </span>
+                            </label>
+                            <div class="addLp__form_input mb-2 mt-2" style=" margin-left: 2px;">
+                                <input autofocus type="number" id="currency_0" name="amount_of_liquidity" min="1" max="100" name="amount_of_liquidity" class="swap__form-input" value="">
                             </div>
-                        </div>-->
-                        <div class="container container-3" style="margin-top: 3rem!important">
-                            <a href="https://pandasale.finance/launchpad/0x67ae91130bf5e257c252a054dc81ec3c59ecff6a/?chain=ARBI" target="_blank"><img src="../assets/images/garbi_presale.jpg" alt="Garbi Protocol Pre Sale"/></a>
                         </div>
-                    </div>
-                </article>
-                <article class="home__governance section" id="home__governance">
-                <div class="container container-2">
-                    <header class="home__title-normal mb-5 d-flex align-items-center">
-                        Governance
-                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{fill:none;}</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"></path><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>
-                    </header>
-                    <div class="row garbi__row-1 align-items-stretch">
-                        <div class="col-lg-6 garbi__col-1 mb-3 mb-lg-0">
-                            <div class="garbi__box-governance-left d-flex align-items-end height-100 p-relative">
-                                <img src="../assets/images/blog-thumb-2.jpg" class="img-cover bg-background-position">
-                                <div class="p-relative z-index-5">
-                                    <div class="home__title-large mb-3">Represented by the community.</div>
-                                    <div class="f-18 mb-3">The Garbi Protocol Protocol is administered by a decentralized local area of GRB token holders who propose and vote on moves up to the convention.</div>
-                                    <div><a target="_blank" href="https://garbi-protocol.gitbook.io/docs/product/governance" class="garbi__button">Read More</a></div>
+                        <div style="margin-top: 30px;">
+                            <p>
+                                You will get:
+                            </p>
+                        </div>
+                        <ul>
+                            <li style="list-style-type: none; margin-left: -30px;">
+                                <label for="currency_0">
+                                    <span class="currency-laybal"> 
+                                        <img src="../assets/images/usdt_logo.png" style="margin-left: 0;" class="token-icon img-token"> <span class="token-name token">USDT</span>
+
+                                    </span>
+                                </label>
+                                <div class="addLp__form_input mb-2">
+                                    <input type="number" class="swap__form-input" name="token_output" disabled value="">
                                 </div>
-                            </div>
+                            </li>
+                            <li style="list-style-type: none; margin-left: -30px;">
+                                <label for="currency_0">
+                                    <span class="currency-laybal"> 
+                                        <img src="../assets/images/busd_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name base">BUSD</span>
+
+                                    </span>
+                                </label>
+                                <div class="addLp__form_input mb-2">
+                                    <input type="number" class="swap__form-input" name="base_output" disabled value="">
+                                </div>
+                            </li>
+                        </ul>
+                        <div>
+                            <button type="button" class="header__btn-connect mt-2 btn-remove text-center" id="remove-liquidity">Remove</button>
                         </div>
-                        <div class="col-lg-6 garbi__col-1">
-                            <div class="height-100">
-                                <a href="https://t.me/garbiprotocol" target="_blank">
-                                    <div class="garbi__box garbi__box-governance mb-4">
-                                        <div class="home__title-normal mb-5">Telegram Community ↗</div>
-                                        <div>Take an interest by proposing overhauls and talking about the protocol's future with the Garbi community.</div>
-                                    </div>
-                                </a>
-                                <a href="https://twitter.com/garbi_protocol/" target="_blank">
-                                    <div class="garbi__box garbi__box-governance mb-4">
-                                        <div class="home__title-normal mb-5">Twitter ↗</div>
-                                        <div>Get the latest updates from our Twitter.</div>
-                                    </div>
-                                </a>
-                                <a href="https://github.com/garbiprotocol" target="_blank">
-                                    <div class="garbi__box garbi__box-governance">
-                                        <div class="home__title-normal">Github ↗</div>
-                                        <div>If you have any questions, ideas, or issues, join us at our Github.</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
+                        <article class="mb-3 mt-3">
+                            <p class="f-700">Liquidity Pool's stats</p>
+                            
+                            <div>USDT: <span class="swap-liquidity-usdt">-</span></div>
+                            <div>USDC: <span class="swap-liquidity-usdc">-</span></div>
+                            <div>DAI: <span class="swap-liquidity-dai">-</span></div>
+                            <div>Trade Fee: 0.035%</div>
+                        </article>
+                    </article>
+
+                </section>
             </main>
 
             <footer class="footer">
@@ -356,13 +381,47 @@
             </li>
         </ul>
         <script src="../assets/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="../assets/js/custom.js"></script>
         <script src="../assets/js/custom.menu.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     </body>
+
     <script>
-                   
+                    var abiHelper = new $.ABI();
+                    var coreHelper = new $.Core();
+                    var configHelper = new $.CONFIG();
+                    var bscContractHelper = new $.BSCCONTRACTBASE();
+                    var storeHelper = new $.STORE();
+                    var dataHelper = new $.DATA();
+                    var garbiVenusLPInfoHelper = new $.TURRING_VENUS_LP_INFO();
+                    var garbiVenusRemoveHelper = new $.TURRING_VENUS_POOL_REMOVE();
+                    $(document).ready(function () {
+                        abiHelper.init({});
+                        coreHelper.init({});
+                        configHelper.init({});
+                        storeHelper.init({});
+                        bscContractHelper.init({
+                            chainId: 56
+                        });
+                        dataHelper.init({
+                            chainId: 56
+                        });
+                        garbiVenusLPInfoHelper.init({
+                            chainId: 56
+                        });
+                        garbiVenusRemoveHelper.init({
+                            chainId: 56
+                        });
+                        coreHelper.initBTNName('btn-swap', 'Swap');
+
+                        garbiVenusRemoveHelper.loadData()
+                        garbiVenusRemoveHelper.onchangePool()
+                        garbiVenusRemoveHelper.getLpBal()
+                        garbiVenusRemoveHelper.onChangeSlippage()
+                        garbiVenusRemoveHelper.autoSlippage()
+                        garbiVenusRemoveHelper.removeLp()
+                    });
     </script>
 
 </html>
