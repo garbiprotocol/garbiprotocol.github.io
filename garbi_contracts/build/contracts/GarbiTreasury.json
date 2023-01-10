@@ -47,8 +47,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -61,8 +60,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -75,8 +73,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -89,8 +86,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     },
     {
       "inputs": [],
@@ -528,7 +524,7 @@
                 }
               ]
             },
-            "name": "abi_decode_tuple_t_contract$_IERC20_$777t_contract$_IGarbiTimeLock_$5505_fromMemory",
+            "name": "abi_decode_tuple_t_contract$_IERC20_$777t_contract$_IGarbiTimeLock_$5201_fromMemory",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -562,7 +558,7 @@
           }
         ]
       },
-      "contents": "{\n    { }\n    function validator_revert_contract_IERC20(value)\n    {\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_contract$_IERC20_$777t_contract$_IGarbiTimeLock_$5505_fromMemory(headStart, dataEnd) -> value0, value1\n    {\n        if slt(sub(dataEnd, headStart), 64) { revert(0, 0) }\n        let value := mload(headStart)\n        validator_revert_contract_IERC20(value)\n        value0 := value\n        let value_1 := mload(add(headStart, 32))\n        validator_revert_contract_IERC20(value_1)\n        value1 := value_1\n    }\n}",
+      "contents": "{\n    { }\n    function validator_revert_contract_IERC20(value)\n    {\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_contract$_IERC20_$777t_contract$_IGarbiTimeLock_$5201_fromMemory(headStart, dataEnd) -> value0, value1\n    {\n        if slt(sub(dataEnd, headStart), 64) { revert(0, 0) }\n        let value := mload(headStart)\n        validator_revert_contract_IERC20(value)\n        value0 := value\n        let value_1 := mload(add(headStart, 32))\n        validator_revert_contract_IERC20(value_1)\n        value1 := value_1\n    }\n}",
       "id": 23,
       "language": "Yul",
       "name": "#utility.yul"
@@ -699,7 +695,7 @@
                 }
               ]
             },
-            "name": "abi_encode_tuple_t_contract$_IGarbiTimeLock_$5505__to_t_address__fromStack_reversed",
+            "name": "abi_encode_tuple_t_contract$_IGarbiTimeLock_$5201__to_t_address__fromStack_reversed",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -4372,7 +4368,7 @@
           }
         ]
       },
-      "contents": "{\n    { }\n    function abi_encode_tuple_t_contract$_IGarbiTimeLock_$5505__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function validator_revert_address(value)\n    {\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_addresst_uint256(headStart, dataEnd) -> value0, value1\n    {\n        if slt(sub(dataEnd, headStart), 64) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_address(value)\n        value0 := value\n        value1 := calldataload(add(headStart, 32))\n    }\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function abi_encode_tuple_t_contract$_IERC20_$777__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function abi_decode_tuple_t_address(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_address(value)\n        value0 := value\n    }\n    function abi_encode_tuple_t_stringliteral_e3e8a748b4709c244b2320187e86e5277a9c588bcb7f5c21c163f39680c681a3__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 18)\n        mstore(add(headStart, 64), \"INVALID_PERMISSION\")\n        tail := add(headStart, 96)\n    }\n    function abi_decode_tuple_t_uint256_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        value0 := mload(headStart)\n    }\n    function abi_encode_tuple_t_stringliteral_eb6dbbf3194e9f4dd39c8dabe51ddb59ca6ad00c50b1bc74675ce4b263687722__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 14)\n        mstore(add(headStart, 64), \"INVALID_AMOUNT\")\n        tail := add(headStart, 96)\n    }\n    function abi_encode_tuple_t_address_t_uint256__to_t_address_t_uint256__fromStack_reversed(headStart, value1, value0) -> tail\n    {\n        tail := add(headStart, 64)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n        mstore(add(headStart, 32), value1)\n    }\n    function abi_decode_tuple_t_bool_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := mload(headStart)\n        if iszero(eq(value, iszero(iszero(value)))) { revert(0, 0) }\n        value0 := value\n    }\n    function abi_encode_stringliteral_829b(pos) -> end\n    {\n        mstore(pos, 24)\n        mstore(add(pos, 0x20), \"setMiningMachineContract\")\n        end := add(pos, 64)\n    }\n    function abi_encode_tuple_t_address_t_stringliteral_829b16245c4d62a106eb00e1bc595e356c42610882dad0ad9cb83e395caafd75__to_t_address_t_string_memory_ptr__fromStack_reversed(headStart, value0) -> tail\n    {\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n        mstore(add(headStart, 32), 64)\n        tail := abi_encode_stringliteral_829b(add(headStart, 64))\n    }\n    function abi_encode_stringliteral_91fc(pos) -> end\n    {\n        mstore(pos, 21)\n        mstore(add(pos, 0x20), \"miningMachineContract\")\n        end := add(pos, 64)\n    }\n    function abi_encode_tuple_t_address_t_stringliteral_829b16245c4d62a106eb00e1bc595e356c42610882dad0ad9cb83e395caafd75_t_stringliteral_91fc586075d18a4c1c172610687d171eec80b87b2cc762caa51743ef2a4fae2c__to_t_address_t_string_memory_ptr_t_string_memory_ptr__fromStack_reversed(headStart, value0) -> tail\n    {\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n        mstore(add(headStart, 32), 96)\n        let tail_1 := abi_encode_stringliteral_829b(add(headStart, 96))\n        mstore(add(headStart, 64), sub(tail_1, headStart))\n        tail := abi_encode_stringliteral_91fc(tail_1)\n    }\n    function abi_decode_tuple_t_address_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := mload(headStart)\n        validator_revert_address(value)\n        value0 := value\n    }\n    function abi_encode_tuple_t_stringliteral_0c9aa80f6df0d7d66f29f9faed5ce34d8bae3d216a4ab057cfd7af24bdab39cb__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 15)\n        mstore(add(headStart, 64), \"INVALID_ADDRESS\")\n        tail := add(headStart, 96)\n    }\n    function abi_encode_tuple_t_stringliteral_829b16245c4d62a106eb00e1bc595e356c42610882dad0ad9cb83e395caafd75_t_stringliteral_91fc586075d18a4c1c172610687d171eec80b87b2cc762caa51743ef2a4fae2c_t_rational_1_by_1__to_t_string_memory_ptr_t_string_memory_ptr_t_uint8__fromStack_reversed(headStart, value0) -> tail\n    {\n        mstore(headStart, 96)\n        let tail_1 := abi_encode_stringliteral_829b(add(headStart, 96))\n        mstore(add(headStart, 32), sub(tail_1, headStart))\n        tail := abi_encode_stringliteral_91fc(tail_1)\n        mstore(add(headStart, 64), and(value0, 0xff))\n    }\n    function abi_encode_tuple_t_stringliteral_829b16245c4d62a106eb00e1bc595e356c42610882dad0ad9cb83e395caafd75__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        tail := abi_encode_stringliteral_829b(add(headStart, 32))\n    }\n    function abi_encode_tuple_t_stringliteral_245f15ff17f551913a7a18385165551503906a406f905ac1c2437281a7cd0cfe__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 38)\n        mstore(add(headStart, 64), \"Ownable: new owner is the zero a\")\n        mstore(add(headStart, 96), \"ddress\")\n        tail := add(headStart, 128)\n    }\n    function abi_encode_tuple_t_stringliteral_9924ebdf1add33d25d4ef888e16131f0a5687b0580a36c21b5c301a6c462effe__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 32)\n        mstore(add(headStart, 64), \"Ownable: caller is not the owner\")\n        tail := add(headStart, 96)\n    }\n}",
+      "contents": "{\n    { }\n    function abi_encode_tuple_t_contract$_IGarbiTimeLock_$5201__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function validator_revert_address(value)\n    {\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_addresst_uint256(headStart, dataEnd) -> value0, value1\n    {\n        if slt(sub(dataEnd, headStart), 64) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_address(value)\n        value0 := value\n        value1 := calldataload(add(headStart, 32))\n    }\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function abi_encode_tuple_t_contract$_IERC20_$777__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function abi_decode_tuple_t_address(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_address(value)\n        value0 := value\n    }\n    function abi_encode_tuple_t_stringliteral_e3e8a748b4709c244b2320187e86e5277a9c588bcb7f5c21c163f39680c681a3__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 18)\n        mstore(add(headStart, 64), \"INVALID_PERMISSION\")\n        tail := add(headStart, 96)\n    }\n    function abi_decode_tuple_t_uint256_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        value0 := mload(headStart)\n    }\n    function abi_encode_tuple_t_stringliteral_eb6dbbf3194e9f4dd39c8dabe51ddb59ca6ad00c50b1bc74675ce4b263687722__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 14)\n        mstore(add(headStart, 64), \"INVALID_AMOUNT\")\n        tail := add(headStart, 96)\n    }\n    function abi_encode_tuple_t_address_t_uint256__to_t_address_t_uint256__fromStack_reversed(headStart, value1, value0) -> tail\n    {\n        tail := add(headStart, 64)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n        mstore(add(headStart, 32), value1)\n    }\n    function abi_decode_tuple_t_bool_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := mload(headStart)\n        if iszero(eq(value, iszero(iszero(value)))) { revert(0, 0) }\n        value0 := value\n    }\n    function abi_encode_stringliteral_829b(pos) -> end\n    {\n        mstore(pos, 24)\n        mstore(add(pos, 0x20), \"setMiningMachineContract\")\n        end := add(pos, 64)\n    }\n    function abi_encode_tuple_t_address_t_stringliteral_829b16245c4d62a106eb00e1bc595e356c42610882dad0ad9cb83e395caafd75__to_t_address_t_string_memory_ptr__fromStack_reversed(headStart, value0) -> tail\n    {\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n        mstore(add(headStart, 32), 64)\n        tail := abi_encode_stringliteral_829b(add(headStart, 64))\n    }\n    function abi_encode_stringliteral_91fc(pos) -> end\n    {\n        mstore(pos, 21)\n        mstore(add(pos, 0x20), \"miningMachineContract\")\n        end := add(pos, 64)\n    }\n    function abi_encode_tuple_t_address_t_stringliteral_829b16245c4d62a106eb00e1bc595e356c42610882dad0ad9cb83e395caafd75_t_stringliteral_91fc586075d18a4c1c172610687d171eec80b87b2cc762caa51743ef2a4fae2c__to_t_address_t_string_memory_ptr_t_string_memory_ptr__fromStack_reversed(headStart, value0) -> tail\n    {\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n        mstore(add(headStart, 32), 96)\n        let tail_1 := abi_encode_stringliteral_829b(add(headStart, 96))\n        mstore(add(headStart, 64), sub(tail_1, headStart))\n        tail := abi_encode_stringliteral_91fc(tail_1)\n    }\n    function abi_decode_tuple_t_address_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := mload(headStart)\n        validator_revert_address(value)\n        value0 := value\n    }\n    function abi_encode_tuple_t_stringliteral_0c9aa80f6df0d7d66f29f9faed5ce34d8bae3d216a4ab057cfd7af24bdab39cb__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 15)\n        mstore(add(headStart, 64), \"INVALID_ADDRESS\")\n        tail := add(headStart, 96)\n    }\n    function abi_encode_tuple_t_stringliteral_829b16245c4d62a106eb00e1bc595e356c42610882dad0ad9cb83e395caafd75_t_stringliteral_91fc586075d18a4c1c172610687d171eec80b87b2cc762caa51743ef2a4fae2c_t_rational_1_by_1__to_t_string_memory_ptr_t_string_memory_ptr_t_uint8__fromStack_reversed(headStart, value0) -> tail\n    {\n        mstore(headStart, 96)\n        let tail_1 := abi_encode_stringliteral_829b(add(headStart, 96))\n        mstore(add(headStart, 32), sub(tail_1, headStart))\n        tail := abi_encode_stringliteral_91fc(tail_1)\n        mstore(add(headStart, 64), and(value0, 0xff))\n    }\n    function abi_encode_tuple_t_stringliteral_829b16245c4d62a106eb00e1bc595e356c42610882dad0ad9cb83e395caafd75__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        tail := abi_encode_stringliteral_829b(add(headStart, 32))\n    }\n    function abi_encode_tuple_t_stringliteral_245f15ff17f551913a7a18385165551503906a406f905ac1c2437281a7cd0cfe__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 38)\n        mstore(add(headStart, 64), \"Ownable: new owner is the zero a\")\n        mstore(add(headStart, 96), \"ddress\")\n        tail := add(headStart, 128)\n    }\n    function abi_encode_tuple_t_stringliteral_9924ebdf1add33d25d4ef888e16131f0a5687b0580a36c21b5c301a6c462effe__to_t_string_memory_ptr__fromStack_reversed(headStart) -> tail\n    {\n        mstore(headStart, 32)\n        mstore(add(headStart, 32), 32)\n        mstore(add(headStart, 64), \"Ownable: caller is not the owner\")\n        tail := add(headStart, 96)\n    }\n}",
       "id": 23,
       "language": "Yul",
       "name": "#utility.yul"
@@ -4395,7 +4391,7 @@
         777
       ],
       "IGarbiTimeLock": [
-        5505
+        5201
       ],
       "Ownable": [
         112
@@ -4474,7 +4470,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 2276,
-        "sourceUnit": 5506,
+        "sourceUnit": 5202,
         "src": "280:41:12",
         "symbolAliases": [],
         "unitAlias": ""
@@ -4618,7 +4614,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+              "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
               "typeString": "contract IGarbiTimeLock"
             },
             "typeName": {
@@ -4631,13 +4627,13 @@
                   "454:14:12"
                 ],
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 5505,
+                "referencedDeclaration": 5201,
                 "src": "454:14:12"
               },
-              "referencedDeclaration": 5505,
+              "referencedDeclaration": 5201,
               "src": "454:14:12",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                 "typeString": "contract IGarbiTimeLock"
               }
             },
@@ -4860,7 +4856,7 @@
                       "referencedDeclaration": 2156,
                       "src": "747:21:12",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                        "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                         "typeString": "contract IGarbiTimeLock"
                       }
                     },
@@ -4874,13 +4870,13 @@
                       "referencedDeclaration": 2174,
                       "src": "771:22:12",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                        "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                         "typeString": "contract IGarbiTimeLock"
                       }
                     },
                     "src": "747:46:12",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                      "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                       "typeString": "contract IGarbiTimeLock"
                     }
                   },
@@ -4950,7 +4946,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                    "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                     "typeString": "contract IGarbiTimeLock"
                   },
                   "typeName": {
@@ -4963,13 +4959,13 @@
                         "673:14:12"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 5505,
+                      "referencedDeclaration": 5201,
                       "src": "673:14:12"
                     },
-                    "referencedDeclaration": 5505,
+                    "referencedDeclaration": 5201,
                     "src": "673:14:12",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                      "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                       "typeString": "contract IGarbiTimeLock"
                     }
                   },
@@ -5492,7 +5488,7 @@
                             "referencedDeclaration": 2156,
                             "src": "1078:21:12",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                               "typeString": "contract IGarbiTimeLock"
                             }
                           },
@@ -5504,7 +5500,7 @@
                           "memberLocation": "1100:19:12",
                           "memberName": "isQueuedTransaction",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 5504,
+                          "referencedDeclaration": 5200,
                           "src": "1078:41:12",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$returns$_t_bool_$",
@@ -5739,7 +5735,7 @@
                         "referencedDeclaration": 2156,
                         "src": "1229:21:12",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -5751,7 +5747,7 @@
                       "memberLocation": "1251:26:12",
                       "memberName": "getAddressChangeOnTimeLock",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5484,
+                      "referencedDeclaration": 5180,
                       "src": "1229:48:12",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_address_$",
@@ -6051,7 +6047,7 @@
                         "referencedDeclaration": 2156,
                         "src": "1480:21:12",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -6063,7 +6059,7 @@
                       "memberLocation": "1502:15:12",
                       "memberName": "clearFieldValue",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5473,
+                      "referencedDeclaration": 5169,
                       "src": "1480:37:12",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_uint8_$returns$__$",
@@ -6125,7 +6121,7 @@
                         "referencedDeclaration": 2156,
                         "src": "1583:21:12",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5505",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5201",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -6137,7 +6133,7 @@
                       "memberLocation": "1605:16:12",
                       "memberName": "doneTransactions",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5464,
+                      "referencedDeclaration": 5160,
                       "src": "1583:38:12",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$returns$__$",
@@ -6222,6 +6218,12 @@
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
   "networks": {
+    "42161": {
+      "events": {},
+      "links": {},
+      "address": "0x7d9fF6cb1BC3491fed7bF279D8532cAb594b29e8",
+      "transactionHash": "0xdfb9804a6d954fa7934c76bd26412a1af8bd6cb0aea8e7ed454dcff163ddcefc"
+    },
     "421613": {
       "events": {
         "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
@@ -6250,8 +6252,7 @@
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-01-10T03:16:17.923Z",
-  "networkType": "ethereum",
+  "updatedAt": "2023-01-10T04:49:53.879Z",
   "devdoc": {
     "kind": "dev",
     "methods": {

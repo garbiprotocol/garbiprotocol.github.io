@@ -8,7 +8,6 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import './interfaces/IGarbiswapFarmAavev3.sol';
 import './interfaces/IGarbiswapFeeMachine.sol';
 import './interfaces/IGarbiswapWhitelist.sol';
 import './interfaces/IGarbiTimeLock.sol';
@@ -26,10 +25,8 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
     IGarbiswapWhitelist public whitelistContract; 
 
     IGarbiTimeLock public garbiTimeLockContract;
-    // Pool farm of this Contract.
-    IGarbiswapFarmAavev3 public farmContract;
 
-    uint256 public TRADE_FEE = 1; //0.1% 1/1000
+    uint256 public TRADE_FEE = 35; //0.035% 35/100000
 
     modifier onlyWhitelist()
     {
@@ -55,7 +52,6 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         IERC20 _token,
         IGarbiTimeLock _garbiTimeLockContract,
         IGarbiswapFeeMachine _feeMachineContract,
-        IGarbiswapFarmAavev3 _farmContract,
         IGarbiswapWhitelist _whitelistContract,
         string memory name, 
         string memory symbol
@@ -65,7 +61,6 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         garbiTimeLockContract = _garbiTimeLockContract;
         whitelistContract = _whitelistContract;
         feeMachineContract = _feeMachineContract;
-        farmContract = _farmContract;
     }
 
     function setWhitelistContract() public onlyOwner {
@@ -120,7 +115,7 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
 
-        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(1000);
+        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(100000);
         uint256 baseInputAmountAfterFee = baseInputAmount.sub(tradeFee); // cut the TRADE_FEE from base input
 
         uint256 tokenOutputAmount = getTokenOutputAmountFromBaseInput(baseInputAmountAfterFee, baseReserve, tokenReserve);
@@ -132,7 +127,7 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
 
-        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(1000);
+        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(100000);
         uint256 tokenInputAmountAfterFee = tokenInputAmount.sub(tradeFee); // cut the TRADE_FEE from token input
 
         uint256 baseOutputAmount = getBaseOutputAmountFromTokenInput(tokenInputAmountAfterFee, baseReserve, tokenReserve);
@@ -260,7 +255,7 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         (baseReserve, tokenReserve) = getTotalReserve();
         require(minTokenOutput < tokenReserve, "MIN_TOKEN_HIGHER_POOL_TOKEN_BALANCE");
 
-        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(1000);
+        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(100000);
         uint256 baseInputAmountAfterFee = baseInputAmount.sub(tradeFee); // cut the TRADE_FEE from base input
         
         uint256 tokenOutputAmount = getTokenOutputAmountFromBaseInput(baseInputAmountAfterFee, baseReserve, tokenReserve);
@@ -293,7 +288,7 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
 
         uint256 baseInputAmount = getBaseInputAmountFromTokenOutput(tokenOutputAmount, baseReserve, tokenReserve);
         
-        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(1000);
+        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(100000);
         baseInputAmount = baseInputAmount.add(tradeFee); // add the TRADE_FEE to base input
 
         require(baseInputAmount <= maxBaseInput, 'CAN_NOT_MAKE_TRADE');
@@ -322,7 +317,7 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         (baseReserve, tokenReserve) = getTotalReserve();
         require(minBaseOutput < baseReserve, 'MIN_BASE_OUTPUT_HIGHER_POOL_BASE_BALANCE');
 
-        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(1000);
+        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(100000);
         uint256 tokenInputAmountAfterFee = tokenInputAmount.sub(tradeFee); // cut the TRADE_FEE from token input
         
         uint256 baseOutputAmount = getBaseOutputAmountFromTokenInput(tokenInputAmountAfterFee, baseReserve, tokenReserve);
@@ -355,7 +350,7 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
 
         uint256 tokenInputAmount = getTokenInputAmountFromBaseOutput(baseOutputAmount, baseReserve, tokenReserve);
         
-        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(1000);
+        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(100000);
         tokenInputAmount = tokenInputAmount.add(tradeFee); // add the TRADE_FEE to token input
 
         require(tokenInputAmount <= maxTokenInput, 'CAN_NOT_MAKE_TRADE');
@@ -440,10 +435,6 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         require(baseOutputAmount <= baseReserve, "BASE_OUTPUT_HIGHER_BASE_BALANCE");
         require(tokenOutputAmount <= tokenReserve, "TOKEN_OUTPUT_HIGHER_TOKEN_BALANCE");
 
-        if(tokenOutputAmount > token.balanceOf(address(this)) || baseOutputAmount > base.balanceOf(address(this))) {
-            farmContract.releaseFundToTradeContract(); //move back fund to trade contract to process LP remove
-        }
-
         _burn(msg.sender, amountLP);
         base.transfer(msg.sender, baseOutputAmount);
         token.transfer(msg.sender, tokenOutputAmount);
@@ -454,45 +445,7 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
     function getTotalReserve() public view returns (uint256, uint256) { 
         uint256 baseReserve = base.balanceOf(address(this));
         uint256 tokenReserve = token.balanceOf(address(this));
-        
-        uint256 baseReserveInFarmContract = 0;
-        uint256 tokenReserveInFarmContract = 0;
-        (baseReserveInFarmContract, tokenReserveInFarmContract) = farmContract.getReserve();
 
-        return (baseReserve.add(baseReserveInFarmContract), tokenReserve.add(tokenReserveInFarmContract));
-    }
-    
-    function rebalanceToFarmContract() public onlyOwner {
-
-        require(address(farmContract) != address(0), "INVALID_FARM_ADDRESS");
-        require(address(base) != address(0), "INVALID_BASE_ADDRESS");
-        require(address(token) != address(0), "INVALID_TOKEN_ADDRESS");
-
-        farmContract.releaseFundToTradeContract();
-
-        uint256 baseReserve = base.balanceOf(address(this));
-        uint256 tokenReserve = token.balanceOf(address(this));
-
-        uint256 baseReserveInFarmContract = 0;
-        uint256 tokenReserveInFarmContract = 0;
-        (baseReserveInFarmContract, tokenReserveInFarmContract) = farmContract.getReserve();
-
-        if(baseReserve > baseReserveInFarmContract) {
-            uint256 amountBaseMoveOut = baseReserve.sub(baseReserveInFarmContract).div(2); //rebalance two pools
-            base.transfer(address(farmContract), amountBaseMoveOut);
-        }
-        if(baseReserve < baseReserveInFarmContract) {
-            uint256 amountBaseMoveIn = baseReserveInFarmContract.sub(baseReserve).div(2); //rebalance two pools
-            farmContract.moveOutBaseToTradeContract(amountBaseMoveIn);
-        }
-
-        if(tokenReserve > tokenReserveInFarmContract) {
-            uint256 amountTokenMoveOut = tokenReserve.sub(tokenReserveInFarmContract).div(2); //rebalance two pools
-            token.transfer(address(farmContract), amountTokenMoveOut);
-        }
-        if(tokenReserve < tokenReserveInFarmContract) {
-            uint256 amountTokenMoveIn = baseReserveInFarmContract.sub(tokenReserve).div(2); //rebalance two pools
-            farmContract.moveOutTokenToTradeContract(amountTokenMoveIn);
-        }
+        return (baseReserve, tokenReserve);
     }
 }
