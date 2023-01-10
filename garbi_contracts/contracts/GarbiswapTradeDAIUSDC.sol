@@ -13,7 +13,7 @@ import './interfaces/IGarbiswapWhitelist.sol';
 import './interfaces/IGarbiTimeLock.sol';
 import './interfaces/IGarbiOracle.sol';
 
-contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
+contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
     
     using SafeMath for uint256;
 
@@ -284,11 +284,13 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         require(minTokenOutput > 0, 'INVALID_MIN_TOKEN_OUTPUT');
         require(baseInputAmount <= base.balanceOf(msg.sender), 'BASE_INPUT_HIGHER_USER_BALANCE');
         
+        baseInputAmount = convertDecimal6to18(baseInputAmount);
+
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
         require(minTokenOutput < tokenReserve, "MIN_TOKEN_HIGHER_POOL_TOKEN_BALANCE");
-
+        
         uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(100000);
         uint256 baseInputAmountAfterFee = baseInputAmount.sub(tradeFee); // cut the TRADE_FEE from base input
         
@@ -299,14 +301,17 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         require(tokenOutputAmount < token.balanceOf(address(this)), 'TOKEN_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE'); // output is higher than the trade contract balance
         
         //make trade
+        baseInputAmount = convertDecimal18to6(baseInputAmount);
         base.transferFrom(msg.sender, address(this), baseInputAmount);
+
         token.transfer(msg.sender, tokenOutputAmount);
 
         //transfer fee
+        tradeFee = convertDecimal18to6(tradeFee);
         base.transfer(address(feeMachineContract), tradeFee);
         feeMachineContract.processTradeFee(base, msg.sender); 
 
-        emit onSwapBaseToTokenWithBaseInput(msg.sender, minTokenOutput, baseInputAmount, tokenOutputAmount, baseReserve, tokenReserve);
+        emit onSwapBaseToTokenWithBaseInput(msg.sender, minTokenOutput, baseInputAmount, tokenOutputAmount, convertDecimal18to6(baseReserve), tokenReserve);
     }
 
     function swapBaseToTokenWithTokenOutput(uint256 maxBaseInput, uint256 tokenOutputAmount, uint256 deadline) public onlyWhitelist {
@@ -315,6 +320,8 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         require(tokenOutputAmount > 0, 'INVALID_TOKEN_OUTPUT');
         require(tokenOutputAmount < token.balanceOf(address(this)), 'TOKEN_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE'); // output is higher than the trade contract balance
         
+        maxBaseInput = convertDecimal6to18(maxBaseInput);
+
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
@@ -327,17 +334,20 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
 
         require(baseInputAmount <= maxBaseInput, 'CAN_NOT_MAKE_TRADE');
         require(baseInputAmount > 0, 'INVALID_BASE_INPUT');
-        require(baseInputAmount <= base.balanceOf(msg.sender), 'BASE_INPUT_HIGHER_USER_BALANCE');
+        require(baseInputAmount <= convertDecimal6to18(base.balanceOf(msg.sender)), 'BASE_INPUT_HIGHER_USER_BALANCE');
         
         //make trade
+        baseInputAmount = convertDecimal18to6(baseInputAmount);
         base.transferFrom(msg.sender, address(this), baseInputAmount);
+
         token.transfer(msg.sender, tokenOutputAmount);
 
         //transfer fee
+        tradeFee = convertDecimal18to6(tradeFee);
         base.transfer(address(feeMachineContract), tradeFee);
         feeMachineContract.processTradeFee(base, msg.sender);
 
-        emit onSwapBaseToTokenWithTokenOutput(msg.sender, maxBaseInput, baseInputAmount, tokenOutputAmount, baseReserve, tokenReserve);
+        emit onSwapBaseToTokenWithTokenOutput(msg.sender, convertDecimal18to6(maxBaseInput), baseInputAmount, tokenOutputAmount, convertDecimal18to6(baseReserve), tokenReserve);
     }
 
     function swapTokenToBaseWithTokenInput(uint256 tokenInputAmount, uint256 minBaseOutput, uint256 deadline) public onlyWhitelist {
@@ -345,6 +355,8 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         require(minBaseOutput > 0, 'INVALID_MIN_BASE_OUTPUT');
         require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
         require(tokenInputAmount <= token.balanceOf(msg.sender), 'TOKEN_INPUT_HIGHER_USER_BALANCE');
+
+        minBaseOutput = convertDecimal6to18(minBaseOutput);
 
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
@@ -358,17 +370,19 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
 
         require(baseOutputAmount >= minBaseOutput, 'CAN_NOT_MAKE_TRADE');
         require(baseOutputAmount < baseReserve, 'BASE_OUTPUT_HIGHER_POOL_BASE_BALANCE');
-        require(baseOutputAmount < base.balanceOf(address(this)), 'BASE_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE'); // output is higher than the trade contract balance
+        require(baseOutputAmount < convertDecimal6to18(base.balanceOf(address(this))), 'BASE_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE'); // output is higher than the trade contract balance
 
         //make trade
         token.transferFrom(msg.sender, address(this), tokenInputAmount);
+
+        baseOutputAmount = convertDecimal18to6(baseOutputAmount);
         base.transfer(msg.sender, baseOutputAmount);
 
         //transfer fee
         token.transfer(address(feeMachineContract), tradeFee);
         feeMachineContract.processTradeFee(token, msg.sender);
 
-        emit onSwapTokenToBaseWithTokenInput(msg.sender, minBaseOutput, tokenInputAmount, baseOutputAmount, baseReserve, tokenReserve);
+        emit onSwapTokenToBaseWithTokenInput(msg.sender, convertDecimal18to6(minBaseOutput), tokenInputAmount, baseOutputAmount, convertDecimal18to6(baseReserve), tokenReserve);
     }
 
     function swapTokenToBaseWithBaseOutput(uint256 maxTokenInput, uint256 baseOutputAmount, uint256 deadline) public onlyWhitelist {
@@ -376,6 +390,8 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         require(maxTokenInput > 0, 'INVALID_MAX_TOKEN_INPUT');
         require(baseOutputAmount > 0, 'INVALID_BASE_OUTPUT');
         require(baseOutputAmount < base.balanceOf(address(this)), 'BASE_OUTPUT_HIGHER_CURRENT_TRADE_BALANCE'); // output is higher than the trade contract balance
+        
+        baseOutputAmount = convertDecimal6to18(baseOutputAmount);
 
         uint256 baseReserve = 0;
         uint256 tokenReserve = 0;
@@ -393,13 +409,15 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
 
         //make trade
         token.transferFrom(msg.sender, address(this), tokenInputAmount);
+        
+        baseOutputAmount = convertDecimal18to6(baseOutputAmount);
         base.transfer(msg.sender, baseOutputAmount);
 
         //transfer fee
         token.transfer(address(feeMachineContract), tradeFee);
         feeMachineContract.processTradeFee(token, msg.sender);
 
-        emit onSwapTokenToBaseWithBaseOutput(msg.sender, maxTokenInput, tokenInputAmount, baseOutputAmount, baseReserve, tokenReserve);
+        emit onSwapTokenToBaseWithBaseOutput(msg.sender, maxTokenInput, tokenInputAmount, baseOutputAmount, convertDecimal18to6(baseReserve), tokenReserve);
     }
 
     function addLP(uint256 minLP, uint256 baseInputAmount, uint256 maxTokenInputAmount, uint256 deadline) public onlyWhitelist returns (uint256) {
@@ -413,17 +431,23 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
             base.transferFrom(msg.sender, address(this), baseInputAmount);
             token.transferFrom(msg.sender, address(this), maxTokenInputAmount);
 
+            baseInputAmount = convertDecimal6to18(baseInputAmount);
+
             uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
             uint256 platformFeeOnToken = maxTokenInputAmount.mul(PLATFORM_FEE).div(1000);
+            
+            uint256 initLP = baseInputAmount.sub(platformFeeOnBase);
+
+            platformFeeOnBase = convertDecimal18to6(platformFeeOnBase);
             base.transfer(platformFundAddress, platformFeeOnBase);
             token.transfer(platformFundAddress, platformFeeOnToken);
             
-            uint256 initLP = baseInputAmount.sub(platformFeeOnBase);
             _mint(msg.sender, initLP);
-            emit onAddLP(msg.sender, initLP, baseInputAmount, maxTokenInputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
+            emit onAddLP(msg.sender, initLP, convertDecimal18to6(baseInputAmount), maxTokenInputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
             return initLP;
         }
-        else { 
+        else {
+            baseInputAmount = convertDecimal6to18(baseInputAmount);
             // tokenReserve/baseReserve = (tokenReserve+tokenInputAmount)/(baseReserve+baseInputAmount)
             // => tokenReserve+tokenInputAmount = tokenReserve*(baseReserve+baseInputAmount)/baseReserve
             // => tokenInputAmount = tokenReserve*(baseReserve+baseInputAmount)/baseReserve - tokenReserve;
@@ -442,11 +466,12 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
             require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
             require(tokenInputAmount <= maxTokenInputAmount, 'INVALID_TOKEN_INPUT');
             require(mintLP >= minLP, "INVALID_MINT_LP");
-
+            
+            baseInputAmount = convertDecimal18to6(baseInputAmount);
             base.transferFrom(msg.sender, address(this), baseInputAmount);
             token.transferFrom(msg.sender, address(this), tokenInputAmount);
 
-            
+            platformFeeOnBase = convertDecimal18to6(platformFeeOnBase);
             base.transfer(platformFundAddress, platformFeeOnBase);
             token.transfer(platformFundAddress, platformFeeOnToken);
 
@@ -462,6 +487,8 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         require(minBaseOutput > 0, 'INVALID_MIN_BASE_OUTPUT');
         require(minTokenOutput > 0, 'INVALID_MIN_TOKEN_OUTPUT');
         
+        minBaseOutput = convertDecimal6to18(minBaseOutput);
+
         uint256 totalSupply = totalSupply();
         
         uint256 userLPbalance = balanceOf(msg.sender);
@@ -492,10 +519,15 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         require(tokenOutputAmount <= tokenReserve, "TOKEN_OUTPUT_HIGHER_TOKEN_BALANCE");
 
         _burn(msg.sender, amountLP);
+        
+        baseOutputAmount = convertDecimal18to6(baseOutputAmount);
         base.transfer(msg.sender, baseOutputAmount);
+
         token.transfer(msg.sender, tokenOutputAmount);
 
+        platformFeeOnBase = convertDecimal18to6(platformFeeOnBase);
         base.transfer(platformFundAddress, platformFeeOnBase);
+
         token.transfer(platformFundAddress, platformFeeOnToken);
 
         emit onRemoveLP(msg.sender, amountLP, baseOutputAmount, tokenOutputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
@@ -504,8 +536,20 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
 
     function getTotalReserve() public view returns (uint256, uint256) { 
         uint256 baseReserve = base.balanceOf(address(this));
+        baseReserve = convertDecimal6to18(baseReserve);
+
         uint256 tokenReserve = token.balanceOf(address(this));
 
         return (baseReserve, tokenReserve);
+    }
+
+    function convertDecimal6to18(uint256 number) public pure returns (uint256) { 
+        number = number.mul(1e18).div(1e6);
+        return number;
+    }
+
+    function convertDecimal18to6(uint256 number) public pure returns (uint256) { 
+        number = number.mul(1e6).div(1e18);
+        return number;
     }
 }
