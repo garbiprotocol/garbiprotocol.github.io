@@ -78,10 +78,6 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     token.html("DAI")
                     img_token.attr("src", "../assets/images/dai_logo.png");
                 }
-                if (pool == "vaiusdc") {
-                    token.html("VAI")
-                    img_token.attr("src", "../assets/images/vai_logo.png");
-                }
             })
         },
 
