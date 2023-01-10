@@ -9,13 +9,13 @@ $.DATA.prototype = (function() {
                 return false;
             }
             setting = $.extend({}, setting, options);
-            // this.initData();
+            this.initData();
         },
         async initData() {
             let self = this;
             try {
                 await self._initBalance();
-                await self._initPrice();
+                // await self._initPrice();
                 self.reloadData();
             } catch (e) {
                 console.log("INIT::DATA::FALSE", e);
@@ -38,10 +38,11 @@ $.DATA.prototype = (function() {
                 let _user = coreHelper.getUserAccount();
                 let _r = await _readContract.methods.getData(_user, _tokenList).call();
                 let _balanceOf = {};
-                _balanceOf['bnb'] = parseInt(_r.bnbBal_) / 1e18;
+                _balanceOf['native'] = parseInt(_r.nativeBal_) / 1e18;
                 for (let idx = 0; idx < _r.tokensBal_.length; idx++) {
                     _balanceOf[_r.tokensBal_[idx]['token']] = parseInt(_r.tokensBal_[idx]['amount']) / 1e18;
                 }
+                // console.log("_balanceOf", _balanceOf)
                 storeHelper.setVaule('balanceOf', _balanceOf);
             } catch (e) {
                 console.log("_initBalance", e);

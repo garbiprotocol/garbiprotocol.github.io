@@ -5,6 +5,11 @@ $.CONFIG.prototype = (function() {
     };
     var CONTRACTS = {
         421613: {
+            info: {
+                getAllowTransfer: '0x23E8f78ab3813Cf2297b3F49BaF93Ef9fDD5cD8B',
+                balanceInfo: '0x44e80DDF5F96fe5efbDFCDfb6e7C16F154467AEE',
+                priceInfo: ''
+            },
             protocolLiquidityLaunch: {
                 contract: "0x658fA49C37c41833923ef48E4eCfDB527D2cc6b0",
                 totalOffered: 250000

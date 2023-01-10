@@ -19,7 +19,7 @@ $.ABI.prototype = (function() {
 							"type": "address"
 						},
 						{
-							"internalType": "contract IBEP20[]",
+							"internalType": "contract IERC20[]",
 							"name": "_tokens",
 							"type": "address[]"
 						}
@@ -39,13 +39,13 @@ $.ABI.prototype = (function() {
 									"type": "uint256"
 								}
 							],
-							"internalType": "struct BalanceInfo.BEP20BALANCE[]",
+							"internalType": "struct BalanceInfo.TokenBALANCE[]",
 							"name": "tokensBal_",
 							"type": "tuple[]"
 						},
 						{
 							"internalType": "uint256",
-							"name": "bnbBal_",
+							"name": "nativeBal_",
 							"type": "uint256"
 						}
 					],
@@ -156,6 +156,51 @@ $.ABI.prototype = (function() {
 							"internalType": "address",
 							"name": "",
 							"type": "address"
+						}
+					],
+					"stateMutability": "view",
+					"type": "function"
+				}
+			];
+		},
+		getAllowTransferABI() {
+			return [
+				{
+					"inputs": [
+						{
+							"internalType": "address",
+							"name": "_owner",
+							"type": "address"
+						},
+						{
+							"internalType": "address",
+							"name": "_spender",
+							"type": "address"
+						},
+						{
+							"internalType": "contract IERC20[]",
+							"name": "_tokens",
+							"type": "address[]"
+						}
+					],
+					"name": "getData",
+					"outputs": [
+						{
+							"components": [
+								{
+									"internalType": "address",
+									"name": "token",
+									"type": "address"
+								},
+								{
+									"internalType": "uint256",
+									"name": "amount",
+									"type": "uint256"
+								}
+							],
+							"internalType": "struct AllowTransferInfo.Allow[]",
+							"name": "data_",
+							"type": "tuple[]"
 						}
 					],
 					"stateMutability": "view",

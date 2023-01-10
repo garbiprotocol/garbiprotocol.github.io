@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma experimental ABIEncoderV2;
-interface IERC20 {
-        function totalSupply() external view returns (uint256);
-        function balanceOf(address account) external view returns (uint256);
-        function allowance(address _owner, address spender) external view returns (uint256);
-}
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 interface IGarbiswapTrade {
 	function base() external view returns (address);
 	function token() external view returns (address);

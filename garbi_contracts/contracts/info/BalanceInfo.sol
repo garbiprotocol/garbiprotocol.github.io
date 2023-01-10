@@ -6,7 +6,7 @@ contract BalanceInfo {
                 address token;
                 uint256 amount;
         }
-	function getData(address _account, IBEP20[] memory _tokens) public view returns(TokenBALANCE[] memory tokensBal_, uint256 nativeBal_)
+	function getData(address _account, IERC20[] memory _tokens) public view returns(TokenBALANCE[] memory tokensBal_, uint256 nativeBal_)
 	{
 		nativeBal_ = address(_account).balance;
 		tokensBal_ = new TokenBALANCE[](_tokens.length);
