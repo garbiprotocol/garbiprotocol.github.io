@@ -24,32 +24,32 @@
     {
       "ast": {
         "nodeType": "YulBlock",
-        "src": "0:193:26",
+        "src": "0:193:28",
         "statements": [
           {
             "nodeType": "YulBlock",
-            "src": "6:3:26",
+            "src": "6:3:28",
             "statements": []
           },
           {
             "body": {
               "nodeType": "YulBlock",
-              "src": "115:76:26",
+              "src": "115:76:28",
               "statements": [
                 {
                   "nodeType": "YulAssignment",
-                  "src": "125:26:26",
+                  "src": "125:26:28",
                   "value": {
                     "arguments": [
                       {
                         "name": "headStart",
                         "nodeType": "YulIdentifier",
-                        "src": "137:9:26"
+                        "src": "137:9:28"
                       },
                       {
                         "kind": "number",
                         "nodeType": "YulLiteral",
-                        "src": "148:2:26",
+                        "src": "148:2:28",
                         "type": "",
                         "value": "32"
                       }
@@ -57,16 +57,16 @@
                     "functionName": {
                       "name": "add",
                       "nodeType": "YulIdentifier",
-                      "src": "133:3:26"
+                      "src": "133:3:28"
                     },
                     "nodeType": "YulFunctionCall",
-                    "src": "133:18:26"
+                    "src": "133:18:28"
                   },
                   "variableNames": [
                     {
                       "name": "tail",
                       "nodeType": "YulIdentifier",
-                      "src": "125:4:26"
+                      "src": "125:4:28"
                     }
                   ]
                 },
@@ -76,24 +76,24 @@
                       {
                         "name": "headStart",
                         "nodeType": "YulIdentifier",
-                        "src": "167:9:26"
+                        "src": "167:9:28"
                       },
                       {
                         "name": "value0",
                         "nodeType": "YulIdentifier",
-                        "src": "178:6:26"
+                        "src": "178:6:28"
                       }
                     ],
                     "functionName": {
                       "name": "mstore",
                       "nodeType": "YulIdentifier",
-                      "src": "160:6:26"
+                      "src": "160:6:28"
                     },
                     "nodeType": "YulFunctionCall",
-                    "src": "160:25:26"
+                    "src": "160:25:28"
                   },
                   "nodeType": "YulExpressionStatement",
-                  "src": "160:25:26"
+                  "src": "160:25:28"
                 }
               ]
             },
@@ -103,13 +103,13 @@
               {
                 "name": "headStart",
                 "nodeType": "YulTypedName",
-                "src": "84:9:26",
+                "src": "84:9:28",
                 "type": ""
               },
               {
                 "name": "value0",
                 "nodeType": "YulTypedName",
-                "src": "95:6:26",
+                "src": "95:6:28",
                 "type": ""
               }
             ],
@@ -117,22 +117,22 @@
               {
                 "name": "tail",
                 "nodeType": "YulTypedName",
-                "src": "106:4:26",
+                "src": "106:4:28",
                 "type": ""
               }
             ],
-            "src": "14:177:26"
+            "src": "14:177:28"
           }
         ]
       },
       "contents": "{\n    { }\n    function abi_encode_tuple_t_uint256__to_t_uint256__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, value0)\n    }\n}",
-      "id": 26,
+      "id": 28,
       "language": "Yul",
       "name": "#utility.yul"
     }
   ],
   "sourceMap": "280:74:15:-:0;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "280:74:15:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;307:24;;;;;;;;;160:25:26;;;148:2;133:18;307:24:15;;;;;;",
+  "deployedSourceMap": "280:74:15:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;307:24;;;;;;;;;160:25:28;;;148:2;133:18;307:24:15;;;;;;",
   "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\nimport \"@openzeppelin/contracts/utils/math/SafeMath.sol\";\r\nimport \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\r\nimport \"@openzeppelin/contracts/access/Ownable.sol\";\r\n\r\nimport './interfaces/IGarbiTimeLock.sol';\r\n\r\ncontract ISwapTrade {\r\n    uint256 public TRADE_FEE; //0.035% 35/100000\r\n} \r\n\r\ncontract GarbiswapFeeMachine is Ownable{\r\n    \r\n    using SafeMath for uint256;\r\n\r\n    IERC20 public GRB;\r\n    \r\n    address public performanceMachineContract;\r\n    address public safuFundContract;\r\n\r\n    IGarbiTimeLock public garbiTimeLockContract;\r\n\r\n    uint256 public PERFORMANCE_FEE = 50; //50% 50/100 from 0.035% trade fee \r\n    uint256 public SAFU_FUND = 0; //0%\r\n\r\n    uint256 public DISTRIBUTE_GARBI_AMOUNT = 5 * 1e17;\r\n\r\n    uint256 public DAY_PERIOD = 1 days;\r\n\r\n    mapping (address => bool) public pairs;\r\n    mapping (address => mapping(uint256 => uint256)) public feeOf;\r\n    mapping (address => uint256) public timeOfCreateNewFee;\r\n    mapping (address => uint256) public totalDays;\r\n\r\n    event onDistributeGarbi(address _trader, uint256 _amount);\r\n    \r\n    constructor(\r\n        IERC20 _grb,\r\n        address _performanceMachineContract, \r\n        address _safuFundContract,\r\n        IGarbiTimeLock _garbiTimeLockContract\r\n        ) {\r\n        garbiTimeLockContract = _garbiTimeLockContract;\r\n        performanceMachineContract = _performanceMachineContract;\r\n        safuFundContract = _safuFundContract;\r\n\r\n        GRB = _grb;\r\n    }\r\n\r\n    function setDayPeriod(uint256 _value) public onlyOwner {\r\n        DAY_PERIOD = _value;\r\n    }\r\n    function addPair(address _pair) public onlyOwner {\r\n        require(pairs[_pair] != true, \"IN_THE_LIST\");\r\n        pairs[_pair] = true;\r\n    }\r\n\r\n    function removePair(address _pair) public onlyOwner {\r\n        require(pairs[_pair] == true, \"NOT_IN_THE_LIST\");\r\n        pairs[_pair] = false;\r\n    }\r\n\r\n    function setDistributeGarbiAmount(uint256 _amount) public onlyOwner {\r\n        DISTRIBUTE_GARBI_AMOUNT = _amount;\r\n    }\r\n\r\n\r\n    function setPerformanceMachine() public onlyOwner {\r\n\r\n        require(garbiTimeLockContract.isQueuedTransaction(address(this), 'setPerformanceMachine'), \"INVALID_PERMISSION\");\r\n\r\n        address _performanceMachine = garbiTimeLockContract.getAddressChangeOnTimeLock(address(this), 'setPerformanceMachine', 'performanceMachine');\r\n\r\n        require(_performanceMachine != address(0), \"INVALID_ADDRESS\");\r\n\r\n        performanceMachineContract = _performanceMachine;\r\n\r\n        garbiTimeLockContract.clearFieldValue('setPerformanceMachine', 'performanceMachine', 1);\r\n        garbiTimeLockContract.doneTransactions('setPerformanceMachine');\r\n    }\r\n\r\n    function setSafuFundContract() public onlyOwner {\r\n\r\n        require(garbiTimeLockContract.isQueuedTransaction(address(this), 'setSafuFundContract'), \"INVALID_PERMISSION\");\r\n\r\n        address _safuFundContract = garbiTimeLockContract.getAddressChangeOnTimeLock(address(this), 'setSafuFundContract', 'safuFundContract');\r\n\r\n        require(_safuFundContract != address(0), \"INVALID_ADDRESS\");\r\n\r\n        safuFundContract = _safuFundContract;\r\n\r\n        garbiTimeLockContract.clearFieldValue('setSafuFundContract', 'safuFundContract', 1);\r\n        garbiTimeLockContract.doneTransactions('setSafuFundContract');\r\n    }\r\n\r\n    function setPerformanceFee() public onlyOwner {\r\n\r\n        require(garbiTimeLockContract.isQueuedTransaction(address(this), 'setPerformanceFee'), \"INVALID_PERMISSION\");\r\n\r\n        PERFORMANCE_FEE = garbiTimeLockContract.getUintChangeOnTimeLock(address(this), 'setPerformanceFee', 'PERFORMANCE_FEE');\r\n\r\n        garbiTimeLockContract.clearFieldValue('setPerformanceFee', 'PERFORMANCE_FEE', 2);\r\n        garbiTimeLockContract.doneTransactions('setPerformanceFee');\r\n    }\r\n\r\n    function setSafuFee() public onlyOwner {\r\n\r\n        require(garbiTimeLockContract.isQueuedTransaction(address(this), 'setSafuFee'), \"INVALID_PERMISSION\");\r\n\r\n        SAFU_FUND = garbiTimeLockContract.getUintChangeOnTimeLock(address(this), 'setSafuFee', 'SAFU_FUND');\r\n\r\n        garbiTimeLockContract.clearFieldValue('setSafuFee', 'SAFU_FUND', 2);\r\n        garbiTimeLockContract.doneTransactions('setSafuFee');\r\n    }\r\n\r\n    function processTradeFee(IERC20 token, address trader) public {\r\n\r\n        require(pairs[msg.sender] == true, \"PAIR_NOT_CORRECT\");\r\n\r\n        uint256 tokenBalance = token.balanceOf(address(this)); \r\n        require(tokenBalance > 0, \"TOKEN_BALANCE_ZERO\");\r\n        uint256 performanceFee = tokenBalance.mul(PERFORMANCE_FEE).div(100);\r\n        uint256 safuFundAmount = tokenBalance.mul(SAFU_FUND).div(100);\r\n        token.transfer(performanceMachineContract, performanceFee);\r\n        token.transfer(safuFundContract, safuFundAmount);\r\n        token.transfer(msg.sender, token.balanceOf(address(this))); //send back the trade fee after cut 50%\r\n\r\n        _distributeGarbi(trader);\r\n        _updateDailyFee(msg.sender, tokenBalance);\r\n    }\r\n\r\n    function _updateDailyFee(address _lp, uint256 _fee) private {\r\n        if (timeOfCreateNewFee[_lp].add(DAY_PERIOD) <= block.timestamp) {\r\n            totalDays[_lp] += 1;\r\n            timeOfCreateNewFee[_lp] = block.timestamp;\r\n        } \r\n        feeOf[_lp][totalDays[_lp]] = feeOf[_lp][totalDays[_lp]].add(_fee);\r\n    }\r\n\r\n    function _distributeGarbi(address trader) private {\r\n        uint256 _grbBal = GRB.balanceOf(address(this));\r\n        uint256 _distributeAmt = DISTRIBUTE_GARBI_AMOUNT;\r\n\r\n        if (_distributeAmt > _grbBal) {\r\n            _distributeAmt = _grbBal;\r\n        }\r\n        if (_distributeAmt > 0) {\r\n            GRB.transfer(trader, _distributeAmt);\r\n            emit onDistributeGarbi(trader, _distributeAmt);\r\n        }\r\n    }\r\n    function getTradeFeeAPY(IERC20 _lp) public view returns(uint256) {\r\n        uint256 _totalSupply = _lp.totalSupply(); // Base and Token = 2 * total supply\r\n        uint256 _totalDays = totalDays[address(_lp)];\r\n        uint256 _count = 0;\r\n        uint256 _totalFee = 0;\r\n        for (uint256 idx = _totalDays; idx >= 0; idx--) {\r\n            _count += 1;\r\n            _totalFee = _totalFee.add(feeOf[address(_lp)][idx]);\r\n            if (_count >= 7) {\r\n                break;\r\n            }\r\n        }\r\n        if (_count <= 0) {\r\n            return 0;\r\n        }\r\n        if (_totalSupply <= 0) {\r\n            return 0;\r\n        }\r\n        uint256 _dailyFee = _totalFee.div(_count);\r\n        return _dailyFee.mul(1e12).mul(365).div(_totalSupply.mul(2));\r\n    }\r\n    function getVolume(address _lp) public view returns(uint256) {\r\n        uint256 _tradeFee = ISwapTrade(_lp).TRADE_FEE();\r\n        uint256 _feeOnLastDay = feeOf[_lp][totalDays[_lp]];\r\n        // TRADE_FEE = 35; //0.035% 35/100000\r\n        // $1000 => fee = 1000*0.035/100 => 0.35\r\n        // => Volume = 100000 * fee / TRADE_FEE\r\n        return _feeOnLastDay.mul(100000).div(_tradeFee);\r\n    }\r\n}",
   "sourcePath": "C:\\Users\\David\\Documents\\NetBeansProjects\\garbiprotocol.github.io\\garbi_contracts\\contracts\\GarbiswapFeeMachine.sol",
   "ast": {
@@ -148,7 +148,7 @@
         823
       ],
       "IGarbiTimeLock": [
-        5612
+        7900
       ],
       "ISwapTrade": [
         2398
@@ -218,7 +218,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 3085,
-        "sourceUnit": 5613,
+        "sourceUnit": 7901,
         "src": "235:41:15",
         "symbolAliases": [],
         "unitAlias": ""
@@ -439,7 +439,7 @@
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+              "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
               "typeString": "contract IGarbiTimeLock"
             },
             "typeName": {
@@ -452,13 +452,13 @@
                   "564:14:15"
                 ],
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 5612,
+                "referencedDeclaration": 7900,
                 "src": "564:14:15"
               },
-              "referencedDeclaration": 5612,
+              "referencedDeclaration": 7900,
               "src": "564:14:15",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                 "typeString": "contract IGarbiTimeLock"
               }
             },
@@ -976,7 +976,7 @@
                       "referencedDeclaration": 2413,
                       "src": "1322:21:15",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                        "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                         "typeString": "contract IGarbiTimeLock"
                       }
                     },
@@ -990,13 +990,13 @@
                       "referencedDeclaration": 2461,
                       "src": "1346:22:15",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                        "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                         "typeString": "contract IGarbiTimeLock"
                       }
                     },
                     "src": "1322:46:15",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                      "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                       "typeString": "contract IGarbiTimeLock"
                     }
                   },
@@ -1251,7 +1251,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                    "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                     "typeString": "contract IGarbiTimeLock"
                   },
                   "typeName": {
@@ -1264,13 +1264,13 @@
                         "1262:14:15"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 5612,
+                      "referencedDeclaration": 7900,
                       "src": "1262:14:15"
                     },
-                    "referencedDeclaration": 5612,
+                    "referencedDeclaration": 7900,
                     "src": "1262:14:15",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                      "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                       "typeString": "contract IGarbiTimeLock"
                     }
                   },
@@ -2215,7 +2215,7 @@
                             "referencedDeclaration": 2413,
                             "src": "2129:21:15",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                               "typeString": "contract IGarbiTimeLock"
                             }
                           },
@@ -2227,7 +2227,7 @@
                           "memberLocation": "2151:19:15",
                           "memberName": "isQueuedTransaction",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 5611,
+                          "referencedDeclaration": 7899,
                           "src": "2129:41:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$returns$_t_bool_$",
@@ -2462,7 +2462,7 @@
                         "referencedDeclaration": 2413,
                         "src": "2276:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -2474,7 +2474,7 @@
                       "memberLocation": "2298:26:15",
                       "memberName": "getAddressChangeOnTimeLock",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5591,
+                      "referencedDeclaration": 7879,
                       "src": "2276:48:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_address_$",
@@ -2774,7 +2774,7 @@
                         "referencedDeclaration": 2413,
                         "src": "2534:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -2786,7 +2786,7 @@
                       "memberLocation": "2556:15:15",
                       "memberName": "clearFieldValue",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5580,
+                      "referencedDeclaration": 7868,
                       "src": "2534:37:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_uint8_$returns$__$",
@@ -2848,7 +2848,7 @@
                         "referencedDeclaration": 2413,
                         "src": "2632:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -2860,7 +2860,7 @@
                       "memberLocation": "2654:16:15",
                       "memberName": "doneTransactions",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5571,
+                      "referencedDeclaration": 7859,
                       "src": "2632:38:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$returns$__$",
@@ -3036,7 +3036,7 @@
                             "referencedDeclaration": 2413,
                             "src": "2780:21:15",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                               "typeString": "contract IGarbiTimeLock"
                             }
                           },
@@ -3048,7 +3048,7 @@
                           "memberLocation": "2802:19:15",
                           "memberName": "isQueuedTransaction",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 5611,
+                          "referencedDeclaration": 7899,
                           "src": "2780:41:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$returns$_t_bool_$",
@@ -3283,7 +3283,7 @@
                         "referencedDeclaration": 2413,
                         "src": "2923:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -3295,7 +3295,7 @@
                       "memberLocation": "2945:26:15",
                       "memberName": "getAddressChangeOnTimeLock",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5591,
+                      "referencedDeclaration": 7879,
                       "src": "2923:48:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_address_$",
@@ -3595,7 +3595,7 @@
                         "referencedDeclaration": 2413,
                         "src": "3163:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -3607,7 +3607,7 @@
                       "memberLocation": "3185:15:15",
                       "memberName": "clearFieldValue",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5580,
+                      "referencedDeclaration": 7868,
                       "src": "3163:37:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_uint8_$returns$__$",
@@ -3669,7 +3669,7 @@
                         "referencedDeclaration": 2413,
                         "src": "3257:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -3681,7 +3681,7 @@
                       "memberLocation": "3279:16:15",
                       "memberName": "doneTransactions",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5571,
+                      "referencedDeclaration": 7859,
                       "src": "3257:38:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$returns$__$",
@@ -3857,7 +3857,7 @@
                             "referencedDeclaration": 2413,
                             "src": "3401:21:15",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                               "typeString": "contract IGarbiTimeLock"
                             }
                           },
@@ -3869,7 +3869,7 @@
                           "memberLocation": "3423:19:15",
                           "memberName": "isQueuedTransaction",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 5611,
+                          "referencedDeclaration": 7899,
                           "src": "3401:41:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$returns$_t_bool_$",
@@ -4090,7 +4090,7 @@
                           "referencedDeclaration": 2413,
                           "src": "3532:21:15",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                            "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                             "typeString": "contract IGarbiTimeLock"
                           }
                         },
@@ -4102,7 +4102,7 @@
                         "memberLocation": "3554:23:15",
                         "memberName": "getUintChangeOnTimeLock",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5602,
+                        "referencedDeclaration": 7890,
                         "src": "3532:45:15",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_uint256_$",
@@ -4210,7 +4210,7 @@
                         "referencedDeclaration": 2413,
                         "src": "3645:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -4222,7 +4222,7 @@
                       "memberLocation": "3667:15:15",
                       "memberName": "clearFieldValue",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5580,
+                      "referencedDeclaration": 7868,
                       "src": "3645:37:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_uint8_$returns$__$",
@@ -4284,7 +4284,7 @@
                         "referencedDeclaration": 2413,
                         "src": "3736:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -4296,7 +4296,7 @@
                       "memberLocation": "3758:16:15",
                       "memberName": "doneTransactions",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5571,
+                      "referencedDeclaration": 7859,
                       "src": "3736:38:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$returns$__$",
@@ -4472,7 +4472,7 @@
                             "referencedDeclaration": 2413,
                             "src": "3871:21:15",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                              "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                               "typeString": "contract IGarbiTimeLock"
                             }
                           },
@@ -4484,7 +4484,7 @@
                           "memberLocation": "3893:19:15",
                           "memberName": "isQueuedTransaction",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 5611,
+                          "referencedDeclaration": 7899,
                           "src": "3871:41:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$returns$_t_bool_$",
@@ -4705,7 +4705,7 @@
                           "referencedDeclaration": 2413,
                           "src": "3989:21:15",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                            "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                             "typeString": "contract IGarbiTimeLock"
                           }
                         },
@@ -4717,7 +4717,7 @@
                         "memberLocation": "4011:23:15",
                         "memberName": "getUintChangeOnTimeLock",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 5602,
+                        "referencedDeclaration": 7890,
                         "src": "3989:45:15",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$_t_address_$_t_string_memory_ptr_$_t_string_memory_ptr_$returns$_t_uint256_$",
@@ -4825,7 +4825,7 @@
                         "referencedDeclaration": 2413,
                         "src": "4089:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -4837,7 +4837,7 @@
                       "memberLocation": "4111:15:15",
                       "memberName": "clearFieldValue",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5580,
+                      "referencedDeclaration": 7868,
                       "src": "4089:37:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$_t_string_memory_ptr_$_t_uint8_$returns$__$",
@@ -4899,7 +4899,7 @@
                         "referencedDeclaration": 2413,
                         "src": "4167:21:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$5612",
+                          "typeIdentifier": "t_contract$_IGarbiTimeLock_$7900",
                           "typeString": "contract IGarbiTimeLock"
                         }
                       },
@@ -4911,7 +4911,7 @@
                       "memberLocation": "4189:16:15",
                       "memberName": "doneTransactions",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 5571,
+                      "referencedDeclaration": 7859,
                       "src": "4167:38:15",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_string_memory_ptr_$returns$__$",
@@ -9357,7 +9357,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-01-10T08:24:46.195Z",
+  "updatedAt": "2023-01-10T08:49:52.555Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

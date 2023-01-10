@@ -24,8 +24,8 @@ module.exports = function(deployer) {
                     "0x567b583b661a5b10e972028a62a594126aea7c9a",
                     "0xb1bd1210711cc2cfb864dd3828d66eff843c7015",
                     "0x81f44bcb3682479cc5d356b96eee6cd496bf5769",
-                    "Garbiswap LP Token",
-                    "GLP"
+                    "Garbiswap sLP Token",
+                    "GsLP"
                     );
 //      deployer.deploy(GarbiswapFeeMachine, 
 //                        "0xcec9df0B33dC03b7a0ebEca5Aa06f29A276723bE", 
