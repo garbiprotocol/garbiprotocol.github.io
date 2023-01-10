@@ -63,6 +63,14 @@ $.CONFIG.prototype = (function() {
             'dai': '0x5922517b49d04f7128c9901b2c3ffd932e62def5'
         }
     }
+    var TOKENS_DECIMAL = {
+        421613: {
+            'grb': 18,
+            'usdc': 18,
+            'usdt': 18,
+            'dai': 18
+        }
+    }
     return {
         init: function(options) {
             if (typeof options === "undefined" || options.length < 1) {
@@ -97,6 +105,14 @@ $.CONFIG.prototype = (function() {
         getTokenByTokenName(_chainId = 42161, _tokenName = '') {
             _tokenName = _tokenName.toLowerCase();
             return TOKENS[_chainId][_tokenName];
+        },
+        /**
+         * @param _chainId {Number} 42161 || 421613
+         * @param _tokenName {String}
+         */
+        getTokenDecimalByTokenName(_chainId = 42161, _tokenName = '') {
+            _tokenName = _tokenName.toLowerCase();
+            return TOKENS_DECIMAL[_chainId][_tokenName];
         },
         getAmountLimit() {
             return '115792089237316195423570985008687907853269984665640564039457584007913129639935';
