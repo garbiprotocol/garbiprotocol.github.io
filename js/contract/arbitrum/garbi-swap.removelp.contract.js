@@ -70,13 +70,17 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
 
             transactionPoolclick.change(function() {
                 let pool = $(this).val();
-                if (pool == "usdc") {
-                    token.html("dai")
-                    img_token.attr("src", "../assets/images/dai_logo.png");
+                if (pool == "usdtusdc") {
+                    token.html("USDT")
+                    img_token.attr("src", "../assets/images/usdt_logo.png");
                 }
                 if (pool == "daiusdc") {
                     token.html("DAI")
                     img_token.attr("src", "../assets/images/dai_logo.png");
+                }
+                if (pool == "vaiusdc") {
+                    token.html("VAI")
+                    img_token.attr("src", "../assets/images/vai_logo.png");
                 }
             })
         },
