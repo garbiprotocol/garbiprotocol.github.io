@@ -9,7 +9,7 @@ $.DATA.prototype = (function() {
                 return false;
             }
             setting = $.extend({}, setting, options);
-            this.initData();
+            // this.initData();
         },
         async initData() {
             let self = this;
@@ -33,7 +33,7 @@ $.DATA.prototype = (function() {
                 let _abi = abiHelper.getBalanceInfoABI();
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _contract = _contractsObj.info.balanceInfo;
-                let _readContract = bscContractHelper.getReadContract(_contract, _abi);
+                let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
                 let _tokenList = configHelper.getTokenList(setting.chainId);
                 let _user = coreHelper.getUserAccount();
                 let _r = await _readContract.methods.getData(_user, _tokenList).call();
@@ -52,7 +52,7 @@ $.DATA.prototype = (function() {
                 let _abi = abiHelper.getPriceInfoABI();
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _contract = _contractsObj.info.priceInfo;
-                let _readContract = bscContractHelper.getReadContract(_contract, _abi);
+                let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
                 let _tokenList = configHelper.getTokenList(setting.chainId);
                 let _r = await _readContract.methods.getData(_tokenList).call();
                 let _priceOf = {};

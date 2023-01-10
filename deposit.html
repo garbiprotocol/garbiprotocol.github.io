@@ -17,14 +17,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="../assets/js/web3.min.js"></script>
         <script src="../assets/js/trustwallet.js"></script>
-        <script src="../js/contract/bsc/abi.js"></script>
-        <script src="../js/contract/bsc/config.js"></script>
+        <script src="../js/contract/arbitrum/abi.js"></script>
+        <script src="../js/contract/arbitrum/config.js"></script>
         <script src="../js/data/store.js"></script>
-        <script src="../js/contract/bsc/core.js"></script>
-        <script src="../js/contract/bsc/base.contract.js"></script>
-        <script src="../js/contract/bsc/data.js"></script>
-        <script src="../js/contract/bsc/garbi-venus-lp-info.contract.js"></script>
-        <script src="../js/contract/bsc/garbi-venus.addlp.contract.js"></script>
+        <script src="../js/contract/arbitrum/core.js"></script>
+        <script src="../js/contract/arbitrum/base.contract.js"></script>
+        <script src="../js/contract/arbitrum/data.js"></script>
+        <script src="../js/contract/arbitrum/garbi-swap-info.contract.js"></script>
+        <script src="../js/contract/arbitrum/garbi-swap.addlp.contract.js"></script>
 
         <title>Add Liquidity - Garbi Protocol</title>
         <style id="svelte-166mr51-style">
@@ -271,7 +271,7 @@
                             <li style="list-style-type: none; margin-left: -30px;">
                                 <label for="currency_0">
                                     <span class="currency-laybal"  style="margin-left: -10px;"> 
-                                        <img src="../assets/images/busd_logo.png" class="token-icon"> <span class="token-name base">BUSD</span>
+                                        <img src="../assets/images/usdc_logo.png" class="token-icon"> <span class="token-name base">USDC</span>
                                         <button class="maxBalanceCoin max-base-input">Max: </button>
                                         <span class="base-bal">0.0</span>
                                     </span>
@@ -282,7 +282,7 @@
                             </li>
                             <li style="list-style-type: none; margin-left: -30px;">
                                 <button type="button" class="header__btn-connect w-100 mt-3 text-center btn-approve-token">Approve <span class="token">USDT</span></button>
-                                <button type="button" class="header__btn-connect w-100 mt-3 text-center btn-approve-base">Approve <span class="base">BUSD</span></button>
+                                <button type="button" class="header__btn-connect w-100 mt-3 text-center btn-approve-base">Approve <span class="base">USDC</span></button>
                                 <button type="button" class="header__btn-connect w-100 mt-3 text-center btn-deposit">Deposit</button>
                         </ul>
                         <article class="mb-3 mt-3">
@@ -379,44 +379,45 @@
                     var abiHelper = new $.ABI();
                     var coreHelper = new $.Core();
                     var configHelper = new $.CONFIG();
-                    var bscContractHelper = new $.BSCCONTRACTBASE();
+                    var contractBaseHelper = new $.CONTRACTBASE();
                     var storeHelper = new $.STORE();
                     var dataHelper = new $.DATA();
-                    var garbiVenusLPInfoHelper = new $.TURRING_VENUS_LP_INFO();
-                    var garbiVenusAddLpHelper = new $.TURRING_VENUS_POOL_ADDLP();
+                    var garbiSwapInfoHelper = new $.GARBI_SWAP_INFO();
+                    var garbiSwapAddLpHelper = new $.GARBI_SWAP_ADDLP();
+                    var chainId = 421613;
                     $(document).ready(function () {
                         abiHelper.init({});
                         coreHelper.init({});
                         configHelper.init({});
                         storeHelper.init({});
-                        bscContractHelper.init({
-                            chainId: 56
+                        contractBaseHelper.init({
+                            chainId
                         });
                         dataHelper.init({
-                            chainId: 56
+                            chainId
                         });
-                        garbiVenusLPInfoHelper.init({
-                            chainId: 56
+                        garbiSwapInfoHelper.init({
+                            chainId
                         });
-                        garbiVenusAddLpHelper.init({
-                            chainId: 56
+                        garbiSwapAddLpHelper.init({
+                            chainId
                         });
                         coreHelper.initBTNName('btn-addLp', 'addLp');
 
-                        garbiVenusAddLpHelper.loadData();
-                        garbiVenusAddLpHelper.displayBTN();
-                        garbiVenusAddLpHelper.onchangePool();
-                        garbiVenusAddLpHelper.displayBalance();
-                        garbiVenusAddLpHelper.onChangeSlippage();
-                        garbiVenusAddLpHelper.onChangeMaxTokenFromInput();
-                        garbiVenusAddLpHelper.onChangeMaxBaseFromInput()
-                        garbiVenusAddLpHelper.autoSlippage();
-                        garbiVenusAddLpHelper.approveToken();
-                        garbiVenusAddLpHelper.approveBase();
-                        garbiVenusAddLpHelper.onchangeTokenInput()
-                        garbiVenusAddLpHelper.onchangeBaseInput()
-                        garbiVenusAddLpHelper.addLP()
-                        garbiVenusAddLpHelper.checkAllowce("btn-approve-token", "btn-approve-base", "btn-deposit")
+                        garbiSwapAddLpHelper.loadData();
+                        garbiSwapAddLpHelper.displayBTN();
+                        garbiSwapAddLpHelper.onchangePool();
+                        garbiSwapAddLpHelper.displayBalance();
+                        garbiSwapAddLpHelper.onChangeSlippage();
+                        garbiSwapAddLpHelper.onChangeMaxTokenFromInput();
+                        garbiSwapAddLpHelper.onChangeMaxBaseFromInput()
+                        garbiSwapAddLpHelper.autoSlippage();
+                        garbiSwapAddLpHelper.approveToken();
+                        garbiSwapAddLpHelper.approveBase();
+                        garbiSwapAddLpHelper.onchangeTokenInput()
+                        garbiSwapAddLpHelper.onchangeBaseInput()
+                        garbiSwapAddLpHelper.addLP()
+                        garbiSwapAddLpHelper.checkAllowce("btn-approve-token", "btn-approve-base", "btn-deposit")
                     });
     </script>
 

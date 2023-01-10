@@ -27,7 +27,16 @@ $.CONFIG.prototype = (function() {
                         info: {
                             pairs: '0x265e273A18C032cc12260B317d2BfB3D058039A0'
                         },
-                        pairs: [{
+                        pairs: [
+                            {
+                                contract: '0xf48ae426b8647e5d7c025051957c527e825c85e6',
+                                tradeFee: 0.001,
+                                performanceFee: 0.16,
+                                safuFund: 0.04,
+                                base: 'usdc',
+                                token: 'usdt'
+                            },
+                            {
                                 contract: '0xf48ae426b8647e5d7c025051957c527e825c85e6',
                                 tradeFee: 0.001,
                                 performanceFee: 0.16,
@@ -45,6 +54,7 @@ $.CONFIG.prototype = (function() {
         421613: {
             'grb': '0x940dFF7Edbc24FbB683a8d002eCbA6C0a62cCc75',
             'usdc': '0x031c18be12afc98d2e4996660707b79ecde7e916',
+            'usdt': '0x5922517b49d04f7128c9901b2c3ffd932e62def5',
             'dai': '0x5922517b49d04f7128c9901b2c3ffd932e62def5'
         }
     }
