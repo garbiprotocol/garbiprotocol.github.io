@@ -13,7 +13,7 @@ import './interfaces/IGarbiswapFeeMachine.sol';
 import './interfaces/IGarbiswapWhitelist.sol';
 import './interfaces/IGarbiTimeLock.sol';
 
-contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
+contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
     
     using SafeMath for uint256;
 
