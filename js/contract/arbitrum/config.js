@@ -19,13 +19,33 @@ $.CONFIG.prototype = (function() {
             },
             launchData: {
                 contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
+            },
+            garbiSwap: {
+                pool: {
+                    default: {
+                        tradeMachine: '',
+                        info: {
+                            pairs: '0x265e273A18C032cc12260B317d2BfB3D058039A0'
+                        },
+                        pairs: [{
+                                contract: '0xf48ae426b8647e5d7c025051957c527e825c85e6',
+                                tradeFee: 0.001,
+                                performanceFee: 0.16,
+                                safuFund: 0.04,
+                                base: 'usdc',
+                                token: 'dai'
+                            }
+                        ]
+                    }
+                },
             }
         },
     };
     var TOKENS = {
         421613: {
             'grb': '0x940dFF7Edbc24FbB683a8d002eCbA6C0a62cCc75',
-            'usdc': '0x6ac7b107e0eea2db04aaac9e0eae7eda8c3e9d57'
+            'usdc': '0x031c18be12afc98d2e4996660707b79ecde7e916',
+            'dai': '0x5922517b49d04f7128c9901b2c3ffd932e62def5'
         }
     }
     return {
