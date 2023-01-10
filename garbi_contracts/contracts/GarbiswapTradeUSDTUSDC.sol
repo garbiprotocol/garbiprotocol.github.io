@@ -11,6 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import './interfaces/IGarbiswapFeeMachine.sol';
 import './interfaces/IGarbiswapWhitelist.sol';
 import './interfaces/IGarbiTimeLock.sol';
+import './interfaces/IGarbiOracle.sol';
 
 contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
     
@@ -26,7 +27,13 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
 
     IGarbiTimeLock public garbiTimeLockContract;
 
+    IGarbiOracle public garbiOracle;
+
     uint256 public TRADE_FEE = 35; //0.035% 35/100000
+
+    uint256 public PLATFORM_FEE = 25; //2.5% 25/1000
+
+    address public platformFundAddress;
 
     modifier onlyWhitelist()
     {
@@ -53,6 +60,7 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         IGarbiTimeLock _garbiTimeLockContract,
         IGarbiswapFeeMachine _feeMachineContract,
         IGarbiswapWhitelist _whitelistContract,
+        IGarbiOracle _garbiOracle,
         string memory name, 
         string memory symbol
         ) ERC20(name, symbol) {
@@ -61,6 +69,8 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         garbiTimeLockContract = _garbiTimeLockContract;
         whitelistContract = _whitelistContract;
         feeMachineContract = _feeMachineContract;
+        garbiOracle = _garbiOracle;
+        platformFundAddress = _msgSender();
     }
 
     function setWhitelistContract() public onlyOwner {
@@ -100,6 +110,22 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
 
         garbiTimeLockContract.clearFieldValue('setTradeFee', 'tradeFee', 2);
         garbiTimeLockContract.doneTransactions('setTradeFee');
+    }
+
+    function setPlatformFee() public onlyOwner {
+
+        require(garbiTimeLockContract.isQueuedTransaction(address(this), 'setPlatformFee'), "INVALID_PERMISSION");
+
+        uint256 _platformFee = garbiTimeLockContract.getUintChangeOnTimeLock(address(this), 'setPlatformFee', 'platformFee');
+
+        PLATFORM_FEE = _platformFee;
+
+        garbiTimeLockContract.clearFieldValue('setPlatformFee', 'platformFee', 2);
+        garbiTimeLockContract.doneTransactions('setPlatformFee');
+    }
+
+    function setPlatformFundAdress(address newAddress) public onlyOwner {
+        platformFundAddress = newAddress;
     }
 
     function getK() public view returns(uint256) {
@@ -150,9 +176,12 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
             uint256 tokenReserve = 0;
             (baseReserve, tokenReserve) = getTotalReserve();
             tokenInputAmount = tokenReserve.mul(baseReserve.add(baseInputAmount)).div(baseReserve).sub(tokenReserve);
+
+            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+
             // mintLP/totalLP =  baseInputAmount/baseReserve
             // mintLP = totalLP*baseInputAmount/baseReserve
-            mintLP = totalSupply.mul(baseInputAmount).div(baseReserve);
+            mintLP = totalSupply.mul(baseInputAmount.sub(platformFeeOnBase)).div(baseReserve);
         }
         return (mintLP, tokenInputAmount);
     }
@@ -174,9 +203,12 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
             (baseReserve, tokenReserve) = getTotalReserve();
 
             baseInputAmount = baseReserve.mul(tokenReserve.add(tokenInputAmount)).div(tokenReserve).sub(baseReserve);
+
+            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+
             // mintLP/totalLP =  baseInputAmount/baseReserve
             // mintLP = totalLP*baseInputAmount/baseReserve
-            mintLP = totalSupply.mul(baseInputAmount).div(baseReserve);
+            mintLP = totalSupply.mul(baseInputAmount.sub(platformFeeOnBase)).div(baseReserve);
         }
         return (mintLP, baseInputAmount);
     }
@@ -197,50 +229,52 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         uint256 baseOutputAmount = amountLP.mul(baseReserve).div(totalSupply);
         uint256 tokenOutputAmount = amountLP.mul(tokenReserve).div(totalSupply);
         
+        uint256 platformFeeOnBase = baseOutputAmount.mul(PLATFORM_FEE).div(1000);
+        uint256 platformFeeOnToken = tokenOutputAmount.mul(PLATFORM_FEE).div(1000);
+        
+        baseOutputAmount = baseOutputAmount.sub(platformFeeOnBase);
+        tokenOutputAmount = tokenOutputAmount.sub(platformFeeOnToken);
+        
         return (baseOutputAmount, tokenOutputAmount);
     }
     
-    // token*base=(token-tokenOutputAmount)*(base+baseInputAmount)
-    //token-tokenOutputAmount = token*base/(base+baseInputAmount)
-    // => tokenOutputAmount=token - token*base/(base+baseInputAmount)
-    function getTokenOutputAmountFromBaseInput(uint256 baseInputAmount, uint256 baseReserve, uint256 tokenReserve) public pure returns (uint256) {
+    //tokenOutputAmount/baseInputAmount = tokenPriceFromOracle/basePriceFromOracle
+    //tokenOutputAmount = baseInputAmount*tokenPriceFromOracle/basePriceFromOracle
+    function getTokenOutputAmountFromBaseInput(uint256 baseInputAmount, uint256 baseReserve, uint256 tokenReserve) public view returns (uint256) {
       require(baseReserve > 0 && tokenReserve > 0, "INVALID_VALUE");
-      uint256 numerator = tokenReserve.mul(baseReserve);
-      uint256 denominator = baseReserve.add(baseInputAmount);
-      uint256 tokenOutputAmount = tokenReserve.sub(numerator.div(denominator));
+      uint256 tokenPriceFromOracle = garbiOracle.getLatestPrice(address(token));
+      uint256 basePriceFromOracle = garbiOracle.getLatestPrice(address(base));
+      uint256 tokenOutputAmount = baseInputAmount.mul(tokenPriceFromOracle).div(basePriceFromOracle);
       return tokenOutputAmount;
     }
     
-    // token*base=(token-tokenOutputAmount)*(base+baseInputAmount)
-    // base+baseInputAmount = token*base/(token-tokenOutputAmount)
-    //baseInputAmount = token*base/(token-tokenOutputAmount) - base;
-    function getBaseInputAmountFromTokenOutput(uint256 tokenOutputAmount, uint256 baseReserve, uint256 tokenReserve) public pure  returns (uint256) {
+    //tokenOutputAmount/baseInputAmount = tokenPriceFromOracle/basePriceFromOracle
+    //baseInputAmount = tokenOutputAmount*basePriceFromOracle/tokenPriceFromOracle
+    function getBaseInputAmountFromTokenOutput(uint256 tokenOutputAmount, uint256 baseReserve, uint256 tokenReserve) public view  returns (uint256) {
       require(baseReserve > 0 && tokenReserve > 0, "INVALID_VALUE");
-      uint256 numerator = tokenReserve.mul(baseReserve);
-      uint256 denominator = tokenReserve.sub(tokenOutputAmount);
-      uint256 baseInputAmount = numerator.div(denominator).sub(baseReserve);
+      uint256 tokenPriceFromOracle = garbiOracle.getLatestPrice(address(token));
+      uint256 basePriceFromOracle = garbiOracle.getLatestPrice(address(base));
+      uint256 baseInputAmount = tokenOutputAmount.mul(basePriceFromOracle).div(tokenPriceFromOracle);
       return baseInputAmount;
     }
     
-    // token*base=(token+tokenInputAmount)*(base-baseOutputAmount)
-    // => base - baseOutputAmount=token*base/(token+tokenInputAmount)
-    // => baseOutputAmount = base - token*base/(token+tokenInputAmount)
-    function getBaseOutputAmountFromTokenInput(uint256 tokenInputAmount, uint256 baseReserve, uint256 tokenReserve) public pure returns (uint256) {
+    //tokenInputAmount/baseOutputAmount = tokenPriceFromOracle/basePriceFromOracle
+    //baseOutputAmount = tokenInputAmount*basePriceFromOracle/tokenPriceFromOracle
+    function getBaseOutputAmountFromTokenInput(uint256 tokenInputAmount, uint256 baseReserve, uint256 tokenReserve) public view returns (uint256) {
       require(baseReserve > 0 && tokenReserve > 0, "INVALID_VALUE");
-      uint256 numerator = tokenReserve.mul(baseReserve);
-      uint256 denominator = tokenReserve.add(tokenInputAmount);
-      uint256 baseOutputAmount = baseReserve.sub(numerator.div(denominator));
+      uint256 tokenPriceFromOracle = garbiOracle.getLatestPrice(address(token));
+      uint256 basePriceFromOracle = garbiOracle.getLatestPrice(address(base));
+      uint256 baseOutputAmount = tokenInputAmount.mul(basePriceFromOracle).div(tokenPriceFromOracle);
       return baseOutputAmount;
     }
 
-    // token*base=(token+tokenInputAmount)*(base-baseOutputAmount)
-    // => token+tokenInputAmount = token*base/(base-baseOutputAmount)
-    // => tokenInputAmount = token*base/(base-baseOutputAmount) - token
-    function getTokenInputAmountFromBaseOutput(uint256 baseOutputAmount, uint256 baseReserve, uint256 tokenReserve) public pure returns (uint256) {
+    //tokenInputAmount/baseOutputAmount = tokenPriceFromOracle/basePriceFromOracle
+    //tokenInputAmount = baseOutputAmount*tokenPriceFromOracle/basePriceFromOracle
+    function getTokenInputAmountFromBaseOutput(uint256 baseOutputAmount, uint256 baseReserve, uint256 tokenReserve) public view returns (uint256) {
       require(baseReserve > 0 && tokenReserve > 0, "INVALID_VALUE");
-      uint256 numerator = tokenReserve.mul(baseReserve);
-      uint256 denominator = baseReserve.sub(baseOutputAmount);
-      uint256 tokenInputAmount = numerator.div(denominator).sub(tokenReserve);
+      uint256 tokenPriceFromOracle = garbiOracle.getLatestPrice(address(token));
+      uint256 basePriceFromOracle = garbiOracle.getLatestPrice(address(base));
+      uint256 tokenInputAmount = baseOutputAmount.mul(tokenPriceFromOracle).div(basePriceFromOracle);
       return tokenInputAmount;
     }
 
@@ -378,7 +412,13 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         if(totalSupply == 0) {
             base.transferFrom(msg.sender, address(this), baseInputAmount);
             token.transferFrom(msg.sender, address(this), maxTokenInputAmount);
-            uint256 initLP = baseInputAmount;
+
+            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+            uint256 platformFeeOnToken = maxTokenInputAmount.mul(PLATFORM_FEE).div(1000);
+            base.transfer(platformFundAddress, platformFeeOnBase);
+            token.transfer(platformFundAddress, platformFeeOnToken);
+            
+            uint256 initLP = baseInputAmount.sub(platformFeeOnBase);
             _mint(msg.sender, initLP);
             emit onAddLP(msg.sender, initLP, baseInputAmount, maxTokenInputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
             return initLP;
@@ -391,9 +431,13 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
             uint256 tokenReserve = 0;
             (baseReserve, tokenReserve) = getTotalReserve();
             uint256 tokenInputAmount = tokenReserve.mul(baseReserve.add(baseInputAmount)).div(baseReserve).sub(tokenReserve);
+
+            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+            uint256 platformFeeOnToken = tokenInputAmount.mul(PLATFORM_FEE).div(1000);
+
             // mintLP/totalLP =  baseInputAmount/baseReserve
             // mintLP = totalLP*baseInputAmount/baseReserve
-            uint256 mintLP = totalSupply.mul(baseInputAmount).div(baseReserve);
+            uint256 mintLP = totalSupply.mul(baseInputAmount.sub(platformFeeOnBase)).div(baseReserve);
             
             require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
             require(tokenInputAmount <= maxTokenInputAmount, 'INVALID_TOKEN_INPUT');
@@ -401,6 +445,11 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
 
             base.transferFrom(msg.sender, address(this), baseInputAmount);
             token.transferFrom(msg.sender, address(this), tokenInputAmount);
+
+            
+            base.transfer(platformFundAddress, platformFeeOnBase);
+            token.transfer(platformFundAddress, platformFeeOnToken);
+
             _mint(msg.sender, mintLP);
             emit onAddLP(msg.sender, mintLP, baseInputAmount, tokenInputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
             return mintLP;
@@ -430,6 +479,13 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         // => baseOutputAmount = amountLP*baseReserve/totalSupply
         uint256 baseOutputAmount = amountLP.mul(baseReserve).div(totalSupply);
         uint256 tokenOutputAmount = amountLP.mul(tokenReserve).div(totalSupply);
+
+        uint256 platformFeeOnBase = baseOutputAmount.mul(PLATFORM_FEE).div(1000);
+        uint256 platformFeeOnToken = tokenOutputAmount.mul(PLATFORM_FEE).div(1000);
+        
+        baseOutputAmount = baseOutputAmount.sub(platformFeeOnBase);
+        tokenOutputAmount = tokenOutputAmount.sub(platformFeeOnToken);
+
         require(baseOutputAmount >= minBaseOutput, "INVALID_BASE_OUTPUT");
         require(tokenOutputAmount >= minTokenOutput, "INVALID_TOKEN_OUTPUT");
         require(baseOutputAmount <= baseReserve, "BASE_OUTPUT_HIGHER_BASE_BALANCE");
@@ -438,6 +494,10 @@ contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
         _burn(msg.sender, amountLP);
         base.transfer(msg.sender, baseOutputAmount);
         token.transfer(msg.sender, tokenOutputAmount);
+
+        base.transfer(platformFundAddress, platformFeeOnBase);
+        token.transfer(platformFundAddress, platformFeeOnToken);
+
         emit onRemoveLP(msg.sender, amountLP, baseOutputAmount, tokenOutputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
         return (baseOutputAmount, tokenOutputAmount);
     }
