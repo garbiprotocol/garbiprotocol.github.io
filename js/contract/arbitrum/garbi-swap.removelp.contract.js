@@ -90,6 +90,8 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 if (!_token || !_base) {
                     return false;
                 }
+                let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
+                let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let contractName;
@@ -147,8 +149,8 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 }
 
                 function _setData(_result) {
-                    let baseOutputAmount = parseInt(_result[0]) / (10 ** 18);
-                    let tokenOutputAmount = parseInt(_result[1]) / (10 ** 18);
+                    let baseOutputAmount = parseInt(_result[0]) / (10 ** _baseDecimal);
+                    let tokenOutputAmount = parseInt(_result[1]) / (10 ** _tokenDecimal);
                     baseOutputAmount -= baseOutputAmount * slippage;
                     tokenOutputAmount -= tokenOutputAmount * slippage;
                     $('input[name=token_output]').val(self.parseFloatNumber(tokenOutputAmount, 6));
@@ -211,6 +213,8 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 if (!_token || !_base) {
                     return false;
                 }
+                let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
+                let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
 
@@ -251,7 +255,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     let _transactionHistory = {};
                     _contract
                         .methods
-                        .removeLP(lpAmtToRemove, coreHelper.toBN(minBaseTokenOutput), coreHelper.toBN(minTokenOutput), deadline)
+                        .removeLP(lpAmtToRemove, coreHelper.toBN(minBaseTokenOutput, _baseDecimal), coreHelper.toBN(minTokenOutput, _tokenDecimal), deadline)
                         .send({ from: userAddr })
                         .on('transactionHash', function(hash) {
                             coreHelper.showPopup('confirm-popup');

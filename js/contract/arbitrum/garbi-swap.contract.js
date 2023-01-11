@@ -110,8 +110,9 @@ $.GARBI_SWAP.prototype = (function() {
             }
             let _r = await _contract.methods.getData(_user, _tradeMachine, _tokensAddr).call();
             let _data = {};
-            for (let idx = 0; idx < _r.length; idx++) {
-                _data[_r[idx]['token']] = parseInt(_r[idx]['amount']) / 1e18;
+            for (let idx = 0; idx < _r.length; idx++) { 
+                let _tokenDecimal = configHelper.getTokenDecimalByAddress(setting.chainId, _r[idx]['token']);
+                _data[_r[idx]['token']] = parseInt(_r[idx]['amount']) / (10 ** _tokenDecimal);
             }
             storeHelper.setVaule('allowsTransferToTradeMachineOf', _data);
         },
@@ -319,6 +320,8 @@ $.GARBI_SWAP.prototype = (function() {
         async _swapTokenToBase(_user, _amountIn, _from, _to) {
             let self = this;
             try {
+                let _fromDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _from);
+                let _toDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _to);
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lp = self._getLp(_pairs, _from, _to);
@@ -333,8 +336,8 @@ $.GARBI_SWAP.prototype = (function() {
                 _mainContract
                     .methods
                     .swapTokenToBaseWithTokenInput(
-                        coreHelper.toBN(_amountIn),
-                        coreHelper.toBN(_minOut),
+                        coreHelper.toBN(_amountIn, _fromDecimal),
+                        coreHelper.toBN(_minOut, _toDecimal),
                         _deadline
                     )
                     .send({ from: _user })
@@ -358,6 +361,8 @@ $.GARBI_SWAP.prototype = (function() {
         async _swapTokenToToken(_user, _amountIn, _from, _to) {
             let self = this;
             try {
+                let _fromDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _from);
+                let _toDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _to);
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lpFrom = self._getLpByToken(_pairs, _from);
@@ -373,8 +378,8 @@ $.GARBI_SWAP.prototype = (function() {
                 _mainContract
                     .methods
                     .swapTokenToTokenWithTokenInput(
-                        coreHelper.toBN(_amountIn),
-                        coreHelper.toBN(_minOut),
+                        coreHelper.toBN(_amountIn, _fromDecimal),
+                        coreHelper.toBN(_minOut, _toDecimal),
                         _lpFrom.contract,
                         _lpTo.contract,
                         _deadline

@@ -245,6 +245,8 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 if (!_token || !_base) {
                     return false
                 }
+                let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
+                let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lp = this._getLp(_pairs, _token, _base)
@@ -265,11 +267,10 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 tokenInput -= tokenInput * slippage
                 callContract
                     .methods
-                    .getDataFromTokenInputToAddLp(coreHelper.toBN(tokenInput))
+                    .getDataFromTokenInputToAddLp(coreHelper.toBN(tokenInput, _tokenDecimal))
                     .call()
                     .then(_result => {
                         mintLp = parseInt(_result[0]) / 1e18;
-                        let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
                         let baseInput = parseInt(_result[1]) / (10 ** _baseDecimal);
                         $(`input[name=base_input]`).val(baseInput);
                     })
@@ -289,6 +290,8 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 if (!_token || !_base) {
                     return false
                 }
+                let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
+                let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lp = this._getLp(_pairs, _token, _base)
@@ -308,11 +311,11 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 }
                 callContract
                     .methods
-                    .getDataFromBaseInputToAddLp(coreHelper.toBN(baseToInput))
+                    .getDataFromBaseInputToAddLp(coreHelper.toBN(baseToInput, _baseDecimal))
                     .call()
                     .then(_result => {
                         mintLp = parseInt(_result[0]) / 1e18;
-                        let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
+                        
                         let tokenInput = parseInt(_result[1]) / (10 ** _tokenDecimal);
                         tokenInput += tokenInput * slippage
                         $(`input[name=token_input]`).val(tokenInput)
@@ -424,7 +427,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
 
                     _contract
                         .methods
-                        .addLP(coreHelper.toBN(minLp), coreHelper.toBN(baseInput), coreHelper.toBN(tokenInput), deadline)
+                        .addLP(coreHelper.toBN(minLp), coreHelper.toBN(baseInput, _baseDecimal), coreHelper.toBN(tokenInput, _tokenDecimal), deadline)
                         .send({ from: userAdd })
                         .on("transactionHash", function(hash) {
                             coreHelper.showPopup('confirm-popup');
