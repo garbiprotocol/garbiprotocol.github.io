@@ -26,7 +26,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             }
             setTimeout(() => {
                 self.displayBTN()
-            }, 3000)
+            }, 7000)
         },
 
         async displayBalance() {
@@ -35,7 +35,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             setTimeout(function() {
                 self.displayBalance();
                 self._setBaseBalance();
-            }, 3000);
+            }, 5000);
         },
 
         async checkAllowce(BTN_token_Approve, BTN_base_Approve, BTNDeposit) {
@@ -111,7 +111,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
 
             setTimeout(() => {
                 _self.checkAllowce(BTN_token_Approve, BTN_base_Approve, BTNDeposit);
-            }, 3000);
+            }, 15000);
         },
 
         async loadData() {
@@ -199,25 +199,59 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         },
 
         async onchangeTokenInput() {
-            $('input[name=token_input]').on("input", (e) => {
-                e.preventDefault()
+            let self = this;
+            //setup before functions
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 1000;  //time in ms, 3 second for example
+            var $input =  $('input[name=token_input]');
+
+            //on keyup, start the countdown
+            $input.on('keyup', function () {
+              clearTimeout(typingTimer);
+              typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            //on keydown, clear the countdown 
+            $input.on('keydown', function () {
+              clearTimeout(typingTimer);
+            });
+
+            //user is "finished typing," do something
+            function doneTyping () {
                 typeOfInputAmt == 1
-                this.getBaseInputFromTokenInput()
+                self.getBaseInputFromTokenInput();
                 if ($('input[name=token_input]').val() == "") {
                     $('input[name=base_input]').val("")
                 }
-            })
+            }
         },
 
         async onchangeBaseInput() {
-            $('input[name=base_input]').on("input", (e) => {
-                e.preventDefault()
+            let self = this;
+            //setup before functions
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 1000;  //time in ms, 3 second for example
+            var $input =  $('input[name=base_input]');
+
+            //on keyup, start the countdown
+            $input.on('keyup', function () {
+              clearTimeout(typingTimer);
+              typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            //on keydown, clear the countdown 
+            $input.on('keydown', function () {
+              clearTimeout(typingTimer);
+            });
+
+            //user is "finished typing," do something
+            function doneTyping () {
                 typeOfInputAmt == 2
                 this.getTokenInputFromBaseInput()
                 if ($('input[name=base_input]').val() == "") {
                     $('input[name=token_input]').val("")
                 }
-            })
+            }
         },
 
         async onchangePool() {
@@ -266,14 +300,13 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     return false
                 }
                 tokenInput -= tokenInput * slippage
-                console.log(coreHelper.toBN(tokenInput, _tokenDecimal));
                 callContract
                     .methods
                     .getDataFromTokenInputToAddLp(coreHelper.toBN(tokenInput, _tokenDecimal))
                     .call()
                     .then(_result => {
                         mintLp = parseInt(_result[0]) / (10 ** _lp["lbDecimal"]);
-                        let baseInput = parseInt(_result[1]) / (10 ** _baseDecimal);
+                        let baseInput = parseInt(_result[1]) / (10 ** _baseDecimal);                        
                         $(`input[name=base_input]`).val(baseInput);
                     })
             } catch (error) {
@@ -384,46 +417,12 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     return false;
                 }
 
-                let _tonkenContract = this._getTokenReadContracr(_tokenAddr)
-                let _baseContract = this._getTokenReadContracr(_baseAddr)
+                //let _tonkenContract = this._getTokenReadContracr(_tokenAddr)
+                //let _baseContract = this._getTokenReadContracr(_baseAddr)
                 let _contract = this._getGarbiSwapMainContract(_contractAddr)
                 let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
                 let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
-                _tonkenContract
-                    .methods
-                    .allowance(userAdd, _contractAddr)
-                    .call()
-                    .then(amountAllow => {
-
-                        amountAllow = parseInt(amountAllow) / 10 ** _tokenDecimal
-                        if (amountAllow < tokenInput) {
-                            return self.approveToken()
-                        }
-                        return _verifyApproveBase();
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    })
-
-                function _verifyApproveBase() {
-                    _baseContract
-                        .methods
-                        .allowance(userAdd, _contractAddr)
-                        .call()
-                        .then(amountAllow => {
-                            amountAllow = parseInt(amountAllow) / 10 ** _baseDecimal
-                            if (amountAllow < baseInput) {
-                                return self._approveBase(userAdd)
-                            }
-                            return _deposit()
-                        })
-                        .catch(e => {
-                            console.log(e);
-                        })
-                }
-
-                function _deposit() {
-                    let now = parseInt(Date.now() / 1000)
+                let now = parseInt(Date.now() / 1000)
                     let deadline = now + addLPDealine
                     let _transactionHistory = {};
                     let minLp = mintLp - mintLp * slippage;
@@ -451,7 +450,6 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                         .on('error', (err, receipt) => {
                             console.log(err);
                         });
-                }
             })
         },
 
