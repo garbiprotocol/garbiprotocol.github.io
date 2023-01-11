@@ -3,6 +3,7 @@ $.DATA.prototype = (function() {
     var setting = {
         chainId: 56
     };
+    var isInitTokenPrice = true;
     return {
         init: function(options) {
             if (typeof options === "undefined" || options.length < 1) {
@@ -15,7 +16,7 @@ $.DATA.prototype = (function() {
             let self = this;
             try {
                 await self._initBalance();
-                // await self._initPrice();
+                if (isInitTokenPrice == true) await self._initPrice();
                 self.reloadData();
             } catch (e) {
                 console.log("INIT::DATA::FALSE", e);
@@ -26,7 +27,7 @@ $.DATA.prototype = (function() {
             let self = this;
             setTimeout(function() {
                 self.initData();
-            }, 3000);
+            }, 5000);
         },
         async _initBalance() {
             try {
@@ -51,17 +52,17 @@ $.DATA.prototype = (function() {
         },
         async _initPrice() {
             try {
-                let _abi = abiHelper.getPriceInfoABI();
-                let _contractsObj = configHelper.getContracts(setting.chainId);
-                let _contract = _contractsObj.info.priceInfo;
-                let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
                 let _tokenList = configHelper.getTokenList(setting.chainId);
-                let _r = await _readContract.methods.getData(_tokenList).call();
+                let _prices = configHelper.getPrices(setting.chainId);
                 let _priceOf = {};
-                for (let idx = 0; idx < _r.length; idx++) {
-                    _priceOf[_r[idx]['token']] = parseInt(_r[idx]['price']) / 1e18;
+                for (let idx = 0; idx < _tokenList.length; idx++) {
+                    let _tokenName = getTokenNameByAddress(setting.chainId, _tokenList[idx]);
+                    let _price = _prices[_tokenName] ? _prices[_tokenName] : 0;
+                    _priceOf[_tokenList[idx]] = _price;
                 }
                 storeHelper.setVaule('priceOf', _priceOf);
+                // stop init price
+                isInitTokenPrice = false;
             } catch (e) {
                 console.log("_initPrice", e);
             }

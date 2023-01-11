@@ -70,7 +70,14 @@ $.CONFIG.prototype = (function() {
             'usdt': 18,
             'dai': 18
         }
-    }
+    };
+    var PRICES = {
+        421613: {
+            'usdc': 1,
+            'usdt': 1,
+            'dai': 1
+        }
+    };
     return {
         init: function(options) {
             if (typeof options === "undefined" || options.length < 1) {
@@ -98,6 +105,10 @@ $.CONFIG.prototype = (function() {
             }
             return _tokenList;
         },
+        getPrices(_chainId = 42161) {
+            return PRICES[_chainId];
+        },
+        get
         /**
          * @param _chainId {Number} 42161 || 421613
          * @param _tokenName {String}
