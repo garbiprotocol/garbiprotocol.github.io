@@ -25,7 +25,8 @@ contract GarbiswapTradeInfo {
 		for (uint256 idx = 0; idx < _lps.length; idx++) {
 			_base = _lps[idx].base();
 			_token = _lps[idx].token();
-			(data_[idx].baseReserve, data_[idx].tokenReserve) = _lps[idx].getTotalReserve();
+                        data_[idx].baseReserve = IERC20(_base).balanceOf(address(_lps[idx]));
+                        data_[idx].tokenReserve = IERC20(_token).balanceOf(address(_lps[idx]));
 			data_[idx].totalLP = _lps[idx].totalSupply();
 			data_[idx].uLPBal = _lps[idx].balanceOf(_owner);
 			data_[idx].uBaseAllowed = IERC20(_base).allowance(_owner, address(_lps[idx]));

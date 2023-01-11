@@ -35,7 +35,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             setTimeout(function() {
                 self.displayBalance();
                 self._setBaseBalance();
-            }, 1000);
+            }, 3000);
         },
 
         async checkAllowce(BTN_token_Approve, BTN_base_Approve, BTNDeposit) {
@@ -266,6 +266,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     return false
                 }
                 tokenInput -= tokenInput * slippage
+                console.log(coreHelper.toBN(tokenInput, _tokenDecimal));
                 callContract
                     .methods
                     .getDataFromTokenInputToAddLp(coreHelper.toBN(tokenInput, _tokenDecimal))
@@ -280,7 +281,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             }
             setTimeout(() => {
                 this.getBaseInputFromTokenInput()
-            }, 3000)
+            }, 15000)
         },
 
         getTokenInputFromBaseInput() {
@@ -326,7 +327,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             }
             setTimeout(() => {
                 this.getTokenInputFromBaseInput()
-            }, 3000)
+            }, 15000)
         },
 
         getSlippage() {
@@ -367,7 +368,8 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 }
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
-                let _lp = this._getLp(_pairs, _token, _base)
+                let _lp = this._getLp(_pairs, _token, _base);
+
                 let _contractAddr = _lp.contract
                 if (!_contractAddr) {
                     return false
@@ -424,11 +426,10 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     let now = parseInt(Date.now() / 1000)
                     let deadline = now + addLPDealine
                     let _transactionHistory = {};
-                    let minLp = mintLp - mintLp * slippage
-
+                    let minLp = mintLp - mintLp * slippage;
                     _contract
                         .methods
-                        .addLP(coreHelper.toBN(minLp), coreHelper.toBN(baseInput, _baseDecimal), coreHelper.toBN(tokenInput, _tokenDecimal), deadline)
+                        .addLP(coreHelper.toBN(minLp, _lp.lbDecimal), coreHelper.toBN(baseInput, _baseDecimal), coreHelper.toBN(tokenInput, _tokenDecimal), deadline)
                         .send({ from: userAdd })
                         .on("transactionHash", function(hash) {
                             coreHelper.showPopup('confirm-popup');

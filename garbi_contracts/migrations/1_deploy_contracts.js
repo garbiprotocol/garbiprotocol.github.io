@@ -13,5 +13,5 @@ module.exports = function(deployer) {
     //deployer.deploy(GRBProxy, "0x5fd71280b6385157b291b9962f22153fc9e79000");
     // deployer.deploy(GarbiswapTradeInfo);
     // deployer.deploy(BalanceInfo);
-    deployer.deploy(AllowTransferInfo);
+    deployer.deploy(GarbiswapTradeInfo);
 };
