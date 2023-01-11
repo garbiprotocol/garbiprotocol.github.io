@@ -13,7 +13,7 @@ import './interfaces/IGarbiswapWhitelist.sol';
 import './interfaces/IGarbiTimeLock.sol';
 import './interfaces/IGarbiOracle.sol';
 
-contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
+contract GarbiswapTradeUSDTUSDC is ERC20Burnable, Ownable {
     
     using SafeMath for uint256;
 
@@ -29,7 +29,7 @@ contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
 
     IGarbiOracle public garbiOracle;
 
-    uint256 public TRADE_FEE = 10; //0.01% 35/100000
+    uint256 public TRADE_FEE = 10; //0.01% 10/100000
 
     uint256 public PLATFORM_FEE = 25; //2.5% 25/1000
 
@@ -71,6 +71,10 @@ contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
         feeMachineContract = _feeMachineContract;
         garbiOracle = _garbiOracle;
         platformFundAddress = _msgSender();
+    }
+
+    function decimals() public view virtual override returns (uint8) {
+        return 6;
     }
 
     function setWhitelistContract() public onlyOwner {
@@ -550,12 +554,12 @@ contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
     }
 
     function convertDecimal6to18(uint256 number) public pure returns (uint256) { 
-        number = number.mul(1e18).div(1e6);
+        //number = number.mul(1e18).div(1e6); //no need because usdt is 6 decimals
         return number;
     }
 
     function convertDecimal18to6(uint256 number) public pure returns (uint256) { 
-        number = number.mul(1e6).div(1e18);
+        //number = number.mul(1e6).div(1e18); //no need because usdt is 6 decimals
         return number;
     }
 }
