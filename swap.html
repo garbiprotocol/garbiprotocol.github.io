@@ -7,22 +7,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
               />
-        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
               referrerpolicy="no-referrer" />
-        <link href="../assets/css/style.css" rel="stylesheet">
-        <link rel="shortcut icon" href="../assets/images/garbi_favicon.png" type="image/x-icon">
+        <link href="./assets/css/style.css" rel="stylesheet">
+        <link rel="shortcut icon" href="./assets/images/garbi_favicon.png" type="image/x-icon">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="../assets/js/web3.min.js"></script>
-        <script src="../assets/js/trustwallet.js"></script>
-        <script src="../js/contract/arbitrum/abi.js"></script>
-        <script src="../js/contract/arbitrum/config.js"></script>
-        <script src="../js/data/store.js"></script>
-        <script src="../js/contract/arbitrum/core.js"></script>
-        <script src="../js/contract/arbitrum/base.contract.js"></script>
-        <script src="../js/contract/arbitrum/data.js"></script>
+        <script src="./assets/js/web3.min.js"></script>
+        <script src="./assets/js/trustwallet.js"></script>
+        <script src="./js/contract/arbitrum/abi.js"></script>
+        <script src="./js/contract/arbitrum/config.js"></script>
+        <script src="./js/data/store.js"></script>
+        <script src="./js/contract/arbitrum/core.js"></script>
+        <script src="./js/contract/arbitrum/base.contract.js"></script>
+        <script src="./js/contract/arbitrum/data.js"></script>
+        <script src="./js/contract/arbitrum/garbi-swap-info.contract.js"></script>
+        <script src="./js/contract/arbitrum/garbi-swap.contract.js"></script>
 
         <title>Swap - Garbi Protocol</title>
 
@@ -157,7 +159,7 @@
                                         <i class="fas fa-bars"></i>
                                     </button>
                                     <div class="logo" onclick="window.location = 'index.html'">
-                                        <img src="../assets/images/garbi.png" />
+                                        <img src="./assets/images/garbi.png" />
                                     </div>
                                 </div>
                             </div>
@@ -218,7 +220,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-14">
                             <div class="f-700">Swap</div>
                             <div class="transaction__setting">
-                                <img src="../assets/images/setting.svg" class="cursor-pointer" id="transaction__setting-icon" />
+                                <img src="./assets/images/setting.svg" class="cursor-pointer" id="transaction__setting-icon" />
 
                                 <div class="transaction__setting-description swap-box" id="transaction__setting-description">
                                     <header class="f-14 f-700 text-white title">Transaction Settings</header>
@@ -249,15 +251,15 @@
                                         <select class="selectpicker swap__form-select mb-1" name="from">
                                             <option
                                                 value="usdt"
-                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/usdt_logo.png' /></span>USDT</div>"
+                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdt_logo.png' /></span>USDT</div>"
                                                 >USDT</option>
                                             <option
                                                 value="usdc"
-                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/usdc_logo.png' /></span>USDC</div>"
+                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdc_logo.png' /></span>USDC</div>"
                                                 >USDC</option>
                                             <option
                                                 value="dai"
-                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/dai_logo.png' /></span>DAI</div>"
+                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/dai_logo.png' /></span>DAI</div>"
                                                 >DAI</option>
                                         </select>
                                         <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">-</span></div>
@@ -272,23 +274,23 @@
                                 </div>
                             </div>
 
-                            <img src="../assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
+                            <img src="./assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
 
                             <div class="swap__form-item">
                                 <div class="row">
                                     <div class="col-5">
                                         <select class="selectpicker swap__form-select mb-1" name="to">
                                             <option
-                                                value="usdt"
-                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/usdt_logo.png' /></span>USDT</div>"
-                                                >USDT</option>
-                                            <option
                                                 value="usdc"
-                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/usdc_logo.png' /></span>USDC</div>"
+                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdc_logo.png' /></span>USDC</div>"
                                                 >USDC</option>
                                             <option
+                                                value="usdt"
+                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdt_logo.png' /></span>USDT</div>"
+                                                >USDT</option>
+                                            <option
                                                 value="dai"
-                                                data-content="<div class='swap__form-item-select'><span><img src='../assets/images/dai_logo.png' /></span>DAI</div>"
+                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/dai_logo.png' /></span>DAI</div>"
                                                 >DAI</option>
                                         </select>
                                         <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">-</span></div>
@@ -312,7 +314,7 @@
                             <div class="d-flex align-items-center">
                                 <span class="text-white f-roboto f-14 f-400 estimate-price"></span>
                                 <div class="transaction__tooltip ms-1">
-                                    <img src="../assets/images/transaction-detail.svg" class="cursor-pointer icon-swap" />
+                                    <img src="./assets/images/transaction-detail.svg" class="cursor-pointer icon-swap" />
 
                                     <div class="transaction__tooltip-description swap-box">
                                         <header class="f-14 f-700 text-white title">Transaction Detail</header>
@@ -446,14 +448,56 @@
                 </div>
             </li>
         </ul>
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
+        <script src="./assets/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="../assets/js/custom.js"></script>
-        <script src="../assets/js/custom.menu.js"></script>
+        <script src="./assets/js/custom.js"></script>
+        <script src="./assets/js/custom.menu.js"></script>
 
     </body>
     <script>
-                  
-    </script>
+        var abiHelper = new $.ABI();
+        var coreHelper = new $.Core();
+        var configHelper = new $.CONFIG();
+        var contractBaseHelper = new $.CONTRACTBASE();
+        var storeHelper = new $.STORE();
+        var dataHelper = new $.DATA();
+        var garbiSwapInfoHelper = new $.GARBI_SWAP_INFO();
+        var garbiSwapHelper = new $.GARBI_SWAP();
+        var chainId = 421613;
+        $(document).ready(function() {
+            abiHelper.init({});
+            coreHelper.init({});
+            configHelper.init({});
+            storeHelper.init({});
+            contractBaseHelper.init({
+                chainId
+            });
+            dataHelper.init({
+                chainId
+            });
+            garbiSwapInfoHelper.init({
+                chainId
+            });
+            garbiSwapHelper.init({
+                chainId
+            });
+            coreHelper.initBTNName('btn-swap', 'Swap');
 
+            garbiSwapHelper.loadData();
+            garbiSwapHelper.displayBTN();
+            garbiSwapHelper.displayBalance();
+            garbiSwapHelper.displayUSDValue();
+            garbiSwapHelper.displayEstimatePrice();
+            garbiSwapHelper.displayTransactionDetail();
+            garbiSwapHelper.onChangeSlippage();
+            garbiSwapHelper.onChangeFromToken();
+            garbiSwapHelper.onChangeToToken();
+            garbiSwapHelper.autoSlippage();
+            garbiSwapHelper.reverse();
+            garbiSwapHelper.onChangeAmountIn();
+            garbiSwapHelper.estimateAmountOut();
+            garbiSwapHelper.approve();
+            garbiSwapHelper.swap();
+        });
+    </script>
 </html>
