@@ -70,7 +70,7 @@ $.GARBI_SWAP_INFO.prototype = (function() {
             let self = this;
             setTimeout(function() {
                 self.initData();
-            }, 3000);
+            }, 15000);
         },
         async initInterface(_garbiSwapInfos, _liquidityOfGarbiSwap) {
             let total = 0

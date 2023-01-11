@@ -30,7 +30,7 @@ $.CONFIG.prototype = (function() {
                     default: {
                         tradeMachine: '',
                         info: {
-                            pairs: '0x265e273A18C032cc12260B317d2BfB3D058039A0'
+                            pairs: '0xf1089d56d142d46e5ff5ec8f6705f6f252c11357'
                         },
                         pairs: [
                             {
@@ -43,7 +43,7 @@ $.CONFIG.prototype = (function() {
                                 token: 'usdt'
                             },
                             {
-                                contract: '0x644434ccba741b2892485e857e60f332264f3ab8',
+                                contract: '0xb957d13250443706717d0d95cdb67e4a02650b6c',
                                 tradeFee: 0.001,
                                 performanceFee: 0.16,
                                 safuFund: 0.04,
@@ -59,10 +59,10 @@ $.CONFIG.prototype = (function() {
     };
     var TOKENS = {
         421613: {
-            'grb': '0x940dFF7Edbc24FbB683a8d002eCbA6C0a62cCc75',
+            'grb': '0xd1eB8a5798E04703ec5324c99405F581BD6318b8',
             'usdc': '0x29680bd5f3f324001add9229d6b44615353f554c',
             'usdt': '0x2e4e7ebff934b6999bdc2983f17f6bd4b6a84206',
-            'dai': '0x2e4e7ebff934b6999bdc2983f17f6bd4b6a84206'
+            'dai': '0x9Ce3C139316A560A57c861F558284CF31EBC8acE'
         }
     }
     var TOKENS_DECIMAL = {
@@ -70,7 +70,7 @@ $.CONFIG.prototype = (function() {
             'grb': 18,
             'usdc': 6,
             'usdt': 6,
-            'dai': 6
+            'dai': 18
         }
     };
     var PRICES = {

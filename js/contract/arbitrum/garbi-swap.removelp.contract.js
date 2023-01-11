@@ -35,7 +35,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
             let self = this
             setTimeout(() => {
                 self.loadData()
-            }, 3000)
+            }, 7000)
         },
 
         onChangeSlippage() {
@@ -97,6 +97,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 let contractName;
 
                 let _lp = this._getLp(_pairs, _token, _base);
+                
                 if (!_lp) {
                     return false;
                 }
@@ -161,7 +162,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
             }
             setTimeout(() => {
                 self.getDataToRemoveLP()
-            }, 3000)
+            }, 7000)
         },
 
         getLpBal() {
@@ -192,7 +193,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     .balanceOf(userAddr)
                     .call()
                     .then(_result => {
-                        let lpBal = parseInt(_result) / (10 ** _lp["lbDecimal"]);
+                        let lpBal = parseInt(_result) / (10 ** lp["lbDecimal"]);
                         return resovel(lpBal);
                     })
                     .catch(e => reject(e));
@@ -239,7 +240,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                                 return false;
                             }
                             _amount = _lpBal * _amountOfLiquidity;
-                            _amount = coreHelper.toBN(_amount, _lp["lbDecimal"]);
+                            _amount = coreHelper.toBN(_amount, lp["lbDecimal"]);
                             _remove(_amount);
                         });
                 }
