@@ -40,7 +40,8 @@ $.DATA.prototype = (function() {
                 let _balanceOf = {};
                 _balanceOf['native'] = parseInt(_r.nativeBal_) / 1e18;
                 for (let idx = 0; idx < _r.tokensBal_.length; idx++) {
-                    _balanceOf[_r.tokensBal_[idx]['token']] = parseInt(_r.tokensBal_[idx]['amount']) / 1e18;
+                    let _tokenDecimal = configHelper.getTokenDecimalByAddress(setting.chainId, _r.tokensBal_[idx]['token']);
+                    _balanceOf[_r.tokensBal_[idx]['token']] = parseInt(_r.tokensBal_[idx]['amount']) / (10 ** _tokenDecimal);
                 }
                 // console.log("_balanceOf", _balanceOf)
                 storeHelper.setVaule('balanceOf', _balanceOf);

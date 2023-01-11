@@ -29,10 +29,12 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                     // base alway is busd
                     let _base = _pairs[idx].base;
                     let _token = _pairs[idx].token;
-                    let _baseReserve = parseInt(_r[idx]['baseReserve']) / 1e18;
-                    let _tokenReserve = parseInt(_r[idx]['tokenReserve']) / 1e18;
-                    let _uBaseAllowed = parseInt(_r[idx]['uBaseAllowed']) / 1e18;
-                    let _uTokenAllowed = parseInt(_r[idx]['uTokenAllowed']) / 1e18;
+                    let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
+                    let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
+                    let _baseReserve = parseInt(_r[idx]['baseReserve']) / (10 ** _baseDecimal);
+                    let _tokenReserve = parseInt(_r[idx]['tokenReserve']) / (10 ** _tokenDecimal);
+                    let _uBaseAllowed = parseInt(_r[idx]['uBaseAllowed']) / (10 ** _baseDecimal);
+                    let _uTokenAllowed = parseInt(_r[idx]['uTokenAllowed']) / (10 ** _tokenDecimal);
                     _liquidityOfGarbiSwap[_base] = _liquidityOfGarbiSwap[_base] ? _liquidityOfGarbiSwap[_base] : 0;
                     _liquidityOfGarbiSwap[_token] = _liquidityOfGarbiSwap[_token] ? _liquidityOfGarbiSwap[_token] : 0;
                     _liquidityOfGarbiSwap[_base] += _baseReserve;
@@ -52,6 +54,7 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                         "allowedOf": _allowedOf
                     });
                 }
+                console.log("_data", _data)
                 storeHelper.setVaule('garbiSwapLPs', _data);
                 storeHelper.setVaule('liquidityOfGarbiSwap', _liquidityOfGarbiSwap);
                 self.initInterface(_data, _liquidityOfGarbiSwap);

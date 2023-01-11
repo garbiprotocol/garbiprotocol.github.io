@@ -106,6 +106,22 @@ $.CONFIG.prototype = (function() {
             _tokenName = _tokenName.toLowerCase();
             return TOKENS[_chainId][_tokenName];
         },
+        getTokenNameByAddress(_chainId = 42161, _tokenAddr = '') {
+            _tokenAddr = _tokenAddr.toLowerCase();
+            let _tokens = TOKENS[_chainId];
+            for (let _tokenName in _tokens) {
+                if (_tokens[_tokenName].toLowerCase() == _tokenAddr) return _tokenName;
+            }
+            return "";
+        },
+        getTokenDecimalByAddress(_chainId = 42161, _tokenAddr = '') {
+            _tokenAddr = _tokenAddr.toLowerCase();
+            let _tokens = TOKENS[_chainId];
+            for (let _tokenName in _tokens) {
+                if (_tokens[_tokenName].toLowerCase() == _tokenAddr) return TOKENS_DECIMAL[_chainId][_tokenName];;
+            }
+            throw new Error("Invalid Token Address");
+        },
         /**
          * @param _chainId {Number} 42161 || 421613
          * @param _tokenName {String}
