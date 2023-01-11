@@ -480,25 +480,25 @@ $.GARBI_SWAP.prototype = (function() {
             let self = this;
             setTimeout(function() {
                 self.estimateAmountOut();
-            }, 3000);
+            }, 5000);
         },
-        async getAmountOut(_amountIn, _from, _to, _isIgnoreTradeFee = false, _amountIned = 0, _amountOuted = 0) {
+        async getAmountOut(_amountIn, _from, _to) {
             try {
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lp;
                 if (this._isSwapBaseToToken(_from, _to) == true) {
                     _lp = this._getLp(_pairs, _from, _to);
-                    return this._getTokenOut(_amountIn, _lp, _isIgnoreTradeFee, _amountIned, _amountOuted);
+                    return this._getTokenOut(_amountIn, _lp);
                 }
                 if (this._isSwapTokenToBase(_from, _to) == true) {
                     _lp = this._getLp(_pairs, _from, _to);
-                    return this._getBaseOut(_amountIn, _lp, _isIgnoreTradeFee, _amountIned, _amountOuted);
+                    return this._getBaseOut(_amountIn, _lp);
                 }
                 if (this._isSwapTokenToToken(_from, _to) == true) {
                     let _lpFrom = this._getLpByToken(_pairs, _from);
                     let _lpTo = this._getLpByToken(_pairs, _to);
-                    return this._getAmountOutOfTokenToToken(_amountIn, _lpFrom, _lpTo, _isIgnoreTradeFee, _amountIned, _amountOuted);
+                    return this._getAmountOutOfTokenToToken(_amountIn, _lpFrom, _lpTo);
                 }
                 return 0;
             } catch (e) {
@@ -551,10 +551,10 @@ $.GARBI_SWAP.prototype = (function() {
             return _amountOut;
         },
         async _getNewMarketPrice(_amountIn, _amountOut, _from, _to) {
-            return this.getAmountOut(1, _from, _to, true, _amountIn, _amountOut);
+            return this.getAmountOut(1, _from, _to);
         },
         async _getMarketPrice(_from, _to) {
-            return this.getAmountOut(1, _from, _to, true);
+            return this.getAmountOut(1, _from, _to);
         },
         async _setTransactionDetail() {
             let self = this;
@@ -673,6 +673,10 @@ $.GARBI_SWAP.prototype = (function() {
             let _abi = abiHelper.getTokenABI();
             return contractBaseHelper.getMainContract(_token, _abi);
         },
+        _getGarbiSwapContractToReedData(_contract) {
+            let _abi = abiHelper.getGarbiSwapABI();
+            return contractBaseHelper.getReadContract(_contract, _abi);
+        },
         _getGarbiSwapMainContract(_contract) {
             let _abi = abiHelper.getGarbiSwapABI();
             return contractBaseHelper.getMainContract(_contract, _abi);
@@ -709,68 +713,45 @@ $.GARBI_SWAP.prototype = (function() {
             }
             return _data;
         },
-        async _getAmountOutOfTokenToToken(_amountIn, _pair1, _pair2, _isIgnoreTradeFee = false, _amountIned = 0, _amountOuted = 0) {
+        async _getAmountOutOfTokenToToken(_amountIn, _pair1, _pair2) {
             try {
-                let _amountOut = 0;
-                if (_amountIned != 0 && _amountOuted != 0) {
-                    let _baseAmtGetIgnoreAmountOuted = await this._getBaseOut(_amountIn, _pair1, _isIgnoreTradeFee, 0, 0);
-                    let _baseAmtGet = await this._getBaseOut(_amountIn, _pair1, _isIgnoreTradeFee, _amountIned, _baseAmtGetIgnoreAmountOuted);
-                    _amountOut = await this._getTokenOut(_baseAmtGet, _pair2, _isIgnoreTradeFee, _baseAmtGetIgnoreAmountOuted, _amountOuted);
-                } else {
-                    let _baseAmtGet = await this._getBaseOut(_amountIn, _pair1, _isIgnoreTradeFee);
-                    _amountOut = await this._getTokenOut(_baseAmtGet, _pair2, _isIgnoreTradeFee);
-                }
+                let _baseAmtGet = await this._getBaseOut(_amountIn, _pair1);
+                let _amountOut = await this._getTokenOut(_baseAmtGet, _pair2);
                 return _amountOut;
             } catch (e) {
                 return 0;
             }
         },
-        async _getBaseOut(_amountIn, _lp, _isIgnoreTradeFee = false, _amountIned = 0, _amountOuted = 0) {
+        async _getBaseOut(_amountIn, _lp) {
             try {
                 let _lpsListData = storeHelper.getValue('garbiSwapLPs');
                 let _lpData = this._getLpData(_lpsListData, _lp.contract);
                 if (!_lpData) {
                     return 0;
                 }
-                if (_isIgnoreTradeFee == false) {
-                    let _tradeFee = _amountIn * _lp.tradeFee;
-                    _amountIn -= _tradeFee; // cut the TRADE_FEE from token input
-                }
-                if (_amountIned > 0) {
-                    let _tradeFee = _amountIned * _lp.tradeFee;
-                    _amountIned -= _tradeFee * (_lp.performanceFee + _lp.safuFund);
-                }
-                let _tokenReserve = _lpData.tokenReserve + _amountIned;
-                let _baseReserve = _lpData.baseReserve - _amountOuted;
-                let _numerator = _tokenReserve * _baseReserve;
-                let _denominator = _tokenReserve + _amountIn;
-                let _amountOut = _baseReserve - (_numerator / _denominator);
+                let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _lp["base"]);
+                let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _lp["token"]);
+                let _readContract = await this._getGarbiSwapContractToReedData(_lp.contract);
+                let _r = await _readContract.methods.getBaseOutput(coreHelper.toBN(_amountIn, _tokenDecimal));
+                let _amountOut = parseInt(_r) / (10 ** _baseDecimal);
                 return _amountOut;
             } catch (e) {
                 return 0;
             }
         },
-        async _getTokenOut(_amountIn, _lp, _isIgnoreTradeFee = false, _amountIned = 0, _amountOuted = 0) {
+        async _getTokenOut(_amountIn, _lp) {
             try {
                 let _lpsListData = storeHelper.getValue('garbiSwapLPs');
                 let _lpData = this._getLpData(_lpsListData, _lp.contract);
                 if (!_lpData) {
                     return 0;
                 }
-                if (_isIgnoreTradeFee == false) {
-                    let _tradeFee = _amountIn * _lp.tradeFee;
-                    _amountIn -= _tradeFee; // cut the TRADE_FEE from token input
-                }
-                if (_amountIned > 0) {
-                    let _tradeFee = _amountIned * _lp.tradeFee;
-                    _amountIned -= _tradeFee * (_lp.performanceFee + _lp.safuFund);
-                }
-
-                let _tokenReserve = _lpData.tokenReserve - _amountOuted;
-                let _baseReserve = _lpData.baseReserve + _amountIned;
-                let _numerator = _tokenReserve * _baseReserve;
-                let _denominator = _baseReserve + _amountIn;
-                let _amountOut = _tokenReserve - (_numerator / _denominator);
+                let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _lp["base"]);
+                let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _lp["token"]);
+                let _readContract = await this._getGarbiSwapContractToReedData(_lp.contract);
+                let _r = await _readContract.methods.getTokenOutput(coreHelper.toBN(_amountIn, _baseDecimal));
+                let _amountOut = parseInt(_r) / (10 ** _tokenDecimal);
+                return _amountOut;
                 return _amountOut;
             } catch (e) {
                 console.log("ESTIMATE::getTokenOut", e);
