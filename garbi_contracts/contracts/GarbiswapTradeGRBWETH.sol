@@ -17,7 +17,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
     
     using SafeMath for uint256;
 
-    IERC20 public base; // Stable coin base token (USDC)
+    IERC20 public base; // Stable coin base token (WETH)
     IERC20 public token; // Token to trade in this pair
 
     // Fee Machine Contract.
@@ -27,9 +27,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
 
     IGarbiTimeLock public garbiTimeLockContract;
 
-    IGarbiOracle public garbiOracle;
-
-    uint256 public TRADE_FEE = 35; //0.035% 35/100000
+    uint256 public TRADE_FEE = 2; //0.2% 2/1000
 
     uint256 public PLATFORM_FEE = 25; //2.5% 25/1000
 
@@ -60,7 +58,6 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         IGarbiTimeLock _garbiTimeLockContract,
         IGarbiswapFeeMachine _feeMachineContract,
         IGarbiswapWhitelist _whitelistContract,
-        IGarbiOracle _garbiOracle,
         string memory name, 
         string memory symbol
         ) ERC20(name, symbol) {
@@ -69,7 +66,6 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         garbiTimeLockContract = _garbiTimeLockContract;
         whitelistContract = _whitelistContract;
         feeMachineContract = _feeMachineContract;
-        garbiOracle = _garbiOracle;
         platformFundAddress = _msgSender();
     }
 
@@ -141,7 +137,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
 
-        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(100000);
+        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(1000);
         uint256 baseInputAmountAfterFee = baseInputAmount.sub(tradeFee); // cut the TRADE_FEE from base input
 
         uint256 tokenOutputAmount = getTokenOutputAmountFromBaseInput(baseInputAmountAfterFee, baseReserve, tokenReserve);
@@ -153,7 +149,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         uint256 tokenReserve = 0;
         (baseReserve, tokenReserve) = getTotalReserve();
 
-        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(100000);
+        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(1000);
         uint256 tokenInputAmountAfterFee = tokenInputAmount.sub(tradeFee); // cut the TRADE_FEE from token input
 
         uint256 baseOutputAmount = getBaseOutputAmountFromTokenInput(tokenInputAmountAfterFee, baseReserve, tokenReserve);
@@ -293,7 +289,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         (baseReserve, tokenReserve) = getTotalReserve();
         require(minTokenOutput < tokenReserve, "MIN_TOKEN_HIGHER_POOL_TOKEN_BALANCE");
 
-        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(100000);
+        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(1000);
         uint256 baseInputAmountAfterFee = baseInputAmount.sub(tradeFee); // cut the TRADE_FEE from base input
         
         uint256 tokenOutputAmount = getTokenOutputAmountFromBaseInput(baseInputAmountAfterFee, baseReserve, tokenReserve);
@@ -326,7 +322,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
 
         uint256 baseInputAmount = getBaseInputAmountFromTokenOutput(tokenOutputAmount, baseReserve, tokenReserve);
         
-        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(100000);
+        uint256 tradeFee = baseInputAmount.mul(TRADE_FEE).div(1000);
         baseInputAmount = baseInputAmount.add(tradeFee); // add the TRADE_FEE to base input
 
         require(baseInputAmount <= maxBaseInput, 'CAN_NOT_MAKE_TRADE');
@@ -355,7 +351,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         (baseReserve, tokenReserve) = getTotalReserve();
         require(minBaseOutput < baseReserve, 'MIN_BASE_OUTPUT_HIGHER_POOL_BASE_BALANCE');
 
-        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(100000);
+        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(1000);
         uint256 tokenInputAmountAfterFee = tokenInputAmount.sub(tradeFee); // cut the TRADE_FEE from token input
         
         uint256 baseOutputAmount = getBaseOutputAmountFromTokenInput(tokenInputAmountAfterFee, baseReserve, tokenReserve);
@@ -388,7 +384,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
 
         uint256 tokenInputAmount = getTokenInputAmountFromBaseOutput(baseOutputAmount, baseReserve, tokenReserve);
         
-        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(100000);
+        uint256 tradeFee = tokenInputAmount.mul(TRADE_FEE).div(1000);
         tokenInputAmount = tokenInputAmount.add(tradeFee); // add the TRADE_FEE to token input
 
         require(tokenInputAmount <= maxTokenInput, 'CAN_NOT_MAKE_TRADE');

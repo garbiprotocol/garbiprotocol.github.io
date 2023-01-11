@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract lockedGRB is ERC20Burnable, Ownable {
+contract xGRB is ERC20Burnable, Ownable {
     using SafeMath for uint256;
 
     uint256 public immutable MAX_SUPPLY;
@@ -18,7 +18,7 @@ contract lockedGRB is ERC20Burnable, Ownable {
     constructor(
         uint256 _maxSupply,
         uint256 _initialSupply
-    ) ERC20("lockedGRB", "lockedGRB"){
+    ) ERC20("xGRB", "xGRB"){
         require(_initialSupply <= _maxSupply, "GRB: The _initialSupply should not exceed the _maxSupply");
         MAX_SUPPLY = _maxSupply;
 
