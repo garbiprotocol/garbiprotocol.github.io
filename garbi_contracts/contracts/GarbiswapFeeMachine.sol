@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import './interfaces/IGarbiTimeLock.sol';
 
 contract ISwapTrade {
-    uint256 public TRADE_FEE; //0.1% 1/1000
+    uint256 public TRADE_FEE; //0.035% 35/100000
 } 
 
 contract GarbiswapFeeMachine is Ownable{
@@ -17,17 +17,16 @@ contract GarbiswapFeeMachine is Ownable{
 
     IERC20 public GRB;
     
-    address public performanceMachineContract; // the contract will use fee to Buy GARBI on pancakeswap , then burn
+    address public performanceMachineContract;
     address public safuFundContract;
 
     IGarbiTimeLock public garbiTimeLockContract;
 
-    uint256 public PERFORMANCE_FEE = 16; //16% 16/100 from 0.1% trade fee 
-    uint256 public SAFU_FUND = 4; //4% 4/100 from 0.1% trade fee
+    uint256 public PERFORMANCE_FEE = 50; //50% 50/100 from 0.035% trade fee 
+    uint256 public SAFU_FUND = 0; //0%
 
-    uint256 public DISTRIBUTE_GARBI_AMOUNT = 2 * 1e17;
-    // $1000 => fee = 1000*0.2/100 => 2
-    uint256 public MAX_FEE_ON_DISTRIBUTE = 2 * 1e18;
+    uint256 public DISTRIBUTE_GARBI_AMOUNT = 5 * 1e17;
+
     uint256 public DAY_PERIOD = 1 days;
 
     mapping (address => bool) public pairs;
@@ -116,17 +115,6 @@ contract GarbiswapFeeMachine is Ownable{
         garbiTimeLockContract.doneTransactions('setSafuFee');
     }
 
-
-    function setMaxFeeOnDistribute() public onlyOwner {
-
-        require(garbiTimeLockContract.isQueuedTransaction(address(this), 'setMaxFeeOnDistribute'), "INVALID_PERMISSION");
-
-        MAX_FEE_ON_DISTRIBUTE = garbiTimeLockContract.getUintChangeOnTimeLock(address(this), 'setMaxFeeOnDistribute', 'MAX_FEE_ON_DISTRIBUTE');
-
-        garbiTimeLockContract.clearFieldValue('setMaxFeeOnDistribute', 'MAX_FEE_ON_DISTRIBUTE', 2);
-        garbiTimeLockContract.doneTransactions('setMaxFeeOnDistribute');
-    }
-
     function processTradeFee(IERC20 token, address trader) public {
 
         require(pairs[msg.sender] == true, "PAIR_NOT_CORRECT");
@@ -137,9 +125,9 @@ contract GarbiswapFeeMachine is Ownable{
         uint256 safuFundAmount = tokenBalance.mul(SAFU_FUND).div(100);
         token.transfer(performanceMachineContract, performanceFee);
         token.transfer(safuFundContract, safuFundAmount);
-        token.transfer(msg.sender, token.balanceOf(address(this))); //send back the trade fee after cut 20% (trade fee for LP = 0.24%)
+        token.transfer(msg.sender, token.balanceOf(address(this))); //send back the trade fee after cut 50%
 
-        _distributeGarbi(trader, tokenBalance);
+        _distributeGarbi(trader);
         _updateDailyFee(msg.sender, tokenBalance);
     }
 
@@ -151,13 +139,9 @@ contract GarbiswapFeeMachine is Ownable{
         feeOf[_lp][totalDays[_lp]] = feeOf[_lp][totalDays[_lp]].add(_fee);
     }
 
-    function _distributeGarbi(address trader, uint256 fee) private {
+    function _distributeGarbi(address trader) private {
         uint256 _grbBal = GRB.balanceOf(address(this));
         uint256 _distributeAmt = DISTRIBUTE_GARBI_AMOUNT;
-
-        if (fee < MAX_FEE_ON_DISTRIBUTE) {
-            _distributeAmt = _distributeAmt.mul(fee).div(MAX_FEE_ON_DISTRIBUTE);
-        }
 
         if (_distributeAmt > _grbBal) {
             _distributeAmt = _grbBal;
@@ -191,9 +175,9 @@ contract GarbiswapFeeMachine is Ownable{
     function getVolume(address _lp) public view returns(uint256) {
         uint256 _tradeFee = ISwapTrade(_lp).TRADE_FEE();
         uint256 _feeOnLastDay = feeOf[_lp][totalDays[_lp]];
-        // TRADE_FEE = 2; //0.2% 2/1000
-        // $1000 => fee = 1000*0.2/100 => 2
-        // => Volume = 1000 * fee / TRADE_FEE
-        return _feeOnLastDay.mul(1000).div(_tradeFee);
+        // TRADE_FEE = 35; //0.035% 35/100000
+        // $1000 => fee = 1000*0.035/100 => 0.35
+        // => Volume = 100000 * fee / TRADE_FEE
+        return _feeOnLastDay.mul(100000).div(_tradeFee);
     }
 }

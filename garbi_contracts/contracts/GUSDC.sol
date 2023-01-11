@@ -26,6 +26,10 @@ contract GUSDC is ERC20Burnable, Ownable {
            _mint(_msgSender(), _initialSupply);
         }
     }
+
+    function decimals() public view virtual override returns (uint8) {
+        return 6;
+    }
     /************************************************************************/
 
     function _burn(address account, uint256 amount) internal override {
