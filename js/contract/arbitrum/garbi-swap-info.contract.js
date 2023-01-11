@@ -54,7 +54,7 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                         "allowedOf": _allowedOf
                     });
                 }
-                console.log("_data", _data)
+                // console.log("_data", _data)
                 storeHelper.setVaule('garbiSwapLPs', _data);
                 storeHelper.setVaule('liquidityOfGarbiSwap', _liquidityOfGarbiSwap);
                 self.initInterface(_data, _liquidityOfGarbiSwap);
