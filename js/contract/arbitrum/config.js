@@ -34,20 +34,20 @@ $.CONFIG.prototype = (function() {
                         },
                         pairs: [
                             {
-                                contract: '0xb957d13250443706717d0d95cdb67e4a02650b6c',
+                                contract: '0x644434ccba741b2892485e857e60f332264f3ab8',
                                 tradeFee: 0.001,
                                 performanceFee: 0.16,
                                 safuFund: 0.04,
-                                lbDecimal: 18,
+                                lbDecimal: 6,
                                 base: 'usdc',
                                 token: 'usdt'
                             },
                             {
-                                contract: '0xb957d13250443706717d0d95cdb67e4a02650b6c',
+                                contract: '0x644434ccba741b2892485e857e60f332264f3ab8',
                                 tradeFee: 0.001,
                                 performanceFee: 0.16,
                                 safuFund: 0.04,
-                                lbDecimal: 18,
+                                lbDecimal: 6,
                                 base: 'usdc',
                                 token: 'dai'
                             }
@@ -60,17 +60,17 @@ $.CONFIG.prototype = (function() {
     var TOKENS = {
         421613: {
             'grb': '0x940dFF7Edbc24FbB683a8d002eCbA6C0a62cCc75',
-            'usdc': '0x031c18be12afc98d2e4996660707b79ecde7e916',
-            'usdt': '0x5922517b49d04f7128c9901b2c3ffd932e62def5',
-            'dai': '0x5922517b49d04f7128c9901b2c3ffd932e62def5'
+            'usdc': '0x29680bd5f3f324001add9229d6b44615353f554c',
+            'usdt': '0x2e4e7ebff934b6999bdc2983f17f6bd4b6a84206',
+            'dai': '0x2e4e7ebff934b6999bdc2983f17f6bd4b6a84206'
         }
     }
     var TOKENS_DECIMAL = {
         421613: {
             'grb': 18,
-            'usdc': 18,
-            'usdt': 18,
-            'dai': 18
+            'usdc': 6,
+            'usdt': 6,
+            'dai': 6
         }
     };
     var PRICES = {
@@ -110,7 +110,6 @@ $.CONFIG.prototype = (function() {
         getPrices(_chainId = 42161) {
             return PRICES[_chainId];
         },
-        get
         /**
          * @param _chainId {Number} 42161 || 421613
          * @param _tokenName {String}

@@ -13,6 +13,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 return false;
             }
             setting = $.extend({}, setting, options);
+            this.displayBalance();
         },
         displayBTN() {
             let self = this
@@ -131,7 +132,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             let self = this;
             setTimeout(function() {
                 self.loadData();
-            }, 3000);
+            }, 15000);
         },
 
         approveToken() {
@@ -191,7 +192,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             let self = this;
             $(`.max-base-input`).on("click", () => {
                 $(`input[name=base_input]`).val(self.getBaseMax())
-                self._setBaseBalance
+                self._setBaseBalance();
                 typeOfInputAmt = 2
                 this.getTokenInputFromBaseInput()
             })
@@ -468,9 +469,9 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             _balanceOf = _balanceOf ? _balanceOf : {}
             let _pool = $('select[name=lp_token]').val();
             let _base = _pool.slice(_pool.length - 4);
-
-            let _fromAddr = configHelper.getTokenByTokenName(setting.chainId, _base)
-            return _balanceOf[_fromAddr] ? _balanceOf[_fromAddr] : 0;
+            let _tokenAddr = configHelper.getTokenByTokenName(setting.chainId, _base)
+            _tokenAddr = _tokenAddr.toLowerCase();
+            return _balanceOf[_tokenAddr] ? _balanceOf[_tokenAddr] : 0;
         },
 
         async _setTokenBalance() {
@@ -507,6 +508,8 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             if (!_spender) {
                 return false;
             }
+            // console.log("_fromAddr", _fromAddr)
+            // console.log("_spender", _spender)
             let _fToken = this._getTokenMainContract(_fromAddr);
             let _amountLimit = configHelper.getAmountLimit();
 

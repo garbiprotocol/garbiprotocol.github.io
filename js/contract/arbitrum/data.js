@@ -42,7 +42,7 @@ $.DATA.prototype = (function() {
                 _balanceOf['native'] = parseInt(_r.nativeBal_) / 1e18;
                 for (let idx = 0; idx < _r.tokensBal_.length; idx++) {
                     let _tokenDecimal = configHelper.getTokenDecimalByAddress(setting.chainId, _r.tokensBal_[idx]['token']);
-                    _balanceOf[_r.tokensBal_[idx]['token']] = parseInt(_r.tokensBal_[idx]['amount']) / (10 ** _tokenDecimal);
+                    _balanceOf[_r.tokensBal_[idx]['token'].toLowerCase()] = parseInt(_r.tokensBal_[idx]['amount']) / (10 ** _tokenDecimal);
                 }
                 // console.log("_balanceOf", _balanceOf)
                 storeHelper.setVaule('balanceOf', _balanceOf);
@@ -56,7 +56,7 @@ $.DATA.prototype = (function() {
                 let _prices = configHelper.getPrices(setting.chainId);
                 let _priceOf = {};
                 for (let idx = 0; idx < _tokenList.length; idx++) {
-                    let _tokenName = getTokenNameByAddress(setting.chainId, _tokenList[idx]);
+                    let _tokenName = configHelper.getTokenNameByAddress(setting.chainId, _tokenList[idx]);
                     let _price = _prices[_tokenName] ? _prices[_tokenName] : 0;
                     _priceOf[_tokenList[idx]] = _price;
                 }
