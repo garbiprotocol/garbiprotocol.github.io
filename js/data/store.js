@@ -4,7 +4,7 @@ $.STORE.prototype = (function() {
 	var setting = {
         };
         var data = {
-                garbiVenusLps: [],
+                garbiSwapLPs: [],
 		liquidityOfGarbiVenusLps: {}, // mapping(tokenName => bal);
 		garbiVenusSwapPriceOf: {}, // mapping(pairString => price);
 		allowsTransferToTradeMachineOf: {}, // mapping(tokenAddr => amount)
