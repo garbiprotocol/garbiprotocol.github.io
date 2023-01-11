@@ -135,7 +135,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                             return false;
                         }
                         _amount = _lpBal * _amountOfLiquidity;
-                        _amount = coreHelper.toBN(_amount, 18);
+                        _amount = coreHelper.toBN(_amount, _lp["lbDecimal"]);
                         _getData(_amount);
                     });
 
@@ -192,7 +192,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     .balanceOf(userAddr)
                     .call()
                     .then(_result => {
-                        let lpBal = parseInt(_result) / 1e18;
+                        let lpBal = parseInt(_result) / (10 ** _lp["lbDecimal"]);
                         return resovel(lpBal);
                     })
                     .catch(e => reject(e));
@@ -239,7 +239,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                                 return false;
                             }
                             _amount = _lpBal * _amountOfLiquidity;
-                            _amount = coreHelper.toBN(_amount, 18);
+                            _amount = coreHelper.toBN(_amount, _lp["lbDecimal"]);
                             _remove(_amount);
                         });
                 }

@@ -34,18 +34,20 @@ $.CONFIG.prototype = (function() {
                         },
                         pairs: [
                             {
-                                contract: '0xf48ae426b8647e5d7c025051957c527e825c85e6',
+                                contract: '0xb957d13250443706717d0d95cdb67e4a02650b6c',
                                 tradeFee: 0.001,
                                 performanceFee: 0.16,
                                 safuFund: 0.04,
+                                lbDecimal: 18,
                                 base: 'usdc',
                                 token: 'usdt'
                             },
                             {
-                                contract: '0xf48ae426b8647e5d7c025051957c527e825c85e6',
+                                contract: '0xb957d13250443706717d0d95cdb67e4a02650b6c',
                                 tradeFee: 0.001,
                                 performanceFee: 0.16,
                                 safuFund: 0.04,
+                                lbDecimal: 18,
                                 base: 'usdc',
                                 token: 'dai'
                             }

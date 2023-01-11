@@ -21,6 +21,7 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                 let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lps = _pairs.map(item => item.contract);
+                let _lpsDecimal = _pairs.map(item => item.lbDecimal);
                 let _user = coreHelper.getUserAccount();
                 let _r = await _readContract.methods.getData(_user, _lps).call();
                 let _data = [];
@@ -48,7 +49,8 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                         "token": _token,
                         "baseReserve": _baseReserve,
                         "tokenReserve": _tokenReserve,
-                        "uLPBal": parseInt(_r[idx]['uLPBal']) / 1e18,
+                        "lbDecimal": _lpsDecimal,
+                        "uLPBal": parseInt(_r[idx]['uLPBal']) / (10 ** _lpsDecimal),
                         "uBaseAllowed": _uBaseAllowed,
                         "uTokenAllowed": _uTokenAllowed,
                         "allowedOf": _allowedOf

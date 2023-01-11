@@ -270,7 +270,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     .getDataFromTokenInputToAddLp(coreHelper.toBN(tokenInput, _tokenDecimal))
                     .call()
                     .then(_result => {
-                        mintLp = parseInt(_result[0]) / 1e18;
+                        mintLp = parseInt(_result[0]) / (10 ** _lp["lbDecimal"]);
                         let baseInput = parseInt(_result[1]) / (10 ** _baseDecimal);
                         $(`input[name=base_input]`).val(baseInput);
                     })
@@ -314,7 +314,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     .getDataFromBaseInputToAddLp(coreHelper.toBN(baseToInput, _baseDecimal))
                     .call()
                     .then(_result => {
-                        mintLp = parseInt(_result[0]) / 1e18;
+                        mintLp = parseInt(_result[0]) / (10 ** _lp["lbDecimal"]);
                         
                         let tokenInput = parseInt(_result[1]) / (10 ** _tokenDecimal);
                         tokenInput += tokenInput * slippage
