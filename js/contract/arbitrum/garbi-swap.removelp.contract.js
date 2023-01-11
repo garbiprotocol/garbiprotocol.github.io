@@ -234,15 +234,9 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     _amount = ALLOW_LIMIT_AMT;
                     _remove(_amount);
                 } else {
-                    self.getLpBal()
-                        .then(_lpBal => {
-                            if (_lpBal <= 0) {
-                                return false;
-                            }
-                            _amount = _lpBal * _amountOfLiquidity;
-                            _amount = coreHelper.toBN(_amount, lp["lbDecimal"]);
-                            _remove(_amount);
-                        });
+                    _amount = lp["uLPBal"] * _amountOfLiquidity;
+                    _amount = coreHelper.toBN(_amount, lp["lbDecimal"]);
+                    _remove(_amount);
                 }
 
                 function _remove(lpAmtToRemove) {
