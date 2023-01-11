@@ -284,7 +284,7 @@ $.GARBI_SWAP.prototype = (function() {
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lp = self._getLp(_pairs, _from, _to);
-                let _amountOut = await self._estimateAmountOut(_amountIn, _from, _to);
+                let _amountOut = self._getAmountOut();
                 let _slippage = self.getSlippage();
                 let _deadline = self.getDeadline();
                 let _minOut = _amountOut - _amountOut * _slippage;
@@ -325,7 +325,7 @@ $.GARBI_SWAP.prototype = (function() {
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lp = self._getLp(_pairs, _from, _to);
-                let _amountOut = await self._estimateAmountOut(_amountIn, _from, _to);
+                let _amountOut = self._getAmountOut();
                 let _slippage = self.getSlippage();
                 let _deadline = self.getDeadline();
                 let _minOut = _amountOut - _amountOut * _slippage;
@@ -367,7 +367,7 @@ $.GARBI_SWAP.prototype = (function() {
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lpFrom = self._getLpByToken(_pairs, _from);
                 let _lpTo = self._getLpByToken(_pairs, _to);
-                let _amountOut = await self._estimateAmountOut(_amountIn, _from, _to);
+                let _amountOut = self._getAmountOut();
                 let _slippage = self.getSlippage();
                 let _deadline = self.getDeadline();
                 let _minOut = _amountOut - _amountOut * _slippage;
@@ -517,6 +517,11 @@ $.GARBI_SWAP.prototype = (function() {
             let _amountIn = $('input[name=amountIn]').val();
             _amountIn = parseFloat(_amountIn);
             return isNaN(_amountIn) ? 0 : _amountIn;
+        },
+        _getAmountOut() {
+            let _amountOut = $('input[name=amountOut]').val();
+            _amountOut = parseFloat(_amountOut);
+            return isNaN(_amountOut) ? 0 : _amountOut;
         },
         async _setAmountOut() {
             let _from = $('select[name=from]').val();
