@@ -6,7 +6,7 @@ $.STORE.prototype = (function() {
         var data = {
                 garbiSwapLPs: [],
 		liquidityOfGarbiVenusLps: {}, // mapping(tokenName => bal);
-		garbiVenusSwapPriceOf: {}, // mapping(pairString => price);
+		garbiSwapPriceOf: {}, // mapping(pairString => price);
 		allowsTransferToTradeMachineOf: {}, // mapping(tokenAddr => amount)
                 allowsTransferOf: {}, // mapping(user => mapping(tokenAddr => amount)) 
                 // { userAddr: { wbnbAddr: 111 ....}} - { oxo: { 0x0: 1 ... }}
