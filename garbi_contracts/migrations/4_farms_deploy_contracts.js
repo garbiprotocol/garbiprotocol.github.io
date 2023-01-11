@@ -1,17 +1,21 @@
 
 const GarbiFarmGRBWETH = artifacts.require("GarbiFarmGRBWETH");
-const GarbiMining = artifacts.require("GarbiMining");
+const GarbiFarmDAIUSDC = artifacts.require("GarbiFarmDAIUSDC");
+const GarbiFarmUSDTUSDC = artifacts.require("GarbiFarmUSDTUSDC");
 
-const veGRB = "0xcf7d3a1ff5188a0d398cf8181b8bdc051204f8da";
-const startBlock = 1;
+const GarbiMining = "0xb63234acac10029eaebf63a0f28584cd096df62b";
+
 const GRBWETHLP = "0x644434ccba741b2892485e857e60f332264f3ab8";
-const pidOfMining = 0;
+const pidOfMiningGRBWETH = 0;
+
+const DAIUSDCLP = "0x644434ccba741b2892485e857e60f332264f3ab8";
+const pidOfMiningDAIUSDC = 0;
+
+const USDTUSDCLP = "0x644434ccba741b2892485e857e60f332264f3ab8";
+const pidOfMiningUSDTUSDC = 0;
 
 module.exports = function(deployer) {
-    deployer.deploy(GarbiMining, 
-                    veGRB, 
-                    startBlock
-                    ).then(function() {
-                        return deployer.deploy(GarbiFarmGRBWETH, GarbiMining.address, GRBWETHLP, pidOfMining);
-                    });
+    deployer.deploy(GarbiFarmGRBWETH, GarbiMining, GRBWETHLP, pidOfMiningGRBWETH);
+    deployer.deploy(GarbiFarmDAIUSDC, GarbiMining, DAIUSDCLP, pidOfMiningDAIUSDC);
+    deployer.deploy(GarbiFarmUSDTUSDC, GarbiMining, USDTUSDCLP, pidOfMiningUSDTUSDC);
 };
