@@ -53,35 +53,35 @@ $.GARBI_SWAP.prototype = (function() {
             }
             setTimeout(function() {
                 self.displayBTN();
-            }, 3000);
+            }, 7000);
         },
         async displayTransactionDetail() {
             let self = this;
             await self._setTransactionDetail();
             setTimeout(function() {
                 self.displayTransactionDetail();
-            }, 3000);
+            }, 7000);
         },
         async displayEstimatePrice() {
             let self = this;
             await self._setEstimatePrice();
             setTimeout(function() {
                 self.displayEstimatePrice();
-            }, 3000);
+            }, 7000);
         },
         async displayBalance() {
             let self = this;
             await self._setTokenBalance();
             setTimeout(function() {
                 self.displayBalance();
-            }, 3000);
+            }, 7000);
         },
         async displayUSDValue() {
             let self = this;
             await self._setUsdValue();
             setTimeout(function() {
                 self.displayUSDValue();
-            }, 3000);
+            }, 7000);
         },
         async loadData() {
             let self = this;
@@ -96,7 +96,7 @@ $.GARBI_SWAP.prototype = (function() {
             let self = this;
             setTimeout(function() {
                 self.loadData();
-            }, 3000);
+            }, 7000);
         },
         async getAllowTransferToTradeMachine() {
             let _contract = this._getAllowTransferContractToReedData();
@@ -480,7 +480,7 @@ $.GARBI_SWAP.prototype = (function() {
             let self = this;
             setTimeout(function() {
                 self.estimateAmountOut();
-            }, 5000);
+            }, 7000);
         },
         async getAmountOut(_amountIn, _from, _to) {
             try {
@@ -724,7 +724,7 @@ $.GARBI_SWAP.prototype = (function() {
         },
         async _getBaseOut(_amountIn, _lp) {
             try {
-                let _lpsListData = storeHelper.getValue('garbiSwapLPs');
+                let _lpsListData = storeHelper.getValue('garbiSwapLPs');                
                 let _lpData = this._getLpData(_lpsListData, _lp.contract);
                 if (!_lpData) {
                     return 0;
@@ -732,7 +732,7 @@ $.GARBI_SWAP.prototype = (function() {
                 let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _lp["base"]);
                 let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _lp["token"]);
                 let _readContract = await this._getGarbiSwapContractToReedData(_lp.contract);
-                let _r = await _readContract.methods.getBaseOutput(coreHelper.toBN(_amountIn, _tokenDecimal));
+                let _r = await _readContract.methods.getBaseOutput(coreHelper.toBN(_amountIn, _tokenDecimal)).call();
                 let _amountOut = parseInt(_r) / (10 ** _baseDecimal);
                 return _amountOut;
             } catch (e) {
@@ -749,7 +749,7 @@ $.GARBI_SWAP.prototype = (function() {
                 let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _lp["base"]);
                 let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _lp["token"]);
                 let _readContract = await this._getGarbiSwapContractToReedData(_lp.contract);
-                let _r = await _readContract.methods.getTokenOutput(coreHelper.toBN(_amountIn, _baseDecimal));
+                let _r = await _readContract.methods.getTokenOutput(coreHelper.toBN(_amountIn, _baseDecimal)).call();
                 let _amountOut = parseInt(_r) / (10 ** _tokenDecimal);
                 return _amountOut;
                 return _amountOut;
