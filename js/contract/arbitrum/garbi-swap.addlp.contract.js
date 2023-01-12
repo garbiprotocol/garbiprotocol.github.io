@@ -447,6 +447,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     .send({ from: userAdd })
                     .on("transactionHash", function(hash) {
                         coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                     })
                     .on("confirmation", function(confirmationNumber, receipt) {
                         if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {

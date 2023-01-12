@@ -303,6 +303,7 @@ $.GARBI_SWAP.prototype = (function() {
                     .send({ from: _user })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         self._showSuccessPopup(receipt);
@@ -344,6 +345,7 @@ $.GARBI_SWAP.prototype = (function() {
                     .send({ from: _user })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         self._showSuccessPopup(receipt);
@@ -664,7 +666,7 @@ $.GARBI_SWAP.prototype = (function() {
         },
         _putAmountOut(_amountOut) {
             _amountOut = _amountOut == '' ? _amountOut : _amountOut;
-            $('input[name=amountOut]').val(_amountOut);
+            $('input[name=amountOut]').val(_amountOut.toFixed(6));
         },
         _getTokenMainContract(_token) {
             let _abi = abiHelper.getTokenABI();

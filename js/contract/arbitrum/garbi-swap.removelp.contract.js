@@ -70,6 +70,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
         async onMaxButtonClik() {
             let self = this;
             $('#max-liquidity-button').on("click", () => {
+                console.log(userLPBalance);
                 $('#lp-input-field').val(userLPBalance.toFixed(2));
                 self.getDataToRemoveLP();
             })
@@ -172,7 +173,6 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 let _lpAmtToRemove = $('input[name=amount_of_liquidity]').val();
                 if(_lpAmtToRemove > userLPBalance) {
                     _lpAmtToRemove = userLPBalance;
-                    $('input[name=amount_of_liquidity]').val(coreHelper.numberWithCommas(userLPBalance, 2));
                 }
                 _getData(coreHelper.toBN(_lpAmtToRemove, _lp["lbDecimal"]));
                 function _getData(lpAmtToRemove) {
@@ -225,7 +225,6 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     .balanceOf(userAddr)
                     .call()
                     .then(_result => {
-                        console.log(_result);
                         let lpBal = parseInt(_result) / (10 ** lp["lbDecimal"]);
                         userLPBalance = lpBal;
                         return resovel(lpBal);
@@ -277,6 +276,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                         .send({ from: userAddr })
                         .on('transactionHash', function(hash) {
                             coreHelper.showPopup('confirm-popup');
+                            $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                         })
                         .on('transactionHash', (hash) => {
                             coreHelper.showPopup('confirm-popup');
