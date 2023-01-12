@@ -665,8 +665,10 @@ $.GARBI_SWAP.prototype = (function() {
             $('.estimate-price').html(_value);
         },
         _putAmountOut(_amountOut) {
-            _amountOut = _amountOut == '' ? _amountOut : _amountOut;
-            $('input[name=amountOut]').val(_amountOut.toFixed(6));
+            _amountOut = _amountOut == '' ? 0 : _amountOut;
+            if(_amountOut != 0) {
+                $('input[name=amountOut]').val(_amountOut.toFixed(6));
+            }
         },
         _getTokenMainContract(_token) {
             let _abi = abiHelper.getTokenABI();
