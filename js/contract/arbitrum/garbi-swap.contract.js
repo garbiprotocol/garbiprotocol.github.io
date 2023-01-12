@@ -299,6 +299,8 @@ $.GARBI_SWAP.prototype = (function() {
         async _swapBaseToToken(_user, _amountIn, _from, _to) {
             let self = this;
             try {
+                let _fromDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _from);
+                let _toDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _to);
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lp = self._getLp(_pairs, _from, _to);
@@ -313,8 +315,8 @@ $.GARBI_SWAP.prototype = (function() {
                 _mainContract
                     .methods
                     .swapBaseToTokenWithBaseInput(
-                        coreHelper.toBN(_amountIn),
-                        coreHelper.toBN(_minOut),
+                        coreHelper.toBN(_amountIn, _fromDecimal),
+                        coreHelper.toBN(_minOut, _toDecimal),
                         _deadline
                     )
                     .send({ from: _user })
