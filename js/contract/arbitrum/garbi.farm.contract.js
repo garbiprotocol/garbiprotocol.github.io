@@ -300,9 +300,10 @@ $.GARBI_FARM.prototype = (function() {
             _data["totalMintPerDay"] = coreHelper.parseFloatNumber(parseInt(_r["totalMintPerDay_"]) / (10 ** GRB_TOKEN_DECIMAL), GRB_TOKEN_DECIMAL);
             _data["totalWantShare"] = coreHelper.parseFloatNumber(parseInt(_r["tvl_"]) / (10 ** _pool["wantDecimal"]), _pool["wantDecimal"]);
             _data["userWantBal"] = coreHelper.parseFloatNumber(parseInt(_r["userWantBal_"]) / (10 ** _pool["wantDecimal"]), _pool["wantDecimal"]);
-            _data["userWantShare"] = coreHelper.parseFloatNumber(parseInt(_r["userGRBShare_"]) / (10 ** _pool["wantDecimal"]), _pool["wantDecimal"]);
+            _data["userWantShare"] = coreHelper.parseFloatNumber(parseInt(_r["userWantShare_"]) / (10 ** _pool["wantDecimal"]), _pool["wantDecimal"]);
             _data["userETHBal"] = coreHelper.parseFloatNumber(parseInt(_r["userETHBal_"]) / (10 ** 18), 18);
             // Calculate TVL and APY
+            
             _data["price"] = _pool["price"];
             _data["tvl"] = _data["totalWantShare"] * _data["price"];
             if (_data["tvl"] > 0) {
@@ -320,6 +321,7 @@ $.GARBI_FARM.prototype = (function() {
             // set farm data by pool (using the contract of pool is key)
             _farmInfoOf[_user][_contract] = _farmInfoOf[_user][_contract] ? _farmInfoOf[_user][_contract] : {};
             _farmInfoOf[_user][_contract] = _data;
+            
             storeHelper.setVaule('farmInfoOf', _farmInfoOf);
             storeHelper.setVaule('tvlOf', _data[_contract]);
             // Check and Push the pool of user joined
@@ -362,7 +364,7 @@ $.GARBI_FARM.prototype = (function() {
         _getGarbiPoolMainContract(_pool) {
             let _user = coreHelper.getUserAccount();
             let _abi = abiHelper.getGarbiFarmPoolABI();
-            let _contract = bscContractHelper.getMainContract(_pool["contract"], _abi);
+            let _contract = contractBaseHelper.getMainContract(_pool["contract"], _abi);
             return _contract;
         },
         _getAmountByInputKey(_inputKey) {

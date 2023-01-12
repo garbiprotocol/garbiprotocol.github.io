@@ -36,8 +36,8 @@ $.CONFIG.prototype = (function() {
                             {
                                 contract: '0x644434ccba741b2892485e857e60f332264f3ab8',
                                 tradeFee: 0.001,
-                                performanceFee: 0.16,
-                                safuFund: 0.04,
+                                performanceFee: 0.5,
+                                safuFund: 0,
                                 lbDecimal: 6,
                                 base: 'usdc',
                                 token: 'usdt'
@@ -45,8 +45,8 @@ $.CONFIG.prototype = (function() {
                             {
                                 contract: '0xb957d13250443706717d0d95cdb67e4a02650b6c',
                                 tradeFee: 0.001,
-                                performanceFee: 0.16,
-                                safuFund: 0.04,
+                                performanceFee: 0.5,
+                                safuFund: 0,
                                 lbDecimal: 6,
                                 base: 'usdc',
                                 token: 'dai'
@@ -117,7 +117,7 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         421613: {
-            'grb': 0.04,
+            'grb': 0.2,
             'usdc': 1,
             'usdt': 1,
             'dai': 1
