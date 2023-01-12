@@ -21,7 +21,7 @@ $.GARBI_FARM.prototype = (function() {
                 let _pools = self._getPools();
                 // let _user = coreHelper.getUserAccount();
                 for (let _idx = 0; _idx < _pools.length; _idx++) {
-                    await self._initPoolOf(_pools[_idx], _idx);
+                    await self._initPoolData(_pools[_idx], _idx);
                 }
                 self.reloadData();
             } catch (e) {
@@ -40,10 +40,10 @@ $.GARBI_FARM.prototype = (function() {
             let _pools = self._getPools();
             let _user = coreHelper.getUserAccount();
             let _farmInfoOf = storeHelper.getValue('farmInfoOf');
-            let _uFarm = _farmInfoOf && _farmInfoOf[_user] ? _farmInfoOf[_user] : {};
+            let _userFarmInfoObj = _farmInfoOf && _farmInfoOf[_user] ? _farmInfoOf[_user] : {};
             _pools.forEach(item => {
-                let _uFarmByPoolContract = _uFarm[item.contract] ? _uFarm[item.contract] : null;
-                _initInterface(item.pid, _uFarmByPoolContract);
+                let _userFarmInfoByPoolContract = _userFarmInfoObj[item.contract] ? _userFarmInfoObj[item.contract] : null;
+                _initInterface(item.pid, _userFarmInfoByPoolContract);
             });
 
             function _initInterface(_pid, _data) {
@@ -61,14 +61,14 @@ $.GARBI_FARM.prototype = (function() {
             let _pool = this._getPool(_pid);
             let _user = coreHelper.getUserAccount();
             let _farmInfoOf = storeHelper.getValue('farmInfoOf');
-            let _uFarm = _farmInfoOf && _farmInfoOf[_user] ? _farmInfoOf[_user] : {};
-            let _uFarmByPoolContract = _uFarm[_pool.contract];
-            if (_uFarmByPoolContract) {
-                $(`.apy`).html(`${ coreHelper.numberWithCommas(_uFarmByPoolContract.apy, 2) }%`);
-                $(`.tvl`).html(`$${ coreHelper.formatBalance(_uFarmByPoolContract.tvl, 2) }`);
-                $(`.u-share`).html(`${ coreHelper.numberWithCommas(_uFarmByPoolContract.uWantShare, 8) }`);
-                $(`.u-want-bal`).html(`${ coreHelper.numberWithCommas(_uFarmByPoolContract.uWantBal, 8) }`);
-                $(`.u-pending-grb`).html(`${ coreHelper.numberWithCommas(_uFarmByPoolContract.uGrbPending, 8) }`);
+            let _userFarmInfoObj = _farmInfoOf && _farmInfoOf[_user] ? _farmInfoOf[_user] : {};
+            let _userFarmInfoByPoolContract = _userFarmInfoObj[_pool.contract];
+            if (_userFarmInfoByPoolContract) {
+                $(`.apy`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["apy"], 2) }%`);
+                $(`.tvl`).html(`$${ coreHelper.formatBalance(_userFarmInfoByPoolContract["tvl"], 2) }`);
+                $(`.u-share`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["userWantShare"], 8) }`);
+                $(`.u-want-bal`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["userWantBal"], 8) }`);
+                $(`.u-pending-grb`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["userGRBPending"], 8) }`);
             }
             setTimeout(function() {
                 _self.initFarmDetailPageInterface(_pid);
@@ -100,7 +100,12 @@ $.GARBI_FARM.prototype = (function() {
             let _user = coreHelper.getUserAccount();
             return userPoolsJoined[_user];
         },
-        async _initPoolOf(_pool, pid) {
+        /**
+         *  ========================================================================================
+         *                                  PRIVATE FUNCTION
+         *  ========================================================================================
+         */
+        async _initPoolData(_pool, pid) {
             if (!_pool) {
                 return true;
             }
