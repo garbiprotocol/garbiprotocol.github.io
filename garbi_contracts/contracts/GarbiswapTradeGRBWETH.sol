@@ -11,7 +11,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import './interfaces/IGarbiswapFeeMachine.sol';
 import './interfaces/IGarbiswapWhitelist.sol';
 import './interfaces/IGarbiTimeLock.sol';
-import './interfaces/IGarbiOracle.sol';
 
 contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
     
@@ -26,8 +25,6 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
     IGarbiswapWhitelist public whitelistContract; 
 
     IGarbiTimeLock public garbiTimeLockContract;
-
-    IGarbiOracle public garbiOracle;
 
     uint256 public TRADE_FEE = 2; //0.2% 2/1000
 
@@ -60,7 +57,6 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         IGarbiTimeLock _garbiTimeLockContract,
         IGarbiswapFeeMachine _feeMachineContract,
         IGarbiswapWhitelist _whitelistContract,
-        IGarbiOracle _garbiOracle,
         string memory name, 
         string memory symbol
         ) ERC20(name, symbol) {
@@ -69,7 +65,6 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         garbiTimeLockContract = _garbiTimeLockContract;
         whitelistContract = _whitelistContract;
         feeMachineContract = _feeMachineContract;
-        garbiOracle = _garbiOracle;
         platformFundAddress = _msgSender();
     }
 

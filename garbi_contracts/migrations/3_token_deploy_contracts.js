@@ -5,6 +5,7 @@ const veGRB = artifacts.require("veGRB");
 const GDAI = artifacts.require("GDAI");
 const GUSDC = artifacts.require("GUSDC");
 const GUSDT = artifacts.require("GUSDT");
+const GWETH = artifacts.require("GWETH");
 
 module.exports = function(deployer) {
 //    deployer.deploy(GDAI, "1000000000000000000000000", "500000000000000000000000");
@@ -13,5 +14,6 @@ module.exports = function(deployer) {
 //    deployer.deploy(GRB, "1250000000000000000000000", "500000000000000000000000").then(function() {
 //        return deployer.deploy(GRBProxy, GRB.address);
 //    });
-    deployer.deploy(veGRB, "1250000000000000000000000");
+    //deployer.deploy(veGRB, "1250000000000000000000000");
+    deployer.deploy(GWETH, "1000000000000000000000000", "500000000000000000000000");
 };
