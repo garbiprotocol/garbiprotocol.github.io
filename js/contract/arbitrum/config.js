@@ -28,7 +28,7 @@ $.CONFIG.prototype = (function() {
             garbiSwap: {
                 pool: {
                     default: {
-                        tradeMachine: '',
+                        tradeMachine: '0x8591663134607bcd9e6d73d99c6aeee4bcbbaca0',
                         info: {
                             pairs: '0xf1089d56d142d46e5ff5ec8f6705f6f252c11357'
                         },
@@ -54,7 +54,23 @@ $.CONFIG.prototype = (function() {
                         ]
                     }
                 },
-            }
+            },
+            farms: {
+                0: {
+                    type: 'garbi_pool',
+                    contract: '0x1f8fced902735288258e16e413709dcadf52bf71',
+                    want: '0x644434ccba741b2892485e857e60f332264f3ab8', // 
+                    wantDecimal: 6,
+                    pid: 1,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.USDT_USDC.LP',
+                    price: 2,
+                    version: 1
+                }
+            },
+            harvestMachine: ""
         },
     };
     var TOKENS = {
@@ -75,6 +91,7 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         421613: {
+            'grb': 0.04,
             'usdc': 1,
             'usdt': 1,
             'dai': 1
@@ -109,6 +126,10 @@ $.CONFIG.prototype = (function() {
         },
         getPrices(_chainId = 42161) {
             return PRICES[_chainId];
+        },
+        getPriceByTokenName(_chainId = 42161, _tokenName = '') {
+            _tokenName = _tokenName.toLowerCase();
+            return PRICES[_chainId][_tokenName] ? PRICES[_chainId][_tokenName] : 0;
         },
         /**
          * @param _chainId {Number} 42161 || 421613
