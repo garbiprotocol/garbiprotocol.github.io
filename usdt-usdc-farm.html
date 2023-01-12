@@ -362,38 +362,35 @@
     var abiHelper = new $.ABI();
     var coreHelper = new $.Core();
     var configHelper = new $.CONFIG();
-    var bscContractHelper = new $.BSCCONTRACTBASE();
+    var contractBaseHelper = new $.CONTRACTBASE();
     var storeHelper = new $.STORE();
     var dataHelper = new $.DATA();
-    var garbiFarmInfoHelper = new $.TURRING_FARM_INFO();
-    var garbiFarm = new $.TURRING_FARM();
-    var pid = 6;
+    var garbiFarmHelper = new $.GARBI_FARM();
+    var pid = 4;
+    var chainId = 421613;
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
         configHelper.init({});
         storeHelper.init({});
-        bscContractHelper.init({
-            chainId: 56
+        contractBaseHelper.init({
+            "chainId": chainId
         });
         dataHelper.init({
-            chainId: 56
+            "chainId": chainId
         });
-        garbiFarmInfoHelper.init({
-            chainId: 56,
-            pids: [pid]
-        })
-        garbiFarm.init({
-            chainId: 56,
-            pid: pid
+        garbiFarmHelper.init({
+            "chainId": chainId,
+            "pid": pid
         })
         coreHelper.initBTNName('btn-farm', 'Deposit');
-        garbiFarmInfoHelper.initFarmDetailInterface(pid);
-        garbiFarm.approve("btn-approve");
-        garbiFarm.deposit(`btn-deposit`, `input[name=deposit_amt]`);
-        garbiFarm.harvest(`btn-harvest`);
-        garbiFarm.withdraw(`btn-withdraw`, `input[name=withdraw_amt]`);
-        garbiFarm.checkAllowce("btn-approve", "btn-deposit");
+        garbiFarmHelper.initFarmDetailPageInterface(pid);
+        garbiFarmHelper.checkAllowce(pid, "btn-approve", "btn-deposit");
+        garbiFarmHelper.approve(pid, "btn-approve");
+        garbiFarmHelper.deposit(pid, `btn-deposit`, `input[name=deposit_amt]`);
+        garbiFarmHelper.harvest(pid, `btn-harvest`);
+        garbiFarmHelper.withdraw(pid, `btn-withdraw`, `input[name=withdraw_amt]`);
+        
     });
 </script>
 
