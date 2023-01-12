@@ -24,7 +24,7 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                 let _lps = _pairs.map(item => item.contract);
                 let _lpsDecimal = _pairs.map(item => item.lbDecimal);
                 let _user = coreHelper.getUserAccount();
-                let _r = await _readContract.methods.getData(_user, _lps).call();
+                let _r = await _readContract.methods.getData(_user, _tradeMachineAddr, _lps).call();
                 let _data = [];
                 let _liquidityOfGarbiSwap = {};
                 let _allowsTransferToTradeMachineOf = {};
@@ -61,8 +61,8 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                         "tokenReserve": _tokenReserve,
                         "lbDecimal": _lpsDecimal,
                         "uLPBal": parseInt(_r[idx]['uLPBal']) / (10 ** _lpsDecimal),
-                        "uBaseAllowed": _uBaseAllowed,
-                        "uTokenAllowed": _uTokenAllowed,
+                        "uBaseAllowed": _uBaseAllowedToPair,
+                        "uTokenAllowed": _uTokenAllowedToPair,
                         "allowedOf": _allowedOf
                     });
                 }
