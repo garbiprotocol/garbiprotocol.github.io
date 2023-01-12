@@ -62,6 +62,26 @@ $.GARBI_FARM.prototype = (function() {
                 _self.checkAllowce(_pid, BTNApprove, BTNDeposit);
             }, 15000);
         },
+        onchangeMaxWantBall(_pid) {
+            $(`.max-want-bal`).on("click", () => {
+                let _pool = this._getPool(_pid);
+                let _user = coreHelper.getUserAccount();
+                let _farmInfoOf = storeHelper.getValue('farmInfoOf');
+                let _userFarmInfoObj = _farmInfoOf && _farmInfoOf[_user] ? _farmInfoOf[_user] : {};
+                let _userFarmInfoByPoolContract = _userFarmInfoObj[_pool.contract];
+                $(`input[name=deposit_amt]`).val(_userFarmInfoByPoolContract["userWantBal"]);
+            });
+        },
+        onchangeMaxShare(_pid) {
+            $(`.max-share`).on("click", () => {
+                let _pool = this._getPool(_pid);
+                let _user = coreHelper.getUserAccount();
+                let _farmInfoOf = storeHelper.getValue('farmInfoOf');
+                let _userFarmInfoObj = _farmInfoOf && _farmInfoOf[_user] ? _farmInfoOf[_user] : {};
+                let _userFarmInfoByPoolContract = _userFarmInfoObj[_pool.contract];
+                $(`input[name=withdraw_amt`).val(_userFarmInfoByPoolContract["userWantShare"]);
+            });
+        },
         async approve(_pid, _classBTN) {
             let _self = this;
             let _pool = _self._getPool(_pid);
