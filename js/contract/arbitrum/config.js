@@ -56,7 +56,7 @@ $.CONFIG.prototype = (function() {
                 },
             },
             farms: {
-                0: {
+                2: {
                     type: 'garbi_pool',
                     contract: '0xd157e43d28de8e5a645bc70f37b3458e3f857983',
                     want: '0x1914513cc76018f399e58ccc9b87be681423a9ce', // 
@@ -69,7 +69,7 @@ $.CONFIG.prototype = (function() {
                     price: 15,
                     version: 1
                 },
-                1: {
+                4: {
                     type: 'garbi_pool',
                     contract: '0x9b935126d5bb5ac934e8fc9abf51df6a11ccb9a0',
                     want: '0x644434ccba741b2892485e857e60f332264f3ab8', // 
@@ -82,7 +82,7 @@ $.CONFIG.prototype = (function() {
                     price: 2,
                     version: 1
                 },
-                2: {
+                3: {
                     type: 'garbi_pool',
                     contract: '0xea715ebf7d98924b5f3cd2b19b4b2f84fd48cb03',
                     want: '0xb957d13250443706717d0d95cdb67e4a02650b6c', // 
