@@ -8,16 +8,16 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import './interfaces/IGarbiswapFarmAavev3.sol';
 import './interfaces/IGarbiswapFeeMachine.sol';
 import './interfaces/IGarbiswapWhitelist.sol';
 import './interfaces/IGarbiTimeLock.sol';
+import './interfaces/IGarbiOracle.sol';
 
-contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
+contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
     
     using SafeMath for uint256;
 
-    IERC20 public base; // Stable coin base token (USDC)
+    IERC20 public base; // Stable coin base token (WETH)
     IERC20 public token; // Token to trade in this pair
 
     // Fee Machine Contract.
@@ -26,10 +26,12 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
     IGarbiswapWhitelist public whitelistContract; 
 
     IGarbiTimeLock public garbiTimeLockContract;
-    // Pool farm of this Contract.
-    IGarbiswapFarmAavev3 public farmContract;
 
-    uint256 public TRADE_FEE = 1; //0.1% 1/1000
+    uint256 public TRADE_FEE = 2; //0.2% 2/1000
+
+    uint256 public PLATFORM_FEE = 25; //2.5% 25/1000
+
+    address public platformFundAddress;
 
     modifier onlyWhitelist()
     {
@@ -55,7 +57,6 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
         IERC20 _token,
         IGarbiTimeLock _garbiTimeLockContract,
         IGarbiswapFeeMachine _feeMachineContract,
-        IGarbiswapFarmAavev3 _farmContract,
         IGarbiswapWhitelist _whitelistContract,
         string memory name, 
         string memory symbol
@@ -65,7 +66,7 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
         garbiTimeLockContract = _garbiTimeLockContract;
         whitelistContract = _whitelistContract;
         feeMachineContract = _feeMachineContract;
-        farmContract = _farmContract;
+        platformFundAddress = _msgSender();
     }
 
     function setWhitelistContract() public onlyOwner {
@@ -105,6 +106,22 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
 
         garbiTimeLockContract.clearFieldValue('setTradeFee', 'tradeFee', 2);
         garbiTimeLockContract.doneTransactions('setTradeFee');
+    }
+
+    function setPlatformFee() public onlyOwner {
+
+        require(garbiTimeLockContract.isQueuedTransaction(address(this), 'setPlatformFee'), "INVALID_PERMISSION");
+
+        uint256 _platformFee = garbiTimeLockContract.getUintChangeOnTimeLock(address(this), 'setPlatformFee', 'platformFee');
+
+        PLATFORM_FEE = _platformFee;
+
+        garbiTimeLockContract.clearFieldValue('setPlatformFee', 'platformFee', 2);
+        garbiTimeLockContract.doneTransactions('setPlatformFee');
+    }
+
+    function setPlatformFundAdress(address newAddress) public onlyOwner {
+        platformFundAddress = newAddress;
     }
 
     function getK() public view returns(uint256) {
@@ -155,9 +172,12 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
             uint256 tokenReserve = 0;
             (baseReserve, tokenReserve) = getTotalReserve();
             tokenInputAmount = tokenReserve.mul(baseReserve.add(baseInputAmount)).div(baseReserve).sub(tokenReserve);
+
+            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+
             // mintLP/totalLP =  baseInputAmount/baseReserve
             // mintLP = totalLP*baseInputAmount/baseReserve
-            mintLP = totalSupply.mul(baseInputAmount).div(baseReserve);
+            mintLP = totalSupply.mul(baseInputAmount.sub(platformFeeOnBase)).div(baseReserve);
         }
         return (mintLP, tokenInputAmount);
     }
@@ -179,9 +199,12 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
             (baseReserve, tokenReserve) = getTotalReserve();
 
             baseInputAmount = baseReserve.mul(tokenReserve.add(tokenInputAmount)).div(tokenReserve).sub(baseReserve);
+
+            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+
             // mintLP/totalLP =  baseInputAmount/baseReserve
             // mintLP = totalLP*baseInputAmount/baseReserve
-            mintLP = totalSupply.mul(baseInputAmount).div(baseReserve);
+            mintLP = totalSupply.mul(baseInputAmount.sub(platformFeeOnBase)).div(baseReserve);
         }
         return (mintLP, baseInputAmount);
     }
@@ -201,6 +224,12 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
         // => baseOutputAmount = amountLP*baseReserve/totalSupply
         uint256 baseOutputAmount = amountLP.mul(baseReserve).div(totalSupply);
         uint256 tokenOutputAmount = amountLP.mul(tokenReserve).div(totalSupply);
+        
+        uint256 platformFeeOnBase = baseOutputAmount.mul(PLATFORM_FEE).div(1000);
+        uint256 platformFeeOnToken = tokenOutputAmount.mul(PLATFORM_FEE).div(1000);
+        
+        baseOutputAmount = baseOutputAmount.sub(platformFeeOnBase);
+        tokenOutputAmount = tokenOutputAmount.sub(platformFeeOnToken);
         
         return (baseOutputAmount, tokenOutputAmount);
     }
@@ -383,7 +412,13 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
         if(totalSupply == 0) {
             base.transferFrom(msg.sender, address(this), baseInputAmount);
             token.transferFrom(msg.sender, address(this), maxTokenInputAmount);
-            uint256 initLP = baseInputAmount;
+
+            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+            uint256 platformFeeOnToken = maxTokenInputAmount.mul(PLATFORM_FEE).div(1000);
+            base.transfer(platformFundAddress, platformFeeOnBase);
+            token.transfer(platformFundAddress, platformFeeOnToken);
+            
+            uint256 initLP = baseInputAmount.sub(platformFeeOnBase);
             _mint(msg.sender, initLP);
             emit onAddLP(msg.sender, initLP, baseInputAmount, maxTokenInputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
             return initLP;
@@ -396,9 +431,13 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
             uint256 tokenReserve = 0;
             (baseReserve, tokenReserve) = getTotalReserve();
             uint256 tokenInputAmount = tokenReserve.mul(baseReserve.add(baseInputAmount)).div(baseReserve).sub(tokenReserve);
+
+            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
+            uint256 platformFeeOnToken = tokenInputAmount.mul(PLATFORM_FEE).div(1000);
+
             // mintLP/totalLP =  baseInputAmount/baseReserve
             // mintLP = totalLP*baseInputAmount/baseReserve
-            uint256 mintLP = totalSupply.mul(baseInputAmount).div(baseReserve);
+            uint256 mintLP = totalSupply.mul(baseInputAmount.sub(platformFeeOnBase)).div(baseReserve);
             
             require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
             require(tokenInputAmount <= maxTokenInputAmount, 'INVALID_TOKEN_INPUT');
@@ -406,6 +445,11 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
 
             base.transferFrom(msg.sender, address(this), baseInputAmount);
             token.transferFrom(msg.sender, address(this), tokenInputAmount);
+
+            
+            base.transfer(platformFundAddress, platformFeeOnBase);
+            token.transfer(platformFundAddress, platformFeeOnToken);
+
             _mint(msg.sender, mintLP);
             emit onAddLP(msg.sender, mintLP, baseInputAmount, tokenInputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
             return mintLP;
@@ -435,18 +479,25 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
         // => baseOutputAmount = amountLP*baseReserve/totalSupply
         uint256 baseOutputAmount = amountLP.mul(baseReserve).div(totalSupply);
         uint256 tokenOutputAmount = amountLP.mul(tokenReserve).div(totalSupply);
+
+        uint256 platformFeeOnBase = baseOutputAmount.mul(PLATFORM_FEE).div(1000);
+        uint256 platformFeeOnToken = tokenOutputAmount.mul(PLATFORM_FEE).div(1000);
+        
+        baseOutputAmount = baseOutputAmount.sub(platformFeeOnBase);
+        tokenOutputAmount = tokenOutputAmount.sub(platformFeeOnToken);
+
         require(baseOutputAmount >= minBaseOutput, "INVALID_BASE_OUTPUT");
         require(tokenOutputAmount >= minTokenOutput, "INVALID_TOKEN_OUTPUT");
         require(baseOutputAmount <= baseReserve, "BASE_OUTPUT_HIGHER_BASE_BALANCE");
         require(tokenOutputAmount <= tokenReserve, "TOKEN_OUTPUT_HIGHER_TOKEN_BALANCE");
 
-        if(tokenOutputAmount > token.balanceOf(address(this)) || baseOutputAmount > base.balanceOf(address(this))) {
-            farmContract.releaseFundToTradeContract(); //move back fund to trade contract to process LP remove
-        }
-
         _burn(msg.sender, amountLP);
         base.transfer(msg.sender, baseOutputAmount);
         token.transfer(msg.sender, tokenOutputAmount);
+
+        base.transfer(platformFundAddress, platformFeeOnBase);
+        token.transfer(platformFundAddress, platformFeeOnToken);
+
         emit onRemoveLP(msg.sender, amountLP, baseOutputAmount, tokenOutputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
         return (baseOutputAmount, tokenOutputAmount);
     }
@@ -454,45 +505,7 @@ contract GarbiswapTradeUSDTUSDCaavev3 is ERC20Burnable, Ownable {
     function getTotalReserve() public view returns (uint256, uint256) { 
         uint256 baseReserve = base.balanceOf(address(this));
         uint256 tokenReserve = token.balanceOf(address(this));
-        
-        uint256 baseReserveInFarmContract = 0;
-        uint256 tokenReserveInFarmContract = 0;
-        (baseReserveInFarmContract, tokenReserveInFarmContract) = farmContract.getReserve();
 
-        return (baseReserve.add(baseReserveInFarmContract), tokenReserve.add(tokenReserveInFarmContract));
-    }
-    
-    function rebalanceToFarmContract() public onlyOwner {
-
-        require(address(farmContract) != address(0), "INVALID_FARM_ADDRESS");
-        require(address(base) != address(0), "INVALID_BASE_ADDRESS");
-        require(address(token) != address(0), "INVALID_TOKEN_ADDRESS");
-
-        farmContract.releaseFundToTradeContract();
-
-        uint256 baseReserve = base.balanceOf(address(this));
-        uint256 tokenReserve = token.balanceOf(address(this));
-
-        uint256 baseReserveInFarmContract = 0;
-        uint256 tokenReserveInFarmContract = 0;
-        (baseReserveInFarmContract, tokenReserveInFarmContract) = farmContract.getReserve();
-
-        if(baseReserve > baseReserveInFarmContract) {
-            uint256 amountBaseMoveOut = baseReserve.sub(baseReserveInFarmContract).div(2); //rebalance two pools
-            base.transfer(address(farmContract), amountBaseMoveOut);
-        }
-        if(baseReserve < baseReserveInFarmContract) {
-            uint256 amountBaseMoveIn = baseReserveInFarmContract.sub(baseReserve).div(2); //rebalance two pools
-            farmContract.moveOutBaseToTradeContract(amountBaseMoveIn);
-        }
-
-        if(tokenReserve > tokenReserveInFarmContract) {
-            uint256 amountTokenMoveOut = tokenReserve.sub(tokenReserveInFarmContract).div(2); //rebalance two pools
-            token.transfer(address(farmContract), amountTokenMoveOut);
-        }
-        if(tokenReserve < tokenReserveInFarmContract) {
-            uint256 amountTokenMoveIn = baseReserveInFarmContract.sub(tokenReserve).div(2); //rebalance two pools
-            farmContract.moveOutTokenToTradeContract(amountTokenMoveIn);
-        }
+        return (baseReserve, tokenReserve);
     }
 }

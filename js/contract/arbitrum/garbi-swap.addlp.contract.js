@@ -26,7 +26,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             }
             setTimeout(() => {
                 self.displayBTN()
-            }, 3000)
+            }, 7000)
         },
 
         async displayBalance() {
@@ -35,7 +35,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             setTimeout(function() {
                 self.displayBalance();
                 self._setBaseBalance();
-            }, 3000);
+            }, 5000);
         },
 
         async checkAllowce(BTN_token_Approve, BTN_base_Approve, BTNDeposit) {
@@ -111,7 +111,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
 
             setTimeout(() => {
                 _self.checkAllowce(BTN_token_Approve, BTN_base_Approve, BTNDeposit);
-            }, 3000);
+            }, 15000);
         },
 
         async loadData() {
@@ -199,25 +199,59 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         },
 
         async onchangeTokenInput() {
-            $('input[name=token_input]').on("input", (e) => {
-                e.preventDefault()
+            let self = this;
+            //setup before functions
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 1000;  //time in ms, 3 second for example
+            var $input =  $('input[name=token_input]');
+
+            //on keyup, start the countdown
+            $input.on('keyup', function () {
+              clearTimeout(typingTimer);
+              typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            //on keydown, clear the countdown 
+            $input.on('keydown', function () {
+              clearTimeout(typingTimer);
+            });
+
+            //user is "finished typing," do something
+            function doneTyping () {
                 typeOfInputAmt == 1
-                this.getBaseInputFromTokenInput()
+                self.getBaseInputFromTokenInput();
                 if ($('input[name=token_input]').val() == "") {
                     $('input[name=base_input]').val("")
                 }
-            })
+            }
         },
 
         async onchangeBaseInput() {
-            $('input[name=base_input]').on("input", (e) => {
-                e.preventDefault()
+            let self = this;
+            //setup before functions
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 1000;  //time in ms, 3 second for example
+            var $input =  $('input[name=base_input]');
+
+            //on keyup, start the countdown
+            $input.on('keyup', function () {
+              clearTimeout(typingTimer);
+              typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            //on keydown, clear the countdown 
+            $input.on('keydown', function () {
+              clearTimeout(typingTimer);
+            });
+
+            //user is "finished typing," do something
+            function doneTyping () {
                 typeOfInputAmt == 2
-                this.getTokenInputFromBaseInput()
+                self.getTokenInputFromBaseInput();
                 if ($('input[name=base_input]').val() == "") {
                     $('input[name=token_input]').val("")
                 }
-            })
+            }
         },
 
         async onchangePool() {
@@ -266,14 +300,13 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     return false
                 }
                 tokenInput -= tokenInput * slippage
-                console.log(coreHelper.toBN(tokenInput, _tokenDecimal));
                 callContract
                     .methods
                     .getDataFromTokenInputToAddLp(coreHelper.toBN(tokenInput, _tokenDecimal))
                     .call()
                     .then(_result => {
                         mintLp = parseInt(_result[0]) / (10 ** _lp["lbDecimal"]);
-                        let baseInput = parseInt(_result[1]) / (10 ** _baseDecimal);
+                        let baseInput = parseInt(_result[1]) / (10 ** _baseDecimal);                        
                         $(`input[name=base_input]`).val(baseInput);
                     })
             } catch (error) {
@@ -384,74 +417,42 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     return false;
                 }
 
-                let _tonkenContract = this._getTokenReadContracr(_tokenAddr)
-                let _baseContract = this._getTokenReadContracr(_baseAddr)
+                //let _tonkenContract = this._getTokenReadContracr(_tokenAddr)
+                //let _baseContract = this._getTokenReadContracr(_baseAddr)
                 let _contract = this._getGarbiSwapMainContract(_contractAddr)
                 let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
                 let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
-                _tonkenContract
+                let now = parseInt(Date.now() / 1000)
+                let deadline = now + addLPDealine;
+                let _transactionHistory = {};
+                let minLp = mintLp - mintLp * slippage;
+                console.log(coreHelper.toBN(minLp, _lp.lbDecimal));
+                console.log(coreHelper.toBN(baseInput, _baseDecimal));
+                console.log(coreHelper.toBN(tokenInput, _tokenDecimal));
+                _contract
                     .methods
-                    .allowance(userAdd, _contractAddr)
-                    .call()
-                    .then(amountAllow => {
-
-                        amountAllow = parseInt(amountAllow) / 10 ** _tokenDecimal
-                        if (amountAllow < tokenInput) {
-                            return self.approveToken()
+                    .addLP(coreHelper.toBN(minLp, _lp.lbDecimal), coreHelper.toBN(baseInput, _baseDecimal), coreHelper.toBN(tokenInput, _tokenDecimal), deadline)
+                    .send({ from: userAdd })
+                    .on("transactionHash", function(hash) {
+                        coreHelper.showPopup('confirm-popup');
+                    })
+                    .on("confirmation", function(confirmationNumber, receipt) {
+                        if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
+                            coreHelper.hidePopup('confirm-popup', 0);
+                            coreHelper.showPopup('success-confirm-popup');
+                            coreHelper.hidePopup('success-confirm-popup', 10000);
+                            $('input[name=token_input]').val("");
+                            $('input[name=base_input]').val("");
+                            typeOfInputAmt = 0
+                            mintLp = 0
                         }
-                        return _verifyApproveBase();
                     })
-                    .catch(e => {
-                        console.log(e);
+                    .on('receipt', (receipt) => {
+                        self._showSuccessPopup(receipt);
                     })
-
-                function _verifyApproveBase() {
-                    _baseContract
-                        .methods
-                        .allowance(userAdd, _contractAddr)
-                        .call()
-                        .then(amountAllow => {
-                            amountAllow = parseInt(amountAllow) / 10 ** _baseDecimal
-                            if (amountAllow < baseInput) {
-                                return self._approveBase(userAdd)
-                            }
-                            return _deposit()
-                        })
-                        .catch(e => {
-                            console.log(e);
-                        })
-                }
-
-                function _deposit() {
-                    let now = parseInt(Date.now() / 1000)
-                    let deadline = now + addLPDealine
-                    let _transactionHistory = {};
-                    let minLp = mintLp - mintLp * slippage;
-                    _contract
-                        .methods
-                        .addLP(coreHelper.toBN(minLp, _lp.lbDecimal), coreHelper.toBN(baseInput, _baseDecimal), coreHelper.toBN(tokenInput, _tokenDecimal), deadline)
-                        .send({ from: userAdd })
-                        .on("transactionHash", function(hash) {
-                            coreHelper.showPopup('confirm-popup');
-                        })
-                        .on("confirmation", function(confirmationNumber, receipt) {
-                            if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
-                                coreHelper.hidePopup('confirm-popup', 0);
-                                coreHelper.showPopup('success-confirm-popup');
-                                coreHelper.hidePopup('success-confirm-popup', 10000);
-                                $('input[name=token_input]').val("");
-                                $('input[name=base_input]').val("");
-                                typeOfInputAmt = 0
-                                mintLp = 0
-                            }
-                        })
-                        .on('receipt', (receipt) => {
-                            self._showSuccessPopup(receipt);
-                        })
-                        .on('error', (err, receipt) => {
-                            console.log(err);
-                        });
-                }
+                    .on('error', (err, receipt) => {
+                        console.log(err);
+                    });
             })
         },
 

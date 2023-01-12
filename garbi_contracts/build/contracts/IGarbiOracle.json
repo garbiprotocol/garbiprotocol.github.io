@@ -1,27 +1,27 @@
 {
-  "contractName": "IGarbiswapWhitelist",
+  "contractName": "IGarbiOracle",
   "abi": [
     {
       "inputs": [
         {
           "internalType": "address",
-          "name": "_address",
+          "name": "token",
           "type": "address"
         }
       ],
-      "name": "whitelisted",
+      "name": "getLatestPrice",
       "outputs": [
         {
-          "internalType": "bool",
+          "internalType": "uint256",
           "name": "",
-          "type": "bool"
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"whitelisted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IGarbiswapWhitelist.sol\":\"IGarbiswapWhitelist\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/IGarbiswapWhitelist.sol\":{\"keccak256\":\"0xe6836002877a936cfd08a4a4ecca2e467cc265284421171c40ff02d3d62c7a9b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1fe4e25e75501a3d9766f51a7a4d9bef1970ce7f5c09493d39c15800c099f0aa\",\"dweb:/ipfs/QmT5wN32imSgvYnTuCzgZEgh9ZUMzbMgXEgdTVLb9Eke5T\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getLatestPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IGarbiOracle.sol\":\"IGarbiOracle\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/IGarbiOracle.sol\":{\"keccak256\":\"0x85b9a7e1510a3af553890cce20e1f25cb36c57ac708df4c0db7945bab882cd04\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://04a46c293184061e23a2a05b6b116c0d4f931837e5234dd707ffd059475b9679\",\"dweb:/ipfs/QmaJqTFhk6p2fKSWXiZWUND8cTpixj4UkvfTnLCuurnLrg\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -29,21 +29,21 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.12;\n\ninterface IGarbiswapWhitelist {\n\tfunction whitelisted(address _address) external view returns (bool);\n}",
-  "sourcePath": "/Applications/projects/garbiprotocol.github.io/garbi_contracts/contracts/interfaces/IGarbiswapWhitelist.sol",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.12;\n\ninterface IGarbiOracle {\n    function getLatestPrice(address token) external view returns (uint256);\n}",
+  "sourcePath": "/Applications/projects/garbiprotocol.github.io/garbi_contracts/contracts/interfaces/IGarbiOracle.sol",
   "ast": {
-    "absolutePath": "project:/contracts/interfaces/IGarbiswapWhitelist.sol",
+    "absolutePath": "project:/contracts/interfaces/IGarbiOracle.sol",
     "exportedSymbols": {
-      "IGarbiswapWhitelist": [
-        8625
+      "IGarbiOracle": [
+        8492
       ]
     },
-    "id": 8626,
+    "id": 8493,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 8617,
+        "id": 8484,
         "literals": [
           "solidity",
           ">=",
@@ -51,45 +51,45 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "32:25:28"
+        "src": "32:25:23"
       },
       {
         "abstract": false,
         "baseContracts": [],
-        "canonicalName": "IGarbiswapWhitelist",
+        "canonicalName": "IGarbiOracle",
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 8625,
+        "id": 8492,
         "linearizedBaseContracts": [
-          8625
+          8492
         ],
-        "name": "IGarbiswapWhitelist",
-        "nameLocation": "69:19:28",
+        "name": "IGarbiOracle",
+        "nameLocation": "69:12:23",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
-            "functionSelector": "d936547e",
-            "id": 8624,
+            "functionSelector": "16345f18",
+            "id": 8491,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
-            "name": "whitelisted",
-            "nameLocation": "101:11:28",
+            "name": "getLatestPrice",
+            "nameLocation": "97:14:23",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 8620,
+              "id": 8487,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 8619,
+                  "id": 8486,
                   "mutability": "mutable",
-                  "name": "_address",
-                  "nameLocation": "121:8:28",
+                  "name": "token",
+                  "nameLocation": "120:5:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 8624,
-                  "src": "113:16:28",
+                  "scope": 8491,
+                  "src": "112:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -97,10 +97,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 8618,
+                    "id": 8485,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "113:7:28",
+                    "src": "112:7:23",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -110,55 +110,55 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "112:18:28"
+              "src": "111:15:23"
             },
             "returnParameters": {
-              "id": 8623,
+              "id": 8490,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 8622,
+                  "id": 8489,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 8624,
-                  "src": "154:4:28",
+                  "scope": 8491,
+                  "src": "150:7:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 8621,
-                    "name": "bool",
+                    "id": 8488,
+                    "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "154:4:28",
+                    "src": "150:7:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "153:6:28"
+              "src": "149:9:23"
             },
-            "scope": 8625,
-            "src": "92:68:28",
+            "scope": 8492,
+            "src": "88:71:23",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 8626,
-        "src": "59:103:28",
+        "scope": 8493,
+        "src": "59:102:23",
         "usedErrors": []
       }
     ],
-    "src": "32:130:28"
+    "src": "32:129:23"
   },
   "compiler": {
     "name": "solc",
@@ -166,7 +166,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-01-11T15:03:34.131Z",
+  "updatedAt": "2023-01-11T15:03:34.129Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

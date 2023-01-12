@@ -16,7 +16,7 @@ $.CONTRACTBASE.prototype = (function() {
                         _chainId = _chainId ? _chainId : setting.chainId;
                         let bscRpcEndPoint = 'https://arb1.arbitrum.io/rpc';
                         if (_chainId != 42161) {
-                                bscRpcEndPoint = 'https://goerli-rollup.arbitrum.io/rpc';
+                                bscRpcEndPoint = 'https://arb-goerli.g.alchemy.com/v2/EjDT3kxi1iFQMt16rz9BvNb7fTRnjc28';
                         }
                         return new Web3(bscRpcEndPoint);
                 },

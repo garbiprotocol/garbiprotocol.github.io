@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract GUSDC is ERC20Burnable, Ownable {
+contract GUSDT is ERC20Burnable, Ownable {
     using SafeMath for uint256;
 
     uint256 public immutable MAX_SUPPLY;
@@ -18,8 +18,8 @@ contract GUSDC is ERC20Burnable, Ownable {
     constructor(
         uint256 _maxSupply,
         uint256 _initialSupply
-    ) ERC20("GarbiUSDC", "GUSDC"){
-        require(_initialSupply <= _maxSupply, "USDC: The _initialSupply should not exceed the _maxSupply");
+    ) ERC20("GarbiUSDT", "GUSDT"){
+        require(_initialSupply <= _maxSupply, "USDT: The _initialSupply should not exceed the _maxSupply");
         MAX_SUPPLY = _maxSupply;
 
         if (_initialSupply > 0) {
@@ -40,7 +40,7 @@ contract GUSDC is ERC20Burnable, Ownable {
 
     function mint(address _user, uint256 _amount) external onlyOwner {
         uint256 _totalSupply = totalSupply();
-        require(_totalSupply.add(_amount) <= MAX_SUPPLY, "USDC: No more minting allowed!");
+        require(_totalSupply.add(_amount) <= MAX_SUPPLY, "USDT: No more minting allowed!");
 
         _mint(_user, _amount);
     }

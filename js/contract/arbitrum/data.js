@@ -27,7 +27,7 @@ $.DATA.prototype = (function() {
             let self = this;
             setTimeout(function() {
                 self.initData();
-            }, 5000);
+            }, 7000);
         },
         async _initBalance() {
             try {
@@ -44,7 +44,6 @@ $.DATA.prototype = (function() {
                     let _tokenDecimal = configHelper.getTokenDecimalByAddress(setting.chainId, _r.tokensBal_[idx]['token']);
                     _balanceOf[_r.tokensBal_[idx]['token'].toLowerCase()] = parseInt(_r.tokensBal_[idx]['amount']) / (10 ** _tokenDecimal);
                 }
-                // console.log("_balanceOf", _balanceOf)
                 storeHelper.setVaule('balanceOf', _balanceOf);
             } catch (e) {
                 console.log("_initBalance", e);
