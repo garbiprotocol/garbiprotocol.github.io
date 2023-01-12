@@ -10,17 +10,23 @@
         <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
               referrerpolicy="no-referrer" />
-        <link rel="shortcut icon" href="../assets/images/garbi-logo.svg" type="image/x-icon">
+        <link rel="shortcut icon" href="../assets/images/garbi_favicon.png" type="image/x-icon">
         <link href="../assets/css/style.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="../assets/js/web3.min.js"></script>
         <script src="../assets/js/trustwallet.js"></script>
+        <script src="../js/contract/bsc/abi.js"></script>
+        <script src="../js/contract/bsc/config.js"></script>
+        <script src="../js/data/store.js"></script>
         <script src="../js/contract/bsc/core.js"></script>
+        <script src="../js/contract/bsc/base.contract.js"></script>
+        <script src="../js/contract/bsc/data.js"></script>
+        <script src="../js/contract/bsc/garbi-venus-lp-info.contract.js"></script>
+        <script src="../js/contract/bsc/garbi.farm.info.contract.js"></script>
 
-
-        <title>Whitelist - Garbi Protocol</title>
+        <title>Vest - Garbi Protocol</title>
     </head>
 
     <body>
@@ -39,15 +45,24 @@
                                     </div>
                                 </div>
                             </div>
+
+
                             <div class="col-6 col-lg-2 order-lg-3">
                                 <div class="d-flex align-items-center justify-content-end">
-                                    <a href="/swap.html" class="header__btn-connect wrap-btn-connect">Launch App</a>
+                                    <span class="wrap-user-acct"></span>
+                                    <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
+                                    <span class="dropMenu">
+                                        <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                        <div class="ctmenu-sub  swap-box">
+                                            <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
+                                        </div>
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-lg-8">
                                 <div class="collapse navbar-collapse" id="navbar-header">
-                                    <ul class="navbar-nav menu-header ms-auto mx-auto mb-2 mb-lg-0 align-items-lg-center">
-                                        <li class="nav-item">
+                                    <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                        <li>
                                             <a class="nav-link" href="swap.html">Swap</a>
                                         </li>
                                         <li class="nav-item">
@@ -58,6 +73,9 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="earn.html">Earn</a>
+                                        </li>
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="vest.html">Vest</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
@@ -72,49 +90,65 @@
                     </div>
                 </nav>
             </header>
-            <main class="page__blog">
-                <div class="container container-2">
-                    <div class="blog__thumb d-flex align-items-center justify-content-center p-relative ">
-                        <img src="../assets/images/blog-thumb-2.jpg" class="bg-background-position d-none d-md-block" />
-                        <div class="p-relative z-index-5 text-center">
-                            <div class=""><img src="../assets/images/garbi_logo.png" /></div>
-                            <div class="blog__title">Early Access</div>
+            <main class="page__swap">
+                <section class="blog__container">
+                    <article class="swap__main garbi__box-1 p-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between mb-11">
+                            <div class="f-700 mt-3">
+                                <fieldset>
+                                    <p>Transform veGRB tokens to GRB tokens.</p>
+                                    <p>Please read the vesting documents for more information.</p>
+                                </fieldset>
+                            </div>
                         </div>
-                    </div>
+                    </article>
+                    <article class="swap__main garbi__box-1 p-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between mb-14">
+                            <div class="f-700">
+                                <fieldset>
+                                    <div class="blog__container mt-2 pt-0">
+                                        <div class="garbi__box__farms ps-3 pe-3 pt-3 pb-2">
+                                            <p>GRB Vault</p>
+                                            <table class="pool__list">
+                                                    <tbody class="tbody">
+                                                        <tr>
+                                                            <td>
+                                                                Vesting Treasury
+                                                            </td>
+                                                            <td>9250 GRB</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Vesting process
+                                                            </td>
+                                                            <td>1000 veGRB / 5000 GRB</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Claimable
+                                                            </td>
+                                                            <td>0.0</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <button style="border-radius: 6px" type="button" class="header__btn-connect text-center">Claim GRB</button>
+                                                            </td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
 
-                    <div class="blog__container mt-4 pt-0 mt-md-5 pt-md-5">
-                        <div class="blog__description">
-                            <h3><b>Garbi Protocol is coming soon: join the whitelist today for early access.</b></h3>
-                            <p>Starting today, you can join the allowlist for early access to Garbi Protocol token sales.</p>
-                            <h5>How do I join the Early Access?</h5>
-                            <h6>Step 1</h6>
-                            <p>
-                                <b>Follow our Twitter to join the Greatest Community.</b><br/><a class="header__btn-connect mt-2" href="https://twitter.com/garbi_protocol/" target="_blank">Click here to subscribe</a>
-                            </p>
-                            <h6>Step 2</h6>
-                            <p>
-                                <b>Give a Like to our Tweet to share your love.</b><br/><a class="header__btn-connect mt-2" href="https://twitter.com/garbi_protocol/status/1609258157712506880?s=20&t=qW1aKuBRhcyucSpSXzOypw" target="_blank">Garbi Tweet</a>
-                            </p>
-                            <h6>Step 3</h6>
-                            <p>
-                                <b>Join our Telegram group to make new friends.</b><br/><a class="header__btn-connect mt-2" href="https://t.me/garbiprotocol" target="_blank">@Telegram Group</a>
-                            </p>
-                            <h6>Step 4</h6>
-                            <p>
-                                <b>Join our Telegram channel to get the latest news.</b><br/><a class="header__btn-connect mt-2" href="https://t.me/GarbiProtocolOfficialChannel" target="_blank">@Telegram Channel</a>
-                            </p>
-                            <h6>Step 5</h6>
-                            <p>
-                                <b>Please invite your friends to grow our Community.</b><br/><a class="header__btn-connect mt-2" href="https://twitter.com/intent/tweet?text=This is my tweet to acquire early access to @garbi_protocol The first decentralized exchange for stablecoins that uses an automated market maker to manage liquidity on Arbitrum. visit: http://garbi.io for more information." target="_blank">Share with your friends</a>
-                            </p>
-                            <h6>Step 6</h6>
-                            <p><b>If all of the above steps were completed successfully.</b></p>
-                            <p>
-                                <b>Fill in your address here to get Early Access.</b><br/><a class="header__btn-connect mt-2" href="https://forms.gle/awM6cDrfEEUt9jys5" target="_blank">Form</a>
-                            </p>
+                                                </table>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </article>
+                </section>
             </main>
 
             <footer class="footer">
@@ -158,17 +192,14 @@
                 </nav>
             </footer>
         </div>
-
         <script src="../assets/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="../assets/js/custom.js"></script>
         <script src="../assets/js/custom.menu.js"></script>
+
     </body>
     <script>
-                                        var coreHelper = new $.Core();
-                                        $(document).ready(function () {
-                                            coreHelper.init({});
-                                        });
+                                                         
     </script>
 
 </html>
