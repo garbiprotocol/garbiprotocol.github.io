@@ -192,12 +192,12 @@ contract GarbiFarmGRBWETH is ReentrancyGuard, Ownable {
     view
     returns(
         uint256 miningSpeed_,
-        uint256 userGRBBal_, 
         uint256 userWantBal_, 
         uint256 totalMintPerDay_, 
         uint256 userETHBal_, 
         uint256 userGRBPending_, 
-        uint256 userGRBShare_
+        uint256 userWantShare_,
+        uint256 tvl_
     ) {
         userWantBal_ = want.balanceOf(_user);
         totalMintPerDay_ = miningMachine.getTotalMintPerDayOf(pidOfMining);
@@ -205,7 +205,7 @@ contract GarbiFarmGRBWETH is ReentrancyGuard, Ownable {
         miningSpeed_ = miningMachine.getMiningSpeedOf(pidOfMining);
         userETHBal_ = address(_user).balance;
         (userGRBPending_, , ) = miningMachine.getUserInfo(pidOfMining, _user);
-        userGRBBal_ = want.balanceOf(_user);
-        userGRBShare_ = shareOf[_user];
+        userWantShare_ = shareOf[_user];
+        tvl_ = totalShare;
     } 
 }
