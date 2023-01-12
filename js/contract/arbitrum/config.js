@@ -33,6 +33,15 @@ $.CONFIG.prototype = (function() {
                             pairs: '0xf1089d56d142d46e5ff5ec8f6705f6f252c11357'
                         },
                         pairs: [
+                             {
+                                contract: '0x1914513cc76018f399e58ccc9b87be681423a9ce',
+                                tradeFee: 0.001,
+                                performanceFee: 0.5,
+                                safuFund: 0,
+                                lbDecimal: 18,
+                                base: 'weth',
+                                token: 'grb'
+                            },
                             {
                                 contract: '0x644434ccba741b2892485e857e60f332264f3ab8',
                                 tradeFee: 0.001,
@@ -101,7 +110,8 @@ $.CONFIG.prototype = (function() {
     };
     var TOKENS = {
         421613: {
-            'grb': '0xd1eB8a5798E04703ec5324c99405F581BD6318b8',
+            'grb': '0xd1eb8a5798e04703ec5324c99405f581bd6318b8',
+            'weth': '0xe0eca46ea3308e8184e3b462b8a722f93a8f6f27',
             'usdc': '0x29680bd5f3f324001add9229d6b44615353f554c',
             'usdt': '0x2e4e7ebff934b6999bdc2983f17f6bd4b6a84206',
             'dai': '0x9ce3c139316a560a57c861f558284cf31ebc8ace'
@@ -110,6 +120,7 @@ $.CONFIG.prototype = (function() {
     var TOKENS_DECIMAL = {
         421613: {
             'grb': 18,
+            'weth': 18,
             'usdc': 6,
             'usdt': 6,
             'dai': 18
@@ -118,6 +129,7 @@ $.CONFIG.prototype = (function() {
     var PRICES = {
         421613: {
             'grb': 0.25,
+            'weth': 1200,
             'usdc': 1,
             'usdt': 1,
             'dai': 1
