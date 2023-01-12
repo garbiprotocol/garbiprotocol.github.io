@@ -5,6 +5,7 @@ $.GARBI_FARM.prototype = (function() {
         pids: [] // length == 0 => get ALL,
     };
     var userPoolsJoined = {}; // mapping( user => array);
+    var transactions = {};
     const GRB_TOKEN_DECIMAL = 18;
     const GRB_TOKEN_NAME = 'GRB';
     return {
@@ -15,10 +16,10 @@ $.GARBI_FARM.prototype = (function() {
             setting = $.extend({}, setting, options);
             this.initData();
         },
-        async initData() {
+        async initData(_pid) {
             let self = this;
             try {
-                let _pools = self._getPools();
+                let _pools = self._getPools(_pid);
                 // let _user = coreHelper.getUserAccount();
                 for (let _idx = 0; _idx < _pools.length; _idx++) {
                     await self._initPoolData(_pools[_idx], _idx);
@@ -34,6 +35,179 @@ $.GARBI_FARM.prototype = (function() {
             setTimeout(function() {
                 self.initData();
             }, 15000);
+        },
+        async checkAllowce(_pid, BTNApprove, BTNDeposit) {
+            let _self = this;
+            let _pool = _self._getPool(_pid);
+            let _user = coreHelper.getUserAccount();
+            let _token = _self._getTokenContract(_pool["want"]);
+            if (!_token) {
+                return false;
+            }
+            if (!_user) {
+                return false;
+
+            }
+            _token.methods.allowance(_user, _pool.contract).call().then(r => {
+                if (r == 0) {
+                    $(`.${BTNDeposit}`).hide();
+                    $(`.${BTNApprove}`).show();
+                } else {
+                    $(`.${BTNApprove}`).hide();
+                    $(`.${BTNDeposit}`).show();
+                }
+            })
+
+            setTimeout(() => {
+                _self.checkAllowce(_pid, BTNApprove, BTNDeposit);
+            }, 15000);
+        },
+        async approve(_pid, _classBTN) {
+            let _self = this;
+            let _pool = _self._getPool(_pid);
+            $(`.${_classBTN}`).click(function(e) {  
+                let _user = coreHelper.getUserAccount();
+                let _token = _self._getTokenContract(_pool["want"]);
+                if (!_token) {
+                    return false;
+                }
+                if (!_user) {
+                    return false;
+                }
+                _token
+                    .methods
+                    .approve(
+                        _pool["contract"],
+                        coreHelper.getAmountAllow()
+                    )
+                    .send({
+                        from: _user
+                    })
+                    .on('transactionHash', (hash) => {
+                        coreHelper.showPopup('confirm-popup');
+                    })
+                    .on('confirmation', (confirmationNumber, receipt) => {
+                        _self._showSuccessPopup(receipt);
+                    })
+                    .on('receipt', (receipt) => {
+                        _self._showSuccessPopup(receipt);
+                    })
+                    .on('error', (err, receipt) => {
+                        console.log(err);
+                    });
+            });
+        },
+        async deposit(_pid, _classBTN, _inputKey) {
+            let _self = this;
+            let _pool = _self._getPool(_pid);
+            $(`.${_classBTN}`).click(function(e) {
+                let _user = coreHelper.getUserAccount();
+                let _contract = _self._getFarmMainContract(_pool);
+                if (!_contract) {
+                    return false;
+                }
+                if (!_user) {
+                    return false;
+                }
+                let _amount = _self._getAmountByInputKey(_inputKey);
+                if (_amount <= 0) {
+                    return false;
+                }
+                _contract
+                    .methods
+                    .deposit(
+                        coreHelper.toBN(_amount, _pool["wantDecimal"])
+                    )
+                    .send({
+                        from: _user
+                    })
+                    .on('transactionHash', (hash) => {
+                        coreHelper.showPopup('confirm-popup');
+                    })
+                    .on('confirmation', (confirmationNumber, receipt) => {
+                        _self._showSuccessPopup(receipt);
+                    })
+                    .on('receipt', (receipt) => {
+                        _self._showSuccessPopup(receipt);
+                    })
+                    .on('error', (err, receipt) => {
+                        console.log(err);
+                    });
+            });
+        },
+        async withdraw(_pid, _classBTN, _inputKey) {
+            let _self = this;
+            let _pool = _self._getPool(_pid);
+            $(`.${_classBTN}`).click(function(e) {
+                let _user = coreHelper.getUserAccount();
+                let _contract = _self._getFarmMainContract(_pool);
+                if (!_contract) {
+                    return false;
+                }
+                if (!_user) {
+                    return false;
+                }
+                let _amount = _self._getAmountByInputKey(_inputKey);
+                if (_amount <= 0) {
+                    return false;
+                }
+                _contract
+                    .methods
+                    .withdraw(
+                        coreHelper.toBN(_amount, _pool["wantDecimal"])
+                    )
+                    .send({
+                        from: _user
+                    })
+                    .on('transactionHash', (hash) => {
+                        coreHelper.showPopup('confirm-popup');
+                    })
+                    .on('confirmation', (confirmationNumber, receipt) => {
+                        _self._showSuccessPopup(receipt);
+                    })
+                    .on('receipt', (receipt) => {
+                        _self._showSuccessPopup(receipt);
+                    })
+                    .on('error', (err, receipt) => {
+                        console.log(err);
+                    });
+            });
+        },
+        async harvest(_pid, _classBTN) {
+            let _self = this;
+            let _pool = await _self._getPool(_pid);
+            $(`.${_classBTN}`).click(function(e) {
+                let _user = coreHelper.getUserAccount();
+                let _contract = _self._getFarmMainContract(_pool);
+                let _uPoolsJoined = _self.getPoolsJoined();
+                if (!_contract) {
+                    return false;
+                }
+                if (!_user) {
+                    return false;
+                }
+                let _params = _user;
+                _contract
+                    .methods
+                    .harvest(
+                        _params
+                    )
+                    .send({
+                        from: _user
+                    })
+                    .on('transactionHash', (hash) => {
+                        coreHelper.showPopup('confirm-popup');
+                    })
+                    .on('confirmation', (confirmationNumber, receipt) => {
+                        _self._showSuccessPopup(receipt);
+                    })
+                    .on('receipt', (receipt) => {
+                        _self._showSuccessPopup(receipt);
+                    })
+                    .on('error', (err, receipt) => {
+                        console.log(err);
+                    });
+            });
         },
         initFarmListPageInterface() {
             let self = this;
@@ -154,6 +328,47 @@ $.GARBI_FARM.prototype = (function() {
                 _uPoolsJoined.push(_contract);
             }
             userPoolsJoined[_user] = _uPoolsJoined;
+        },
+        _showSuccessPopup(receipt, _inputKey = null) {
+            if (receipt.status == true && !transactions[receipt.transactionHash]) {
+                if (_inputKey) {
+                    $(`${_inputKey}`).val('');
+                }
+                transactions[receipt.transactionHash] = true;
+                coreHelper.hidePopup('confirm-popup', 0);
+                coreHelper.showPopup('success-confirm-popup');
+                coreHelper.hidePopup('success-confirm-popup', 10000);
+            }
+        },
+        _getAllowTransferContractToReedData() {
+            let _abi = abiHelper.getAllowTransferABI();
+            let _contractsObj = configHelper.getContracts(setting.chainId);
+            let _contract = _contractsObj.info.getAllowTransfer;
+            return contractBaseHelper.getReadContract(_contract, _abi, setting.chainId);
+        },
+        _getTokenContract(_token) {
+            let _abi = abiHelper.getTokenABI();
+            return contractBaseHelper.getMainContract(_token, _abi);
+        },
+        _getFarmMainContract(_pool) {
+            if (!_pool) {
+                return null;
+            }
+            if (_pool.type == 'garbi_pool') {
+                return this._getGarbiPoolMainContract(_pool);
+            }
+            return null;
+        },
+        _getGarbiPoolMainContract(_pool) {
+            let _user = coreHelper.getUserAccount();
+            let _abi = abiHelper.getGarbiFarmPoolABI();
+            let _contract = bscContractHelper.getMainContract(_pool["contract"], _abi);
+            return _contract;
+        },
+        _getAmountByInputKey(_inputKey) {
+            let _amount = $(`${_inputKey}`).val();
+            _amount = parseFloat(_amount);
+            return isNaN(_amount) ? 0 : _amount;
         },
         _getPool(_pid) {
             let _contractsObj = configHelper.getContracts(setting.chainId);

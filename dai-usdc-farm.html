@@ -7,24 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
     />
-    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
         referrerpolicy="no-referrer" />
-    <link rel="shortcut icon" href="../assets/images/garbi_favicon.png" type="image/x-icon">
-    <link href="../assets/css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./assets/images/garbi_favicon.png" type="image/x-icon">
+    <link href="./assets/css/style.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="../assets/js/web3.min.js"></script>
-    <script src="../assets/js/trustwallet.js"></script>
-    <script src="../js/contract/bsc/abi.js"></script>
-    <script src="../js/contract/bsc/config.js"></script>
-    <script src="../js/data/store.js"></script>
-    <script src="../js/contract/bsc/core.js"></script>
-    <script src="../js/contract/bsc/base.contract.js"></script>
-    <script src="../js/contract/bsc/data.js"></script>
-    <script src="../js/contract/bsc/garbi.farm.info.contract.js"></script>
-    <script src="../js/contract/bsc/garbi.farm.contract.js"></script>
+    <script src="./assets/js/web3.min.js"></script>
+    <script src="./assets/js/trustwallet.js"></script>
+    <script src="./js/contract/arbitrum/abi.js"></script>
+    <script src="./js/contract/arbitrum/config.js"></script>
+    <script src="./js/data/store.js"></script>
+    <script src="./js/contract/arbitrum/core.js"></script>
+    <script src="./js/contract/arbitrum/base.contract.js"></script>
+    <script src="./js/contract/arbitrum/data.js"></script>
+    <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
 
     <title>DAI-USDC FARM - Garbi Protocol</title>
     <style id="svelte-166mr51-style">
@@ -158,7 +157,7 @@
                                     <i class="fas fa-bars"></i>
                                 </button>
                                 <div class="logo" onclick="window.location='index.html'">
-                                    <img src="../assets/images/logo.svg" />
+                                    <img src="./assets/images/logo.svg" />
                                 </div>
                             </div>
                         </div>
@@ -216,7 +215,7 @@
                             <p> Stake DAI-USDC GsLP to earn GRB. <a href="./deposit.html" target="_blank" style="text-decoration: none; color: rgb(0, 162, 255);"><b> GET DAI-USDC GsLP token.</b></a></p>
                             <label for="currency_0">
                                 <span class="currency-laybal"> 
-                                    <img src="../assets/images/dai_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">DAI-USDC GsLP</span>
+                                    <img src="./assets/images/dai_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">DAI-USDC GsLP</span>
                                     <button class="maxBalanceCoin max-want-bal">Max: </button>
                                     <span class="u-want-bal">0.0</span>
                                 </span>
@@ -248,7 +247,7 @@
                             </p>
                             <label for="currency_0">
                                 <span class="currency-laybal"> 
-                                    <img src="../assets/images/dai_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">DAI-USDC GsLP</span>
+                                    <img src="./assets/images/dai_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">DAI-USDC GsLP</span>
                                     <button class="maxBalanceCoin max-share">Max: </button>
                                     <span class="u-share">0.0</span>
                                 </span>
@@ -349,48 +348,45 @@
             </div>
         </li>
     </ul>
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="../assets/js/custom.js"></script>
-    <script src="../assets/js/custom.menu.js"></script>
+    <script src="./assets/js/custom.js"></script>
+    <script src="./assets/js/custom.menu.js"></script>
 
 </body>
 <script>
     var abiHelper = new $.ABI();
     var coreHelper = new $.Core();
     var configHelper = new $.CONFIG();
-    var bscContractHelper = new $.BSCCONTRACTBASE();
+    var contractBaseHelper = new $.CONTRACTBASE();
     var storeHelper = new $.STORE();
     var dataHelper = new $.DATA();
-    var garbiFarmInfoHelper = new $.TURRING_FARM_INFO();
-    var garbiFarm = new $.TURRING_FARM();
-    var pid = 6;
+    var garbiFarmHelper = new $.GARBI_FARM();
+    var pid = 3;
+    var chainId = 421613;
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
         configHelper.init({});
         storeHelper.init({});
-        bscContractHelper.init({
-            chainId: 56
+        contractBaseHelper.init({
+            "chainId": chainId
         });
         dataHelper.init({
-            chainId: 56
+            "chainId": chainId
         });
-        garbiFarmInfoHelper.init({
-            chainId: 56,
-            pids: [pid]
-        })
-        garbiFarm.init({
-            chainId: 56,
-            pid: pid
+        garbiFarmHelper.init({
+            "chainId": chainId,
+            "pid": pid
         })
         coreHelper.initBTNName('btn-farm', 'Deposit');
-        garbiFarmInfoHelper.initFarmDetailInterface(pid);
-        garbiFarm.approve("btn-approve");
-        garbiFarm.deposit(`btn-deposit`, `input[name=deposit_amt]`);
-        garbiFarm.harvest(`btn-harvest`);
-        garbiFarm.withdraw(`btn-withdraw`, `input[name=withdraw_amt]`);
-        garbiFarm.checkAllowce("btn-approve", "btn-deposit");
+        garbiFarmHelper.initFarmDetailPageInterface(pid);
+        garbiFarmHelper.checkAllowce(pid, "btn-approve", "btn-deposit");
+        garbiFarmHelper.approve(pid, "btn-approve");
+        garbiFarmHelper.deposit(pid, `btn-deposit`, `input[name=deposit_amt]`);
+        garbiFarmHelper.harvest(pid, `btn-harvest`);
+        garbiFarmHelper.withdraw(pid, `btn-withdraw`, `input[name=withdraw_amt]`);
+        
     });
 </script>
 
