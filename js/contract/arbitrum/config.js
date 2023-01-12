@@ -56,7 +56,7 @@ $.CONFIG.prototype = (function() {
                                 tradeFee: 0.001,
                                 performanceFee: 0.5,
                                 safuFund: 0,
-                                lbDecimal: 6,
+                                lbDecimal: 18,
                                 base: 'usdc',
                                 token: 'dai'
                             }

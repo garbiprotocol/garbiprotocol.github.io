@@ -24,11 +24,13 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
         loadData() {
             let self = this
             try {
-                self.getDataToRemoveLP()
-                //self.getLpBal()
+                //self.getDataToRemoveLP()
+                self.getLpBal().then(_lpBal => {
+                    $('#user-liquidity-balance').text(coreHelper.numberWithCommas(_lpBal, 2));
+                });
                 self.getSlippage()
-                self.validationAmountOfLq()
-                self.reloadData()
+                self.reloadData();
+                
             } catch (e) {
                 self.reloadData()
             }
@@ -39,6 +41,38 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
             setTimeout(() => {
                 self.loadData()
             }, 7000)
+        },
+        
+        async onchangeLiquidityInput() {
+            let self = this;
+            //setup before functions
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 1000;  //time in ms, 3 second for example
+            var $input =  $('#lp-input-field');
+
+            //on keyup, start the countdown
+            $input.on('keyup', function () {
+              clearTimeout(typingTimer);
+              typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            //on keydown, clear the countdown 
+            $input.on('keydown', function () {
+              clearTimeout(typingTimer);
+            });
+
+            //user is "finished typing," do something
+            function doneTyping () {
+                self.getDataToRemoveLP();
+            }
+        },
+        
+        async onMaxButtonClik() {
+            let self = this;
+            $('#max-liquidity-button').on("click", () => {
+                $('#lp-input-field').val(userLPBalance.toFixed(2));
+                self.getDataToRemoveLP();
+            })
         },
 
         onChangeSlippage() {
@@ -72,9 +106,10 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
             let img_token = $(".img-token")
             let base = $(".base")
             let img_base = $(".img-base")
-
+            let self = this;
             transactionPoolclick.change(function() {
                 let pool = $(this).val();
+                self.resetPageInput();
                 if (pool == "grbweth") {
                     token.html("GRB")
                     img_token.attr("src", "../assets/images/grb_token.png");
@@ -93,6 +128,10 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     base.html("USDC")
                     img_base.attr("src", "../assets/images/usdc_logo.png");
                 }
+                $('#user-liquidity-balance').text("0.0");
+                self.getLpBal().then(_lpBal => {
+                    $('#user-liquidity-balance').text(coreHelper.numberWithCommas(_lpBal, 2));
+                });
             })
         },
 
@@ -126,33 +165,16 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 if (!userAddr) {
                     return false;
                 }
-                let _amountOfLiquidity = parseFloat($('input[name=amount_of_liquidity]').val()) / 100;
-                if (_amountOfLiquidity < 0) {
-                    $('input[name=amount_of_liquidity]').val("")
-                }
-
-                if (isNaN(_amountOfLiquidity) == true || _amountOfLiquidity == 0) {
-                    self.resetPageInput();
-                    return false;
-                }
                 let slippage = self.getSlippage();
                 if (isNaN(slippage) == true) {
                     return false;
                 }
-                let _amount = 0;
-                if (_amountOfLiquidity > 1) {
-                    _amountOfLiquidity = 1;
+                let _lpAmtToRemove = $('input[name=amount_of_liquidity]').val();
+                if(_lpAmtToRemove > userLPBalance) {
+                    _lpAmtToRemove = userLPBalance;
+                    $('input[name=amount_of_liquidity]').val(coreHelper.numberWithCommas(userLPBalance, 2));
                 }
-                self.getLpBal()
-                    .then(_lpBal => {
-                        if (_lpBal <= 0) {
-                            return false;
-                        }
-                        _amount = _lpBal * _amountOfLiquidity;
-                        _amount = coreHelper.toBN(_amount, _lp["lbDecimal"]);
-                        _getData(_amount);
-                    });
-
+                _getData(coreHelper.toBN(_lpAmtToRemove, _lp["lbDecimal"]));
                 function _getData(lpAmtToRemove) {
                     callContract
                         .methods
@@ -167,8 +189,8 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     let tokenOutputAmount = parseInt(_result[1]) / (10 ** _tokenDecimal);
                     baseOutputAmount -= baseOutputAmount * slippage;
                     tokenOutputAmount -= tokenOutputAmount * slippage;
-                    $('input[name=token_output]').val(self.parseFloatNumber(tokenOutputAmount, 6));
-                    $('input[name=base_output]').val(self.parseFloatNumber(baseOutputAmount, 6));
+                    $('input[name=token_output]').val(self.parseFloatNumber(tokenOutputAmount, 2));
+                    $('input[name=base_output]').val(self.parseFloatNumber(baseOutputAmount, 2));
                 }
             } catch (e) {
                 console.log("getDataToRemoveLP", e);
@@ -176,7 +198,6 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
         },
 
         getLpBal() {
-            console.log("calll");
             return new Promise((resovel, reject) => {
                 let _pool = $('select[name=lp_token]').val();
                 let _token = _pool.slice(0, _pool.length - 4);
@@ -204,6 +225,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     .balanceOf(userAddr)
                     .call()
                     .then(_result => {
+                        console.log(_result);
                         let lpBal = parseInt(_result) / (10 ** lp["lbDecimal"]);
                         userLPBalance = lpBal;
                         return resovel(lpBal);
@@ -236,20 +258,9 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 if (!_contractAddr) {
                     return false;
                 }
-                let _amountOfLiquidity = parseFloat($('input[name=amount_of_liquidity]').val()) / 100;
-                if (isNaN(_amountOfLiquidity) == true || _amountOfLiquidity == 0) {
-                    return false;
-                }
                 let _contract = this._getGarbiSwapMainContract(_contractAddr)
-                let _amount = 0;
-                if (_amountOfLiquidity >= 1) {
-                    _amount = ALLOW_LIMIT_AMT;
-                    _remove(_amount);
-                } else {
-                    _amount = userLPBalance * _amountOfLiquidity;
-                    _amount = coreHelper.toBN(_amount, lp["lbDecimal"]);
-                    _remove(_amount);
-                }
+                let _lpAmtToRemove = $('input[name=amount_of_liquidity]').val();
+                _remove(coreHelper.toBN(_lpAmtToRemove, lp["lbDecimal"]));
 
                 function _remove(lpAmtToRemove) {
                     let minTokenOutput = $('input[name=token_output]').val();

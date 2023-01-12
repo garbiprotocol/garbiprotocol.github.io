@@ -264,11 +264,11 @@
                         <div class="currency">
                             <label for="currency_0">
                                 <span class="currency-laybal" style="margin-left: 0px;">
-                                    <span>Amount of liquidity (%)</span>
+                                    <span>Your Garbi Liquidity Token <span id="max-liquidity-button" style="cursor: pointer">Max: <span id="user-liquidity-balance">0.0</span></span></span>
                                 </span>
                             </label>
                             <div class="addLp__form_input mb-2 mt-2" style=" margin-left: 2px;">
-                                <input autofocus type="number" id="currency_0" name="amount_of_liquidity" min="1" max="100" name="amount_of_liquidity" class="swap__form-input" value="" placeholder="0.0" >
+                                <input autofocus type="" id="lp-input-field" name="amount_of_liquidity" min="1" max="100" name="amount_of_liquidity" class="swap__form-input" value="" placeholder="0.0" >
                             </div>
                         </div>
                         <div style="margin-top: 30px;">
@@ -429,7 +429,8 @@
 
                         garbiSwapRemoveHelper.loadData()
                         garbiSwapRemoveHelper.onchangePool()
-                        garbiSwapRemoveHelper.getLpBal()
+                        garbiSwapRemoveHelper.onchangeLiquidityInput()
+                        garbiSwapRemoveHelper.onMaxButtonClik()
                         garbiSwapRemoveHelper.onChangeSlippage()
                         garbiSwapRemoveHelper.autoSlippage()
                         garbiSwapRemoveHelper.removeLp()

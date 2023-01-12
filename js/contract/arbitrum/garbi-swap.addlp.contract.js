@@ -181,7 +181,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         async onChangeMaxTokenFromInput() {
             let self = this;
             $(`.max-token-input`).on("click", () => {
-                $(`input[name=token_input]`).val(self.getTokenMax())
+                $(`input[name=token_input]`).val(self.getTokenMax().toFixed(2))
                 self._setTokenBalance()
                 typeOfInputAmt = 1
                 this.getBaseInputFromTokenInput()
@@ -191,7 +191,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         async onChangeMaxBaseFromInput() {
             let self = this;
             $(`.max-base-input`).on("click", () => {
-                $(`input[name=base_input]`).val(self.getBaseMax())
+                $(`input[name=base_input]`).val(self.getBaseMax().toFixed(2))
                 self._setBaseBalance();
                 typeOfInputAmt = 2
                 this.getTokenInputFromBaseInput()
@@ -319,7 +319,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     .then(_result => {
                         mintLp = parseInt(_result[0]) / (10 ** _lp["lbDecimal"]);
                         let baseInput = parseInt(_result[1]) / (10 ** _baseDecimal);                        
-                        $(`input[name=base_input]`).val(baseInput);
+                        $(`input[name=base_input]`).val(baseInput.toFixed(2));
                     })
             } catch (error) {
                 console.log("getBaseInputFromTokenInput", error);
@@ -365,7 +365,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                         
                         let tokenInput = parseInt(_result[1]) / (10 ** _tokenDecimal);
                         tokenInput += tokenInput * slippage
-                        $(`input[name=token_input]`).val(tokenInput)
+                        $(`input[name=token_input]`).val(tokenInput.toFixed(2))
                     })
             } catch (error) {
                 console.log("getTokenInputFromBaseInput", error);
