@@ -810,6 +810,11 @@ $.ABI.prototype = (function() {
 							"type": "address"
 						},
 						{
+							"internalType": "address",
+							"name": "_tradeMachine",
+							"type": "address"
+						},
+						{
 							"internalType": "contract IGarbiswapTrade[]",
 							"name": "_lps",
 							"type": "address[]"
@@ -841,12 +846,22 @@ $.ABI.prototype = (function() {
 								},
 								{
 									"internalType": "uint256",
-									"name": "uBaseAllowed",
+									"name": "uBaseAllowedToPair",
 									"type": "uint256"
 								},
 								{
 									"internalType": "uint256",
-									"name": "uTokenAllowed",
+									"name": "uTokenAllowedToPair",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "uBaseAllowedToTradeMachine",
+									"type": "uint256"
+								},
+								{
+									"internalType": "uint256",
+									"name": "uTokenAllowedToTradeMachine",
 									"type": "uint256"
 								}
 							],

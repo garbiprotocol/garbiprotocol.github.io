@@ -30,7 +30,7 @@ $.CONFIG.prototype = (function() {
                     default: {
                         tradeMachine: '0x8591663134607bcd9e6d73d99c6aeee4bcbbaca0',
                         info: {
-                            pairs: '0xf1089d56d142d46e5ff5ec8f6705f6f252c11357'
+                            pairs: '0x870eE86395736F6C149F94551E995b8d60b276f9'
                         },
                         pairs: [
                              {

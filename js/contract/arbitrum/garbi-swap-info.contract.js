@@ -20,12 +20,14 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                 let _contract = _contractsObj.garbiSwap.pool[setting["pool"]].info.pairs;
                 let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
+                let _tradeMachineAddr = _contractsObj.garbiSwap.pool[setting["pool"]].tradeMachine;
                 let _lps = _pairs.map(item => item.contract);
                 let _lpsDecimal = _pairs.map(item => item.lbDecimal);
                 let _user = coreHelper.getUserAccount();
                 let _r = await _readContract.methods.getData(_user, _lps).call();
                 let _data = [];
                 let _liquidityOfGarbiSwap = {};
+                let _allowsTransferToTradeMachineOf = {};
                 for (let idx = 0; idx < _r.length; idx++) {
                     // base alway is busd
                     let _base = _pairs[idx].base;
@@ -34,15 +36,23 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                     let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
                     let _baseReserve = parseInt(_r[idx]['baseReserve']) / (10 ** _baseDecimal);
                     let _tokenReserve = parseInt(_r[idx]['tokenReserve']) / (10 ** _tokenDecimal);
-                    let _uBaseAllowed = parseInt(_r[idx]['uBaseAllowed']) / (10 ** _baseDecimal);
-                    let _uTokenAllowed = parseInt(_r[idx]['uTokenAllowed']) / (10 ** _tokenDecimal);
+                    let _uBaseAllowedToPair = parseInt(_r[idx]['uBaseAllowedToPair']) / (10 ** _baseDecimal);
+                    let _uTokenAllowedToPair = parseInt(_r[idx]['uTokenAllowedToPair']) / (10 ** _tokenDecimal);
+
+                    let _uBaseAllowedToTradeMachine = parseInt(_r[idx]['uBaseAllowedToTradeMachine']) / (10 ** _baseDecimal);
+                    let _uTokenAllowedToTradeMachine = parseInt(_r[idx]['uTokenAllowedToTradeMachine']) / (10 ** _tokenDecimal);
+
                     _liquidityOfGarbiSwap[_base] = _liquidityOfGarbiSwap[_base] ? _liquidityOfGarbiSwap[_base] : 0;
                     _liquidityOfGarbiSwap[_token] = _liquidityOfGarbiSwap[_token] ? _liquidityOfGarbiSwap[_token] : 0;
                     _liquidityOfGarbiSwap[_base] += _baseReserve;
                     _liquidityOfGarbiSwap[_token] += _tokenReserve;
                     let _allowedOf = {};
-                    _allowedOf[_base] = _uBaseAllowed;
-                    _allowedOf[_token] = _uTokenAllowed;
+                    _allowedOf[_base] = _uBaseAllowedToPair;
+                    _allowedOf[_token] = _uTokenAllowedToPair;
+
+                    _allowsTransferToTradeMachineOf[_base] = _uBaseAllowedToTradeMachine;
+                    _allowsTransferToTradeMachineOf[_token] = _uTokenAllowedToTradeMachine;
+
                     _data.push({
                         "contract": _pairs[idx].contract,
                         "base": _base,
@@ -59,6 +69,7 @@ $.GARBI_SWAP_INFO.prototype = (function() {
                 // console.log("_data", _data)
                 storeHelper.setVaule('garbiSwapLPs', _data);
                 storeHelper.setVaule('liquidityOfGarbiSwap', _liquidityOfGarbiSwap);
+                storeHelper.setVaule('allowsTransferToTradeMachineOf', _allowsTransferToTradeMachineOf);
                 self.initInterface(_data, _liquidityOfGarbiSwap);
                 self.reloadData();
             } catch (e) {

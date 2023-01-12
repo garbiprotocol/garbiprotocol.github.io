@@ -28,7 +28,7 @@ $.GARBI_SWAP.prototype = (function() {
                 $(`.btn-approve`).hide();
             } else if (this._isSwapTokenToToken(_from, _to)) {
                 let _allowedOf = storeHelper.getValue('allowsTransferToTradeMachineOf');
-                let _allowAmt = _allowedOf[configHelper.getTokenByTokenName(setting.chainId, _from)];
+                let _allowAmt = _allowedOf[_from];
                 let _isNeedAllow = _allowAmt < _allowMin;
                 if (_isNeedAllow == true) {
                     $(`.btn-swap`).hide();
@@ -86,7 +86,6 @@ $.GARBI_SWAP.prototype = (function() {
         async loadData() {
             let self = this;
             try {
-                await self.getAllowTransferToTradeMachine();
                 return self.reloadData();
             } catch (e) {
                 return self.reloadData();
@@ -97,24 +96,6 @@ $.GARBI_SWAP.prototype = (function() {
             setTimeout(function() {
                 self.loadData();
             }, 7000);
-        },
-        async getAllowTransferToTradeMachine() {
-            let _contract = this._getAllowTransferContractToReedData();
-            let _user = coreHelper.getUserAccount();
-            let _contractsObj = configHelper.getContracts(setting.chainId);
-            let _tokensObj = configHelper.getTokens(setting.chainId);
-            let _tradeMachine = _contractsObj.garbiSwap.pool[setting["pool"]].tradeMachine;
-            let _tokensAddr = [];
-            for (let idx in _tokensObj) {
-                _tokensAddr.push(_tokensObj[idx]);
-            }
-            let _r = await _contract.methods.getData(_user, _tradeMachine, _tokensAddr).call();
-            let _data = {};
-            for (let idx = 0; idx < _r.length; idx++) { 
-                let _tokenDecimal = configHelper.getTokenDecimalByAddress(setting.chainId, _r[idx]['token']);
-                _data[_r[idx]['token']] = parseInt(_r[idx]['amount']) / (10 ** _tokenDecimal);
-            }
-            storeHelper.setVaule('allowsTransferToTradeMachineOf', _data);
         },
         getSlippage() {
             let _slippage = $('input[name=slippage]').val();
