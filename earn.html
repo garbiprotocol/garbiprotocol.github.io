@@ -7,24 +7,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
               />
-        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
               referrerpolicy="no-referrer" />
-        <link rel="shortcut icon" href="../assets/images/garbi_favicon.png" type="image/x-icon">
-        <link href="../assets/css/style.css" rel="stylesheet">
+        <link rel="shortcut icon" href="./assets/images/garbi_favicon.png" type="image/x-icon">
+        <link href="./assets/css/style.css" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="../assets/js/web3.min.js"></script>
-        <script src="../assets/js/trustwallet.js"></script>
-        <script src="../js/contract/bsc/abi.js"></script>
-        <script src="../js/contract/bsc/config.js"></script>
-        <script src="../js/data/store.js"></script>
-        <script src="../js/contract/bsc/core.js"></script>
-        <script src="../js/contract/bsc/base.contract.js"></script>
-        <script src="../js/contract/bsc/data.js"></script>
-        <script src="../js/contract/bsc/garbi.farm.info.contract.js"></script>
-        <title>Zero loss lottery - Garbi Protocol</title>
+        <script src="./assets/js/web3.min.js"></script>
+        <script src="./assets/js/trustwallet.js"></script>
+        <script src="./js/contract/arbitrum/abi.js"></script>
+        <script src="./js/contract/arbitrum/config.js"></script>
+        <script src="./js/data/store.js"></script>
+        <script src="./js/contract/arbitrum/core.js"></script>
+        <script src="./js/contract/arbitrum/base.contract.js"></script>
+        <script src="./js/contract/arbitrum/data.js"></script>
+        <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
+
+        <title>Earn - Garbi Protocol</title>
     </head>
 
     <body>
@@ -39,7 +40,7 @@
                                         <i class="fas fa-bars"></i>
                                     </button>
                                     <div class="logo" onclick="window.location = 'index.html'">
-                                        <img src="../assets/images/garbi.png" />
+                                        <img src="./assets/images/garbi.png" />
                                     </div>
                                 </div>
                             </div>
@@ -69,13 +70,13 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="withdraw.html">Withdraw</a>
                                         </li>
-                                        <li>
+                                        <li class="nav-item active">
                                             <a class="nav-link" href="earn.html">Earn</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="vest.html">Vest</a>
                                         </li>
-                                        <li class="nav-item active">
+                                        <li class="nav-item">
                                             <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
                                         </li>
                                         <li class="nav-item">
@@ -90,11 +91,11 @@
             </header>
             <main class="page__swap">
                 <section class="blog__container">
-                    <article class="swap__main garbi__box-1 p-3 mb-3" style="background: rgb(45, 66, 252)">
+                    <article class="swap__main garbi__box-1 p-3 mb-3">
                         <div class="d-flex align-items-center justify-content-between mb-11">
                             <div class="f-700 mt-3">
                                 <fieldset>
-                                    <p>This is the demo page. Please follow our <a style="text-decoration: underline" href="https://twitter.com/garbi_protocol/" target="_blank">Twitter</a> to get information about the launch date..</p>
+                                    <p>Stake GLP and GsLP to earn rewards.</p>
                                 </fieldset>
                             </div>
                         </div>
@@ -103,48 +104,84 @@
                         <div class="d-flex align-items-center justify-content-between mb-14">
                             <div class="f-700">
                                 <fieldset>
-                                    <div class="blog__container mt-1 pt-0 pt-md-4">
+                                    <div class="blog__container mt-2 pt-0 pt-md-4">
                                         <div class="garbi__box__farms ps-3 pe-3 pt-3 pb-2">
                                             <div class="pool__list-reponsive">
                                                 <table class="pool__list table-farm">
                                                     <thead>
                                                         <tr>
-                                                            <th class="f-14 f-700"> <span class="ml-10"> Pool</span></th>
-                                                            <th class="f-14 f-700 text-end">Prize</th>
+                                                            <th class="f-14 f-700">Stake</th>
                                                             <th class="f-14 f-700 text-end">Rewards APR</th>
-                                                            <th class="f-14 f-700 text-end">Tickets</th>
                                                             <th class="f-14 f-700 text-end">TVL</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="tbody">
-                                                        <tr>
+                                                        <tr onclick="window.location='grb-weth-farm.html'">
                                                             <td>
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="logo">
-                                                                        <!-- <span><img class="coin" src="../assets/images/garbi_logo.png"></span> -->
-                                                                        <span><img class="coin" src="../assets/images/usdc_logo.png"></span>
+                                                                        <span><img class="base-coin" src="./assets/images/garbi_logo.png"></span>
+                                                                        <span><img class="token-coin" src="./assets/images/eth_logo.png"></span>
                                                                     </div>
                                                                     <div class="info pl-12">
                                                                         <div class="f-14 f-700 text-white">
-                                                                            <span>USDC</span>
-                                                                            <span class="speed-mining-TUR">0.5X</span>
-                                                                            <span class="speed-mining-TUR">USDC</span>
+                                                                            <span>GRB-WETH</span>
+                                                                            <span class="speed-mining-TUR">77x</span>
                                                                             <span class="speed-mining-TUR">GRB</span>
                                                                         </div>
-                                                                        <div class="f-14 color-2">
-                                                                            <span class="will-be-awarded">
-                                                                                00 DAY 00 HR 00 MIN 00 SEC
-                                                                            </span>
-                                                                        </div>
-
+                                                                        <div class="f-14 color-2">Deposit GRB-WETH GLP earn GRB</div>
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="f-14 text-end" id="price-2">-</td>
                                                             <td class="f-14 text-end" id="apr-2">-</td>
-                                                            <td class="f-14 text-end" id="ticket-2">-</td>
                                                             <td class="f-14 text-end" id="tvl-2">-</td>
                                                         </tr>
+                                                        <tr onclick="window.location='usdt-usdc-farm.html'">
+                                                            <td>
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="logo">
+                                                                        <span><img class="base-coin" src="./assets/images/usdt_logo.png"></span>
+                                                                        <span><img class="token-coin" src="./assets/images/usdc_logo.png"></span>
+                                                                    </div>
+                                                                    <div class="info pl-12">
+                                                                        <div class="f-14 f-700 text-white">
+                                                                            <span>USDT-USDC</span>
+                                                                            <span class="speed-mining-TUR">15X</span>
+                                                                            <span class="speed-mining-TUR">GRB</span>
+                                                                            <span class="speed-mining-TUR">GARBISWAP</span>
+
+                                                                        </div>
+                                                                        <div class="f-14 color-2">Deposit USDT-USDC GsLP earn GRB.</div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="f-14 text-end" id="apr-4">-</td>
+                                                            <td class="f-14 text-end" id="tvl-4">-</td>
+                                                        </tr>
+                                                        <tr onclick="window.location='dai-usdc-farm.html'">
+                                                            <td>
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="logo">
+                                                                        <span><img class="base-coin" src="./assets/images/dai_logo.png"></span>
+                                                                        <span><img class="token-coin" src="./assets/images/usdc_logo.png"></span>
+                                                                    </div>
+                                                                    <div class="info pl-12">
+                                                                        <div class="f-14 f-700 text-white">
+                                                                            <span>DAI-USDC</span>
+                                                                            <span class="speed-mining-TUR">15X</span>
+                                                                            <span class="speed-mining-TUR">GRB</span>
+                                                                            <span class="speed-mining-TUR">GARBISWAP</span>
+
+                                                                        </div>
+                                                                        <div class="f-14 color-2">Deposit DAI-USDC GsLP earn GRB.</div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="f-14 text-end" id="apr-3">-</td>
+                                                            <td class="f-14 text-end" id="tvl-3">-</td>
+                                                        </tr>
+                                                    </tbody>
+
                                                 </table>
                                             </div>
                                         </div>
@@ -153,22 +190,6 @@
                             </div>
                         </div>
                     </article>
-                    <article class="garbi__box-1 p-3 mb-3">
-                        <p class="f-700">No-loss Lottery Pool</p>
-                        <p><b>What is No-loss Lottery?</b></p>
-                        <p>No-loss Lottery Pool offers a chance to win prizes in exchange for depositing funds. Even if you don't win, you keep all your deposited funds. Prizes are made up of the interest that accrues on all user's deposits.</p>
-                        <p><b>Where does the money for the prize come from?</b></p>
-                        <p>When you join a prize pool, your money is deposited into a yield source. The yield source generates the return that makes up the prizes.</p>
-                        <p><b>What prevents people from depositing right before a prize and withdrawing right after?</b></p>
-                        <p>
-                            When you deposit into a prize pool, you are instantly eligible to win. This creates a possibility for people to abuse the system by depositing right before a prize, having a chance to win, and withdrawing right after. The protocol prevents this by enforcing
-                            a temporary early withdrawal penalty. This means if someone deposits and immediately withdraws, they will have to pay a penalty that will go to the next prize. Over time this penalty reduces to zero.
-                        </p>
-
-
-                        </div>
-                    </article>
-
                 </section>
             </main>
 
@@ -213,14 +234,39 @@
                 </nav>
             </footer>
         </div>
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
+        <script src="./assets/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="../assets/js/custom.js"></script>
-        <script src="../assets/js/custom.menu.js"></script>
+        <script src="./assets/js/custom.js"></script>
+        <script src="./assets/js/custom.menu.js"></script>
 
     </body>
     <script>
-                                                           
+        var abiHelper = new $.ABI();
+        var coreHelper = new $.Core();
+        var configHelper = new $.CONFIG();
+        var contractBaseHelper = new $.CONTRACTBASE();
+        var storeHelper = new $.STORE();
+        var dataHelper = new $.DATA();
+        var garbiFarmHelper = new $.GARBI_FARM();
+        var chainId = 421613;
+        $(document).ready(function() {
+            abiHelper.init({});
+            coreHelper.init({});
+            configHelper.init({});
+            storeHelper.init({});
+            contractBaseHelper.init({
+                "chainId": chainId
+            });
+            dataHelper.init({
+                "chainId": chainId
+            });
+            garbiFarmHelper.init({
+                "chainId": chainId,
+                "pids": []
+            })
+            coreHelper.initBTNName('btn-swap', 'Swap');
+            garbiFarmHelper.initFarmListPageInterface();
+        });                                       
     </script>
 
 </html>
