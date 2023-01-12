@@ -35,7 +35,7 @@ $.GARBI_FARM.prototype = (function() {
                 self.initData();
             }, 15000);
         },
-        initFarmListPageInterface(_pidOfFarm) {
+        initFarmListPageInterface() {
             let self = this;
             let _pools = self._getPools();
             let _user = coreHelper.getUserAccount();
@@ -53,7 +53,7 @@ $.GARBI_FARM.prototype = (function() {
             }
 
             setTimeout(function() {
-                self.initFarmListPageInterface(_pidOfFarm);
+                self.initFarmListPageInterface();
             }, 3000);
         },
         initFarmDetailPageInterface(_pid) {
@@ -116,8 +116,8 @@ $.GARBI_FARM.prototype = (function() {
         },
         async _initGarbiPool(_pool) {
             let _user = coreHelper.getUserAccount();
-            let _abi = abiHelper.getCakeLPPoolABI();
-            let _readContract = bscContractHelper.getReadContract(_pool.contract, _abi, setting.chainId);
+            let _abi = abiHelper.getGarbiFarmPoolABI();
+            let _readContract = contractBaseHelper.getReadContract(_pool.contract, _abi, setting.chainId);
             let _r = await _readContract.methods.getData(_user).call();
             let _data = {};
             _data["miningSpeed"] = parseInt(_r["miningSpeed_"]);
