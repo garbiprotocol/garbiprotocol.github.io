@@ -247,7 +247,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             //user is "finished typing," do something
             function doneTyping () {
                 typeOfInputAmt == 2
-                this.getTokenInputFromBaseInput()
+                self.getTokenInputFromBaseInput();
                 if ($('input[name=base_input]').val() == "") {
                     $('input[name=token_input]').val("")
                 }
@@ -423,33 +423,36 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
                 let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
                 let now = parseInt(Date.now() / 1000)
-                    let deadline = now + addLPDealine
-                    let _transactionHistory = {};
-                    let minLp = mintLp - mintLp * slippage;
-                    _contract
-                        .methods
-                        .addLP(coreHelper.toBN(minLp, _lp.lbDecimal), coreHelper.toBN(baseInput, _baseDecimal), coreHelper.toBN(tokenInput, _tokenDecimal), deadline)
-                        .send({ from: userAdd })
-                        .on("transactionHash", function(hash) {
-                            coreHelper.showPopup('confirm-popup');
-                        })
-                        .on("confirmation", function(confirmationNumber, receipt) {
-                            if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
-                                coreHelper.hidePopup('confirm-popup', 0);
-                                coreHelper.showPopup('success-confirm-popup');
-                                coreHelper.hidePopup('success-confirm-popup', 10000);
-                                $('input[name=token_input]').val("");
-                                $('input[name=base_input]').val("");
-                                typeOfInputAmt = 0
-                                mintLp = 0
-                            }
-                        })
-                        .on('receipt', (receipt) => {
-                            self._showSuccessPopup(receipt);
-                        })
-                        .on('error', (err, receipt) => {
-                            console.log(err);
-                        });
+                let deadline = now + addLPDealine;
+                let _transactionHistory = {};
+                let minLp = mintLp - mintLp * slippage;
+                console.log(coreHelper.toBN(minLp, _lp.lbDecimal));
+                console.log(coreHelper.toBN(baseInput, _baseDecimal));
+                console.log(coreHelper.toBN(tokenInput, _tokenDecimal));
+                _contract
+                    .methods
+                    .addLP(coreHelper.toBN(minLp, _lp.lbDecimal), coreHelper.toBN(baseInput, _baseDecimal), coreHelper.toBN(tokenInput, _tokenDecimal), deadline)
+                    .send({ from: userAdd })
+                    .on("transactionHash", function(hash) {
+                        coreHelper.showPopup('confirm-popup');
+                    })
+                    .on("confirmation", function(confirmationNumber, receipt) {
+                        if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
+                            coreHelper.hidePopup('confirm-popup', 0);
+                            coreHelper.showPopup('success-confirm-popup');
+                            coreHelper.hidePopup('success-confirm-popup', 10000);
+                            $('input[name=token_input]').val("");
+                            $('input[name=base_input]').val("");
+                            typeOfInputAmt = 0
+                            mintLp = 0
+                        }
+                    })
+                    .on('receipt', (receipt) => {
+                        self._showSuccessPopup(receipt);
+                    })
+                    .on('error', (err, receipt) => {
+                        console.log(err);
+                    });
             })
         },
 
