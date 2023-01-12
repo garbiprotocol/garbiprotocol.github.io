@@ -5,7 +5,7 @@ $.GARBI_SWAP.prototype = (function() {
         pool: "default"
     };
     var transactions = {};
-    const BASE_TOKEN = 'usdc';
+    const BASE_TOKEN = ['usdc', 'weth'];
     return {
         init: function(options) {
             if (typeof options === "undefined" || options.length < 1) {
@@ -778,7 +778,7 @@ $.GARBI_SWAP.prototype = (function() {
             if (_from == _to) {
                 return false;
             }
-            if (_from == BASE_TOKEN) {
+            if (BASE_TOKEN.includes(_from)) {
                 return true;
             }
             return false;
@@ -787,7 +787,7 @@ $.GARBI_SWAP.prototype = (function() {
             if (_from == _to) {
                 return false;
             }
-            if (_to == BASE_TOKEN) {
+            if (BASE_TOKEN.includes(_to)) {
                 return true;
             }
             return false;
@@ -796,7 +796,7 @@ $.GARBI_SWAP.prototype = (function() {
             if (_from == _to) {
                 return false;
             }
-            if (_from != BASE_TOKEN && _to != BASE_TOKEN) {
+            if (!BASE_TOKEN.includes(_from) && !BASE_TOKEN.includes(_to)) {
                 return true;
             }
             return false;

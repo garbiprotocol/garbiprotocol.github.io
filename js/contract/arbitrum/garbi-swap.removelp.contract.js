@@ -70,16 +70,28 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
             let transactionPoolclick = $("#selectPool")
             let token = $(".token")
             let img_token = $(".img-token")
+            let base = $(".base")
+            let img_base = $(".img-base")
 
             transactionPoolclick.change(function() {
                 let pool = $(this).val();
+                if (pool == "grbweth") {
+                    token.html("GRB")
+                    img_token.attr("src", "../assets/images/grb_token.png");
+                    base.html("WETH")
+                    img_base.attr("src", "../assets/images/eth_logo.png");
+                }
                 if (pool == "usdtusdc") {
                     token.html("USDT")
                     img_token.attr("src", "../assets/images/usdt_logo.png");
+                    base.html("USDC")
+                    img_base.attr("src", "../assets/images/usdc_logo.png");
                 }
                 if (pool == "daiusdc") {
                     token.html("DAI")
                     img_token.attr("src", "../assets/images/dai_logo.png");
+                    base.html("USDC")
+                    img_base.attr("src", "../assets/images/usdc_logo.png");
                 }
             })
         },
