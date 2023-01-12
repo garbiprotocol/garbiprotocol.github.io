@@ -360,7 +360,6 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
         },
 
         resetPageInput() {
-            // body...
             $('input[name=amount_of_liquidity]').val("");
             $('input[name=token_output]').val("");
             $('input[name=base_output]').val("");

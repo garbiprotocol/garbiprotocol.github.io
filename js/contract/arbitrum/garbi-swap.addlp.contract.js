@@ -35,7 +35,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             setTimeout(function() {
                 self.displayBalance();
                 self._setBaseBalance();
-            }, 5000);
+            }, 3000);
         },
 
         async checkAllowce(BTN_token_Approve, BTN_base_Approve, BTNDeposit) {
@@ -260,6 +260,8 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             let img_token = $(".img-token")
             let base = $(".base")
             let img_base = $(".img-base")
+            
+            let self = this;
 
             transactionPoolclick.change(function() {
                 let pool = $(this).val();
@@ -281,6 +283,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     base.html("USDC")
                     img_base.attr("src", "../assets/images/usdc_logo.png");
                 }
+                self.resetPageInput();
             })
         },
 
@@ -438,9 +441,6 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 let deadline = now + addLPDealine;
                 let _transactionHistory = {};
                 let minLp = mintLp - mintLp * slippage;
-                console.log(coreHelper.toBN(minLp, _lp.lbDecimal));
-                console.log(coreHelper.toBN(baseInput, _baseDecimal));
-                console.log(coreHelper.toBN(tokenInput, _tokenDecimal));
                 _contract
                     .methods
                     .addLP(coreHelper.toBN(minLp, _lp.lbDecimal), coreHelper.toBN(baseInput, _baseDecimal), coreHelper.toBN(tokenInput, _tokenDecimal), deadline)
@@ -651,6 +651,13 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         _getTokenContract(_token) {
             let _abi = abiHelper.getTokenABI();
             return contractBaseHelper.getMainContract(_token, _abi);
+        },
+        
+        resetPageInput() {
+            $('.token-bal').text("0.0");
+            $('.base-bal').text("0.0");
+            $('input[name=token_input]').val("");
+            $('input[name=base_input]').val("");
         },
 
     };

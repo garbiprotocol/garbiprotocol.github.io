@@ -69,7 +69,7 @@ $.GARBI_FARM.prototype = (function() {
                 let _farmInfoOf = storeHelper.getValue('farmInfoOf');
                 let _userFarmInfoObj = _farmInfoOf && _farmInfoOf[_user] ? _farmInfoOf[_user] : {};
                 let _userFarmInfoByPoolContract = _userFarmInfoObj[_pool.contract];
-                $(`input[name=deposit_amt]`).val(_userFarmInfoByPoolContract["userWantBal"]);
+                $(`input[name=deposit_amt]`).val(coreHelper.roundDownFloat(_userFarmInfoByPoolContract["userWantBal"], 6).toFixed(6));
             });
         },
         onchangeMaxShare(_pid) {
@@ -79,7 +79,7 @@ $.GARBI_FARM.prototype = (function() {
                 let _farmInfoOf = storeHelper.getValue('farmInfoOf');
                 let _userFarmInfoObj = _farmInfoOf && _farmInfoOf[_user] ? _farmInfoOf[_user] : {};
                 let _userFarmInfoByPoolContract = _userFarmInfoObj[_pool.contract];
-                $(`input[name=withdraw_amt`).val(_userFarmInfoByPoolContract["userWantShare"]);
+                $(`input[name=withdraw_amt`).val(coreHelper.roundDownFloat(_userFarmInfoByPoolContract["userWantShare"], 6).toFixed(6));
             });
         },
         async approve(_pid, _classBTN) {
@@ -146,6 +146,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);
+                        _self.resetPageInput();
                     })
                     .on('receipt', (receipt) => {
                         _self._showSuccessPopup(receipt);
@@ -184,6 +185,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);
+                        _self.resetPageInput();
                     })
                     .on('receipt', (receipt) => {
                         _self._showSuccessPopup(receipt);
@@ -420,6 +422,10 @@ $.GARBI_FARM.prototype = (function() {
                 });
             }
             return _data;
-        }
+        },
+        resetPageInput() {
+            $('input[name=deposit_amt]').val("");
+            $('input[name=withdraw_amt]').val("");
+        },
     };
 }(jQuery));
