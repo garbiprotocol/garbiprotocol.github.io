@@ -60,28 +60,28 @@ $.GARBI_SWAP.prototype = (function() {
             await self._setTransactionDetail();
             setTimeout(function() {
                 self.displayTransactionDetail();
-            }, 7000);
+            }, 15000);
         },
         async displayEstimatePrice() {
             let self = this;
             await self._setEstimatePrice();
             setTimeout(function() {
                 self.displayEstimatePrice();
-            }, 7000);
+            }, 15000);
         },
         async displayBalance() {
             let self = this;
             await self._setTokenBalance();
             setTimeout(function() {
                 self.displayBalance();
-            }, 7000);
+            }, 5000);
         },
         async displayUSDValue() {
             let self = this;
             await self._setUsdValue();
             setTimeout(function() {
                 self.displayUSDValue();
-            }, 7000);
+            }, 15000);
         },
         async loadData() {
             let self = this;
@@ -189,11 +189,27 @@ $.GARBI_SWAP.prototype = (function() {
         },
         onChangeAmountIn() {
             let self = this;
-            $('input[name=amountIn]').on('input', function(e) {
-                e.preventDefault();
+            //setup before functions
+            var typingTimer;                //timer identifier
+            var doneTypingInterval = 1000;  //time in ms, 3 second for example
+            var $input =  $('input[name=amountIn]');
+
+            //on keyup, start the countdown
+            $input.on('keyup', function () {
+              clearTimeout(typingTimer);
+              typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            });
+
+            //on keydown, clear the countdown 
+            $input.on('keydown', function () {
+              clearTimeout(typingTimer);
+            });
+
+            //user is "finished typing," do something
+            function doneTyping () {
                 let _from = $('select[name=from]').val();
                 let _to = $('select[name=to]').val();
-                let _amountIn = e.target.value;
+                let _amountIn = $input.val();
                 _amountIn = parseFloat(_amountIn);
                 if (!_from || !_to || isNaN(_amountIn) == true) {
                     return false;
@@ -202,13 +218,15 @@ $.GARBI_SWAP.prototype = (function() {
                 let _price = _garbiSwapPriceOf ? _garbiSwapPriceOf[`${_from}_${_to}`] : 0;
                 let _amountOut = _amountIn * _price;
                 if (isNaN(_amountOut) == false) {
-                    self._putAmountOut(_amountOut);
-                    self._setEstimatePrice();
-                    self._setTokenBalance();
-                    self._setUsdValue();
-                    self._setTransactionDetail();
+                    self._setAmountOut();
+                    //self._setTokenBalance();
+                    //self._setUsdValue();
                 }
-            });
+            }
+//            $('input[name=amountIn]').on('input', function(e) {
+//                e.preventDefault();
+//                
+//            });
         },
         autoSlippage() {
             let self = this;
@@ -284,7 +302,7 @@ $.GARBI_SWAP.prototype = (function() {
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lp = self._getLp(_pairs, _from, _to);
-                let _amountOut = await self._estimateAmountOut(_amountIn, _from, _to);
+                let _amountOut = self._getAmountOut();
                 let _slippage = self.getSlippage();
                 let _deadline = self.getDeadline();
                 let _minOut = _amountOut - _amountOut * _slippage;
@@ -325,7 +343,7 @@ $.GARBI_SWAP.prototype = (function() {
                 let _contractsObj = configHelper.getContracts(setting.chainId);
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lp = self._getLp(_pairs, _from, _to);
-                let _amountOut = await self._estimateAmountOut(_amountIn, _from, _to);
+                let _amountOut = self._getAmountOut();
                 let _slippage = self.getSlippage();
                 let _deadline = self.getDeadline();
                 let _minOut = _amountOut - _amountOut * _slippage;
@@ -367,7 +385,7 @@ $.GARBI_SWAP.prototype = (function() {
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
                 let _lpFrom = self._getLpByToken(_pairs, _from);
                 let _lpTo = self._getLpByToken(_pairs, _to);
-                let _amountOut = await self._estimateAmountOut(_amountIn, _from, _to);
+                let _amountOut = self._getAmountOut();
                 let _slippage = self.getSlippage();
                 let _deadline = self.getDeadline();
                 let _minOut = _amountOut - _amountOut * _slippage;
@@ -518,6 +536,11 @@ $.GARBI_SWAP.prototype = (function() {
             _amountIn = parseFloat(_amountIn);
             return isNaN(_amountIn) ? 0 : _amountIn;
         },
+        _getAmountOut() {
+            let _amountOut = $('input[name=amountOut]').val();
+            _amountOut = parseFloat(_amountOut);
+            return isNaN(_amountOut) ? 0 : _amountOut;
+        },
         async _setAmountOut() {
             let _from = $('select[name=from]').val();
             let _to = $('select[name=to]').val();
@@ -531,18 +554,18 @@ $.GARBI_SWAP.prototype = (function() {
                 _isClearAmountOut = true;
                 _amountIn = 1;
             }
-            console.log("_amountIn", _amountIn)
             let _amountOut = await this._estimateAmountOut(_amountIn, _from, _to);
-            console.log("_amountOut", _amountOut)
             if (_isClearAmountOut == true) {
                 this._putAmountOut('');
             } else {
                 this._putAmountOut(_amountOut);
             }
+            this._setUsdValue();
+            this._setEstimatePrice();
+            this._setTransactionDetail();
         },
         async _estimateAmountOut(_amountIn, _from, _to) {
             let _amountOut = await this.getAmountOut(_amountIn, _from, _to);
-            console.log("_estimateAmountOut", _amountOut)
             let _price = _amountOut / _amountIn;
             let _garbiSwapPriceOf = storeHelper.getValue('garbiSwapPriceOf');
             _garbiSwapPriceOf = _garbiSwapPriceOf ? _garbiSwapPriceOf : {};
@@ -568,20 +591,11 @@ $.GARBI_SWAP.prototype = (function() {
                 if (_amountIn <= 0) {
                     return _setDefaulInfo();
                 }
-                let _marketPrice = await self._getMarketPrice(_from, _to);
-                let _amountOut = await self.getAmountOut(_amountIn, _from, _to);
-                let _amountInByMarketPrice = _amountOut / _marketPrice;
-                let _newMarketPrice = await self._getNewMarketPrice(_amountIn, _amountOut, _from, _to);
+                let _amountOut = await self._getAmountOut();
                 let _slippage = self.getSlippage();
                 let _minOut = _amountOut - _amountOut * _slippage;
-                let _tradeFee = 0;
+                let _tradeFee = _amountIn*0.01/100;
                 let _priceImpact = 0;
-                if (_marketPrice > _newMarketPrice) {
-                    _priceImpact = (_marketPrice - _newMarketPrice) / _marketPrice;
-                }
-                if (_amountInByMarketPrice < _amountIn) {
-                    _tradeFee = _amountIn - _amountInByMarketPrice;
-                }
                 $('.trxn-allowed-slippage').html(`${coreHelper.numberWithCommas(_slippage * 100, 2)} %`);
                 $('.trxn-liquidity-provider-fee').html(`${coreHelper.numberWithCommas(_tradeFee, 6)} ${_from.toUpperCase()}`);
                 $('.trxn-price-impact').html(`- ${coreHelper.numberWithCommas(_priceImpact * 100, 12)}%`);
@@ -607,7 +621,7 @@ $.GARBI_SWAP.prototype = (function() {
             } else {
                 let _from = $('select[name=from]').val();
                 let _to = $('select[name=to]').val();
-                let _amountOut = await this._estimateAmountOut(_amountIn, _from, _to);
+                let _amountOut = $('input[name=amountOut]').val();
                 let _fromAddr = configHelper.getTokenByTokenName(setting.chainId, _from);
                 let _toAddr = configHelper.getTokenByTokenName(setting.chainId, _to);
                 let _priceOfFrom = _priceOf[_fromAddr] ? _priceOf[_fromAddr] : 0;
@@ -651,7 +665,7 @@ $.GARBI_SWAP.prototype = (function() {
                     return self._putEstimatePrice('');
                 }
                 _amountIn = _amountIn == 0 ? 1 : _amountIn;
-                let _amountOut = await self._estimateAmountOut(_amountIn, _from, _to);
+                let _amountOut = $('input[name=amountOut]').val();
                 if (_amountOut <= 0) {
                     return self._putEstimatePrice('');
                 }
@@ -666,7 +680,7 @@ $.GARBI_SWAP.prototype = (function() {
             $('.estimate-price').html(_value);
         },
         _putAmountOut(_amountOut) {
-            _amountOut = _amountOut == '' ? _amountOut : coreHelper.numberWithCommas(_amountOut, 6);
+            _amountOut = _amountOut == '' ? _amountOut : _amountOut;
             $('input[name=amountOut]').val(_amountOut);
         },
         _getTokenMainContract(_token) {

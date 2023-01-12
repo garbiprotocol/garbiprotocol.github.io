@@ -62,7 +62,7 @@ $.CONFIG.prototype = (function() {
             'grb': '0xd1eB8a5798E04703ec5324c99405F581BD6318b8',
             'usdc': '0x29680bd5f3f324001add9229d6b44615353f554c',
             'usdt': '0x2e4e7ebff934b6999bdc2983f17f6bd4b6a84206',
-            'dai': '0x9Ce3C139316A560A57c861F558284CF31EBC8acE'
+            'dai': '0x9ce3c139316a560a57c861f558284cf31ebc8ace'
         }
     }
     var TOKENS_DECIMAL = {

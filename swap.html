@@ -287,7 +287,7 @@
                                         <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">-</span></div>
                                     </div>
                                     <div class="col-7">
-                                        <input class="swap__form-input" value="0.0" name="amountOut" readonly/>
+                                        <input class="swap__form-input" placeholder="0.0" name="amountOut" readonly/>
                                         <div class="text-end">
                                             <span class="color-2 f-roboto f-14 f-400">~$</span>
                                             <span class="text-white f-700 f-roboto f-14 to-volume">0</span>
@@ -362,7 +362,7 @@
                         <div>USDT: <span class="swap-liquidity-usdt">-</span></div>
                         <div>USDC: <span class="swap-liquidity-usdc">-</span></div>
                         <div>DAI: <span class="swap-liquidity-dai">-</span></div>
-                        <div>Trade Fee: 0.035%</div>
+                        <div>Trade Fee: 0.01%</div>
                     </article>
                 </section>
             </main>
@@ -476,10 +476,12 @@
 
             garbiSwapHelper.loadData();
             garbiSwapHelper.displayBTN();
-            garbiSwapHelper.displayBalance();
-            garbiSwapHelper.displayUSDValue();
-            garbiSwapHelper.displayEstimatePrice();
-            garbiSwapHelper.displayTransactionDetail();
+            setTimeout(function() {
+                garbiSwapHelper.displayBalance();
+            }, 1000);
+            //garbiSwapHelper.displayUSDValue();
+            //garbiSwapHelper.displayEstimatePrice();
+            //garbiSwapHelper.displayTransactionDetail();
             garbiSwapHelper.onChangeSlippage();
             garbiSwapHelper.onChangeFromToken();
             garbiSwapHelper.onChangeToToken();

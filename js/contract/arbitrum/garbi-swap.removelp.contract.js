@@ -1,3 +1,6 @@
+const ALLOW_LIMIT_AMT = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
+var userLPBalance = 0;
+
 $.GARBI_SWAP_REMOVE = function() {}
 $.GARBI_SWAP_REMOVE.prototype = (function() {
     var setting = {
@@ -22,7 +25,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
             let self = this
             try {
                 self.getDataToRemoveLP()
-                self.getLpBal()
+                //self.getLpBal()
                 self.getSlippage()
                 self.validationAmountOfLq()
                 self.reloadData()
@@ -126,8 +129,6 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 }
                 let _amount = 0;
                 if (_amountOfLiquidity > 1) {
-                    //			_amount = ALLOW_LIMIT_AMT;
-                    //			_getData(_amount);
                     _amountOfLiquidity = 1;
                 }
                 self.getLpBal()
@@ -160,12 +161,10 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
             } catch (e) {
                 console.log("getDataToRemoveLP", e);
             }
-            setTimeout(() => {
-                self.getDataToRemoveLP()
-            }, 7000)
         },
 
         getLpBal() {
+            console.log("calll");
             return new Promise((resovel, reject) => {
                 let _pool = $('select[name=lp_token]').val();
                 let _token = _pool.slice(0, _pool.length - 4);
@@ -194,6 +193,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     .call()
                     .then(_result => {
                         let lpBal = parseInt(_result) / (10 ** lp["lbDecimal"]);
+                        userLPBalance = lpBal;
                         return resovel(lpBal);
                     })
                     .catch(e => reject(e));
@@ -234,15 +234,9 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     _amount = ALLOW_LIMIT_AMT;
                     _remove(_amount);
                 } else {
-                    self.getLpBal()
-                        .then(_lpBal => {
-                            if (_lpBal <= 0) {
-                                return false;
-                            }
-                            _amount = _lpBal * _amountOfLiquidity;
-                            _amount = coreHelper.toBN(_amount, lp["lbDecimal"]);
-                            _remove(_amount);
-                        });
+                    _amount = userLPBalance * _amountOfLiquidity;
+                    _amount = coreHelper.toBN(_amount, lp["lbDecimal"]);
+                    _remove(_amount);
                 }
 
                 function _remove(lpAmtToRemove) {
