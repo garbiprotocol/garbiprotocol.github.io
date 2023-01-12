@@ -66,7 +66,7 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.GRB_ETH.LP',
-                    price: 15,
+                    price: 35,
                     version: 1
                 },
                 4: {
@@ -117,7 +117,7 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         421613: {
-            'grb': 0.2,
+            'grb': 0.25,
             'usdc': 1,
             'usdt': 1,
             'dai': 1
