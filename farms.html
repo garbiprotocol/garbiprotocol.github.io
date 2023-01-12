@@ -17,14 +17,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="../assets/js/web3.min.js"></script>
         <script src="../assets/js/trustwallet.js"></script>
-        <script src="../js/contract/bsc/abi.js"></script>
-        <script src="../js/contract/bsc/config.js"></script>
+        <script src="../js/contract/arbitrum/abi.js"></script>
+        <script src="../js/contract/arbitrum/config.js"></script>
         <script src="../js/data/store.js"></script>
-        <script src="../js/contract/bsc/core.js"></script>
-        <script src="../js/contract/bsc/base.contract.js"></script>
-        <script src="../js/contract/bsc/data.js"></script>
-        <script src="../js/contract/bsc/garbi-venus-lp-info.contract.js"></script>
-        <script src="../js/contract/bsc/garbi.farm.info.contract.js"></script>
+        <script src="../js/contract/arbitrum/core.js"></script>
+        <script src="../js/contract/arbitrum/base.contract.js"></script>
+        <script src="../js/contract/arbitrum/data.js"></script>
+        <script src="../js/contract/arbitrum/garbi.farm.contract.js"></script>
 
         <title>Farms - Garbi Protocol</title>
     </head>
@@ -131,8 +130,8 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="f-14 text-end" id="apr-6">-</td>
-                                                            <td class="f-14 text-end" id="tvl-6">-</td>
+                                                            <td class="f-14 text-end" id="apr-2">-</td>
+                                                            <td class="f-14 text-end" id="tvl-2">-</td>
                                                         </tr>
                                                         <tr onclick="window.location='usdt-usdc-farm.html'">
                                                             <td>
@@ -153,8 +152,8 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="f-14 text-end" id="apr-1">-</td>
-                                                            <td class="f-14 text-end" id="tvl-1">-</td>
+                                                            <td class="f-14 text-end" id="apr-4">-</td>
+                                                            <td class="f-14 text-end" id="tvl-4">-</td>
                                                         </tr>
                                                         <tr onclick="window.location='dai-usdc-farm.html'">
                                                             <td>
@@ -175,8 +174,8 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="f-14 text-end" id="apr-10">-</td>
-                                                            <td class="f-14 text-end" id="tvl-10">-</td>
+                                                            <td class="f-14 text-end" id="apr-3">-</td>
+                                                            <td class="f-14 text-end" id="tvl-3">-</td>
                                                         </tr>
                                                     </tbody>
 
@@ -239,7 +238,32 @@
 
     </body>
     <script>
-                                                         
+        var abiHelper = new $.ABI();
+        var coreHelper = new $.Core();
+        var configHelper = new $.CONFIG();
+        var contractBaseHelper = new $.CONTRACTBASE();
+        var storeHelper = new $.STORE();
+        var dataHelper = new $.DATA();
+        var garbiFarmHelper = new $.GARBI_FARM();
+        var chainId = 421613;
+        $(document).ready(function() {
+            abiHelper.init({});
+            coreHelper.init({});
+            configHelper.init({});
+            storeHelper.init({});
+            contractBaseHelper.init({
+                "chainId": chainId
+            });
+            dataHelper.init({
+                "chainId": chainId
+            });
+            garbiFarmHelper.init({
+                "chainId": chainId,
+                "pids": []
+            })
+            coreHelper.initBTNName('btn-swap', 'Swap');
+            garbiFarmHelper.initFarmListPageInterface();
+        });                                       
     </script>
 
 </html>
