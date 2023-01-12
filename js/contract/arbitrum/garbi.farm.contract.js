@@ -143,6 +143,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);
@@ -182,6 +183,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);
@@ -219,6 +221,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);

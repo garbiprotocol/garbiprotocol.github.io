@@ -390,6 +390,7 @@ $.GARBI_SWAP.prototype = (function() {
                     .send({ from: _user })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         self._showSuccessPopup(receipt);
