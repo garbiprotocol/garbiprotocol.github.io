@@ -15,5 +15,5 @@ module.exports = function(deployer) {
 //        return deployer.deploy(GRBProxy, GRB.address);
 //    });
     //deployer.deploy(veGRB, "1250000000000000000000000");
-    deployer.deploy(GWETH, "1000000000000000000000000", "500000000000000000000000");
+    //deployer.deploy(GWETH, "1000000000000000000000000", "500000000000000000000000");
 };

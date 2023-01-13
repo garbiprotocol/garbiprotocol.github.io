@@ -5,38 +5,38 @@ const GarbiswapTradeUSDTUSDC = artifacts.require("GarbiswapTradeUSDTUSDC");
 const GarbiswapTradeGRBWETH = artifacts.require("GarbiswapTradeGRBWETH");
 const GarbiswapTradeMachine = artifacts.require("GarbiswapTradeMachine");
 
-const USDC = "0x29680bd5f3f324001add9229d6b44615353f554c";
-const DAI = "0x9ce3c139316a560a57c861f558284cf31ebc8ace";
-const USDT = "0x2E4e7eBfF934B6999BDc2983F17F6bd4b6A84206";
-const GRB = "0xd1eB8a5798E04703ec5324c99405F581BD6318b8";
-const WETH = "0xe0eca46ea3308e8184e3b462b8a722f93a8f6f27";
-const GarbiswapWhitelist = "0x3bafB09Dd2Fe339021B812Ef230dB546d600479E";
-const GarbiTimeLock = "0x3E0b1Ae5eDd611eb6b9E22C2ad737b8453e7682D";
-const GarbiswapFeeMachine = "0xd122aAF318cB5Ab8c3583C05F1923AbfbA5D4d98";
-const GarbiOracle = "0x0e1c16263C7A976bA3E47A9D7098a3085d1F1C16";
-const veGRB = "0xcf7d3a1ff5188a0d398cf8181b8bdc051204f8da";
+const USDC = "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8";
+const DAI = "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1";
+const USDT = "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9";
+const GRB = "0x5Fd71280b6385157b291b9962f22153FC9E79000";
+const WETH = "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1";
+const GarbiswapWhitelist = "0xf4a4d3906d49ea542b82ec03f973202c485da7fc";
+const GarbiTimeLock = "0xb9f4b946d73b7a414e45875e4e38f066d29dfdb1";
+const GarbiswapFeeMachine = "0x4e2669fdc10037a554c65892c69118cea5b453c0";
+const GarbiOracle = "0x686e28c4ee8c4c03770404506e0027bf5ed31ab6";
+const veGRB = "0x14c302dca44528a2b00b932afdf01e9d48100b7b";
 
 module.exports = function(deployer) {
-//    deployer.deploy(GarbiswapTradeDAIUSDC, 
-//                    USDC, 
-//                    DAI,
-//                    GarbiTimeLock,
-//                    GarbiswapFeeMachine,
-//                    GarbiswapWhitelist,
-//                    GarbiOracle,
-//                    "Garbiswap sLP Token",
-//                    "GsLP"
-//                    );
-//    deployer.deploy(GarbiswapTradeUSDTUSDC, 
-//                    USDC, 
-//                    USDT,
-//                    GarbiTimeLock,
-//                    GarbiswapFeeMachine,
-//                    GarbiswapWhitelist,
-//                    GarbiOracle,
-//                    "Garbiswap sLP Token",
-//                    "GsLP"
-//                    );
+    deployer.deploy(GarbiswapTradeDAIUSDC, 
+                    USDC, 
+                    DAI,
+                    GarbiTimeLock,
+                    GarbiswapFeeMachine,
+                    GarbiswapWhitelist,
+                    GarbiOracle,
+                    "Garbiswap sLP Token",
+                    "GarbiSLP"
+                    );
+    deployer.deploy(GarbiswapTradeUSDTUSDC, 
+                    USDC, 
+                    USDT,
+                    GarbiTimeLock,
+                    GarbiswapFeeMachine,
+                    GarbiswapWhitelist,
+                    GarbiOracle,
+                    "Garbiswap sLP Token",
+                    "GarbiSLP"
+                    );
     deployer.deploy(GarbiswapTradeGRBWETH, 
                     WETH, 
                     GRB,
@@ -44,10 +44,10 @@ module.exports = function(deployer) {
                     GarbiswapFeeMachine,
                     GarbiswapWhitelist,
                     "Garbiswap GLP Token",
-                    "GLP"
+                    "GarbiLP"
                     );
-//    deployer.deploy(GarbiswapTradeMachine, 
-//                    veGRB, 
-//                    GarbiswapWhitelist
-//                    );
+    deployer.deploy(GarbiswapTradeMachine, 
+                    veGRB, 
+                    GarbiswapWhitelist
+                    );
 };
