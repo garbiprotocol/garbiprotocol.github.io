@@ -7,13 +7,13 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 
 import './interfaces/IGarbiswapFeeMachine.sol';
 import './interfaces/IGarbiswapWhitelist.sol';
 import './interfaces/IGarbiTimeLock.sol';
-import './interfaces/IGarbiOracle.sol';
 
-contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
+contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable, Pausable {
     
     using SafeMath for uint256;
 
@@ -33,10 +33,20 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
 
     address public platformFundAddress;
 
+    bool public onlyOwnerCanTradeFlag = true;
+
     modifier onlyWhitelist()
     {
         if (msg.sender != tx.origin) {
             require(whitelistContract.whitelisted(msg.sender) == true, 'INVALID_WHITELIST');
+        }
+        _;
+    }
+
+    modifier onlyOwnerCanTrade() //to prevent arbitrage bot at the first time
+    {
+        if (onlyOwnerCanTradeFlag == true) {
+            require(_msgSender() == owner(), 'ONLY_OWNER_CAN_TRADE_ON_THIS_PAIR');
         }
         _;
     }
@@ -68,7 +78,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         feeMachineContract = _feeMachineContract;
         platformFundAddress = _msgSender();
     }
-
+    
     function setWhitelistContract() public onlyOwner {
         require(garbiTimeLockContract.isQueuedTransaction(address(this), 'setWhitelistContract'), "INVALID_PERMISSION");
 
@@ -278,7 +288,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
       return tokenInputAmount;
     }
 
-    function swapBaseToTokenWithBaseInput(uint256 baseInputAmount, uint256 minTokenOutput, uint256 deadline) public onlyWhitelist {
+    function swapBaseToTokenWithBaseInput(uint256 baseInputAmount, uint256 minTokenOutput, uint256 deadline) public onlyWhitelist whenNotPaused onlyOwnerCanTrade {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(baseInputAmount > 0, 'INVALID_BASE_INPUT');
         require(minTokenOutput > 0, 'INVALID_MIN_TOKEN_OUTPUT');
@@ -309,7 +319,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         emit onSwapBaseToTokenWithBaseInput(msg.sender, minTokenOutput, baseInputAmount, tokenOutputAmount, baseReserve, tokenReserve);
     }
 
-    function swapBaseToTokenWithTokenOutput(uint256 maxBaseInput, uint256 tokenOutputAmount, uint256 deadline) public onlyWhitelist {
+    function swapBaseToTokenWithTokenOutput(uint256 maxBaseInput, uint256 tokenOutputAmount, uint256 deadline) public onlyWhitelist whenNotPaused onlyOwnerCanTrade {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(maxBaseInput > 0, 'INVALID_MAX_BASE_INPUT');
         require(tokenOutputAmount > 0, 'INVALID_TOKEN_OUTPUT');
@@ -340,7 +350,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         emit onSwapBaseToTokenWithTokenOutput(msg.sender, maxBaseInput, baseInputAmount, tokenOutputAmount, baseReserve, tokenReserve);
     }
 
-    function swapTokenToBaseWithTokenInput(uint256 tokenInputAmount, uint256 minBaseOutput, uint256 deadline) public onlyWhitelist {
+    function swapTokenToBaseWithTokenInput(uint256 tokenInputAmount, uint256 minBaseOutput, uint256 deadline) public onlyWhitelist whenNotPaused onlyOwnerCanTrade {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(minBaseOutput > 0, 'INVALID_MIN_BASE_OUTPUT');
         require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
@@ -371,7 +381,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         emit onSwapTokenToBaseWithTokenInput(msg.sender, minBaseOutput, tokenInputAmount, baseOutputAmount, baseReserve, tokenReserve);
     }
 
-    function swapTokenToBaseWithBaseOutput(uint256 maxTokenInput, uint256 baseOutputAmount, uint256 deadline) public onlyWhitelist {
+    function swapTokenToBaseWithBaseOutput(uint256 maxTokenInput, uint256 baseOutputAmount, uint256 deadline) public onlyWhitelist whenNotPaused onlyOwnerCanTrade {
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(maxTokenInput > 0, 'INVALID_MAX_TOKEN_INPUT');
         require(baseOutputAmount > 0, 'INVALID_BASE_OUTPUT');
@@ -412,13 +422,8 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         if(totalSupply == 0) {
             base.transferFrom(msg.sender, address(this), baseInputAmount);
             token.transferFrom(msg.sender, address(this), maxTokenInputAmount);
-
-            uint256 platformFeeOnBase = baseInputAmount.mul(PLATFORM_FEE).div(1000);
-            uint256 platformFeeOnToken = maxTokenInputAmount.mul(PLATFORM_FEE).div(1000);
-            base.transfer(platformFundAddress, platformFeeOnBase);
-            token.transfer(platformFundAddress, platformFeeOnToken);
             
-            uint256 initLP = baseInputAmount.sub(platformFeeOnBase);
+            uint256 initLP = baseInputAmount;
             _mint(msg.sender, initLP);
             emit onAddLP(msg.sender, initLP, baseInputAmount, maxTokenInputAmount, base.balanceOf(address(this)), token.balanceOf(address(this)));
             return initLP;
@@ -507,5 +512,17 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable {
         uint256 tokenReserve = token.balanceOf(address(this));
 
         return (baseReserve, tokenReserve);
+    }
+
+    function setOnlyOwnerCanTrade(bool _flag) public onlyOwner {
+        onlyOwnerCanTradeFlag = _flag;
+    }
+
+    function pause() public onlyOwner {
+        _pause();
+    }
+    
+    function unpause() public onlyOwner {
+        _unpause();
     }
 }

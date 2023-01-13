@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import './interfaces/IGarbiTimeLock.sol';
 
 contract ISwapTrade {
-    uint256 public TRADE_FEE; //0.035% 35/100000
+    uint256 public TRADE_FEE; //0.01% 10/100000
 } 
 
 contract GarbiswapFeeMachine is Ownable{
@@ -22,7 +22,7 @@ contract GarbiswapFeeMachine is Ownable{
 
     IGarbiTimeLock public garbiTimeLockContract;
 
-    uint256 public PERFORMANCE_FEE = 50; //50% 50/100 from 0.035% trade fee 
+    uint256 public PERFORMANCE_FEE = 50; //50% 50/100 from 0.01% trade fee 
     uint256 public SAFU_FUND = 0; //0%
 
     uint256 public DISTRIBUTE_GARBI_AMOUNT = 5 * 1e17;
