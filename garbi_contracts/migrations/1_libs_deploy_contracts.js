@@ -5,6 +5,7 @@ const GarbiswapFeeMachine = artifacts.require("GarbiswapFeeMachine");
 const GarbiTreasury = artifacts.require("GarbiTreasury");
 const GarbiOracle = artifacts.require("GarbiOracle");
 const GarbiMining = artifacts.require("GarbiMining");
+const GarbiPlatformFund = artifacts.require("GarbiPlatformFund");
 
 
 const GRB = "0xd1eb8a5798e04703ec5324c99405f581bd6318b8";
@@ -29,4 +30,5 @@ module.exports = function(deployer) {
 //                    veGRB, 
 //                    startBlock
 //                    );
+    deployer.deploy(GarbiPlatformFund);
 };

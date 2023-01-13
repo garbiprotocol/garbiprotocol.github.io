@@ -7,13 +7,14 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 
 import './interfaces/IGarbiswapFeeMachine.sol';
 import './interfaces/IGarbiswapWhitelist.sol';
 import './interfaces/IGarbiTimeLock.sol';
 import './interfaces/IGarbiOracle.sol';
 
-contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
+contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable, Pausable {
     
     using SafeMath for uint256;
 
@@ -284,7 +285,7 @@ contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
       return tokenInputAmount;
     }
 
-    function swapBaseToTokenWithBaseInput(uint256 baseInputAmount, uint256 minTokenOutput, uint256 deadline) public onlyWhitelist {
+    function swapBaseToTokenWithBaseInput(uint256 baseInputAmount, uint256 minTokenOutput, uint256 deadline) public onlyWhitelist whenNotPaused{
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(baseInputAmount > 0, 'INVALID_BASE_INPUT');
         require(minTokenOutput > 0, 'INVALID_MIN_TOKEN_OUTPUT');
@@ -320,7 +321,7 @@ contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
         emit onSwapBaseToTokenWithBaseInput(msg.sender, minTokenOutput, baseInputAmount, tokenOutputAmount, convertDecimal18to6(baseReserve), tokenReserve);
     }
 
-    function swapBaseToTokenWithTokenOutput(uint256 maxBaseInput, uint256 tokenOutputAmount, uint256 deadline) public onlyWhitelist {
+    function swapBaseToTokenWithTokenOutput(uint256 maxBaseInput, uint256 tokenOutputAmount, uint256 deadline) public onlyWhitelist whenNotPaused{
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(maxBaseInput > 0, 'INVALID_MAX_BASE_INPUT');
         require(tokenOutputAmount > 0, 'INVALID_TOKEN_OUTPUT');
@@ -356,7 +357,7 @@ contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
         emit onSwapBaseToTokenWithTokenOutput(msg.sender, convertDecimal18to6(maxBaseInput), baseInputAmount, tokenOutputAmount, convertDecimal18to6(baseReserve), tokenReserve);
     }
 
-    function swapTokenToBaseWithTokenInput(uint256 tokenInputAmount, uint256 minBaseOutput, uint256 deadline) public onlyWhitelist {
+    function swapTokenToBaseWithTokenInput(uint256 tokenInputAmount, uint256 minBaseOutput, uint256 deadline) public onlyWhitelist whenNotPaused{
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(minBaseOutput > 0, 'INVALID_MIN_BASE_OUTPUT');
         require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT');
@@ -391,7 +392,7 @@ contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
         emit onSwapTokenToBaseWithTokenInput(msg.sender, convertDecimal18to6(minBaseOutput), tokenInputAmount, baseOutputAmount, convertDecimal18to6(baseReserve), tokenReserve);
     }
 
-    function swapTokenToBaseWithBaseOutput(uint256 maxTokenInput, uint256 baseOutputAmount, uint256 deadline) public onlyWhitelist {
+    function swapTokenToBaseWithBaseOutput(uint256 maxTokenInput, uint256 baseOutputAmount, uint256 deadline) public onlyWhitelist whenNotPaused{
         require(deadline >= block.timestamp, 'INVALID_DEADLINE');
         require(maxTokenInput > 0, 'INVALID_MAX_TOKEN_INPUT');
         require(baseOutputAmount > 0, 'INVALID_BASE_OUTPUT');
@@ -557,5 +558,13 @@ contract GarbiswapTradeDAIUSDC is ERC20Burnable, Ownable {
     function convertDecimal18to6(uint256 number) public pure returns (uint256) { 
         number = number.mul(1e6).div(1e18);
         return number;
+    }
+
+    function pause() public onlyOwner {
+        _pause();
+    }
+    
+    function unpause() public onlyOwner {
+        _unpause();
     }
 }
