@@ -15,17 +15,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="../assets/js/web3.min.js"></script>
-        <script src="../assets/js/trustwallet.js"></script>
-        <script src="../js/contract/bsc/abi.js"></script>
-        <script src="../js/contract/bsc/config.js"></script>
-        <script src="../js/data/store.js"></script>
-        <script src="../js/contract/bsc/core.js"></script>
-        <script src="../js/contract/bsc/base.contract.js"></script>
-        <script src="../js/contract/bsc/data.js"></script>
-        <script src="../js/contract/bsc/garbi-venus-lp-info.contract.js"></script>
-        <script src="../js/contract/bsc/garbi.farm.info.contract.js"></script>
-
+        <script src="./assets/js/web3.min.js"></script>
+        <script src="./assets/js/trustwallet.js"></script>
+        <script src="./js/contract/arbitrum/abi.js"></script>
+        <script src="./js/contract/arbitrum/config.js"></script>
+        <script src="./js/data/store.js"></script>
+        <script src="./js/contract/arbitrum/core.js"></script>
+        <script src="./js/contract/arbitrum/base.contract.js"></script>
+        
         <title>Vest - Garbi Protocol</title>
     </head>
 
@@ -122,7 +119,7 @@
                                                             <td>
                                                                 Vesting process
                                                             </td>
-                                                            <td>1000 veGRB / 5000 GRB</td>
+                                                            <td>0 veGRB / 5000 GRB</td>
                                                             <td></td>
                                                         </tr>
                                                         <tr>
@@ -134,7 +131,158 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <button style="border-radius: 6px" type="button" class="header__btn-connect text-center">Claim GRB</button>
+                                                                <button style="border-radius: 6px;background: gray" disabled type="button" class="header__btn-connect text-center garbi-button-disable">Claim GRB</button>
+                                                            </td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="swap__main garbi__box-1 p-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between mb-14">
+                            <div class="f-700">
+                                <fieldset>
+                                    <div class="blog__container mt-2 pt-0">
+                                        <div class="garbi__box__farms ps-3 pe-3 pt-3 pb-2">
+                                            <p>GRB</p>
+                                            <table class="pool__list">
+                                                    <tbody class="tbody">
+                                                        <tr>
+                                                            <td>
+                                                                Price
+                                                            </td>
+                                                            <td>$0.3</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Your GRB
+                                                            </td>
+                                                            <td><span id="user-grb-balance">Loading</span> ($<span id="user-grb-balance-usd">0.0</span>)</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Staked
+                                                            </td>
+                                                            <td>0.0 GRB ($0.0)</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                
+                                                            </td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                APR
+                                                            </td>
+                                                            <td>20.23 %</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Total Staked
+                                                            </td>
+                                                            <td>0.0 GRB ($0.0)</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Total Supply
+                                                            </td>
+                                                            <td>0.0 GRB ($0.0)</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <button onclick="window.location = 'swap.html'" style="border-radius: 6px; margin-right: 10px" type="button" class="header__btn-connect text-center mb-3">Buy GRB</button>
+                                                                <button style="border-radius: 6px; margin-right: 10px; background: gray" disabled type="button" class="header__btn-connect text-center garbi-button-disable">Stake</button>
+                                                                <button style="border-radius: 6px; background: gray" disabled type="button" class="header__btn-connect text-center garbi-button-disable">Unstake</button>
+                                                            </td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="swap__main garbi__box-1 p-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between mb-14">
+                            <div class="f-700">
+                                <fieldset>
+                                    <div class="blog__container mt-2 pt-0">
+                                        <div class="garbi__box__farms ps-3 pe-3 pt-3 pb-2">
+                                            <p>veGRB</p>
+                                            <table class="pool__list">
+                                                    <tbody class="tbody">
+                                                        <tr>
+                                                            <td>
+                                                                Price
+                                                            </td>
+                                                            <td>$0.3</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Your veGRB
+                                                            </td>
+                                                            <td><span id="user-vegrb-balance">Loading</span> ($<span id="user-vegrb-balance-usd">Loading</span>)</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Staked
+                                                            </td>
+                                                            <td>0.0 veGRB ($0.0)</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                
+                                                            </td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                APR
+                                                            </td>
+                                                            <td>20.23 %</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Total Staked
+                                                            </td>
+                                                            <td>0.0 veGRB ($0.0)</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                Total Supply
+                                                            </td>
+                                                            <td>0.0 veGRB ($0.0)</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <button style="border-radius: 6px; margin-right: 10px; background: gray" disabled type="button" class="header__btn-connect text-center garbi-button-disable">Stake</button>
+                                                                <button style="border-radius: 6px; background: gray" disabled type="button" class="header__btn-connect text-center garbi-button-disable">Unstake</button>
                                                             </td>
                                                             <td></td>
                                                             <td></td>
@@ -208,7 +356,36 @@
 
     </body>
     <script>
-                                                         
+        var abiHelper = new $.ABI();
+        var coreHelper = new $.Core();
+        var configHelper = new $.CONFIG();
+        var contractBaseHelper = new $.CONTRACTBASE();
+        var storeHelper = new $.STORE();
+        var chainId = 42161;
+        $(document).ready(function() {
+            abiHelper.init({});
+            coreHelper.init({});
+            configHelper.init({});
+            storeHelper.init({});
+            contractBaseHelper.init({
+                chainId
+            });
+            let _abi = abiHelper.getBalanceInfoABI();
+            let _contractsObj = configHelper.getContracts(chainId);
+            let _contract = _contractsObj.info.balanceInfo;
+            let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
+            let _tokenList = ["0x5fd71280b6385157b291b9962f22153fc9e79000", "0x14c302dca44528a2b00b932afdf01e9d48100b7b"];
+            let _user = coreHelper.getUserAccount();
+            let _r = _readContract.methods.getData(_user, _tokenList).call().then(function(result) {
+                let userGRBbalance = result['tokensBal_'][0]["amount"]/10**18;
+                $('#user-grb-balance').text(userGRBbalance.toFixed(6));
+                $('#user-grb-balance-usd').text((userGRBbalance*0.3).toFixed(2));
+                let userveGRBbalance = result['tokensBal_'][1]["amount"]/10**18;
+                $('#user-vegrb-balance').text(userveGRBbalance.toFixed(6));
+                $('#user-vegrb-balance-usd').text((userveGRBbalance*0.3).toFixed(2));
+            });
+            
+        });                                              
     </script>
 
 </html>
