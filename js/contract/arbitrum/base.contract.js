@@ -14,7 +14,7 @@ $.CONTRACTBASE.prototype = (function() {
 		},
                 getWeb3ToReadData(_chainId = null) {
                         _chainId = _chainId ? _chainId : setting.chainId;
-                        let bscRpcEndPoint = 'https://arb1.arbitrum.io/rpc';
+                        let bscRpcEndPoint = 'https://arb-mainnet.g.alchemy.com/v2/eAgGBBNJUIxmvqkKrNl2-nhRB6Q_UJk-';
                         if (_chainId != 42161) {
                                 bscRpcEndPoint = 'https://arb-goerli.g.alchemy.com/v2/EjDT3kxi1iFQMt16rz9BvNb7fTRnjc28';
                         }

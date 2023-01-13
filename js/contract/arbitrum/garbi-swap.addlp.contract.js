@@ -42,16 +42,18 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
             let _pool = $('select[name=lp_token]').val();
             let _token = _pool.slice(0, _pool.length - 4);
             let _base = _pool.slice(_pool.length - 4);
+            
             if (!_token || !_base) {
                 return false
             }
             let _contractsObj = configHelper.getContracts(setting.chainId);
             let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
             let pool = this._getLp(_pairs, _token, _base);
-
+            
             let _user = coreHelper.getUserAccount();
             let _tokenAddr = configHelper.getTokenByTokenName(setting.chainId, _token)
             let _baseAddr = configHelper.getTokenByTokenName(setting.chainId, _base)
+            
             let _tokenContract = _self._getTokenContract(_tokenAddr);
             let _baseContract = _self._getTokenContract(_baseAddr);
 
@@ -110,7 +112,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
 
             setTimeout(() => {
                 _self.checkAllowce(BTN_token_Approve, BTN_base_Approve, BTNDeposit);
-            }, 15000);
+            }, 3000);
         },
 
         async loadData() {
@@ -180,7 +182,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         async onChangeMaxTokenFromInput() {
             let self = this;
             $(`.max-token-input`).on("click", () => {
-                $(`input[name=token_input]`).val(self.getTokenMax().toFixed(2))
+                $(`input[name=token_input]`).val(self.getTokenMax().toFixed(6))
                 self._setTokenBalance()
                 typeOfInputAmt = 1
                 this.getBaseInputFromTokenInput()
@@ -190,7 +192,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         async onChangeMaxBaseFromInput() {
             let self = this;
             $(`.max-base-input`).on("click", () => {
-                $(`input[name=base_input]`).val(self.getBaseMax().toFixed(2))
+                $(`input[name=base_input]`).val(self.getBaseMax().toFixed(6))
                 self._setBaseBalance();
                 typeOfInputAmt = 2
                 this.getTokenInputFromBaseInput()
@@ -324,7 +326,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                     .then(_result => {
                         mintLp = parseInt(_result[0]) / (10 ** _lp["lbDecimal"]);
                         let baseInput = parseInt(_result[1]) / (10 ** _baseDecimal);                        
-                        $(`input[name=base_input]`).val(baseInput.toFixed(2));
+                        $(`input[name=base_input]`).val(baseInput.toFixed(6));
                     })
             } catch (error) {
                 console.log("getBaseInputFromTokenInput", error);
@@ -373,7 +375,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                         
                         let tokenInput = parseInt(_result[1]) / (10 ** _tokenDecimal);
                         tokenInput += tokenInput * slippage
-                        $(`input[name=token_input]`).val(tokenInput.toFixed(2))
+                        $(`input[name=token_input]`).val(tokenInput.toFixed(6))
                     })
             } catch (error) {
                 console.log("getTokenInputFromBaseInput", error);
@@ -544,6 +546,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 })
                 .on('transactionHash', (hash) => {
                     coreHelper.showPopup('confirm-popup');
+                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                 })
                 .on('confirmation', (confirmationNumber, receipt) => {
                     _self._showSuccessPopup(receipt);
@@ -594,6 +597,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 })
                 .on('transactionHash', (hash) => {
                     coreHelper.showPopup('confirm-popup');
+                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                 })
                 .on('confirmation', (confirmationNumber, receipt) => {
                     _self._showSuccessPopup(receipt);

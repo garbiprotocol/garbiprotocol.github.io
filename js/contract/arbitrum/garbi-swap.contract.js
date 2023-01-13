@@ -41,6 +41,7 @@ $.GARBI_SWAP.prototype = (function() {
                 let _lps = storeHelper.getValue('garbiSwapLPs');
                 let _lp = this._getLp(_lps, _from, _to);
                 let _allowedOf = _lp ? _lp.allowedOf : {};
+                console.log(_allowedOf);
                 let _allowAmt = _allowedOf[_from];
                 let _isNeedAllow = _allowAmt < _allowMin;
                 if (_isNeedAllow == true) {
@@ -53,7 +54,7 @@ $.GARBI_SWAP.prototype = (function() {
             }
             setTimeout(function() {
                 self.displayBTN();
-            }, 7000);
+            }, 1500);
         },
         async displayTransactionDetail() {
             let self = this;
@@ -447,6 +448,7 @@ $.GARBI_SWAP.prototype = (function() {
                 })
                 .on('transactionHash', (hash) => {
                     coreHelper.showPopup('confirm-popup');
+                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                 })
                 .on('confirmation', (confirmationNumber, receipt) => {
                     _self._showSuccessPopup(receipt);

@@ -4,6 +4,109 @@ $.CONFIG.prototype = (function() {
 
     };
     var CONTRACTS = {
+        42161: {
+            info: {
+                getAllowTransfer: '0xa435031891054dd604a0ea95eb12667d10ef2c25',
+                balanceInfo: '0x60137012b6cdbc6ce8571abbd656c120560cf3c5',
+                priceInfo: ''
+            },
+            protocolLiquidityLaunch: {
+                contract: "0x658fA49C37c41833923ef48E4eCfDB527D2cc6b0",
+                totalOffered: 250000
+            },
+            publicSale: {
+                contract: "0xC535363F6E4BFf54d5A3d489194956baE2F9eA61",
+                totalOffered: 200000
+            },
+            privateSale: {
+                contract: "0xb62153e33C14B8B5fC37c94031E24579144745dF",
+                totalOffered: 50000
+            },
+            launchData: {
+                contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
+            },
+            garbiSwap: {
+                pool: {
+                    default: {
+                        tradeMachine: '0x7f530808a2407c20a53a97e6521c1f549c1f8646',
+                        info: {
+                            pairs: '0x61b21b9b052d0bb2fae1e15c67e42deb9bf9639a'
+                        },
+                        pairs: [
+                             {
+                                contract: '0xb68b1c9a7dc9a437d6ee597ae31d80005206a919',
+                                tradeFee: 0.002,
+                                performanceFee: 0.5,
+                                safuFund: 0,
+                                lbDecimal: 18,
+                                base: 'weth',
+                                token: 'grb'
+                            },
+                            {
+                                contract: '0x3d5ddde5b8790cc294d03433bbe9cad194c002a5',
+                                tradeFee: 0.0001,
+                                performanceFee: 0.5,
+                                safuFund: 0,
+                                lbDecimal: 6,
+                                base: 'usdc',
+                                token: 'usdt'
+                            },
+                            {
+                                contract: '0x4685befdc633a4067e65d422520e99c34c09b4d2',
+                                tradeFee: 0.0001,
+                                performanceFee: 0.5,
+                                safuFund: 0,
+                                lbDecimal: 18,
+                                base: 'usdc',
+                                token: 'dai'
+                            }
+                        ]
+                    }
+                },
+            },
+            farms: {
+                0: {
+                    type: 'garbi_pool',
+                    contract: '0x79cf220c8c5c310a9cbf64788df07699c737b14e',
+                    want: '0xb68b1c9a7dc9a437d6ee597ae31d80005206a919', // 
+                    wantDecimal: 18,
+                    pid: 0,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.GRB_ETH.LP',
+                    price: 35,
+                    version: 1
+                },
+                1: {
+                    type: 'garbi_pool',
+                    contract: '0x03036402d3aecb72f4bf3d2bd688410eb932d6b7',
+                    want: '0x3d5ddde5b8790cc294d03433bbe9cad194c002a5', // 
+                    wantDecimal: 6,
+                    pid: 1,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.USDT_USDC.LP',
+                    price: 2,
+                    version: 1
+                },
+                2: {
+                    type: 'garbi_pool',
+                    contract: '0x40bb13a3a930cca7dc089f22937e463c0fb9ef27',
+                    want: '0x4685befdc633a4067e65d422520e99c34c09b4d2', // 
+                    wantDecimal: 18,
+                    pid: 2,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.DAI_USDC.LP',
+                    price: 2,
+                    version: 1
+                }
+            },
+            harvestMachine: ""
+        },
         421613: {
             info: {
                 getAllowTransfer: '0x23E8f78ab3813Cf2297b3F49BaF93Ef9fDD5cD8B',
@@ -109,7 +212,14 @@ $.CONFIG.prototype = (function() {
         },
     };
     var TOKENS = {
-        421613: {
+        42161: { //mainnet arbitrum one
+            'grb': '0x5fd71280b6385157b291b9962f22153fc9e79000',
+            'weth': '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
+            'usdc': '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8',
+            'usdt': '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
+            'dai': '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1'
+        },
+        421613: {//arbitrum testnet
             'grb': '0xd1eb8a5798e04703ec5324c99405f581bd6318b8',
             'weth': '0xe0eca46ea3308e8184e3b462b8a722f93a8f6f27',
             'usdc': '0x29680bd5f3f324001add9229d6b44615353f554c',
@@ -118,6 +228,13 @@ $.CONFIG.prototype = (function() {
         }
     }
     var TOKENS_DECIMAL = {
+        42161: {
+            'grb': 18,
+            'weth': 18,
+            'usdc': 6,
+            'usdt': 6,
+            'dai': 18
+        },
         421613: {
             'grb': 18,
             'weth': 18,
@@ -127,9 +244,16 @@ $.CONFIG.prototype = (function() {
         }
     };
     var PRICES = {
-        421613: {
+        42161: {
             'grb': 0.25,
             'weth': 1200,
+            'usdc': 1,
+            'usdt': 1,
+            'dai': 1
+        },
+        421613: {
+            'grb': 0.25,
+            'weth': 1300,
             'usdc': 1,
             'usdt': 1,
             'dai': 1
