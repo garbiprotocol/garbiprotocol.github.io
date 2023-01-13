@@ -19,7 +19,7 @@ $.GARBI_SWAP.prototype = (function() {
             let _from = $('select[name=from]').val();
             let _to = $('select[name=to]').val();
             let _allowMin = 1e18;
-            $(`.btn-approve`).html(`Approvel ${_from.toUpperCase()}`);
+            $(`.btn-approve`).html(`Approve ${_from.toUpperCase()}`);
             if (!_acc || _acc == '') {
                 $(`.btn-swap`).show();
                 $(`.btn-approve`).hide();

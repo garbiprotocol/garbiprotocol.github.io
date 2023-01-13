@@ -13,7 +13,6 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
                 return false;
             }
             setting = $.extend({}, setting, options);
-            this.displayBalance();
         },
         displayBTN() {
             let self = this
@@ -490,7 +489,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         },
 
         async _setTokenBalance() {
-            let _uTokenBal = this.getTokenMax()
+            let _uTokenBal = this.getTokenMax();
             $(`.token-bal`).html(`${coreHelper.numberWithCommas(_uTokenBal, 6)}`);
 
         },
