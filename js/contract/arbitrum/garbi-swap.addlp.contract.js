@@ -288,6 +288,9 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
 
         getBaseInputFromTokenInput() {
             try {
+                if($(`input[name=base_input]`).val() === 0 || $(`input[name=base_input]`).val() === "") {
+                    $(`input[name=base_input]`).val("Garbi is calculating");
+                }
                 let _pool = $('select[name=lp_token]').val();
                 let _token = _pool.slice(0, _pool.length - 4);
                 let _base = _pool.slice(_pool.length - 4);
@@ -333,6 +336,9 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
 
         getTokenInputFromBaseInput() {
             try {
+                if($(`input[name=token_input]`).val() === 0 || $(`input[name=token_input]`).val() === "") {
+                    $(`input[name=token_input]`).val("Garbi is calculating");
+                }
                 let _pool = $('select[name=lp_token]').val();
                 let _token = _pool.slice(0, _pool.length - 4);
                 let _base = _pool.slice(_pool.length - 4);

@@ -190,6 +190,7 @@ $.GARBI_SWAP.prototype = (function() {
             function doneTyping () {
                 let _from = $('select[name=from]').val();
                 let _to = $('select[name=to]').val();
+                $('input[name=amountOut]').val("Garbi is calculating");
                 let _amountIn = $input.val();
                 _amountIn = parseFloat(_amountIn);
                 if (!_from || !_to || isNaN(_amountIn) == true) {

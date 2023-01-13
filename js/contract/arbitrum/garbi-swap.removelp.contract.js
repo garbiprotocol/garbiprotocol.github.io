@@ -139,6 +139,8 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
         getDataToRemoveLP() {
             let self = this
             try {
+                $(`input[name=token_output]`).val("Garbi is calculating");
+                $(`input[name=base_output]`).val("Garbi is calculating");
                 let _pool = $('select[name=lp_token]').val();
                 let _token = _pool.slice(0, _pool.length - 4);
                 let _base = _pool.slice(_pool.length - 4);
