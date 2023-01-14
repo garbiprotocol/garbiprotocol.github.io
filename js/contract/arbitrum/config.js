@@ -245,8 +245,8 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         42161: {
-            'grb': 0.25,
-            'weth': 1200,
+            'grb': 0.32,
+            'weth': 1400,
             'usdc': 1,
             'usdt': 1,
             'dai': 1
