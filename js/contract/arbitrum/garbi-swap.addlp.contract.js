@@ -182,7 +182,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         async onChangeMaxTokenFromInput() {
             let self = this;
             $(`.max-token-input`).on("click", () => {
-                $(`input[name=token_input]`).val(self.getTokenMax().toFixed(6))
+                $(`input[name=token_input]`).val(coreHelper.roundDownFloat(self.getTokenMax(), 18).toFixed(6))
                 self._setTokenBalance()
                 typeOfInputAmt = 1
                 this.getBaseInputFromTokenInput()
@@ -192,7 +192,7 @@ $.GARBI_SWAP_ADDLP.prototype = (function() {
         async onChangeMaxBaseFromInput() {
             let self = this;
             $(`.max-base-input`).on("click", () => {
-                $(`input[name=base_input]`).val(self.getBaseMax().toFixed(6))
+                $(`input[name=base_input]`).val(coreHelper.roundDownFloat(self.getBaseMax(), 18).toFixed(6))
                 self._setBaseBalance();
                 typeOfInputAmt = 2
                 this.getTokenInputFromBaseInput()

@@ -27,7 +27,7 @@ $.DATA.prototype = (function() {
             let self = this;
             setTimeout(function() {
                 self.initData();
-            }, 7000);
+            }, 3000);
         },
         async _initBalance() {
             try {
