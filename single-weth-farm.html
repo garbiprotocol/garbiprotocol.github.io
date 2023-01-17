@@ -25,7 +25,7 @@
     <script src="./js/contract/arbitrum/data.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
 
-    <title>USDT-USDC Vault - Garbi Protocol</title>
+    <title>Single WETH Vault - Garbi Protocol</title>
     <style id="svelte-166mr51-style">
         ul.svelte-166mr51 {
             display: flex;
@@ -209,16 +209,16 @@
                 <article class="swap__main garbi__box-1 p-3 mb-3">
                     <div class="d-flex align-items-center justify-content-between mb-14">
                         <div class="f-700">
-                            <span>USDT-USDC Vault</span>
+                            <span>Single WETH Vault</span>
                         </div>
                     </div>
 
                     <ul>
                         <li style="list-style-type: none; margin-left: -30px;">
-                            <p> Stake USDT-USDC GarbiSLP to earn veGRB. <a href="./deposit.html" target="_blank" style="text-decoration: none; color: rgb(0, 162, 255);"><b> GET USDT-USDC GarbiSLP token.</b></a></p>
+                            <p> Stake WETH to earn veGRB.</p>
                             <label for="currency_0">
                                 <span class="currency-laybal"> 
-                                    <img src="./assets/images/usdt_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">USDT-USDC GarbiSLP</span>
+                                    <img src="./assets/images/eth_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">WETH</span>
                                     <button class="maxBalanceCoin max-want-bal">Max: </button>
                                     <span class="u-want-bal">Loading</span>
                                 </span>
@@ -250,7 +250,7 @@
                             </p>
                             <label for="currency_0">
                                 <span class="currency-laybal"> 
-                                    <img src="./assets/images/usdt_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">USDT-USDC GarbiSLP</span>
+                                    <img src="./assets/images/eth_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">WETH</span>
                                     <button class="maxBalanceCoin max-share">Max: </button>
                                     <span class="u-share">Loading</span>
                                 </span>
@@ -261,13 +261,14 @@
                         </li>
                     </ul>
                     <div>
-                        <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw">Withdraw your GarbiSLP</button>
+                        <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw">Withdraw your WETH</button>
                     </div>
                     <article class="mb-3 mt-3">
                         <p class="f-700">Vault's stats</p>
 
                         <div>Apr: <span class="apy">-</span></div>
                         <div>Total: <span class="tvl">-</span></div>
+                        <div>Platform Fee: 2.5%</div>
                         <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
                     </article>
 
@@ -302,9 +303,6 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="whitelist.html">Early Whitelist Access</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">Version 1.1.2</a>
@@ -365,7 +363,7 @@
     var storeHelper = new $.STORE();
     var dataHelper = new $.DATA();
     var garbiFarmHelper = new $.GARBI_FARM();
-    var pid = 1;
+    var pid = 3;
     var chainId = 42161;
     $(document).ready(function() {
         abiHelper.init({});

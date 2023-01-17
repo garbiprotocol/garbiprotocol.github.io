@@ -103,6 +103,32 @@ $.CONFIG.prototype = (function() {
                     label: 'GarbiFarm.DAI_USDC.LP',
                     price: 2,
                     version: 1
+                },
+                3: {
+                    type: 'garbi_pool',
+                    contract: '0x40bb13a3a930cca7dc089f22937e463c0fb9ef27',
+                    want: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1', // 
+                    wantDecimal: 18,
+                    pid: 3,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.WETH.LP',
+                    price: 2,
+                    version: 1
+                },
+                4: {
+                    type: 'garbi_pool',
+                    contract: '0x40bb13a3a930cca7dc089f22937e463c0fb9ef27',
+                    want: '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f', // 
+                    wantDecimal: 8,
+                    pid: 4,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.WBTC.LP',
+                    price: 2,
+                    version: 1
                 }
             },
             harvestMachine: ""
@@ -215,6 +241,7 @@ $.CONFIG.prototype = (function() {
         42161: { //mainnet arbitrum one
             'grb': '0x5fd71280b6385157b291b9962f22153fc9e79000',
             'weth': '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
+            'wbtc': '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f',
             'usdc': '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8',
             'usdt': '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
             'dai': '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1'
