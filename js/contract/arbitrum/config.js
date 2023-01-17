@@ -149,7 +149,7 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.GRB_ETH.LP',
-                    price: 35,
+                    price: 1500,
                     version: 1
                 },
             },
