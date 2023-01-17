@@ -299,7 +299,7 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         42161: {
-            'grb': 0.32,
+            'grb': 0.11,
             'weth': 1500,
             'wbtc': 20000,
             'usdc': 1,
