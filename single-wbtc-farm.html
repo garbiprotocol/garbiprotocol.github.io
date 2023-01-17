@@ -25,7 +25,7 @@
     <script src="./js/contract/arbitrum/data.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
 
-    <title>GRB-WETH Vault - Garbi Protocol</title>
+    <title>Single WBTC Vault - Garbi Protocol</title>
     <style id="svelte-166mr51-style">
         ul.svelte-166mr51 {
             display: flex;
@@ -209,16 +209,16 @@
                 <article class="swap__main garbi__box-1 p-3 mb-3">
                     <div class="d-flex align-items-center justify-content-between mb-14">
                         <div class="f-700">
-                            <span>GRB-WETH Vault</span>
+                            <span>Single WBTC Vault</span>
                         </div>
                     </div>
 
                     <ul>
                         <li style="list-style-type: none; margin-left: -30px;">
-                            <p> Stake GRB-WETH GarbiLP to earn veGRB. <a href="./deposit.html" target="_blank" style="text-decoration: none; color: rgb(0, 162, 255);"><b> GET GRB-WETH GarbiLP token.</b></a></p>
+                            <p> Stake WBTC to earn veGRB.</p>
                             <label for="currency_0">
                                 <span class="currency-laybal"> 
-                                    <img src="./assets/images/grb_token.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GRB-WETH GarbiLP</span>
+                                    <img src="./assets/images/btc_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">WBTC</span>
                                     <button class="maxBalanceCoin max-want-bal">Max: </button>
                                     <span class="u-want-bal">Loading</span>
                                 </span>
@@ -250,7 +250,7 @@
                             </p>
                             <label for="currency_0">
                                 <span class="currency-laybal"> 
-                                    <img src="./assets/images/grb_token.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GRB-WETH GarbiLP</span>
+                                    <img src="./assets/images/btc_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">WBTC</span>
                                     <button class="maxBalanceCoin max-share">Max: </button>
                                     <span class="u-share">Loading</span>
                                 </span>
@@ -261,13 +261,14 @@
                         </li>
                     </ul>
                     <div>
-                        <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw">Withdraw your GarbiLP</button>
+                        <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw">Withdraw your WBTC</button>
                     </div>
                     <article class="mb-3 mt-3">
                         <p class="f-700">Vault's stats</p>
 
                         <div>Apr: <span class="apy">-</span></div>
                         <div>Total: <span class="tvl">-</span></div>
+                        <div>Platform Fee: 2.5%</div>
                         <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
                     </article>
 
@@ -362,7 +363,7 @@
     var storeHelper = new $.STORE();
     var dataHelper = new $.DATA();
     var garbiFarmHelper = new $.GARBI_FARM();
-    var pid = 5;
+    var pid = 4;
     var chainId = 42161;
     $(document).ready(function() {
         abiHelper.init({});

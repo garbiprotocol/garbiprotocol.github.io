@@ -26,7 +26,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
             try {
                 //self.getDataToRemoveLP()
                 self.getLpBal().then(_lpBal => {
-                    $('#user-liquidity-balance').text(coreHelper.numberWithCommas(_lpBal, 2));
+                    $('#user-liquidity-balance').text(coreHelper.numberWithCommas(_lpBal, 10));
                 });
                 self.getSlippage()
                 self.reloadData();
@@ -117,6 +117,12 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                     base.html("WETH")
                     img_base.attr("src", "../assets/images/eth_logo.png");
                 }
+                if (pool == "grboldwethold") {
+                    token.html("GRB")
+                    img_token.attr("src", "../assets/images/grb_token.png");
+                    base.html("WETH")
+                    img_base.attr("src", "../assets/images/eth_logo.png");
+                }
                 if (pool == "usdtusdc") {
                     token.html("USDT")
                     img_token.attr("src", "../assets/images/usdt_logo.png");
@@ -131,7 +137,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 }
                 $('#user-liquidity-balance').text("0.0");
                 self.getLpBal().then(_lpBal => {
-                    $('#user-liquidity-balance').text(coreHelper.numberWithCommas(_lpBal, 2));
+                    $('#user-liquidity-balance').text(coreHelper.numberWithCommas(_lpBal, 10));
                 });
             })
         },
@@ -147,6 +153,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 if (!_token || !_base) {
                     return false;
                 }
+                console.log(_base);
                 let _baseDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _base);
                 let _tokenDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, _token);
                 let _contractsObj = configHelper.getContracts(setting.chainId);
@@ -154,7 +161,6 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 let contractName;
 
                 let _lp = this._getLp(_pairs, _token, _base);
-                
                 if (!_lp) {
                     return false;
                 }
@@ -187,12 +193,14 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 }
 
                 function _setData(_result) {
+                    console.log(_result);
                     let baseOutputAmount = parseInt(_result[0]) / (10 ** _baseDecimal);
                     let tokenOutputAmount = parseInt(_result[1]) / (10 ** _tokenDecimal);
+                    console.log(_baseDecimal);
                     baseOutputAmount -= baseOutputAmount * slippage;
                     tokenOutputAmount -= tokenOutputAmount * slippage;
-                    $('input[name=token_output]').val(self.parseFloatNumber(tokenOutputAmount, 2));
-                    $('input[name=base_output]').val(self.parseFloatNumber(baseOutputAmount, 2));
+                    $('input[name=token_output]').val(self.parseFloatNumber(tokenOutputAmount, 10));
+                    $('input[name=base_output]').val(self.parseFloatNumber(baseOutputAmount, 10));
                 }
             } catch (e) {
                 console.log("getDataToRemoveLP", e);
@@ -212,7 +220,7 @@ $.GARBI_SWAP_REMOVE.prototype = (function() {
                 let _pairs = _contractsObj.garbiSwap.pool[setting["pool"]].pairs;
 
                 let lp = this._getLp(_pairs, _token, _base);
-
+                
                 let callContract = this._getGarbiSwapContractToReedData(lp.contract)
 
                 if (!callContract) {

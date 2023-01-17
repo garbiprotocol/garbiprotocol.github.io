@@ -29,7 +29,7 @@ contract GarbiswapTradeGRBWETH is ERC20Burnable, Ownable, Pausable {
 
     uint256 public TRADE_FEE = 2; //0.2% 2/1000
 
-    uint256 public PLATFORM_FEE = 25; //2.5% 25/1000
+    uint256 public PLATFORM_FEE = 0; //2.5% 25/1000
 
     address public platformFundAddress;
 

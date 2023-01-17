@@ -33,14 +33,23 @@ $.CONFIG.prototype = (function() {
                             pairs: '0x61b21b9b052d0bb2fae1e15c67e42deb9bf9639a'
                         },
                         pairs: [
-                             {
-                                contract: '0xb68b1c9a7dc9a437d6ee597ae31d80005206a919',
+                            {
+                                contract: '0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874',
                                 tradeFee: 0.002,
                                 performanceFee: 0.5,
                                 safuFund: 0,
                                 lbDecimal: 18,
                                 base: 'weth',
                                 token: 'grb'
+                            },
+                            {
+                                contract: '0xb68b1c9a7dc9a437d6ee597ae31d80005206a919',
+                                tradeFee: 0.002,
+                                performanceFee: 0.5,
+                                safuFund: 0,
+                                lbDecimal: 18,
+                                base: 'etho',
+                                token: 'grbo'
                             },
                             {
                                 contract: '0x3d5ddde5b8790cc294d03433bbe9cad194c002a5',
@@ -74,7 +83,7 @@ $.CONFIG.prototype = (function() {
                     isActive: true,
                     isERC20: true,
                     isActive: true,
-                    label: 'GarbiFarm.GRB_ETH.LP',
+                    label: 'GarbiFarm.GRB_ETH_OLD.LP',
                     price: 35,
                     version: 1
                 },
@@ -106,7 +115,7 @@ $.CONFIG.prototype = (function() {
                 },
                 3: {
                     type: 'garbi_pool',
-                    contract: '0x40bb13a3a930cca7dc089f22937e463c0fb9ef27',
+                    contract: '0x12a7144114354f319bba86acd8d17e912dd4634d',
                     want: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1', // 
                     wantDecimal: 18,
                     pid: 3,
@@ -114,12 +123,12 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.WETH.LP',
-                    price: 2,
+                    price: 1500,
                     version: 1
                 },
                 4: {
                     type: 'garbi_pool',
-                    contract: '0x40bb13a3a930cca7dc089f22937e463c0fb9ef27',
+                    contract: '0x6baeb427e39da7550bff5b638686e1e39f327554',
                     want: '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f', // 
                     wantDecimal: 8,
                     pid: 4,
@@ -127,9 +136,22 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.WBTC.LP',
-                    price: 2,
+                    price: 20000,
                     version: 1
-                }
+                },
+                5: {
+                    type: 'garbi_pool',
+                    contract: '0x5fb8b200ab56326b94060ebfdd002a4419481698',
+                    want: '0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874', // 
+                    wantDecimal: 18,
+                    pid: 5,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.GRB_ETH.LP',
+                    price: 35,
+                    version: 1
+                },
             },
             harvestMachine: ""
         },
@@ -240,7 +262,9 @@ $.CONFIG.prototype = (function() {
     var TOKENS = {
         42161: { //mainnet arbitrum one
             'grb': '0x5fd71280b6385157b291b9962f22153fc9e79000',
+            'grbo': '0x5fd71280b6385157b291b9962f22153fc9e79000',
             'weth': '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
+            'etho': '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
             'wbtc': '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f',
             'usdc': '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8',
             'usdt': '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
@@ -257,7 +281,10 @@ $.CONFIG.prototype = (function() {
     var TOKENS_DECIMAL = {
         42161: {
             'grb': 18,
+            'grbo': 18,
             'weth': 18,
+            'etho': 18,
+            'wbtc': 8,
             'usdc': 6,
             'usdt': 6,
             'dai': 18
@@ -273,7 +300,8 @@ $.CONFIG.prototype = (function() {
     var PRICES = {
         42161: {
             'grb': 0.32,
-            'weth': 1400,
+            'weth': 1500,
+            'wbtc': 20000,
             'usdc': 1,
             'usdt': 1,
             'dai': 1

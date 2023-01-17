@@ -105,6 +105,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);
@@ -244,7 +245,6 @@ $.GARBI_FARM.prototype = (function() {
                 let _userFarmInfoByPoolContract = _userFarmInfoObj[item.contract] ? _userFarmInfoObj[item.contract] : null;
                 _initInterface(item.pid, _userFarmInfoByPoolContract);
             });
-
             function _initInterface(_pid, _data) {
                 if (!_data) return false;
                 $(`#apr-${_pid}`).html(`${ coreHelper.numberWithCommas(_data["apy"], 2) }%`);

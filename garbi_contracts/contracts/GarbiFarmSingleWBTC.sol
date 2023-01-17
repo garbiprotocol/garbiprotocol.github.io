@@ -154,7 +154,7 @@ contract GarbiFarmSingleWBTC is ReentrancyGuard, Ownable {
         uint256 platformFee = _wantAmt.mul(PLATFORM_FEE).div(1000);
         want.transfer(platformFundAddress, platformFee);
 
-        _wantAmtAfterFee = _wantAmt.sub(platformFee);
+        uint256 _wantAmtAfterFee = _wantAmt.sub(platformFee);
 
         shareOf[msg.sender] = shareOf[msg.sender].add(_wantAmtAfterFee);
         totalShare = totalShare.add(_wantAmtAfterFee);
