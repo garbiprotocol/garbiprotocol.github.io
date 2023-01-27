@@ -117,21 +117,38 @@
                                                         </tr>
                                                         <tr>
                                                             <td>
+                                                                Staked
+                                                            </td>
+                                                            <td><span class="user-deposited-vegrb">0</span> veGRB</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
                                                                 Vesting process
                                                             </td>
-                                                            <td>0 veGRB / 5000 GRB</td>
+                                                            <td><span class="user-vegrb-balance">0</span> veGRB / <span class="user-grb-claimable">0</span> GRB</td>
                                                             <td></td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 Claimable
                                                             </td>
-                                                            <td>0.0</td>
+                                                            <td><span class="user-grb-claimable">0</span> GRB</td>
                                                             <td></td>
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <button style="border-radius: 6px;background: gray" disabled type="button" class="header__btn-connect text-center garbi-button-disable">Claim GRB</button>
+                                                                <div class="addLp__form_input mb-2">
+                                                                    <input type="" class="swap__form-input" name="input_vegrb_amount" value="" placeholder="veGRB">
+                                                                </div>
+                                                            </td>
+                                                            <td></td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <button style="border-radius: 6px; margin-right: 10px" id="lock_vegrb_button" type="button" class="header__btn-connect text-center">Lock veGRB</button>
+                                                                <button style="border-radius: 6px;" type="button" class="header__btn-connect text-center">Claim GRB</button>
                                                             </td>
                                                             <td></td>
                                                             <td></td>
@@ -296,15 +313,6 @@
                             </div>
                         </div>
                     </article>
-                    <article class="swap__main garbi__box-1 p-3 mb-3" style="background: rgb(45, 66, 252)">
-                        <div class="d-flex align-items-center justify-content-between mb-11">
-                            <div class="f-700 mt-3">
-                                <fieldset>
-                                    <p>The Vesting Treasury will open in 7 days. Please follow our <a style="text-decoration: underline" href="https://twitter.com/garbi_protocol/" target="_blank">Twitter</a> to get information about when you can claim GRB.</p>
-                                </fieldset>
-                            </div>
-                        </div>
-                    </article>
                 </section>
             </main>
 
@@ -361,7 +369,7 @@
         var configHelper = new $.CONFIG();
         var contractBaseHelper = new $.CONTRACTBASE();
         var storeHelper = new $.STORE();
-        var chainId = 42161;
+        var chainId = 421613;
         $(document).ready(function() {
             abiHelper.init({});
             coreHelper.init({});
@@ -374,7 +382,7 @@
             let _contractsObj = configHelper.getContracts(chainId);
             let _contract = _contractsObj.info.balanceInfo;
             let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
-            let _tokenList = ["0x5fd71280b6385157b291b9962f22153fc9e79000", "0x14c302dca44528a2b00b932afdf01e9d48100b7b"];
+            let _tokenList = [configHelper.getTokenByTokenName(chainId, 'grb'), configHelper.getTokenByTokenName(chainId, 'vegrb')];
             let _user = coreHelper.getUserAccount();
             let _r = _readContract.methods.getData(_user, _tokenList).call().then(function(result) {
                 let userGRBbalance = result['tokensBal_'][0]["amount"]/10**18;
@@ -384,7 +392,31 @@
                 $('#user-vegrb-balance').text(userveGRBbalance.toFixed(6));
                 $('#user-vegrb-balance-usd').text((userveGRBbalance*0.11).toFixed(2));
             });
+            let _abiGarbiVestGRB = abiHelper.getGarbiVestGRBABI();
+            let _contractGarbiVestGRB = contractBaseHelper.getMainContract(_contractsObj['garbiVestGRB']["contract"], _abiGarbiVestGRB);
+            let veGRBDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'vegrb');
+            let GRBDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'grb');
+            setInterval(function () {
+                _contractGarbiVestGRB.methods.getUserInfo(_user).call().then(function(result) {
+                    let veGRBDeposited = result.veGRBDeposited/10**veGRBDecimal;
+                    $('.user-deposited-vegrb').text(veGRBDeposited.toFixed(6));
+                    let userVeGRBBalance = result.userVeGRBBalance/10**veGRBDecimal;
+                    $('.user-vegrb-balance').text(userVeGRBBalance.toFixed(6));
+                    let userGRBCanClaim = result.userGRBCanClaim/10**GRBDecimal;
+                    $('.user-grb-claimable').text(userGRBCanClaim.toFixed(6));
+                });
+            }, 3000);
             
+            $('#lock_vegrb_button').click(function(e) {
+                let _user = coreHelper.getUserAccount();
+                let _amountVeGRB = $(`input[name=input_vegrb_amount]`).val();
+                if (!_user) {
+                    return false;
+                }
+                if (_amountVeGRB <= 0) {
+                    return false;
+                }
+            })
         });                                              
     </script>
 

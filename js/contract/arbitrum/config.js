@@ -176,6 +176,9 @@ $.CONFIG.prototype = (function() {
             launchData: {
                 contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
             },
+            garbiVestGRB: {
+                contract: "0xf155c3e9e948d0403b4fe52e59ec8b3c8b666487"
+            },
             garbiSwap: {
                 pool: {
                     default: {
@@ -272,6 +275,7 @@ $.CONFIG.prototype = (function() {
         },
         421613: {//arbitrum testnet
             'grb': '0xd1eb8a5798e04703ec5324c99405f581bd6318b8',
+            'vegrb': '0xcf7d3a1ff5188a0d398cf8181b8bdc051204f8da',
             'weth': '0xe0eca46ea3308e8184e3b462b8a722f93a8f6f27',
             'usdc': '0x29680bd5f3f324001add9229d6b44615353f554c',
             'usdt': '0x2e4e7ebff934b6999bdc2983f17f6bd4b6a84206',
@@ -281,6 +285,7 @@ $.CONFIG.prototype = (function() {
     var TOKENS_DECIMAL = {
         42161: {
             'grb': 18,
+            'vegrb': 18,
             'grbo': 18,
             'weth': 18,
             'etho': 18,
@@ -291,6 +296,7 @@ $.CONFIG.prototype = (function() {
         },
         421613: {
             'grb': 18,
+            'vegrb': 18,
             'weth': 18,
             'usdc': 6,
             'usdt': 6,
