@@ -145,13 +145,14 @@ contract GarbiVestGRB is ReentrancyGuard, Ownable {
         return _to.sub(_from);
     }
 
-    function getUserInfo(address _user) public view returns(uint256 userVeGRBBalance, uint256 userGRBCanClaim, uint256 vestFinished, uint256 lastVestCaculated, uint256 veGRBDeposited, uint256 blocknow) {
+    function getUserInfo(address _user) public view returns(uint256 userVeGRBBalance, uint256 userGRBCanClaim, uint256 vestFinished, uint256 lastVestCaculated, uint256 veGRBDeposited, uint256 blocknow, uint256 contractGRBBalance) {
         userVeGRBBalance = getUserVeGRBBalance(_user);
         userGRBCanClaim = userGRBAvailable[_user] + getUserPendingGRB(_user);
         vestFinished = userVestFinished[_user];
         lastVestCaculated = userLastVestCaculated[_user];
         veGRBDeposited = userVeGRBDeposited[_user];
         blocknow = block.number;
+        contractGRBBalance = GRB.balanceOf(address(this));
     }
 
 }
