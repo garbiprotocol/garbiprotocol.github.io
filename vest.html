@@ -538,19 +538,19 @@
                         let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
                         let _tokenList = [configHelper.getTokenByTokenName(chainId, 'grb'), configHelper.getTokenByTokenName(chainId, 'vegrb')];
                         let _user = coreHelper.getUserAccount();
-                        let _r = _readContract.methods.getData(_user, _tokenList).call().then(function (result) {
-                            let userWalletGRBbalance = result['tokensBal_'][0]["amount"] / 10 ** 18;
-                            $('.user-wallet-grb-balance').text(userWalletGRBbalance.toFixed(6));
-                            $('#user-grb-balance-usd').text((userWalletGRBbalance * 0.11).toFixed(2));
-                            let userWalletveGRBbalance = result['tokensBal_'][1]["amount"] / 10 ** 18;
-                            $('.user-wallet-vegrb-balance').text(userWalletveGRBbalance.toFixed(6));
-                            $('#user-vegrb-balance-usd').text((userWalletveGRBbalance * 0.11).toFixed(2));
-                        });
                         let _abiGarbiVestGRB = abiHelper.getGarbiVestGRBABI();
                         let _contractGarbiVestGRB = contractBaseHelper.getMainContract(_contractsObj['garbiVestGRB']["contract"], _abiGarbiVestGRB);
                         let veGRBDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'vegrb');
                         let GRBDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'grb');
                         setInterval(function () {
+                            let _r = _readContract.methods.getData(_user, _tokenList).call().then(function (result) {
+                                let userWalletGRBbalance = result['tokensBal_'][0]["amount"] / 10 ** 18;
+                                $('.user-wallet-grb-balance').text(userWalletGRBbalance.toFixed(6));
+                                $('#user-grb-balance-usd').text((userWalletGRBbalance * 0.11).toFixed(2));
+                                let userWalletveGRBbalance = result['tokensBal_'][1]["amount"] / 10 ** 18;
+                                $('.user-wallet-vegrb-balance').text(userWalletveGRBbalance.toFixed(6));
+                                $('#user-vegrb-balance-usd').text((userWalletveGRBbalance * 0.11).toFixed(2));
+                            });
                             _contractGarbiVestGRB.methods.getUserInfo(_user).call().then(function (result) {
                                 let veGRBDeposited = result.veGRBDeposited / 10 ** veGRBDecimal;
                                 $('.user-deposited-vegrb').text(veGRBDeposited.toFixed(6));
