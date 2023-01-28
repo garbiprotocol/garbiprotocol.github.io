@@ -252,9 +252,9 @@
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            Your wallet veGRB Balance
+                                                            Your wallet
                                                         </td>
-                                                        <td><span class="user-wallet-vegrb-balance">0</span> GRB</td>
+                                                        <td><span class="user-wallet-vegrb-balance">0</span> veGRB</td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="0">
@@ -558,6 +558,9 @@
                                 $('.user-vegrb-balance').text(userVeGRBBalance.toFixed(6));
                                 let userGRBCanClaim = result.userGRBCanClaim / 10 ** GRBDecimal;
                                 $('.user-grb-claimable').text(userGRBCanClaim.toFixed(6));
+                                let contractGRBBalance = result.contractGRBBalance/10**GRBDecimal;
+                                console.log(result);
+                                $('.contract-grb-balance').text(contractGRBBalance.toFixed(6));
                             });
                         }, 3000);
                         

@@ -177,7 +177,7 @@ $.CONFIG.prototype = (function() {
                 contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
             },
             garbiVestGRB: {
-                contract: "0xf155c3e9e948d0403b4fe52e59ec8b3c8b666487"
+                contract: "0x18c0d036b684899254fa88b67b4e5405ac5c7ee5"
             },
             garbiSwap: {
                 pool: {
