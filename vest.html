@@ -523,7 +523,7 @@
                     var configHelper = new $.CONFIG();
                     var contractBaseHelper = new $.CONTRACTBASE();
                     var storeHelper = new $.STORE();
-                    var chainId = 421613;
+                    var chainId = 42161;
                     $(document).ready(function () {
                         abiHelper.init({});
                         coreHelper.init({});
@@ -559,7 +559,6 @@
                                 let userGRBCanClaim = result.userGRBCanClaim / 10 ** GRBDecimal;
                                 $('.user-grb-claimable').text(userGRBCanClaim.toFixed(6));
                                 let contractGRBBalance = result.contractGRBBalance/10**GRBDecimal;
-                                console.log(result);
                                 $('.contract-grb-balance').text(contractGRBBalance.toFixed(6));
                             });
                         }, 3000);

@@ -25,6 +25,9 @@ $.CONFIG.prototype = (function() {
             launchData: {
                 contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
             },
+            garbiVestGRB: {
+                contract: "0x0c9f9afc4b026a94370477772a499a5fefab7aff"
+            },
             garbiSwap: {
                 pool: {
                     default: {
@@ -265,6 +268,7 @@ $.CONFIG.prototype = (function() {
     var TOKENS = {
         42161: { //mainnet arbitrum one
             'grb': '0x5fd71280b6385157b291b9962f22153fc9e79000',
+            'vegrb': '0x14c302dca44528a2b00b932afdf01e9d48100b7b',
             'grbo': '0x5fd71280b6385157b291b9962f22153fc9e79000',
             'weth': '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
             'etho': '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
@@ -305,7 +309,7 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         42161: {
-            'grb': 0.11,
+            'grb': 0.06,
             'weth': 1500,
             'wbtc': 20000,
             'usdc': 1,
