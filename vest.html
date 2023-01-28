@@ -532,23 +532,26 @@
                         contractBaseHelper.init({
                             chainId
                         });
-                        let _abi = abiHelper.getBalanceInfoABI();
+                        let _abiERC20 = abiHelper.getTokenABI();
                         let _contractsObj = configHelper.getContracts(chainId);
-                        let _contract = _contractsObj.info.balanceInfo;
-                        let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
-                        let _tokenList = [configHelper.getTokenByTokenName(chainId, 'grb'), configHelper.getTokenByTokenName(chainId, 'vegrb')];
+//                        let _contract = _contractsObj.info.balanceInfo;
+//                        let _readContract = contractBaseHelper.getReadContract(_contract, _abi);
+//                        let _tokenList = [configHelper.getTokenByTokenName(chainId, 'grb'), configHelper.getTokenByTokenName(chainId, 'vegrb')];
+                        let _contractVeGRB = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
+                        let _contractGRB = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
                         let _user = coreHelper.getUserAccount();
                         let _abiGarbiVestGRB = abiHelper.getGarbiVestGRBABI();
                         let _contractGarbiVestGRB = contractBaseHelper.getMainContract(_contractsObj['garbiVestGRB']["contract"], _abiGarbiVestGRB);
                         let veGRBDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'vegrb');
                         let GRBDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'grb');
                         setInterval(function () {
-                            let _r = _readContract.methods.getData(_user, _tokenList).call().then(function (result) {
-                                console.log(result);
-                                let userWalletGRBbalance = result['tokensBal_'][0]["amount"] / 10 ** 18;
+                            _contractGRB.methods.balanceOf(_user).call().then(function (result) {
+                                let userWalletGRBbalance = result / 10 ** 18;
                                 $('.user-wallet-grb-balance').text(userWalletGRBbalance.toFixed(6));
                                 $('#user-grb-balance-usd').text((userWalletGRBbalance * 0.11).toFixed(2));
-                                let userWalletveGRBbalance = result['tokensBal_'][1]["amount"] / 10 ** 18;
+                            });
+                            _contractVeGRB.methods.balanceOf(_user).call().then(function (result) {
+                                let userWalletveGRBbalance = result / 10 ** 18;
                                 $('.user-wallet-vegrb-balance').text(userWalletveGRBbalance.toFixed(6));
                                 $('#user-vegrb-balance-usd').text((userWalletveGRBbalance * 0.11).toFixed(2));
                             });
@@ -564,8 +567,8 @@
                             });
                         }, 3000);
                         
-                        let _abiVeGRBContract = abiHelper.getTokenABI();
-                        let veGRBContract = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiVeGRBContract);
+                        //let _abiVeGRBContract = abiHelper.getTokenABI();
+                        let veGRBContract = _contractVeGRB;
 
                         $('#approve_lock_vegrb').click(function (e) {
                             veGRBContract.methods
@@ -608,7 +611,6 @@
                                 return false;
                             }
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiVestGRB']["contract"]).call().then(result => {
-                                console.log(result);
                                 if (result == 0) { //need approve
                                     $('#approve_lock_vegrb').show();
                                     $('.lock_vegrb_message').show();
