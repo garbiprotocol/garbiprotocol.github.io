@@ -565,6 +565,7 @@
                             $('.contract-grb-balance').text(contractGRBBalance.toFixed(6));
                         });
                         setInterval(function () {
+                            _user = coreHelper.getUserAccount();
                             _contractGRB.methods.balanceOf(_user).call().then(function (result) {
                                 let userWalletGRBbalance = result / 10 ** 18;
                                 $('.user-wallet-grb-balance').text(userWalletGRBbalance.toFixed(6));
