@@ -26,7 +26,7 @@ $.CONFIG.prototype = (function() {
                 contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
             },
             garbiVestGRB: {
-                contract: "0x0c9f9afc4b026a94370477772a499a5fefab7aff"
+                contract: "0xfc7d1892137800a3f30d00f9a33624338fd47158"
             },
             garbiSwap: {
                 pool: {

@@ -28,7 +28,7 @@ contract GarbiVestGRB is ReentrancyGuard, Ownable {
     mapping(address => uint256) public userVestFinished;
 
     uint256 public PERCENTAGE_GRB = 40; //40% 40/100
-    uint256 public totalBlock = 5760;
+    uint256 public totalBlock = 5760*30;
 
     event onDeposit(address _user, uint256 _amount);
     event onClaim(address _user, uint256 _amount);
@@ -51,6 +51,14 @@ contract GarbiVestGRB is ReentrancyGuard, Ownable {
         veGRB = _veGrb;
         garbiTimeLockContract = _garbiTimeLockContract;
         whitelistContract = _whitelistContract;
+    }
+
+    function setTotalBlock(uint256 _totalBlock) public onlyOwner {
+        totalBlock = _totalBlock;
+    }
+
+    function setPercentageGRB(uint256 NEW_PERCENTAGE_GRB) public onlyOwner {
+        PERCENTAGE_GRB = NEW_PERCENTAGE_GRB;
     }
 
     function setWhitelistContract() public onlyOwner {
