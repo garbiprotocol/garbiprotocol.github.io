@@ -544,6 +544,7 @@
                         let GRBDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'grb');
                         setInterval(function () {
                             let _r = _readContract.methods.getData(_user, _tokenList).call().then(function (result) {
+                                console.log(result);
                                 let userWalletGRBbalance = result['tokensBal_'][0]["amount"] / 10 ** 18;
                                 $('.user-wallet-grb-balance').text(userWalletGRBbalance.toFixed(6));
                                 $('#user-grb-balance-usd').text((userWalletGRBbalance * 0.11).toFixed(2));
