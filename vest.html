@@ -638,7 +638,7 @@
                                     $('#approve_lock_vegrb').show();
                                     $('.lock_vegrb_message').show();
                                 } else {
-                                    let _contractGarbiVestGRB = contractBaseHelper.getReadContract(_contractsObj['garbiVestGRB']["contract"], _abiGarbiVestGRB);
+                                    let _contractGarbiVestGRB = contractBaseHelper.getMainContract(_contractsObj['garbiVestGRB']["contract"], _abiGarbiVestGRB);
                                     _contractGarbiVestGRB
                                             .methods
                                             .deposit(
@@ -669,7 +669,7 @@
                             })
                         });
                         $('#claim_grb_button').click(function (e) {
-                            let _contractGarbiVestGRB = contractBaseHelper.getReadContract(_contractsObj['garbiVestGRB']["contract"], _abiGarbiVestGRB);
+                            let _contractGarbiVestGRB = contractBaseHelper.getMainContract(_contractsObj['garbiVestGRB']["contract"], _abiGarbiVestGRB);
                             _contractGarbiVestGRB
                                     .methods
                                     .claimGRB(
