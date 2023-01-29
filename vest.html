@@ -632,7 +632,7 @@
                             if (_amountVeGRB <= 0) {
                                 return false;
                             }
-                            let veGRBContract = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
+                            let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiVestGRB']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
                                     $('#approve_lock_vegrb').show();
