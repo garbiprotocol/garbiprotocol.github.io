@@ -295,7 +295,7 @@
                                                         <td>
                                                             Price
                                                         </td>
-                                                        <td>$0.11</td>
+                                                        <td>$<span class="grb-price">Loading</span></td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -337,7 +337,7 @@
                                                         <td>
                                                             Total Supply
                                                         </td>
-                                                        <td>0.0 GRB ($0.0)</td>
+                                                        <td><span class="grb-total-supply">Loading</span> GRB</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -371,7 +371,7 @@
                                                         <td>
                                                             Price
                                                         </td>
-                                                        <td>$0.11</td>
+                                                        <td>$<span class="grb-price">Loading</span></td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -413,7 +413,7 @@
                                                         <td>
                                                             Total Supply
                                                         </td>
-                                                        <td>0.0 veGRB ($0.0)</td>
+                                                        <td><span class="vegrb-total-supply">Loading</span> veGRB</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -544,15 +544,26 @@
                         let _contractGarbiVestGRBRead = contractBaseHelper.getReadContract(_contractsObj['garbiVestGRB']["contract"], _abiGarbiVestGRB);
                         let veGRBDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'vegrb');
                         let GRBDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'grb');
+                        let _abiPairGRBWETH = abiHelper.getGarbiSwapABI();
+                        let _contractPairGRBWETHread = contractBaseHelper.getReadContract("0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874", _abiPairGRBWETH);
+                        let GRBPrice = configHelper.getPriceByTokenName(chainId, 'grb');
                         _contractGRB.methods.balanceOf(_user).call().then(function (result) {
                             let userWalletGRBbalance = result / 10 ** 18;
                             $('.user-wallet-grb-balance').text(userWalletGRBbalance.toFixed(6));
-                            $('#user-grb-balance-usd').text((userWalletGRBbalance * 0.11).toFixed(2));
+                            $('#user-grb-balance-usd').text((userWalletGRBbalance * GRBPrice).toFixed(2));
+                        });
+                        _contractGRB.methods.totalSupply().call().then(function (result) {
+                            let GRBTotalSupply = result/10**GRBDecimal;
+                            $('.grb-total-supply').text(GRBTotalSupply);
                         });
                         _contractVeGRB.methods.balanceOf(_user).call().then(function (result) {
                             let userWalletveGRBbalance = result / 10 ** 18;
                             $('.user-wallet-vegrb-balance').text(userWalletveGRBbalance.toFixed(6));
-                            $('#user-vegrb-balance-usd').text((userWalletveGRBbalance * 0.11).toFixed(2));
+                            $('#user-vegrb-balance-usd').text((userWalletveGRBbalance * GRBPrice).toFixed(2));
+                        });
+                        _contractVeGRB.methods.totalSupply().call().then(function (result) {
+                            let veGRBTotalSupply = result/10**veGRBDecimal;
+                            $('.vegrb-total-supply').text(veGRBTotalSupply.toFixed(6));
                         });
                         _contractGarbiVestGRBRead.methods.getUserInfo(_user).call().then(function (result) {
                             let veGRBDeposited = result.veGRBDeposited / 10 ** veGRBDecimal;
@@ -564,17 +575,31 @@
                             let contractGRBBalance = result.contractGRBBalance/10**GRBDecimal;
                             $('.contract-grb-balance').text(contractGRBBalance.toFixed(6));
                         });
+                        _contractPairGRBWETHread.methods.getBaseOutput(coreHelper.toBN(1, GRBDecimal)).call().then(function (result) {
+                            let WETHDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'weth');
+                            let WETHPrice = configHelper.getPriceByTokenName(chainId, 'weth');
+                            GRBPrice = result/10**WETHDecimal*WETHPrice;
+                            $('.grb-price').text(GRBPrice.toFixed(6));
+                        });
                         setInterval(function () {
                             _user = coreHelper.getUserAccount();
                             _contractGRB.methods.balanceOf(_user).call().then(function (result) {
                                 let userWalletGRBbalance = result / 10 ** 18;
                                 $('.user-wallet-grb-balance').text(userWalletGRBbalance.toFixed(6));
-                                $('#user-grb-balance-usd').text((userWalletGRBbalance * 0.11).toFixed(2));
+                                $('#user-grb-balance-usd').text((userWalletGRBbalance * GRBPrice).toFixed(2));
+                            });
+                            _contractGRB.methods.totalSupply().call().then(function (result) {
+                                let GRBTotalSupply = result/10**GRBDecimal;
+                                $('.grb-total-supply').text(GRBTotalSupply);
                             });
                             _contractVeGRB.methods.balanceOf(_user).call().then(function (result) {
                                 let userWalletveGRBbalance = result / 10 ** 18;
                                 $('.user-wallet-vegrb-balance').text(userWalletveGRBbalance.toFixed(6));
-                                $('#user-vegrb-balance-usd').text((userWalletveGRBbalance * 0.11).toFixed(2));
+                                $('#user-vegrb-balance-usd').text((userWalletveGRBbalance * GRBPrice).toFixed(2));
+                            });
+                            _contractVeGRB.methods.totalSupply().call().then(function (result) {
+                                let veGRBTotalSupply = result/10**veGRBDecimal;
+                                $('.vegrb-total-supply').text(veGRBTotalSupply.toFixed(6));
                             });
                             _contractGarbiVestGRBRead.methods.getUserInfo(_user).call().then(function (result) {
                                 let veGRBDeposited = result.veGRBDeposited / 10 ** veGRBDecimal;
@@ -585,6 +610,12 @@
                                 $('.user-grb-claimable').text(userGRBCanClaim.toFixed(6));
                                 let contractGRBBalance = result.contractGRBBalance/10**GRBDecimal;
                                 $('.contract-grb-balance').text(contractGRBBalance.toFixed(6));
+                            });
+                            _contractPairGRBWETHread.methods.getBaseOutput(coreHelper.toBN(1, GRBDecimal)).call().then(function (result) {
+                                let WETHDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'weth');
+                                let WETHPrice = configHelper.getPriceByTokenName(chainId, 'weth');
+                                GRBPrice = result/10**WETHDecimal*WETHPrice;
+                                $('.grb-price').text(GRBPrice.toFixed(6));
                             });
                         }, 3000);
                         
