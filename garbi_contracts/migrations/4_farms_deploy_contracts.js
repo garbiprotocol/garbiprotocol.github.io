@@ -31,6 +31,10 @@ const GarbiMining = "0xb63234acac10029eaebf63a0f28584cd096df62b";
 const GRB = "0xd1eb8a5798e04703ec5324c99405f581bd6318b8";
 const pidOfMiningSingleGRB = 9;
 const blockToUnlock = 5760*365; //1 week
+
+const veGRB = "0xcf7d3a1ff5188a0d398cf8181b8bdc051204f8da";
+const pidOfMiningSingleVeGRB = 12;
+const blockToUnlockVeGRB = 5760*365; //1 week
 //end testnet
 
 module.exports = function(deployer) {
@@ -39,5 +43,6 @@ module.exports = function(deployer) {
 //    deployer.deploy(GarbiFarmUSDTUSDC, GarbiMining, USDTUSDCLP, pidOfMiningUSDTUSDC);
 //    deployer.deploy(GarbiFarmSingleWETH, GarbiMining, WETH, pidOfMiningSingleWETH);
 //    deployer.deploy(GarbiFarmSingleWBTC, GarbiMining, WBTC, pidOfMiningSingleWBTC);
-    deployer.deploy(GarbiStakeGRB, GarbiMining, GRB, pidOfMiningSingleGRB, blockToUnlock);
+//    deployer.deploy(GarbiStakeGRB, GarbiMining, GRB, pidOfMiningSingleGRB, blockToUnlock);
+      deployer.deploy(GarbiStakeGRB, GarbiMining, veGRB, pidOfMiningSingleVeGRB, blockToUnlockVeGRB);
 };
