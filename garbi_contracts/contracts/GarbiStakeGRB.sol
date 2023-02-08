@@ -215,17 +215,21 @@ contract GarbiStakeGRB is ReentrancyGuard, Ownable {
         uint256 userWantBal_, 
         uint256 totalMintPerDay_, 
         uint256 userETHBal_, 
-        uint256 userGRBPending_, 
+        uint256 userVeGRBPending_, 
         uint256 userWantShare_,
-        uint256 tvl_
+        uint256 tvl_,
+        uint256 userWithdrawalTime,
+        uint256 blockNow
     ) {
         userWantBal_ = want.balanceOf(_user);
         totalMintPerDay_ = miningMachine.getTotalMintPerDayOf(pidOfMining);
 
         miningSpeed_ = miningMachine.getMiningSpeedOf(pidOfMining);
         userETHBal_ = address(_user).balance;
-        (userGRBPending_, , ) = miningMachine.getUserInfo(pidOfMining, _user);
+        (userVeGRBPending_, , ) = miningMachine.getUserInfo(pidOfMining, _user);
         userWantShare_ = shareOf[_user];
         tvl_ = totalShare;
+        userWithdrawalTime = withdrawalAvailabilityBlock[_user];
+        blockNow = block.number;
     } 
 }

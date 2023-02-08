@@ -29,8 +29,8 @@ const GarbiStakeGRB = artifacts.require("GarbiStakeGRB");
 const GarbiMining = "0xb63234acac10029eaebf63a0f28584cd096df62b";
 
 const GRB = "0xd1eb8a5798e04703ec5324c99405f581bd6318b8";
-const pidOfMiningSingleGRB = 6;
-const blockToUnlock = 5760*7; //1 week
+const pidOfMiningSingleGRB = 9;
+const blockToUnlock = 5760*365; //1 week
 //end testnet
 
 module.exports = function(deployer) {

@@ -182,6 +182,15 @@ $.CONFIG.prototype = (function() {
             garbiVestGRB: {
                 contract: "0x18c0d036b684899254fa88b67b4e5405ac5c7ee5"
             },
+            garbiStakeGRB1Week: {
+                contract: "0x741071c6b068f25ca9d832282a0e91563b8ff0ce"
+            },
+            garbiStakeGRB1Month: {
+                contract: "0x14551e6b43d8d22195e0b2df7746300132c79f48"
+            },
+            garbiStakeGRB1Year: {
+                contract: "0xe5a9b4d6719a1329e452e8e11f20e1235df12d72"
+            },
             garbiSwap: {
                 pool: {
                     default: {
