@@ -351,7 +351,7 @@
                                                         <td>
                                                             Total Staked
                                                         </td>
-                                                        <td><span class="grb-1week-total-staked">Loading</span> GRB ($0.0)</td>
+                                                        <td><span class="grb-1week-total-staked">Loading</span> GRB ($<span class="grb-1week-total-staked-usd">Loading</span>)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -450,7 +450,7 @@
                                                         <td>
                                                             Total Staked
                                                         </td>
-                                                        <td><span class="grb-1month-total-staked">Loading</span> GRB ($0.0)</td>
+                                                        <td><span class="grb-1month-total-staked">Loading</span> GRB ($<span class="grb-1month-total-staked-usd">Loading</span>)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -549,7 +549,7 @@
                                                         <td>
                                                             Total Staked
                                                         </td>
-                                                        <td><span class="grb-1year-total-staked">Loading</span> GRB ($0.0)</td>
+                                                        <td><span class="grb-1year-total-staked">Loading</span> GRB ($<span class="grb-1year-total-staked-usd">Loading</span>)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -648,7 +648,7 @@
                                                         <td>
                                                             Total Staked
                                                         </td>
-                                                        <td><span class="vegrb-1week-total-staked">Loading</span> veGRB ($0.0)</td>
+                                                        <td><span class="vegrb-1week-total-staked">Loading</span> veGRB ($<span class="vegrb-1week-total-staked-usd">Loading</span>)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -747,7 +747,7 @@
                                                         <td>
                                                             Total Staked
                                                         </td>
-                                                        <td><span class="vegrb-1month-total-staked">Loading</span> GRB ($0.0)</td>
+                                                        <td><span class="vegrb-1month-total-staked">Loading</span> GRB ($<span class="vegrb-1month-total-staked-usd">Loading</span>)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -846,7 +846,7 @@
                                                         <td>
                                                             Total Staked
                                                         </td>
-                                                        <td><span class="vegrb-1year-total-staked">Loading</span> GRB ($0.0)</td>
+                                                        <td><span class="vegrb-1year-total-staked">Loading</span> GRB ($<span class="vegrb-1year-total-staked-usd">Loading</span>)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -1032,7 +1032,6 @@
                             $('.grb-price').text(GRBPrice.toFixed(6));
                         });
                         _contractGarbiStakeGRB1weekRead.methods.getData(_user).call().then(function (result) {
-                            console.log(result);
                             let userStaked1week = result.userWantShare_ / 10 ** GRBDecimal;
                             $('.user-staked-grb-1week').text(userStaked1week.toFixed(6));
                             $('.user-staked-grb-1week-usd').text((userStaked1week * GRBPrice).toFixed(2));
@@ -1040,6 +1039,7 @@
                             $('.user-grb-1week-earned').text(userEarned1week.toFixed(6));
                             let grb1WeekTotalStaked = result.tvl_ / 10 ** GRBDecimal;
                             $('.grb-1week-total-staked').text(grb1WeekTotalStaked.toFixed(6));
+                            $('.grb-1week-total-staked-usd').text((grb1WeekTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-grb-1week-withdrawal-block-number').text(withdrawalBlockNumber);
                             let blockNow = result.blockNow;
@@ -1055,6 +1055,7 @@
                             $('.user-grb-1month-earned').text(userEarned1month.toFixed(6));
                             let grb1MonthTotalStaked = result.tvl_ / 10 ** GRBDecimal;
                             $('.grb-1month-total-staked').text(grb1MonthTotalStaked.toFixed(6));
+                            $('.grb-1month-total-staked-usd').text((grb1MonthTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-grb-1month-withdrawal-block-number').text(withdrawalBlockNumber);
                             let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1MonthTotalStaked*365;
@@ -1068,6 +1069,7 @@
                             $('.user-grb-1year-earned').text(userEarned1year.toFixed(6));
                             let grb1YearTotalStaked = result.tvl_ / 10 ** GRBDecimal;
                             $('.grb-1year-total-staked').text(grb1YearTotalStaked.toFixed(6));
+                            $('.grb-1year-total-staked-usd').text((grb1YearTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-grb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
                             let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1YearTotalStaked*365;
@@ -1082,6 +1084,7 @@
                             $('.user-vegrb-1week-earned').text(userEarned1week.toFixed(6));
                             let vegrb1WeekTotalStaked = result.tvl_ / 10 ** veGRBDecimal;
                             $('.vegrb-1week-total-staked').text(vegrb1WeekTotalStaked.toFixed(6));
+                            $('.vegrb-1week-total-staked-usd').text((vegrb1WeekTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-vegrb-1week-withdrawal-block-number').text(withdrawalBlockNumber);
                             let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1WeekTotalStaked*365;
@@ -1095,6 +1098,7 @@
                             $('.user-vegrb-1month-earned').text(userEarned1month.toFixed(6));
                             let vegrb1MonthTotalStaked = result.tvl_ / 10 ** veGRBDecimal;
                             $('.vegrb-1month-total-staked').text(vegrb1MonthTotalStaked.toFixed(6));
+                            $('.vegrb-1month-total-staked-usd').text((vegrb1MonthTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-vegrb-1month-withdrawal-block-number').text(withdrawalBlockNumber);
                             let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1MonthTotalStaked*365;
@@ -1108,6 +1112,7 @@
                             $('.user-vegrb-1year-earned').text(userEarned1year.toFixed(6));
                             let veGrb1YearTotalStaked = result.tvl_ / 10 ** GRBDecimal;
                             $('.vegrb-1year-total-staked').text(veGrb1YearTotalStaked.toFixed(6));
+                            $('.vegrb-1year-total-staked-usd').text((veGrb1YearTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-vegrb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
                             let apr = result.totalMintPerDay_/10 ** veGRBDecimal/veGrb1YearTotalStaked*365;
@@ -1159,6 +1164,7 @@
                                 $('.user-grb-1week-earned').text(userEarned1week.toFixed(6));
                                 let grb1WeekTotalStaked = result.tvl_ / 10 ** GRBDecimal;
                                 $('.grb-1week-total-staked').text(grb1WeekTotalStaked.toFixed(6));
+                                $('.grb-1week-total-staked-usd').text((grb1WeekTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-grb-1week-withdrawal-block-number').text(withdrawalBlockNumber);
                                 let blockNow = result.blockNow;
@@ -1174,6 +1180,7 @@
                                 $('.user-grb-1month-earned').text(userEarned1month.toFixed(6));
                                 let grb1MonthTotalStaked = result.tvl_ / 10 ** GRBDecimal;
                                 $('.grb-1month-total-staked').text(grb1MonthTotalStaked.toFixed(6));
+                                $('.grb-1month-total-staked-usd').text((grb1MonthTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-grb-1month-withdrawal-block-number').text(withdrawalBlockNumber);
                                 let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1MonthTotalStaked*365;
@@ -1187,6 +1194,7 @@
                                 $('.user-grb-1year-earned').text(userEarned1year.toFixed(6));
                                 let grb1YearTotalStaked = result.tvl_ / 10 ** GRBDecimal;
                                 $('.grb-1year-total-staked').text(grb1YearTotalStaked.toFixed(6));
+                                $('.grb-1year-total-staked-usd').text((grb1YearTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-grb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
                                 let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1YearTotalStaked*365;
@@ -1201,6 +1209,7 @@
                                 $('.user-vegrb-1week-earned').text(userEarned1week.toFixed(6));
                                 let vegrb1WeekTotalStaked = result.tvl_ / 10 ** veGRBDecimal;
                                 $('.vegrb-1week-total-staked').text(vegrb1WeekTotalStaked.toFixed(6));
+                                $('.vegrb-1week-total-staked-usd').text((vegrb1WeekTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-vegrb-1week-withdrawal-block-number').text(withdrawalBlockNumber);
                                 let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1WeekTotalStaked*365;
@@ -1214,6 +1223,7 @@
                                 $('.user-vegrb-1month-earned').text(userEarned1month.toFixed(6));
                                 let vegrb1MonthTotalStaked = result.tvl_ / 10 ** veGRBDecimal;
                                 $('.vegrb-1month-total-staked').text(vegrb1MonthTotalStaked.toFixed(6));
+                                $('.vegrb-1month-total-staked-usd').text((vegrb1MonthTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-vegrb-1month-withdrawal-block-number').text(withdrawalBlockNumber);
                                 let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1MonthTotalStaked*365;
@@ -1227,6 +1237,7 @@
                                 $('.user-vegrb-1year-earned').text(userEarned1year.toFixed(6));
                                 let veGrb1YearTotalStaked = result.tvl_ / 10 ** GRBDecimal;
                                 $('.vegrb-1year-total-staked').text(veGrb1YearTotalStaked.toFixed(6));
+                                $('.vegrb-1year-total-staked-usd').text((veGrb1YearTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-vegrb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
                                 let apr = result.totalMintPerDay_/10 ** veGRBDecimal/veGrb1YearTotalStaked*365;
