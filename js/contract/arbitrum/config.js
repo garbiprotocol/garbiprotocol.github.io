@@ -28,6 +28,24 @@ $.CONFIG.prototype = (function() {
             garbiVestGRB: {
                 contract: "0xfc7d1892137800a3f30d00f9a33624338fd47158"
             },
+            garbiStakeGRB1Week: {
+                contract: "0x1fb501f09a99844e9c9b4598e50010986f6b17b2"
+            },
+            garbiStakeGRB1Month: {
+                contract: "0xfb66e862693c0676ac44e436d11c43ecda198eca"
+            },
+            garbiStakeGRB1Year: {
+                contract: "0xa8d4324b1fc6442fd47414c809f4b54bfc3babc6"
+            },
+            garbiStakeVeGRB1Week: {
+                contract: "0x001b938f5ac3436192182320f0553f5c939fadce"
+            },
+            garbiStakeVeGRB1Month: {
+                contract: "0x7f95b1fb84f7131c86b3fe7d616be47b0143b2a5"
+            },
+            garbiStakeVeGRB1Year: {
+                contract: "0x69f4f40fb8ad7f123f8fef86cbdf9bbac06f9f91"
+            },
             garbiSwap: {
                 pool: {
                     default: {
@@ -327,7 +345,7 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         42161: {
-            'grb': 0.06,
+            'grb': 0.2,
             'weth': 1500,
             'wbtc': 20000,
             'usdc': 1,
