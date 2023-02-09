@@ -753,7 +753,7 @@
                                                     <tr>
                                                         <td colspan="0">
                                                             <div class="addLp__form_input mb-2">
-                                                                <input type="" class="swap__form-input" name="input_vegrb_1week_amount" value="" placeholder="veGRB">
+                                                                <input type="" class="swap__form-input" name="input_vegrb_1month_amount" value="" placeholder="veGRB">
                                                             </div>
                                                             <span class="lock_vegrb_1month_message" style="font-style: italic; display: none">Please approve to spend your veGRB</span>
                                                         </td>
@@ -795,16 +795,37 @@
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            Your wallet veGRB Balance
+                                                            Your wallet veGRB balance
                                                         </td>
-                                                        <td><span class="user-wallet-vegrb-balance">Loading</span> ($<span id="user-vegrb-balance-usd">Loading</span>)</td>
+                                                        <td><span class="user-wallet-vegrb-balance">Loading</span> ($<span id="user-vegrb-balance-usd">0.0</span>)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
                                                         <td>
                                                             Staked
                                                         </td>
-                                                        <td>0.0 veGRB ($0.0)</td>
+                                                        <td><span class="user-staked-vegrb-1year">Loading</span> veGRB ($<span class="user-staked-vegrb-1year-usd">0.0</span>)</td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Withdrawal Block Number
+                                                        </td>
+                                                        <td><span class="user-vegrb-1year-withdrawal-block-number">0</span></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Block Now
+                                                        </td>
+                                                        <td><span class="block-now">0</span></td>
+                                                        <td></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Earned
+                                                        </td>
+                                                        <td><span class="user-vegrb-1year-earned">Loading</span> veGRB ($0.0)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -825,20 +846,23 @@
                                                         <td>
                                                             Total Staked
                                                         </td>
-                                                        <td>0.0 veGRB ($0.0)</td>
+                                                        <td><span class="vegrb-1year-total-staked">Loading</span> GRB ($0.0)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>
-                                                            Total Supply
+                                                        <td colspan="0">
+                                                            <div class="addLp__form_input mb-2">
+                                                                <input type="" class="swap__form-input" name="input_vegrb_1year_amount" value="" placeholder="veGRB">
+                                                            </div>
+                                                            <span class="lock_vegrb_1year_message" style="font-style: italic; display: none">Please approve to spend your veGRB</span>
                                                         </td>
-                                                        <td><span class="vegrb-total-supply">Loading</span> veGRB</td>
-                                                        <td></td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <button style="border-radius: 6px; margin-right: 10px; background: gray" disabled type="button" class="header__btn-connect text-center garbi-button-disable">Stake</button>
-                                                            <button style="border-radius: 6px; background: gray" disabled type="button" class="header__btn-connect text-center garbi-button-disable">Unstake</button>
+                                                            <button style="border-radius: 6px; margin-right: 10px;display: none" id="approve_lock_vegrb_1year" type="button" class="header__btn-connect text-center">Approve veGRB</button>
+                                                            <button style="border-radius: 6px; margin-right: 10px;" id="lock_vegrb_1year_button" type="button" class="header__btn-connect text-center">Stake</button>
+                                                            <button style="border-radius: 6px; margin-right: 10px;" id="unstake_vegrb_1year" type="button" class="header__btn-connect text-cente">Unstake</button>
+                                                            <button style="border-radius: 6px;" id="claim_vegrb_vegrbvault_1year_button" type="button" class="header__btn-connect text-center">Claim veGRB</button>
                                                         </td>
                                                         <td></td>
                                                         <td></td>
@@ -1069,14 +1093,14 @@
                         });
                         _contractGarbiStakeVeGRB1yearRead.methods.getData(_user).call().then(function (result) {
                             let userStaked1year = result.userWantShare_ / 10 ** GRBDecimal;
-                            $('.user-staked-grb-1year').text(userStaked1year.toFixed(6));
-                            $('.user-staked-grb-1year-usd').text((userStaked1year * GRBPrice).toFixed(2));
+                            $('.user-staked-vegrb-1year').text(userStaked1year.toFixed(6));
+                            $('.user-staked-vegrb-1year-usd').text((userStaked1year * GRBPrice).toFixed(2));
                             let userEarned1year = result.userVeGRBPending_ / 10 ** veGRBDecimal;
-                            $('.user-grb-1year-earned').text(userEarned1year.toFixed(6));
-                            let grb1YearTotalStaked = result.tvl_ / 10 ** GRBDecimal;
-                            $('.grb-1year-total-staked').text(grb1YearTotalStaked.toFixed(6));
+                            $('.user-vegrb-1year-earned').text(userEarned1year.toFixed(6));
+                            let veGrb1YearTotalStaked = result.tvl_ / 10 ** GRBDecimal;
+                            $('.vegrb-1year-total-staked').text(veGrb1YearTotalStaked.toFixed(6));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
-                            $('.user-grb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
+                            $('.user-vegrb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
                         });
                         setInterval(function () {
                             _user = coreHelper.getUserAccount();
@@ -1172,6 +1196,17 @@
                                 $('.vegrb-1month-total-staked').text(vegrb1MonthTotalStaked.toFixed(6));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-vegrb-1month-withdrawal-block-number').text(withdrawalBlockNumber);
+                            });
+                            _contractGarbiStakeVeGRB1yearRead.methods.getData(_user).call().then(function (result) {
+                                let userStaked1year = result.userWantShare_ / 10 ** GRBDecimal;
+                                $('.user-staked-vegrb-1year').text(userStaked1year.toFixed(6));
+                                $('.user-staked-vegrb-1year-usd').text((userStaked1year * GRBPrice).toFixed(2));
+                                let userEarned1year = result.userVeGRBPending_ / 10 ** veGRBDecimal;
+                                $('.user-vegrb-1year-earned').text(userEarned1year.toFixed(6));
+                                let veGrb1YearTotalStaked = result.tvl_ / 10 ** GRBDecimal;
+                                $('.vegrb-1year-total-staked').text(veGrb1YearTotalStaked.toFixed(6));
+                                let withdrawalBlockNumber = result.userWithdrawalTime;
+                                $('.user-vegrb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
                             });
                         }, 3000);
 
@@ -1395,6 +1430,62 @@
                                         console.log(err);
                                     });
                         });
+                        $('#claim_vegrb_vegrbvault_1month_button').click(function (e) {
+                            let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Month']["contract"], _abiGarbiStakeGRB);
+                            _contractGarbiStakeGRB
+                                    .methods
+                                    .harvest(
+                                            _user
+                                            )
+                                    .send({
+                                        from: _user
+                                    })
+                                    .on('transactionHash', (hash) => {
+                                        coreHelper.showPopup('confirm-popup');
+                                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                    })
+                                    .on('confirmation', (confirmationNumber, receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('receipt', (receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('error', (err, receipt) => {
+                                        console.log(err);
+                                    });
+                        });
+                        $('#claim_vegrb_vegrbvault_1year_button').click(function (e) {
+                            let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Year']["contract"], _abiGarbiStakeGRB);
+                            _contractGarbiStakeGRB
+                                    .methods
+                                    .harvest(
+                                            _user
+                                            )
+                                    .send({
+                                        from: _user
+                                    })
+                                    .on('transactionHash', (hash) => {
+                                        coreHelper.showPopup('confirm-popup');
+                                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                    })
+                                    .on('confirmation', (confirmationNumber, receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('receipt', (receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('error', (err, receipt) => {
+                                        console.log(err);
+                                    });
+                        });
                         $('#unstake_grb_1week').click(function (e) {
                             let _user = coreHelper.getUserAccount();
                             let _amountGRB = $(`input[name=input_grb_1week_amount]`).val();
@@ -1533,6 +1624,80 @@
                                         coreHelper.showPopup('success-confirm-popup');
                                         coreHelper.hidePopup('success-confirm-popup', 10000);
                                         $(`input[name=input_vegrb_1week_amount]`).val("");
+                                    })
+                                    .on('receipt', (receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('error', (err, receipt) => {
+                                        console.log(err);
+                                    });
+                        });
+                        $('#unstake_vegrb_1month').click(function (e) {
+                            let _user = coreHelper.getUserAccount();
+                            let _amountVeGRB = $(`input[name=input_vegrb_1month_amount]`).val();
+                            if (!_user) {
+                                return false;
+                            }
+                            if (_amountVeGRB <= 0) {
+                                return false;
+                            }
+                            let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Month']["contract"], _abiGarbiStakeGRB);
+                            _contractGarbiStakeGRB
+                                    .methods
+                                    .withdraw(
+                                            coreHelper.toBN(_amountVeGRB, veGRBDecimal)
+                                            )
+                                    .send({
+                                        from: _user
+                                    })
+                                    .on('transactionHash', (hash) => {
+                                        coreHelper.showPopup('confirm-popup');
+                                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                    })
+                                    .on('confirmation', (confirmationNumber, receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                        $(`input[name=input_vegrb_1month_amount]`).val("");
+                                    })
+                                    .on('receipt', (receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('error', (err, receipt) => {
+                                        console.log(err);
+                                    });
+                        });
+                        $('#unstake_vegrb_1year').click(function (e) {
+                            let _user = coreHelper.getUserAccount();
+                            let _amountVeGRB = $(`input[name=input_vegrb_1year_amount]`).val();
+                            if (!_user) {
+                                return false;
+                            }
+                            if (_amountVeGRB <= 0) {
+                                return false;
+                            }
+                            let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Year']["contract"], _abiGarbiStakeGRB);
+                            _contractGarbiStakeGRB
+                                    .methods
+                                    .withdraw(
+                                            coreHelper.toBN(_amountVeGRB, veGRBDecimal)
+                                            )
+                                    .send({
+                                        from: _user
+                                    })
+                                    .on('transactionHash', (hash) => {
+                                        coreHelper.showPopup('confirm-popup');
+                                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                    })
+                                    .on('confirmation', (confirmationNumber, receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                        $(`input[name=input_vegrb_1year_amount]`).val("");
                                     })
                                     .on('receipt', (receipt) => {
                                         coreHelper.hidePopup('confirm-popup', 0);
@@ -1719,7 +1884,7 @@
                                                 coreHelper.hidePopup('confirm-popup', 0);
                                                 coreHelper.showPopup('success-confirm-popup');
                                                 coreHelper.hidePopup('success-confirm-popup', 10000);
-                                                $(`input[name=input_grb_1year_amount]`).val("");
+                                                $(`input[name=input_vegrb_1week_amount]`).val("");
                                             })
                                             .on('receipt', (receipt) => {
                                                 coreHelper.hidePopup('confirm-popup', 0);
@@ -1734,6 +1899,102 @@
                         });
                         $('#approve_lock_vegrb_1week').click(function() {
                             veGrbApprove(_contractsObj['garbiStakeVeGRB1Week']["contract"], 'approve_lock_vegrb_1week', 'lock_vegrb_1week_message');
+                        });
+                        $('#lock_vegrb_1month_button').click(function (e) {
+                            let _user = coreHelper.getUserAccount();
+                            let _amountVeGRB = $(`input[name=input_vegrb_1month_amount]`).val();
+                            if (!_user) {
+                                return false;
+                            }
+                            if (_amountVeGRB <= 0) {
+                                return false;
+                            }
+                            let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
+                            veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Month']["contract"]).call().then(result => {
+                                if (result == 0) { //need approve
+                                    $('#approve_lock_vegrb_1month').show();
+                                    $('.lock_vegrb_1month_message').show();
+                                } else {
+                                    let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Month']["contract"], _abiGarbiStakeGRB);
+                                    _contractGarbiStakeGRB
+                                            .methods
+                                            .deposit(
+                                                    coreHelper.toBN(_amountVeGRB, veGRBDecimal)
+                                                    )
+                                            .send({
+                                                from: _user
+                                            })
+                                            .on('transactionHash', (hash) => {
+                                                coreHelper.showPopup('confirm-popup');
+                                                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                            })
+                                            .on('confirmation', (confirmationNumber, receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                                $(`input[name=input_vegrb_1month_amount]`).val("");
+                                            })
+                                            .on('receipt', (receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                            })
+                                            .on('error', (err, receipt) => {
+                                                console.log(err);
+                                            });
+                                }
+                            })
+                        });
+                        $('#approve_lock_vegrb_1month').click(function() {
+                            veGrbApprove(_contractsObj['garbiStakeVeGRB1Month']["contract"], 'approve_lock_vegrb_1month', 'lock_vegrb_1month_message');
+                        });
+                        $('#lock_vegrb_1year_button').click(function (e) {
+                            let _user = coreHelper.getUserAccount();
+                            let _amountVeGRB = $(`input[name=input_vegrb_1year_amount]`).val();
+                            if (!_user) {
+                                return false;
+                            }
+                            if (_amountVeGRB <= 0) {
+                                return false;
+                            }
+                            let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
+                            veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Year']["contract"]).call().then(result => {
+                                if (result == 0) { //need approve
+                                    $('#approve_lock_vegrb_1year').show();
+                                    $('.lock_vegrb_1year_message').show();
+                                } else {
+                                    let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Year']["contract"], _abiGarbiStakeGRB);
+                                    _contractGarbiStakeGRB
+                                            .methods
+                                            .deposit(
+                                                    coreHelper.toBN(_amountVeGRB, veGRBDecimal)
+                                                    )
+                                            .send({
+                                                from: _user
+                                            })
+                                            .on('transactionHash', (hash) => {
+                                                coreHelper.showPopup('confirm-popup');
+                                                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                            })
+                                            .on('confirmation', (confirmationNumber, receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                                $(`input[name=input_vegrb_1year_amount]`).val("");
+                                            })
+                                            .on('receipt', (receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                            })
+                                            .on('error', (err, receipt) => {
+                                                console.log(err);
+                                            });
+                                }
+                            })
+                        });
+                        $('#approve_lock_vegrb_1year').click(function() {
+                            veGrbApprove(_contractsObj['garbiStakeVeGRB1Year']["contract"], 'approve_lock_vegrb_1year', 'lock_vegrb_1year_message');
                         });
                         function grbApprove(contractAddress, classApproveButtion, classMessage) {
                             let GRBContract = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
