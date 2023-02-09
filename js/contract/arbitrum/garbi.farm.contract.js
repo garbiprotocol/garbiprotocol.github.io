@@ -5,6 +5,7 @@ $.GARBI_FARM.prototype = (function() {
         pids: [] // length == 0 => get ALL,
     };
     var userPoolsJoined = {}; // mapping( user => array);
+    var GRBPrice = 0;
     var transactions = {};
     const GRB_TOKEN_DECIMAL = 18;
     const GRB_TOKEN_NAME = 'GRB';
@@ -14,7 +15,21 @@ $.GARBI_FARM.prototype = (function() {
                 return false;
             }
             setting = $.extend({}, setting, options);
+            GRBPrice = configHelper.getPriceByTokenName(setting.chainId, 'grb');;
             this.initData();
+            this.updateGRBPrice();
+        },
+        async updateGRBPrice() {
+            let self = this;
+            let _abiPairGRBWETH = abiHelper.getGarbiSwapABI();
+            let _contractPairGRBWETHread = contractBaseHelper.getReadContract("0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874", _abiPairGRBWETH);
+            let result = await _contractPairGRBWETHread.methods.getBaseOutput(coreHelper.toBN(1, GRB_TOKEN_DECIMAL)).call();
+            let WETHDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, 'weth');
+            let WETHPrice = configHelper.getPriceByTokenName(setting.chainId, 'weth');
+            GRBPrice = result/10**WETHDecimal*WETHPrice;
+            setTimeout(function() {
+                self.updateGRBPrice();
+            }, 15000);
         },
         async initData(_pid) {
             let self = this;
@@ -332,7 +347,7 @@ $.GARBI_FARM.prototype = (function() {
             _data["price"] = _pool["price"];
             _data["tvl"] = _data["totalWantShare"] * _data["price"];
             if (_data["tvl"] > 0) {
-                let _grbPrice = configHelper.getPriceByTokenName(setting.chainId, GRB_TOKEN_NAME);
+                let _grbPrice = GRBPrice;
                 _data["grbRewardAPY"] = _data["totalMintPerDay"] * _grbPrice * 36500 / (_data["tvl"]);
             }
             _data["apy"] = _data["grbRewardAPY"];
