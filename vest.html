@@ -1546,15 +1546,17 @@
                             let oneWeekGRBData = await _contractGarbiStakeGRB1weekRead.methods.getData(_user).call();
                             let withdrawalBlockNumber = oneWeekGRBData.userWithdrawalTime;
                             let blockNow = oneWeekGRBData.blockNow;
-
                             if(withdrawalBlockNumber <=0) {
                                 return false;
                             }
 
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
+                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
+
                                 $('.unstake_grb_1week_message').show();
-                                $('.unstake_grb_1week_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                $('.unstake_grb_1week_message').html(dayToUnstake);
                                 return false;
                             }
                             $('.unstake_grb_1week_message').hide();
@@ -1607,8 +1609,10 @@
 
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
+                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
                                 $('.unstake_grb_1month_message').show();
-                                $('.unstake_grb_1month_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                $('.unstake_grb_1month_message').html(dayToUnstake);
                                 return false;
                             }
                             $('.unstake_grb_1month_message').hide();
@@ -1654,15 +1658,18 @@
                             let oneYearGRBData = await _contractGarbiStakeGRB1yearRead.methods.getData(_user).call();
                             let withdrawalBlockNumber = oneYearGRBData.userWithdrawalTime;
                             let blockNow = oneYearGRBData.blockNow;
-
+                            
                             if(withdrawalBlockNumber <=0) {
                                 return false;
                             }
 
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
+                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
+
                                 $('.unstake_grb_1year_message').show();
-                                $('.unstake_grb_1year_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                $('.unstake_grb_1year_message').html(dayToUnstake);
                                 return false;
                             }
                             $('.unstake_grb_1year_message').hide();
@@ -1715,8 +1722,10 @@
 
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
+                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
                                 $('.unstake_vegrb_1week_message').show();
-                                $('.unstake_vegrb_1week_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                $('.unstake_vegrb_1week_message').html(dayToUnstake);
                                 return false;
                             }
                             $('.unstake_vegrb_1week_message').hide();
@@ -1769,8 +1778,10 @@
 
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
+                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
                                 $('.unstake_vegrb_1month_message').show();
-                                $('.unstake_vegrb_1month_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                $('.unstake_vegrb_1month_message').html(dayToUnstake);
                                 return false;
                             }
                             $('.unstake_vegrb_1month_message').hide();
@@ -1823,8 +1834,10 @@
 
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
+                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
                                 $('.unstake_vegrb_1year_message').show();
-                                $('.unstake_vegrb_1year_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                $('.unstake_vegrb_1year_message').html(dayToUnstake);
                                 return false;
                             }
                             $('.unstake_vegrb_1year_message').hide();
