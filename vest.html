@@ -360,6 +360,8 @@
                                                                 <input type="" class="swap__form-input" name="input_grb_1week_amount" value="" placeholder="GRB">
                                                             </div>
                                                             <span class="lock_grb_1week_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
+
+                                                            <span class="unstake_grb_1week_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -459,6 +461,8 @@
                                                                 <input type="" class="swap__form-input" name="input_grb_1month_amount" value="" placeholder="GRB">
                                                             </div>
                                                             <span class="lock_grb_1month_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
+
+                                                            <span class="unstake_grb_1month_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -558,6 +562,8 @@
                                                                 <input type="" class="swap__form-input" name="input_grb_1year_amount" value="" placeholder="GRB">
                                                             </div>
                                                             <span class="lock_grb_1year_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
+
+                                                            <span class="unstake_grb_1year_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -657,6 +663,8 @@
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1week_amount" value="" placeholder="veGRB">
                                                             </div>
                                                             <span class="lock_vegrb_1week_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+
+                                                            <span class="unstake_vegrb_1week_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -756,6 +764,8 @@
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1month_amount" value="" placeholder="veGRB">
                                                             </div>
                                                             <span class="lock_vegrb_1month_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+
+                                                            <span class="unstake_vegrb_1month_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -855,6 +865,8 @@
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1year_amount" value="" placeholder="veGRB">
                                                             </div>
                                                             <span class="lock_vegrb_1year_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+
+                                                            <span class="unstake_vegrb_1year_message" style="font-style: italic; display: none">122</span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1521,7 +1533,7 @@
                                         console.log(err);
                                     });
                         });
-                        $('#unstake_grb_1week').click(function (e) {
+                        $('#unstake_grb_1week').click(async function (e) {
                             let _user = coreHelper.getUserAccount();
                             let _amountGRB = $(`input[name=input_grb_1week_amount]`).val();
                             if (!_user) {
@@ -1530,6 +1542,23 @@
                             if (_amountGRB <= 0) {
                                 return false;
                             }
+
+                            let oneWeekGRBData = await _contractGarbiStakeGRB1weekRead.methods.getData(_user).call();
+                            let withdrawalBlockNumber = oneWeekGRBData.userWithdrawalTime;
+                            let blockNow = oneWeekGRBData.blockNow;
+
+                            if(withdrawalBlockNumber <=0) {
+                                return false;
+                            }
+
+                            if(withdrawalBlockNumber > blockNow){
+                                let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                $('.unstake_grb_1week_message').show();
+                                $('.unstake_grb_1week_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                return false;
+                            }
+                            $('.unstake_grb_1week_message').hide();
+                            
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeGRB1Week']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
                                     .methods
@@ -1558,7 +1587,7 @@
                                         console.log(err);
                                     });
                         });
-                        $('#unstake_grb_1month').click(function (e) {
+                        $('#unstake_grb_1month').click(async function (e) {
                             let _user = coreHelper.getUserAccount();
                             let _amountGRB = $(`input[name=input_grb_1month_amount]`).val();
                             if (!_user) {
@@ -1567,6 +1596,23 @@
                             if (_amountGRB <= 0) {
                                 return false;
                             }
+
+                            let oneMonthGRBData = await _contractGarbiStakeGRB1monthRead.methods.getData(_user).call();
+                            let withdrawalBlockNumber = oneMonthGRBData.userWithdrawalTime;
+                            let blockNow = oneMonthGRBData.blockNow;
+
+                            if(withdrawalBlockNumber <=0) {
+                                return false;
+                            }
+
+                            if(withdrawalBlockNumber > blockNow){
+                                let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                $('.unstake_grb_1month_message').show();
+                                $('.unstake_grb_1month_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                return false;
+                            }
+                            $('.unstake_grb_1month_message').hide();
+
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeGRB1Month']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
                                     .methods
@@ -1595,7 +1641,7 @@
                                         console.log(err);
                                     });
                         });
-                        $('#unstake_grb_1year').click(function (e) {
+                        $('#unstake_grb_1year').click(async function (e) {
                             let _user = coreHelper.getUserAccount();
                             let _amountGRB = $(`input[name=input_grb_1year_amount]`).val();
                             if (!_user) {
@@ -1604,6 +1650,23 @@
                             if (_amountGRB <= 0) {
                                 return false;
                             }
+
+                            let oneYearGRBData = await _contractGarbiStakeGRB1yearRead.methods.getData(_user).call();
+                            let withdrawalBlockNumber = oneYearGRBData.userWithdrawalTime;
+                            let blockNow = oneYearGRBData.blockNow;
+
+                            if(withdrawalBlockNumber <=0) {
+                                return false;
+                            }
+
+                            if(withdrawalBlockNumber > blockNow){
+                                let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                $('.unstake_grb_1year_message').show();
+                                $('.unstake_grb_1year_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                return false;
+                            }
+                            $('.unstake_grb_1year_message').hide();
+
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeGRB1Year']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
                                     .methods
@@ -1632,7 +1695,7 @@
                                         console.log(err);
                                     });
                         });
-                        $('#unstake_vegrb_1week').click(function (e) {
+                        $('#unstake_vegrb_1week').click(async function (e) {
                             let _user = coreHelper.getUserAccount();
                             let _amountVeGRB = $(`input[name=input_vegrb_1week_amount]`).val();
                             if (!_user) {
@@ -1641,6 +1704,23 @@
                             if (_amountVeGRB <= 0) {
                                 return false;
                             }
+
+                            let oneWeekVeGRBData = await _contractGarbiStakeVeGRB1weekRead.methods.getData(_user).call();
+                            let withdrawalBlockNumber = oneWeekVeGRBData.userWithdrawalTime;
+                            let blockNow = oneWeekVeGRBData.blockNow;
+
+                            if(withdrawalBlockNumber <=0) {
+                                return false;
+                            }
+
+                            if(withdrawalBlockNumber > blockNow){
+                                let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                $('.unstake_vegrb_1week_message').show();
+                                $('.unstake_vegrb_1week_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                return false;
+                            }
+                            $('.unstake_vegrb_1week_message').hide();
+
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Week']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
                                     .methods
@@ -1669,7 +1749,7 @@
                                         console.log(err);
                                     });
                         });
-                        $('#unstake_vegrb_1month').click(function (e) {
+                        $('#unstake_vegrb_1month').click(async function (e) {
                             let _user = coreHelper.getUserAccount();
                             let _amountVeGRB = $(`input[name=input_vegrb_1month_amount]`).val();
                             if (!_user) {
@@ -1678,6 +1758,23 @@
                             if (_amountVeGRB <= 0) {
                                 return false;
                             }
+
+                            let oneMonthVeGRBData = await _contractGarbiStakeVeGRB1weekRead.methods.getData(_user).call();
+                            let withdrawalBlockNumber = oneMonthVeGRBData.userWithdrawalTime;
+                            let blockNow = oneMonthVeGRBData.blockNow;
+
+                            if(withdrawalBlockNumber <=0) {
+                                return false;
+                            }
+
+                            if(withdrawalBlockNumber > blockNow){
+                                let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                $('.unstake_vegrb_1month_message').show();
+                                $('.unstake_vegrb_1month_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                return false;
+                            }
+                            $('.unstake_vegrb_1month_message').hide();
+
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Month']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
                                     .methods
@@ -1706,7 +1803,7 @@
                                         console.log(err);
                                     });
                         });
-                        $('#unstake_vegrb_1year').click(function (e) {
+                        $('#unstake_vegrb_1year').click(async function (e) {
                             let _user = coreHelper.getUserAccount();
                             let _amountVeGRB = $(`input[name=input_vegrb_1year_amount]`).val();
                             if (!_user) {
@@ -1715,6 +1812,23 @@
                             if (_amountVeGRB <= 0) {
                                 return false;
                             }
+
+                            let oneYearVeGRBData = await _contractGarbiStakeVeGRB1weekRead.methods.getData(_user).call();
+                            let withdrawalBlockNumber = oneYearVeGRBData.userWithdrawalTime;
+                            let blockNow = oneYearVeGRBData.blockNow;
+
+                            if(withdrawalBlockNumber <=0) {
+                                return false;
+                            }
+
+                            if(withdrawalBlockNumber > blockNow){
+                                let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
+                                $('.unstake_vegrb_1year_message').show();
+                                $('.unstake_vegrb_1year_message').html(`${dayToUnstake > 1 ? "days" : "day"}`);
+                                return false;
+                            }
+                            $('.unstake_vegrb_1year_message').hide();
+                            
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Year']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
                                     .methods
