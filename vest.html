@@ -261,7 +261,8 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+                                                            <span class="lock_vegrb_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span><br/>
+                                                            <span class="error_lock_vegrb_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -359,9 +360,9 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_grb_1week_amount" value="" placeholder="GRB">
                                                             </div>
-                                                            <span class="lock_grb_1week_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
+                                                            <span class="lock_grb_1week_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span><br/>
 
-                                                            <span class="unstake_grb_1week_message" style="font-style: italic; display: none"></span>
+                                                            <span class="error_grb_1week_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -460,9 +461,9 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_grb_1month_amount" value="" placeholder="GRB">
                                                             </div>
-                                                            <span class="lock_grb_1month_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
+                                                            <span class="lock_grb_1month_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span><br/>
 
-                                                            <span class="unstake_grb_1month_message" style="font-style: italic; display: none"></span>
+                                                            <span class="error_grb_1month_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -561,9 +562,9 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_grb_1year_amount" value="" placeholder="GRB">
                                                             </div>
-                                                            <span class="lock_grb_1year_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
+                                                            <span class="lock_grb_1year_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span><br/>
 
-                                                            <span class="unstake_grb_1year_message" style="font-style: italic; display: none"></span>
+                                                            <span class="error_grb_1year_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -662,9 +663,9 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1week_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_1week_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+                                                            <span class="lock_vegrb_1week_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span><br/>
 
-                                                            <span class="unstake_vegrb_1week_message" style="font-style: italic; display: none"></span>
+                                                            <span class="error_vegrb_1week_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -763,9 +764,9 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1month_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_1month_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+                                                            <span class="lock_vegrb_1month_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span><br/>
 
-                                                            <span class="unstake_vegrb_1month_message" style="font-style: italic; display: none"></span>
+                                                            <span class="error_vegrb_1month_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -864,9 +865,9 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1year_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_1year_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+                                                            <span class="lock_vegrb_1year_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span><br/>
 
-                                                            <span class="unstake_vegrb_1year_message" style="font-style: italic; display: none">122</span>
+                                                            <span class="error_vegrb_1year_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -972,6 +973,40 @@
         <script src="../assets/js/custom.menu.js"></script>
 
     </body>
+    <script>
+        const REGEX_PRICE = /\d{0,99}(\.\d{0,18})?/;
+
+        $(document).ready(function () {
+            $('input[name="input_vegrb_amount"]').on("input", function() {
+                this.value  = this.value.match(REGEX_PRICE)[0];
+            });
+
+            $('input[name="input_grb_1week_amount"]').on("input", function() {
+                this.value  = this.value.match(REGEX_PRICE)[0];
+            });
+
+            $('input[name="input_grb_1month_amount"]').on("input", function() {
+                this.value  = this.value.match(REGEX_PRICE)[0];
+            });
+
+            $('input[name="input_grb_1year_amount"]').on("input", function() {
+                this.value  = this.value.match(REGEX_PRICE)[0];
+            });
+
+            $('input[name="input_vegrb_1week_amount"]').on("input", function() {
+                this.value  = this.value.match(REGEX_PRICE)[0];
+            });
+
+            $('input[name="input_vegrb_1month_amount"]').on("input", function() {
+                this.value  = this.value.match(REGEX_PRICE)[0];
+            });
+
+            $('input[name="input_vegrb_1year_amount"]').on("input", function() {
+                this.value  = this.value.match(REGEX_PRICE)[0];
+            });
+        });
+
+    </script>
     <script>
                     var abiHelper = new $.ABI();
                     var coreHelper = new $.Core();
@@ -1298,9 +1333,14 @@
                             if (!_user) {
                                 return false;
                             }
+
                             if (_amountVeGRB <= 0) {
+                                $(".error_lock_vegrb_message").show();
+                                $(".error_lock_vegrb_message").html("Invalid Input");
                                 return false;
                             }
+                            $(".error_lock_vegrb_message").hide();
+                            
                             let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiVestGRB']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
@@ -1536,10 +1576,13 @@
                         $('#unstake_grb_1week').click(async function (e) {
                             let _user = coreHelper.getUserAccount();
                             let _amountGRB = $(`input[name=input_grb_1week_amount]`).val();
+
                             if (!_user) {
                                 return false;
                             }
                             if (_amountGRB <= 0) {
+                                $('.error_grb_1week_message').show();
+                                $('.error_grb_1week_message').html("Invalid Input");
                                 return false;
                             }
 
@@ -1557,11 +1600,11 @@
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
                                 dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
 
-                                $('.unstake_grb_1week_message').show();
-                                $('.unstake_grb_1week_message').html(dayToUnstake);
+                                $('.error_grb_1week_message').show();
+                                $('.error_grb_1week_message').html(dayToUnstake);
                                 return false;
                             }
-                            $('.unstake_grb_1week_message').hide();
+                            $('.error_grb_1week_message').hide();
                             
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeGRB1Week']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
@@ -1598,6 +1641,8 @@
                                 return false;
                             }
                             if (_amountGRB <= 0) {
+                                $('.error_grb_1month_message').show();
+                                $('.error_grb_1month_message').html("Invalid Input");
                                 return false;
                             }
 
@@ -1614,11 +1659,11 @@
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
                                 dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
-                                $('.unstake_grb_1month_message').show();
-                                $('.unstake_grb_1month_message').html(dayToUnstake);
+                                $('.error_grb_1month_message').show();
+                                $('.error_grb_1month_message').html(dayToUnstake);
                                 return false;
                             }
-                            $('.unstake_grb_1month_message').hide();
+                            $('.error_grb_1month_message').hide();
 
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeGRB1Month']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
@@ -1655,6 +1700,8 @@
                                 return false;
                             }
                             if (_amountGRB <= 0) {
+                                $('.error_grb_1year_message').show();
+                                $('.error_grb_1year_message').html("Invalid Input");
                                 return false;
                             }
 
@@ -1672,11 +1719,11 @@
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
                                 dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
 
-                                $('.unstake_grb_1year_message').show();
-                                $('.unstake_grb_1year_message').html(dayToUnstake);
+                                $('.error_grb_1year_message').show();
+                                $('.error_grb_1year_message').html(dayToUnstake);
                                 return false;
                             }
-                            $('.unstake_grb_1year_message').hide();
+                            $('.error_grb_1year_message').hide();
 
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeGRB1Year']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
@@ -1713,6 +1760,8 @@
                                 return false;
                             }
                             if (_amountVeGRB <= 0) {
+                                $('.error_vegrb_1week_message').show();
+                                $('.error_vegrb_1week_message').html("Invalid Input");
                                 return false;
                             }
 
@@ -1729,11 +1778,11 @@
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
                                 dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
-                                $('.unstake_vegrb_1week_message').show();
-                                $('.unstake_vegrb_1week_message').html(dayToUnstake);
+                                $('.error_vegrb_1week_message').show();
+                                $('.error_vegrb_1week_message').html(dayToUnstake);
                                 return false;
                             }
-                            $('.unstake_vegrb_1week_message').hide();
+                            $('.error_vegrb_1week_message').hide();
 
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Week']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
@@ -1770,6 +1819,8 @@
                                 return false;
                             }
                             if (_amountVeGRB <= 0) {
+                                $('.error_vegrb_1month_message').show();
+                                $('.error_vegrb_1month_message').html("Invalid Input");
                                 return false;
                             }
 
@@ -1786,11 +1837,11 @@
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
                                 dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
-                                $('.unstake_vegrb_1month_message').show();
-                                $('.unstake_vegrb_1month_message').html(dayToUnstake);
+                                $('.error_vegrb_1month_message').show();
+                                $('.error_vegrb_1month_message').html(dayToUnstake);
                                 return false;
                             }
-                            $('.unstake_vegrb_1month_message').hide();
+                            $('.error_vegrb_1month_message').hide();
 
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Month']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
@@ -1827,6 +1878,8 @@
                                 return false;
                             }
                             if (_amountVeGRB <= 0) {
+                                $('.error_vegrb_1year_message').show();
+                                $('.error_vegrb_1year_message').html("Invalid Input");
                                 return false;
                             }
 
@@ -1844,11 +1897,11 @@
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
                                 dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
-                                $('.unstake_vegrb_1year_message').show();
-                                $('.unstake_vegrb_1year_message').html(dayToUnstake);
+                                $('.error_vegrb_1year_message').show();
+                                $('.error_vegrb_1year_message').html(dayToUnstake);
                                 return false;
                             }
-                            $('.unstake_vegrb_1year_message').hide();
+                            $('.error_vegrb_1year_message').hide();
                             
                             let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Year']["contract"], _abiGarbiStakeGRB);
                             _contractGarbiStakeGRB
@@ -1881,12 +1934,18 @@
                         $('#lock_grb_1week_button').click(function (e) {
                             let _user = coreHelper.getUserAccount();
                             let _amountGRB = $(`input[name=input_grb_1week_amount]`).val();
+
                             if (!_user) {
                                 return false;
                             }
+
                             if (_amountGRB <= 0) {
+                                $('.error_grb_1week_message').show();
+                                $('.error_grb_1week_message').html("Invalid Input");
                                 return false;
                             }
+                            $('.error_grb_1week_message').hide();
+                            
                             let GRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Week']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
@@ -1933,8 +1992,11 @@
                                 return false;
                             }
                             if (_amountGRB <= 0) {
+                                $('.error_grb_1month_message').show();
+                                $('.error_grb_1month_message').html("Invalid Input");
                                 return false;
                             }
+                            $('.error_grb_1month_message').hide();
                             let GRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Month']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
@@ -1981,8 +2043,12 @@
                                 return false;
                             }
                             if (_amountGRB <= 0) {
+                                $('.error_grb_1year_message').show();
+                                $('.error_grb_1year_message').html("Invalid Input");
                                 return false;
                             }
+                            $('.error_grb_1year_message').hide();
+
                             let GRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Year']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
@@ -2029,8 +2095,11 @@
                                 return false;
                             }
                             if (_amountVeGRB <= 0) {
+                                $('.error_vegrb_1week_message').show();
+                                $('.error_vegrb_1week_message').html("Invalid Input");
                                 return false;
                             }
+                            $('.error_vegrb_1week_message').hide();
                             let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Week']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
@@ -2077,8 +2146,11 @@
                                 return false;
                             }
                             if (_amountVeGRB <= 0) {
+                                $('.error_vegrb_1month_message').show();
+                                $('.error_vegrb_1month_message').html("Invalid Input");
                                 return false;
                             }
+                            $('.error_vegrb_1month_message').hide();
                             let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Month']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
@@ -2124,9 +2196,14 @@
                             if (!_user) {
                                 return false;
                             }
+
                             if (_amountVeGRB <= 0) {
+                                $('.error_vegrb_1year_message').show();
+                                $('.error_vegrb_1year_message').html("Invalid Input");
                                 return false;
                             }
+                            $('.error_vegrb_1year_message').hide();
+
                             let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Year']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
@@ -2234,5 +2311,4 @@
 
 
     </script>
-
 </html>
