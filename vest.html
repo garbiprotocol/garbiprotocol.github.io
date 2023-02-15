@@ -261,7 +261,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span><br/>
+                                                            <span class="lock_vegrb_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
                                                             <span class="error_lock_vegrb_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
@@ -360,7 +360,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_grb_1week_amount" value="" placeholder="GRB">
                                                             </div>
-                                                            <span class="lock_grb_1week_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span><br/>
+                                                            <span class="lock_grb_1week_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
 
                                                             <span class="error_grb_1week_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -461,7 +461,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_grb_1month_amount" value="" placeholder="GRB">
                                                             </div>
-                                                            <span class="lock_grb_1month_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span><br/>
+                                                            <span class="lock_grb_1month_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
 
                                                             <span class="error_grb_1month_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -562,7 +562,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_grb_1year_amount" value="" placeholder="GRB">
                                                             </div>
-                                                            <span class="lock_grb_1year_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span><br/>
+                                                            <span class="lock_grb_1year_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
 
                                                             <span class="error_grb_1year_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -663,7 +663,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1week_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_1week_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span><br/>
+                                                            <span class="lock_vegrb_1week_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
 
                                                             <span class="error_vegrb_1week_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -756,7 +756,7 @@
                                                         <td>
                                                             Total Staked
                                                         </td>
-                                                        <td><span class="vegrb-1month-total-staked">Loading</span> GRB ($<span class="vegrb-1month-total-staked-usd">Loading</span>)</td>
+                                                        <td><span class="vegrb-1month-total-staked">Loading</span> veGRB ($<span class="vegrb-1month-total-staked-usd">Loading</span>)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -764,7 +764,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1month_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_1month_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span><br/>
+                                                            <span class="lock_vegrb_1month_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
 
                                                             <span class="error_vegrb_1month_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -857,7 +857,7 @@
                                                         <td>
                                                             Total Staked
                                                         </td>
-                                                        <td><span class="vegrb-1year-total-staked">Loading</span> GRB ($<span class="vegrb-1year-total-staked-usd">Loading</span>)</td>
+                                                        <td><span class="vegrb-1year-total-staked">Loading</span> veGRB ($<span class="vegrb-1year-total-staked-usd">Loading</span>)</td>
                                                         <td></td>
                                                     </tr>
                                                     <tr>
@@ -865,7 +865,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1year_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_1year_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span><br/>
+                                                            <span class="lock_vegrb_1year_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
 
                                                             <span class="error_vegrb_1year_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -1301,8 +1301,10 @@
                             }
 
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                $(".error_lock_vegrb_message").show();
-                                $(".error_lock_vegrb_message").html("Invalid Input");
+                                if($('.lock_vegrb_message').is(":hidden")) {
+                                    $(".error_lock_vegrb_message").show();
+                                    $(".error_lock_vegrb_message").html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
                             $(".error_lock_vegrb_message").hide();
@@ -1547,8 +1549,10 @@
                                 return false;
                             }
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                $('.error_grb_1week_message').show();
-                                $('.error_grb_1week_message').html("Invalid Input");
+                                if($('.lock_grb_1week_message').is(':hidden')){
+                                    $('.error_grb_1week_message').show();
+                                    $('.error_grb_1week_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
 
@@ -1564,10 +1568,17 @@
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
-                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
 
-                                $('.error_grb_1week_message').show();
-                                $('.error_grb_1week_message').html(dayToUnstake);
+                                dayToUnstake     = 
+                                    dayToUnstake > 1 
+                                    ? `You will be able to unstake your assets in ${dayToUnstake} days` 
+                                    : `You will be able to unstake your assets in ${dayToUnstake} day`;
+
+                                if($('.lock_grb_1week_message').is(':hidden')){
+                                    $('.error_grb_1week_message').show();
+                                    $('.error_grb_1week_message').html(dayToUnstake);
+                                }
+
                                 return false;
                             }
                             $('.error_grb_1week_message').hide();
@@ -1607,8 +1618,10 @@
                                 return false;
                             }
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                $('.error_grb_1month_message').show();
-                                $('.error_grb_1month_message').html("Invalid Input");
+                                if($('.lock_grb_1month_message').is(':hidden')){
+                                    $('.error_grb_1month_message').show();
+                                    $('.error_grb_1month_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
 
@@ -1624,9 +1637,17 @@
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
-                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
-                                $('.error_grb_1month_message').show();
-                                $('.error_grb_1month_message').html(dayToUnstake);
+
+                                dayToUnstake     
+                                    = dayToUnstake > 1 
+                                    ? `You will be able to unstake your assets in ${dayToUnstake} days` 
+                                    : `You will be able to unstake your assets in ${dayToUnstake} day`;
+
+                                if($('.lock_grb_1month_message').is(':hidden')){
+                                    $('.error_grb_1month_message').show();
+                                    $('.error_grb_1month_message').html(dayToUnstake);
+                                }
+
                                 return false;
                             }
                             $('.error_grb_1month_message').hide();
@@ -1666,8 +1687,10 @@
                                 return false;
                             }
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                $('.error_grb_1year_message').show();
-                                $('.error_grb_1year_message').html("Invalid Input");
+                                if($('.lock_grb_1year_message').is(':hidden')){
+                                    $('.error_grb_1year_message').show();
+                                    $('.error_grb_1year_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
 
@@ -1683,10 +1706,15 @@
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
-                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
+                                dayToUnstake     = 
+                                    dayToUnstake > 1 
+                                    ? `You will be able to unstake your assets in ${dayToUnstake} days` 
+                                    : `You will be able to unstake your assets in ${dayToUnstake} day`;
 
-                                $('.error_grb_1year_message').show();
-                                $('.error_grb_1year_message').html(dayToUnstake);
+                                if($('.lock_grb_1year_message').is(':hidden')){
+                                    $('.error_grb_1year_message').show();
+                                    $('.error_grb_1year_message').html(dayToUnstake);
+                                }
                                 return false;
                             }
                             $('.error_grb_1year_message').hide();
@@ -1725,9 +1753,12 @@
                             if (!_user) {
                                 return false;
                             }
+
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                $('.error_vegrb_1week_message').show();
-                                $('.error_vegrb_1week_message').html("Invalid Input");
+                                if($('.lock_vegrb_1week_message').is(':hidden')){
+                                    $('.error_vegrb_1week_message').show();
+                                    $('.error_vegrb_1week_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
 
@@ -1743,9 +1774,17 @@
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
-                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
-                                $('.error_vegrb_1week_message').show();
-                                $('.error_vegrb_1week_message').html(dayToUnstake);
+
+                                dayToUnstake     = 
+                                    dayToUnstake > 1 
+                                    ? `You will be able to unstake your assets in ${dayToUnstake} days` 
+                                    : `You will be able to unstake your assets in ${dayToUnstake} day`;
+
+                                if($('.lock_vegrb_1week_message').is(':hidden')){
+                                    $('.error_vegrb_1week_message').show();
+                                    $('.error_vegrb_1week_message').html(dayToUnstake);
+                                }
+
                                 return false;
                             }
                             $('.error_vegrb_1week_message').hide();
@@ -1784,9 +1823,13 @@
                             if (!_user) {
                                 return false;
                             }
+
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                $('.error_vegrb_1month_message').show();
-                                $('.error_vegrb_1month_message').html("Invalid Input");
+                                if($('.lock_vegrb_1month_message').is(':hidden')){
+                                    $('.error_vegrb_1month_message').show();
+                                    $('.error_vegrb_1month_message').html("The provided input is not a valid numeric value.");
+                                }
+
                                 return false;
                             }
 
@@ -1802,9 +1845,17 @@
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
-                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
-                                $('.error_vegrb_1month_message').show();
-                                $('.error_vegrb_1month_message').html(dayToUnstake);
+
+                                dayToUnstake     = 
+                                    dayToUnstake > 1 
+                                    ? `You will be able to unstake your assets in ${dayToUnstake} days` 
+                                    : `You will be able to unstake your assets in ${dayToUnstake} day`;
+
+                                if($('.lock_vegrb_1month_message').is(':hidden')){
+                                    $('.error_vegrb_1month_message').show();
+                                    $('.error_vegrb_1month_message').html(dayToUnstake);
+                                }
+
                                 return false;
                             }
                             $('.error_vegrb_1month_message').hide();
@@ -1844,8 +1895,10 @@
                                 return false;
                             }
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                $('.error_vegrb_1year_message').show();
-                                $('.error_vegrb_1year_message').html("Invalid Input");
+                                if($('.lock_vegrb_1year_message').is(':hidden')){
+                                    $('.error_vegrb_1year_message').show();
+                                    $('.error_vegrb_1year_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
 
@@ -1862,9 +1915,17 @@
                             if(withdrawalBlockNumber > blockNow){
                                 let dayToUnstake = (withdrawalBlockNumber - blockNow)/6000;
                                 dayToUnstake     = Math.ceil(dayToUnstake * 1000)/1000;
-                                dayToUnstake     = dayToUnstake > 1 ? `${dayToUnstake} days` : `${dayToUnstake} day`;
-                                $('.error_vegrb_1year_message').show();
-                                $('.error_vegrb_1year_message').html(dayToUnstake);
+
+                                dayToUnstake     = 
+                                    dayToUnstake > 1 
+                                    ? `You will be able to unstake your assets in ${dayToUnstake} days` 
+                                    : `You will be able to unstake your assets in ${dayToUnstake} day`;
+
+                                if($('.lock_vegrb_1year_message').is(':hidden')){
+                                    $('.error_vegrb_1year_message').show();
+                                    $('.error_vegrb_1year_message').html(dayToUnstake);
+                                }
+                                
                                 return false;
                             }
                             $('.error_vegrb_1year_message').hide();
@@ -1906,8 +1967,10 @@
                             }
 
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                $('.error_grb_1week_message').show();
-                                $('.error_grb_1week_message').html("Invalid Input");
+                                if($('.lock_grb_1week_message').is(':hidden')){
+                                    $('.error_grb_1week_message').show();
+                                    $('.error_grb_1week_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
                             $('.error_grb_1week_message').hide();
@@ -1957,11 +2020,15 @@
                             if (!_user) {
                                 return false;
                             }
+
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                $('.error_grb_1month_message').show();
-                                $('.error_grb_1month_message').html("Invalid Input");
+                                if($('.lock_grb_1month_message').is(':hidden')){
+                                    $('.error_grb_1month_message').show();
+                                    $('.error_grb_1month_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
+
                             $('.error_grb_1month_message').hide();
                             let GRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Month']["contract"]).call().then(result => {
@@ -2008,11 +2075,15 @@
                             if (!_user) {
                                 return false;
                             }
+
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                $('.error_grb_1year_message').show();
-                                $('.error_grb_1year_message').html("Invalid Input");
+                                if($('.lock_grb_1year_message').is(':hidden')){
+                                    $('.error_grb_1year_message').show();
+                                    $('.error_grb_1year_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
+
                             $('.error_grb_1year_message').hide();
 
                             let GRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
@@ -2060,11 +2131,18 @@
                             if (!_user) {
                                 return false;
                             }
+
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                $('.error_vegrb_1week_message').show();
-                                $('.error_vegrb_1week_message').html("Invalid Input");
+
+                                if($('.lock_vegrb_1week_message').is(':hidden')){
+                                    $('.error_vegrb_1week_message').show();
+                                    $('.error_vegrb_1week_message').html("The provided input is not a valid numeric value.");
+                                }
+
                                 return false;
+
                             }
+
                             $('.error_vegrb_1week_message').hide();
                             let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Week']["contract"]).call().then(result => {
@@ -2112,8 +2190,10 @@
                                 return false;
                             }
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                $('.error_vegrb_1month_message').show();
-                                $('.error_vegrb_1month_message').html("Invalid Input");
+                                if($('.lock_vegrb_1month_message').is(':hidden')){
+                                    $('.error_vegrb_1month_message').show();
+                                    $('.error_vegrb_1month_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
                             $('.error_vegrb_1month_message').hide();
@@ -2164,8 +2244,10 @@
                             }
 
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                $('.error_vegrb_1year_message').show();
-                                $('.error_vegrb_1year_message').html("Invalid Input");
+                                if($('.lock_vegrb_1year_message').is(':hidden')){
+                                    $('.error_vegrb_1year_message').show();
+                                    $('.error_vegrb_1year_message').html("The provided input is not a valid numeric value.");
+                                }
                                 return false;
                             }
                             $('.error_vegrb_1year_message').hide();
