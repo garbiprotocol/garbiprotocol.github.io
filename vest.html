@@ -974,40 +974,6 @@
 
     </body>
     <script>
-        const REGEX_PRICE = /\d{0,99}(\.\d{0,18})?/;
-
-        $(document).ready(function () {
-            $('input[name="input_vegrb_amount"]').on("input", function() {
-                this.value  = this.value.match(REGEX_PRICE)[0];
-            });
-
-            $('input[name="input_grb_1week_amount"]').on("input", function() {
-                this.value  = this.value.match(REGEX_PRICE)[0];
-            });
-
-            $('input[name="input_grb_1month_amount"]').on("input", function() {
-                this.value  = this.value.match(REGEX_PRICE)[0];
-            });
-
-            $('input[name="input_grb_1year_amount"]').on("input", function() {
-                this.value  = this.value.match(REGEX_PRICE)[0];
-            });
-
-            $('input[name="input_vegrb_1week_amount"]').on("input", function() {
-                this.value  = this.value.match(REGEX_PRICE)[0];
-            });
-
-            $('input[name="input_vegrb_1month_amount"]').on("input", function() {
-                this.value  = this.value.match(REGEX_PRICE)[0];
-            });
-
-            $('input[name="input_vegrb_1year_amount"]').on("input", function() {
-                this.value  = this.value.match(REGEX_PRICE)[0];
-            });
-        });
-
-    </script>
-    <script>
                     var abiHelper = new $.ABI();
                     var coreHelper = new $.Core();
                     var configHelper = new $.CONFIG();
@@ -1334,7 +1300,7 @@
                                 return false;
                             }
 
-                            if (_amountVeGRB <= 0) {
+                            if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
                                 $(".error_lock_vegrb_message").show();
                                 $(".error_lock_vegrb_message").html("Invalid Input");
                                 return false;
@@ -1580,7 +1546,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountGRB <= 0) {
+                            if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
                                 $('.error_grb_1week_message').show();
                                 $('.error_grb_1week_message').html("Invalid Input");
                                 return false;
@@ -1640,7 +1606,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountGRB <= 0) {
+                            if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
                                 $('.error_grb_1month_message').show();
                                 $('.error_grb_1month_message').html("Invalid Input");
                                 return false;
@@ -1699,7 +1665,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountGRB <= 0) {
+                            if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
                                 $('.error_grb_1year_message').show();
                                 $('.error_grb_1year_message').html("Invalid Input");
                                 return false;
@@ -1759,7 +1725,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountVeGRB <= 0) {
+                            if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
                                 $('.error_vegrb_1week_message').show();
                                 $('.error_vegrb_1week_message').html("Invalid Input");
                                 return false;
@@ -1818,7 +1784,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountVeGRB <= 0) {
+                            if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
                                 $('.error_vegrb_1month_message').show();
                                 $('.error_vegrb_1month_message').html("Invalid Input");
                                 return false;
@@ -1877,7 +1843,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountVeGRB <= 0) {
+                            if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
                                 $('.error_vegrb_1year_message').show();
                                 $('.error_vegrb_1year_message').html("Invalid Input");
                                 return false;
@@ -1939,7 +1905,7 @@
                                 return false;
                             }
 
-                            if (_amountGRB <= 0) {
+                            if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
                                 $('.error_grb_1week_message').show();
                                 $('.error_grb_1week_message').html("Invalid Input");
                                 return false;
@@ -1991,7 +1957,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountGRB <= 0) {
+                            if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
                                 $('.error_grb_1month_message').show();
                                 $('.error_grb_1month_message').html("Invalid Input");
                                 return false;
@@ -2042,7 +2008,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountGRB <= 0) {
+                            if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
                                 $('.error_grb_1year_message').show();
                                 $('.error_grb_1year_message').html("Invalid Input");
                                 return false;
@@ -2094,7 +2060,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountVeGRB <= 0) {
+                            if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
                                 $('.error_vegrb_1week_message').show();
                                 $('.error_vegrb_1week_message').html("Invalid Input");
                                 return false;
@@ -2145,7 +2111,7 @@
                             if (!_user) {
                                 return false;
                             }
-                            if (_amountVeGRB <= 0) {
+                            if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
                                 $('.error_vegrb_1month_message').show();
                                 $('.error_vegrb_1month_message').html("Invalid Input");
                                 return false;
@@ -2197,7 +2163,7 @@
                                 return false;
                             }
 
-                            if (_amountVeGRB <= 0) {
+                            if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
                                 $('.error_vegrb_1year_message').show();
                                 $('.error_vegrb_1year_message').html("Invalid Input");
                                 return false;
