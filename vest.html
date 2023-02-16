@@ -1044,7 +1044,7 @@
                             $('.user-grb-1week-withdrawal-block-number').text(withdrawalBlockNumber);
                             let blockNow = result.blockNow;
                             $('.block-now').text(blockNow);
-                            let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1WeekTotalStaked*365;
+                            let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1WeekTotalStaked*365*100;
                             $('.user-grb-1week-apr').text(apr.toFixed(2));
                         });
                         _contractGarbiStakeGRB1monthRead.methods.getData(_user).call().then(function (result) {
@@ -1058,7 +1058,7 @@
                             $('.grb-1month-total-staked-usd').text((grb1MonthTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-grb-1month-withdrawal-block-number').text(withdrawalBlockNumber);
-                            let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1MonthTotalStaked*365;
+                            let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1MonthTotalStaked*365*100;
                             $('.user-grb-1month-apr').text(apr.toFixed(2));
                         });
                         _contractGarbiStakeGRB1yearRead.methods.getData(_user).call().then(function (result) {
@@ -1072,7 +1072,7 @@
                             $('.grb-1year-total-staked-usd').text((grb1YearTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-grb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
-                            let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1YearTotalStaked*365;
+                            let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1YearTotalStaked*365*100;
                             $('.user-grb-1year-apr').text(apr.toFixed(2));
                         });
                         
@@ -1087,7 +1087,7 @@
                             $('.vegrb-1week-total-staked-usd').text((vegrb1WeekTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-vegrb-1week-withdrawal-block-number').text(withdrawalBlockNumber);
-                            let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1WeekTotalStaked*365;
+                            let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1WeekTotalStaked*365*100;
                             $('.user-vegrb-1week-apr').text(apr.toFixed(2));
                         });
                         _contractGarbiStakeVeGRB1monthRead.methods.getData(_user).call().then(function (result) {
@@ -1101,7 +1101,7 @@
                             $('.vegrb-1month-total-staked-usd').text((vegrb1MonthTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-vegrb-1month-withdrawal-block-number').text(withdrawalBlockNumber);
-                            let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1MonthTotalStaked*365;
+                            let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1MonthTotalStaked*365*100;
                             $('.user-vegrb-1month-apr').text(apr.toFixed(2));
                         });
                         _contractGarbiStakeVeGRB1yearRead.methods.getData(_user).call().then(function (result) {
@@ -1115,7 +1115,7 @@
                             $('.vegrb-1year-total-staked-usd').text((veGrb1YearTotalStaked * GRBPrice).toFixed(2));
                             let withdrawalBlockNumber = result.userWithdrawalTime;
                             $('.user-vegrb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
-                            let apr = result.totalMintPerDay_/10 ** veGRBDecimal/veGrb1YearTotalStaked*365;
+                            let apr = result.totalMintPerDay_/10 ** veGRBDecimal/veGrb1YearTotalStaked*365*100;
                             $('.user-vegrb-1year-apr').text(apr.toFixed(2));
                         });
                         setInterval(function () {
@@ -1169,7 +1169,7 @@
                                 $('.user-grb-1week-withdrawal-block-number').text(withdrawalBlockNumber);
                                 let blockNow = result.blockNow;
                                 $('.block-now').text(blockNow);
-                                let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1WeekTotalStaked*365;
+                                let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1WeekTotalStaked*365*100;
                                 $('.user-grb-1week-apr').text(apr.toFixed(2));
                             });
                             _contractGarbiStakeGRB1monthRead.methods.getData(_user).call().then(function (result) {
@@ -1183,7 +1183,7 @@
                                 $('.grb-1month-total-staked-usd').text((grb1MonthTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-grb-1month-withdrawal-block-number').text(withdrawalBlockNumber);
-                                let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1MonthTotalStaked*365;
+                                let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1MonthTotalStaked*365*100;
                                 $('.user-grb-1month-apr').text(apr.toFixed(2));
                             });
                             _contractGarbiStakeGRB1yearRead.methods.getData(_user).call().then(function (result) {
@@ -1197,7 +1197,7 @@
                                 $('.grb-1year-total-staked-usd').text((grb1YearTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-grb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
-                                let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1YearTotalStaked*365;
+                                let apr = result.totalMintPerDay_/10 ** GRBDecimal/grb1YearTotalStaked*365*100;
                                 $('.user-grb-1year-apr').text(apr.toFixed(2));
                             });
 
@@ -1212,7 +1212,7 @@
                                 $('.vegrb-1week-total-staked-usd').text((vegrb1WeekTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-vegrb-1week-withdrawal-block-number').text(withdrawalBlockNumber);
-                                let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1WeekTotalStaked*365;
+                                let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1WeekTotalStaked*365*100;
                                 $('.user-vegrb-1week-apr').text(apr.toFixed(2));
                             });
                             _contractGarbiStakeVeGRB1monthRead.methods.getData(_user).call().then(function (result) {
@@ -1226,7 +1226,7 @@
                                 $('.vegrb-1month-total-staked-usd').text((vegrb1MonthTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-vegrb-1month-withdrawal-block-number').text(withdrawalBlockNumber);
-                                let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1MonthTotalStaked*365;
+                                let apr = result.totalMintPerDay_/10 ** veGRBDecimal/vegrb1MonthTotalStaked*365*100;
                                 $('.user-vegrb-1month-apr').text(apr.toFixed(2));
                             });
                             _contractGarbiStakeVeGRB1yearRead.methods.getData(_user).call().then(function (result) {
@@ -1240,7 +1240,7 @@
                                 $('.vegrb-1year-total-staked-usd').text((veGrb1YearTotalStaked * GRBPrice).toFixed(2));
                                 let withdrawalBlockNumber = result.userWithdrawalTime;
                                 $('.user-vegrb-1year-withdrawal-block-number').text(withdrawalBlockNumber);
-                                let apr = result.totalMintPerDay_/10 ** veGRBDecimal/veGrb1YearTotalStaked*365;
+                                let apr = result.totalMintPerDay_/10 ** veGRBDecimal/veGrb1YearTotalStaked*365*100;
                                 $('.user-vegrb-1year-apr').text(apr.toFixed(2));
                             });
                         }, 3000);
