@@ -261,7 +261,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+                                                            <span class="approve_vegrb_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
                                                             <span class="error_lock_vegrb_message" style="font-style: italic; display: none"></span>
                                                         </td>
                                                     </tr>
@@ -360,7 +360,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_grb_1week_amount" value="" placeholder="GRB">
                                                             </div>
-                                                            <span class="lock_grb_1week_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
+                                                            <span class="approve_grb_1week_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
 
                                                             <span class="error_grb_1week_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -461,7 +461,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_grb_1month_amount" value="" placeholder="GRB">
                                                             </div>
-                                                            <span class="lock_grb_1month_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
+                                                            <span class="approve_grb_1month_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
 
                                                             <span class="error_grb_1month_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -562,7 +562,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_grb_1year_amount" value="" placeholder="GRB">
                                                             </div>
-                                                            <span class="lock_grb_1year_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
+                                                            <span class="approve_grb_1year_message" style="font-style: italic; display: none">Please approve the spending of your GRB</span>
 
                                                             <span class="error_grb_1year_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -663,7 +663,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1week_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_1week_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+                                                            <span class="approve_vegrb_1week_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
 
                                                             <span class="error_vegrb_1week_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -764,7 +764,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1month_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_1month_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+                                                            <span class="approve_vegrb_1month_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
 
                                                             <span class="error_vegrb_1month_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -865,7 +865,7 @@
                                                             <div class="addLp__form_input mb-2">
                                                                 <input type="" class="swap__form-input" name="input_vegrb_1year_amount" value="" placeholder="veGRB">
                                                             </div>
-                                                            <span class="lock_vegrb_1year_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
+                                                            <span class="approve_vegrb_1year_message" style="font-style: italic; display: none">Please approve the spending of your veGRB</span>
 
                                                             <span class="error_vegrb_1year_message" style="font-style: italic; display: none"></span>
                                                         </td>
@@ -1277,14 +1277,14 @@
                                     })
                                     .on('confirmation', (confirmationNumber, receipt) => {
                                         $('#approve_lock_vegrb').hide();
-                                        $('.lock_vegrb_message').hide();
+                                        $('.approve_vegrb_message').hide();
                                         coreHelper.hidePopup('confirm-popup', 0);
                                         coreHelper.showPopup('success-confirm-popup');
                                         coreHelper.hidePopup('success-confirm-popup', 10000);
                                     })
                                     .on('receipt', (receipt) => {
                                         $('#approve_lock_vegrb').hide();
-                                        $('.lock_vegrb_message').hide();
+                                        $('.approve_vegrb_message').hide();
                                         coreHelper.hidePopup('confirm-popup', 0);
                                         coreHelper.showPopup('success-confirm-popup');
                                         coreHelper.hidePopup('success-confirm-popup', 10000);
@@ -1301,7 +1301,7 @@
                             }
 
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                if($('.lock_vegrb_message').is(":hidden")) {
+                                if($('.approve_vegrb_message').is(":hidden")) {
                                     $(".error_lock_vegrb_message").show();
                                     $(".error_lock_vegrb_message").html("The provided input is not a valid numeric value.");
                                 }
@@ -1313,7 +1313,7 @@
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiVestGRB']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
                                     $('#approve_lock_vegrb').show();
-                                    $('.lock_vegrb_message').show();
+                                    $('.approve_vegrb_message').show();
                                 } else {
                                     let _contractGarbiVestGRB = contractBaseHelper.getMainContract(_contractsObj['garbiVestGRB']["contract"], _abiGarbiVestGRB);
                                     _contractGarbiVestGRB
@@ -1549,9 +1549,9 @@
                                 return false;
                             }
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                if($('.lock_grb_1week_message').is(':hidden')){
-                                    $('.error_grb_1week_message').show();
+                                if($('.approve_grb_1week_message').is(':hidden')){
                                     $('.error_grb_1week_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_grb_1week_message').show();
                                 }
                                 return false;
                             }
@@ -1574,9 +1574,9 @@
                                     ? `You will be able to unstake your assets in ${dayToUnstake} days` 
                                     : `You will be able to unstake your assets in ${dayToUnstake} day`;
 
-                                if($('.lock_grb_1week_message').is(':hidden')){
-                                    $('.error_grb_1week_message').show();
+                                if($('.approve_grb_1week_message').is(':hidden')){
                                     $('.error_grb_1week_message').html(dayToUnstake);
+                                    $('.error_grb_1week_message').show();
                                 }
 
                                 return false;
@@ -1618,9 +1618,9 @@
                                 return false;
                             }
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                if($('.lock_grb_1month_message').is(':hidden')){
-                                    $('.error_grb_1month_message').show();
+                                if($('.approve_grb_1month_message').is(':hidden')){
                                     $('.error_grb_1month_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_grb_1month_message').show();
                                 }
                                 return false;
                             }
@@ -1643,9 +1643,9 @@
                                     ? `You will be able to unstake your assets in ${dayToUnstake} days` 
                                     : `You will be able to unstake your assets in ${dayToUnstake} day`;
 
-                                if($('.lock_grb_1month_message').is(':hidden')){
-                                    $('.error_grb_1month_message').show();
+                                if($('.approve_grb_1month_message').is(':hidden')){
                                     $('.error_grb_1month_message').html(dayToUnstake);
+                                    $('.error_grb_1month_message').show();
                                 }
 
                                 return false;
@@ -1687,9 +1687,9 @@
                                 return false;
                             }
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                if($('.lock_grb_1year_message').is(':hidden')){
-                                    $('.error_grb_1year_message').show();
+                                if($('.approve_grb_1year_message').is(':hidden')){
                                     $('.error_grb_1year_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_grb_1year_message').show();
                                 }
                                 return false;
                             }
@@ -1711,9 +1711,9 @@
                                     ? `You will be able to unstake your assets in ${dayToUnstake} days` 
                                     : `You will be able to unstake your assets in ${dayToUnstake} day`;
 
-                                if($('.lock_grb_1year_message').is(':hidden')){
-                                    $('.error_grb_1year_message').show();
+                                if($('.approve_grb_1year_message').is(':hidden')){
                                     $('.error_grb_1year_message').html(dayToUnstake);
+                                    $('.error_grb_1year_message').show();
                                 }
                                 return false;
                             }
@@ -1755,9 +1755,9 @@
                             }
 
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                if($('.lock_vegrb_1week_message').is(':hidden')){
-                                    $('.error_vegrb_1week_message').show();
+                                if($('.approve_vegrb_1week_message').is(':hidden')){
                                     $('.error_vegrb_1week_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_vegrb_1week_message').show();
                                 }
                                 return false;
                             }
@@ -1780,9 +1780,9 @@
                                     ? `You will be able to unstake your assets in ${dayToUnstake} days` 
                                     : `You will be able to unstake your assets in ${dayToUnstake} day`;
 
-                                if($('.lock_vegrb_1week_message').is(':hidden')){
-                                    $('.error_vegrb_1week_message').show();
+                                if($('.approve_vegrb_1week_message').is(':hidden')){
                                     $('.error_vegrb_1week_message').html(dayToUnstake);
+                                    $('.error_vegrb_1week_message').show();
                                 }
 
                                 return false;
@@ -1825,9 +1825,9 @@
                             }
 
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                if($('.lock_vegrb_1month_message').is(':hidden')){
-                                    $('.error_vegrb_1month_message').show();
+                                if($('.approve_vegrb_1month_message').is(':hidden')){
                                     $('.error_vegrb_1month_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_vegrb_1month_message').show();
                                 }
 
                                 return false;
@@ -1851,9 +1851,9 @@
                                     ? `You will be able to unstake your assets in ${dayToUnstake} days` 
                                     : `You will be able to unstake your assets in ${dayToUnstake} day`;
 
-                                if($('.lock_vegrb_1month_message').is(':hidden')){
-                                    $('.error_vegrb_1month_message').show();
+                                if($('.approve_vegrb_1month_message').is(':hidden')){
                                     $('.error_vegrb_1month_message').html(dayToUnstake);
+                                    $('.error_vegrb_1month_message').show();
                                 }
 
                                 return false;
@@ -1895,9 +1895,9 @@
                                 return false;
                             }
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                if($('.lock_vegrb_1year_message').is(':hidden')){
-                                    $('.error_vegrb_1year_message').show();
+                                if($('.approve_vegrb_1year_message').is(':hidden')){
                                     $('.error_vegrb_1year_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_vegrb_1year_message').show();
                                 }
                                 return false;
                             }
@@ -1921,9 +1921,9 @@
                                     ? `You will be able to unstake your assets in ${dayToUnstake} days` 
                                     : `You will be able to unstake your assets in ${dayToUnstake} day`;
 
-                                if($('.lock_vegrb_1year_message').is(':hidden')){
-                                    $('.error_vegrb_1year_message').show();
+                                if($('.approve_vegrb_1year_message').is(':hidden')){
                                     $('.error_vegrb_1year_message').html(dayToUnstake);
+                                    $('.error_vegrb_1year_message').show();
                                 }
                                 
                                 return false;
@@ -1967,9 +1967,9 @@
                             }
 
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                if($('.lock_grb_1week_message').is(':hidden')){
-                                    $('.error_grb_1week_message').show();
+                                if($('.approve_grb_1week_message').is(':hidden')){
                                     $('.error_grb_1week_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_grb_1week_message').show();
                                 }
                                 return false;
                             }
@@ -1979,7 +1979,7 @@
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Week']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
                                     $('#approve_lock_grb_1week').show();
-                                    $('.lock_grb_1week_message').show();
+                                    $('.approve_grb_1week_message').show();
                                 } else {
                                     let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeGRB1Week']["contract"], _abiGarbiStakeGRB);
                                     _contractGarbiStakeGRB
@@ -2012,7 +2012,7 @@
                             })
                         });
                         $('#approve_lock_grb_1week').click(function() {
-                            grbApprove(_contractsObj['garbiStakeGRB1Week']["contract"], 'approve_lock_grb_1week', 'lock_grb_1week_message');
+                            grbApprove(_contractsObj['garbiStakeGRB1Week']["contract"], 'approve_lock_grb_1week', 'approve_grb_1week_message');
                         });
                         $('#lock_grb_1month_button').click(function (e) {
                             let _user = coreHelper.getUserAccount();
@@ -2022,9 +2022,9 @@
                             }
 
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                if($('.lock_grb_1month_message').is(':hidden')){
-                                    $('.error_grb_1month_message').show();
+                                if($('.approve_grb_1month_message').is(':hidden')){
                                     $('.error_grb_1month_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_grb_1month_message').show();
                                 }
                                 return false;
                             }
@@ -2034,7 +2034,7 @@
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Month']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
                                     $('#approve_lock_grb_1month').show();
-                                    $('.lock_grb_1month_message').show();
+                                    $('.approve_grb_1month_message').show();
                                 } else {
                                     let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeGRB1Month']["contract"], _abiGarbiStakeGRB);
                                     _contractGarbiStakeGRB
@@ -2067,7 +2067,7 @@
                             })
                         });
                         $('#approve_lock_grb_1month').click(function() {
-                            grbApprove(_contractsObj['garbiStakeGRB1Month']["contract"], 'approve_lock_grb_1month', 'lock_grb_1month_message');
+                            grbApprove(_contractsObj['garbiStakeGRB1Month']["contract"], 'approve_lock_grb_1month', 'approve_grb_1month_message');
                         });
                         $('#lock_grb_1year_button').click(function (e) {
                             let _user = coreHelper.getUserAccount();
@@ -2077,9 +2077,9 @@
                             }
 
                             if (_amountGRB <= 0 || isNaN(_amountGRB) == true) {
-                                if($('.lock_grb_1year_message').is(':hidden')){
-                                    $('.error_grb_1year_message').show();
+                                if($('.approve_grb_1year_message').is(':hidden')){
                                     $('.error_grb_1year_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_grb_1year_message').show();
                                 }
                                 return false;
                             }
@@ -2090,7 +2090,7 @@
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Year']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
                                     $('#approve_lock_grb_1year').show();
-                                    $('.lock_grb_1year_message').show();
+                                    $('.approve_grb_1year_message').show();
                                 } else {
                                     let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeGRB1Year']["contract"], _abiGarbiStakeGRB);
                                     _contractGarbiStakeGRB
@@ -2123,7 +2123,7 @@
                             })
                         });
                         $('#approve_lock_grb_1year').click(function() {
-                            grbApprove(_contractsObj['garbiStakeGRB1Year']["contract"], 'approve_lock_grb_1year', 'lock_grb_1year_message');
+                            grbApprove(_contractsObj['garbiStakeGRB1Year']["contract"], 'approve_lock_grb_1year', 'approve_grb_1year_message');
                         });
                         $('#lock_vegrb_1week_button').click(function (e) {
                             let _user = coreHelper.getUserAccount();
@@ -2134,9 +2134,9 @@
 
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
 
-                                if($('.lock_vegrb_1week_message').is(':hidden')){
-                                    $('.error_vegrb_1week_message').show();
+                                if($('.approve_vegrb_1week_message').is(':hidden')){
                                     $('.error_vegrb_1week_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_vegrb_1week_message').show();
                                 }
 
                                 return false;
@@ -2148,7 +2148,7 @@
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Week']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
                                     $('#approve_lock_vegrb_1week').show();
-                                    $('.lock_vegrb_1week_message').show();
+                                    $('.approve_vegrb_1week_message').show();
                                 } else {
                                     let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Week']["contract"], _abiGarbiStakeGRB);
                                     _contractGarbiStakeGRB
@@ -2181,7 +2181,7 @@
                             })
                         });
                         $('#approve_lock_vegrb_1week').click(function() {
-                            veGrbApprove(_contractsObj['garbiStakeVeGRB1Week']["contract"], 'approve_lock_vegrb_1week', 'lock_vegrb_1week_message');
+                            veGrbApprove(_contractsObj['garbiStakeVeGRB1Week']["contract"], 'approve_lock_vegrb_1week', 'approve_vegrb_1week_message');
                         });
                         $('#lock_vegrb_1month_button').click(function (e) {
                             let _user = coreHelper.getUserAccount();
@@ -2190,9 +2190,9 @@
                                 return false;
                             }
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                if($('.lock_vegrb_1month_message').is(':hidden')){
-                                    $('.error_vegrb_1month_message').show();
+                                if($('.approve_vegrb_1month_message').is(':hidden')){
                                     $('.error_vegrb_1month_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_vegrb_1month_message').show();
                                 }
                                 return false;
                             }
@@ -2201,7 +2201,7 @@
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Month']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
                                     $('#approve_lock_vegrb_1month').show();
-                                    $('.lock_vegrb_1month_message').show();
+                                    $('.approve_vegrb_1month_message').show();
                                 } else {
                                     let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Month']["contract"], _abiGarbiStakeGRB);
                                     _contractGarbiStakeGRB
@@ -2234,7 +2234,7 @@
                             })
                         });
                         $('#approve_lock_vegrb_1month').click(function() {
-                            veGrbApprove(_contractsObj['garbiStakeVeGRB1Month']["contract"], 'approve_lock_vegrb_1month', 'lock_vegrb_1month_message');
+                            veGrbApprove(_contractsObj['garbiStakeVeGRB1Month']["contract"], 'approve_lock_vegrb_1month', 'approve_vegrb_1month_message');
                         });
                         $('#lock_vegrb_1year_button').click(function (e) {
                             let _user = coreHelper.getUserAccount();
@@ -2244,9 +2244,9 @@
                             }
 
                             if (_amountVeGRB <= 0 || isNaN(_amountVeGRB) == true) {
-                                if($('.lock_vegrb_1year_message').is(':hidden')){
-                                    $('.error_vegrb_1year_message').show();
+                                if($('.approve_vegrb_1year_message').is(':hidden')){
                                     $('.error_vegrb_1year_message').html("The provided input is not a valid numeric value.");
+                                    $('.error_vegrb_1year_message').show();
                                 }
                                 return false;
                             }
@@ -2256,7 +2256,7 @@
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Year']["contract"]).call().then(result => {
                                 if (result == 0) { //need approve
                                     $('#approve_lock_vegrb_1year').show();
-                                    $('.lock_vegrb_1year_message').show();
+                                    $('.approve_vegrb_1year_message').show();
                                 } else {
                                     let _contractGarbiStakeGRB = contractBaseHelper.getMainContract(_contractsObj['garbiStakeVeGRB1Year']["contract"], _abiGarbiStakeGRB);
                                     _contractGarbiStakeGRB
@@ -2289,7 +2289,7 @@
                             })
                         });
                         $('#approve_lock_vegrb_1year').click(function() {
-                            veGrbApprove(_contractsObj['garbiStakeVeGRB1Year']["contract"], 'approve_lock_vegrb_1year', 'lock_vegrb_1year_message');
+                            veGrbApprove(_contractsObj['garbiStakeVeGRB1Year']["contract"], 'approve_lock_vegrb_1year', 'approve_vegrb_1year_message');
                         });
                         function grbApprove(contractAddress, classApproveButtion, classMessage) {
                             let GRBContract = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
