@@ -28,9 +28,14 @@ contract GarbiRepositoryManager is Ownable {
     modifier onlyRepoInTheList(address repoAddress)
     {
         require(repoAddress != address(0), 'INVALID_REPO_ADDRESS');
+        uint flag = 0;
         for (uint i = 0; i < repoAddresses.length; i++) {
-            require(repoAddresses[i] == repoAddress, "INVALID_REPO_ADDRESS");
+            if(repoAddresses[i] == repoAddress) {
+                flag = 1;
+                break;
+            }
         }
+        require(flag == 1, "INVALID_PERMISSION");
         _;
     }
 
@@ -138,16 +143,16 @@ contract GarbiRepositoryManager is Ownable {
         uint256 totalCapacityByUSD = 0;
         for (uint i = 0; i < repoAddresses.length; i++) {
             IGarbiRepository repo = IGarbiRepository(repoAddresses[i]);
-            totalCapacityByUSD.add(repo.getCapacityByUSD());
+            totalCapacityByUSD = totalCapacityByUSD.add(repo.getCapacityByUSD());
         }
 
         uint256 garbiECTotalSupply = GarbiEC.totalSupply();
 
         if(garbiECTotalSupply == 0) {
-            garbiECPrice = 1;
+            garbiECPrice = 1e18;
         }
         else {
-            garbiECPrice = totalCapacityByUSD.div(garbiECTotalSupply);
+            garbiECPrice = totalCapacityByUSD.mul(1e18).div(garbiECTotalSupply);
         }
     }
 

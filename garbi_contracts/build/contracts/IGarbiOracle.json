@@ -19,9 +19,28 @@
       ],
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "getPriceDecimals",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getLatestPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IGarbiOracle.sol\":\"IGarbiOracle\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/IGarbiOracle.sol\":{\"keccak256\":\"0x6e99d38638a49f769c4ec6af3584d4623e1b536f92c6c5fa5bcf6d1d9ceb178f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7f0cf1d43cc1e501a2f0ae20324c6fc86608021ee05a515ce3694ba037f9c28f\",\"dweb:/ipfs/QmUceEnY9WkCmNsb3Qpy2zZa2MH4gCypRHEPJk26rL8jag\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getLatestPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getPriceDecimals\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IGarbiOracle.sol\":\"IGarbiOracle\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/IGarbiOracle.sol\":{\"keccak256\":\"0x4773194396242b74e9a4f9c718f81803d456be3facf240c2cfe6f340e5d6c581\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f0f1fcf438a25be2d142a39414bb1fa835fe68111cd5e9103c8bcaefcf569620\",\"dweb:/ipfs/QmWcn7sG7Y6aggCZ4sNqfbCWZdRr5nyFarRvFDZkNwYtCK\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -29,21 +48,21 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\ninterface IGarbiOracle {\r\n    function getLatestPrice(address token) external view returns (uint256);\r\n}",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\ninterface IGarbiOracle {\r\n    function getLatestPrice(address token) external view returns (uint256);\r\n    function getPriceDecimals(address token) external view returns (uint256);\r\n}",
   "sourcePath": "C:\\Users\\David\\Documents\\NetBeansProjects\\garbiprotocol.github.io\\garbi_contracts\\contracts\\interfaces\\IGarbiOracle.sol",
   "ast": {
     "absolutePath": "project:/contracts/interfaces/IGarbiOracle.sol",
     "exportedSymbols": {
       "IGarbiOracle": [
-        19908
+        20061
       ]
     },
-    "id": 19909,
+    "id": 20062,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 19900,
+        "id": 20046,
         "literals": [
           "solidity",
           ">=",
@@ -60,9 +79,9 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 19908,
+        "id": 20061,
         "linearizedBaseContracts": [
-          19908
+          20061
         ],
         "name": "IGarbiOracle",
         "nameLocation": "72:12:46",
@@ -70,7 +89,7 @@
         "nodes": [
           {
             "functionSelector": "16345f18",
-            "id": 19907,
+            "id": 20053,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -78,17 +97,17 @@
             "nameLocation": "101:14:46",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 19903,
+              "id": 20049,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 19902,
+                  "id": 20048,
                   "mutability": "mutable",
                   "name": "token",
                   "nameLocation": "124:5:46",
                   "nodeType": "VariableDeclaration",
-                  "scope": 19907,
+                  "scope": 20053,
                   "src": "116:13:46",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -97,7 +116,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 19901,
+                    "id": 20047,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "116:7:46",
@@ -113,17 +132,17 @@
               "src": "115:15:46"
             },
             "returnParameters": {
-              "id": 19906,
+              "id": 20052,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 19905,
+                  "id": 20051,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 19907,
+                  "scope": 20053,
                   "src": "154:7:46",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -132,7 +151,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 19904,
+                    "id": 20050,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "154:7:46",
@@ -146,19 +165,103 @@
               ],
               "src": "153:9:46"
             },
-            "scope": 19908,
+            "scope": 20061,
             "src": "92:71:46",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "8b1b64bd",
+            "id": 20060,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getPriceDecimals",
+            "nameLocation": "178:16:46",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 20056,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20055,
+                  "mutability": "mutable",
+                  "name": "token",
+                  "nameLocation": "203:5:46",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20060,
+                  "src": "195:13:46",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 20054,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "195:7:46",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "194:15:46"
+            },
+            "returnParameters": {
+              "id": 20059,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 20058,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 20060,
+                  "src": "233:7:46",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 20057,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "233:7:46",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "232:9:46"
+            },
+            "scope": 20061,
+            "src": "169:73:46",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 19909,
-        "src": "62:104:46",
+        "scope": 20062,
+        "src": "62:183:46",
         "usedErrors": []
       }
     ],
-    "src": "33:133:46"
+    "src": "33:212:46"
   },
   "compiler": {
     "name": "solc",
@@ -166,7 +269,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-02-16T10:31:41.551Z",
+  "updatedAt": "2023-02-17T09:19:09.893Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

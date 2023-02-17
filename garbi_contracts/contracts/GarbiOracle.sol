@@ -30,4 +30,9 @@ contract GarbiOracle is Ownable {
         ) = priceFeed[token].latestRoundData();
         return uint256(price);
     }
+
+    function getPriceDecimals(address token) public view returns (uint256 priceDecimals) {
+        priceDecimals = priceFeed[token].decimals();
+        return priceDecimals;
+    }
 }
