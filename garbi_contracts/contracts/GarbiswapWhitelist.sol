@@ -38,7 +38,7 @@ contract GarbiswapWhitelist is Ownable{
 
     function removeAddress(address _address) public onlyOwner {
         require(whitelistedMap[_address] != false, "NOT_WHITELISTED");
-        whitelistedMap[_address] = false; //disable access to Turing protocol
+        whitelistedMap[_address] = false; //disable access to Garbi Protocol
         requestAccessList[_address] = false; //remove from request list
         emit Whitelisted(_address, false);
     }

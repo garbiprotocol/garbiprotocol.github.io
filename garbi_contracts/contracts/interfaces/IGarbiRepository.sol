@@ -7,4 +7,5 @@ interface IGarbiRepository {
     function getCapacityByUSD() external view returns(uint256);
     function getBasePrice() external view returns(uint256);
     function withdrawBaseToRepositoryManager(uint256 baseOutAmount) external;
+    function oraclePriceDecimal() external view returns (uint256);
 }

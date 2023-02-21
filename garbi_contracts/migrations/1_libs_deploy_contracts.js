@@ -28,6 +28,7 @@ const garbiECContract = "0x965782738c1acca851104444bda0a03ee68355dc";
 const garbiOracleContract = "0xc9e6b3383bb212fce5c5224a0b026de7ee001920";
 const repositoryManagerContract = "0x2c0f7a5411891722bab731a3ad894eaedc19cbc9";
 const GDAI = "0x9Ce3C139316A560A57c861F558284CF31EBC8acE";
+const GWETH = "0xE0EcA46EA3308E8184e3b462b8A722F93A8F6F27";
 //end testnet
 const startBlock = 1;
 
@@ -56,6 +57,6 @@ module.exports = function(deployer) {
 //                    GarbiswapWhitelistAddress,
 //                    GarbiTimeLockAddress,
 //                    );
-//      deployer.deploy(GarbiRepositoryManager, garbiECContract);
-      deployer.deploy(GarbiRepository, GDAI, garbiOracleContract, repositoryManagerContract);
+      deployer.deploy(GarbiRepositoryManager, garbiECContract);
+//      deployer.deploy(GarbiRepository, GWETH, garbiOracleContract, repositoryManagerContract);
 };
