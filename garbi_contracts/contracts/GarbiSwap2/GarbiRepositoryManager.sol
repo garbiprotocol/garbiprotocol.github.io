@@ -13,7 +13,7 @@ import '../interfaces/IGarbiswapWhitelist.sol';
 contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
     using SafeMath for uint256;
 
-    IGarbiswapWhitelist public whitelistContract; 
+    IGarbiswapWhitelist public whitelist; 
 
     uint256 public totalShares = 1000;
 
@@ -25,7 +25,9 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
     // Array of repo addresses
     address[] public repoAddresses;
 
-    mapping(address => RepoInfo) public repoList;    
+    mapping(address => RepoInfo) public repoList;  
+
+    mapping(address => address) public baseToRepo;  
 
     IERC20withBurnAndMint public GarbiEC;
 
@@ -50,7 +52,7 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
     modifier onlyWhitelist()
     {
         if (msg.sender != tx.origin) {
-            require(whitelistContract.whitelisted(msg.sender) == true, 'INVALID_WHITELIST');
+            require(whitelist.whitelisted(msg.sender) == true, 'INVALID_WHITELIST');
         }
         _;
     }
@@ -62,9 +64,11 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
     event onSellGarbiEC(address user, address repoOutAddress, uint256 assetOutAmount, uint256 garbiECInAmount);
 
     constructor(
-        IERC20withBurnAndMint garbiECContract
+        IERC20withBurnAndMint garbiECContract,
+        IGarbiswapWhitelist whitelistContract
     ){
         GarbiEC = garbiECContract;
+        whitelist = whitelistContract;
         platformFundAddress = _msgSender();
     }
     
@@ -79,6 +83,10 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
         });
 
         repoAddresses.push(repoAddress);
+
+        IGarbiRepository repo = IGarbiRepository(repoAddress);
+
+        baseToRepo[repo.base()] = repoAddress;
 
         emit onAddRepository(repoAddress, repoShare, repoMaxCapacityLimit);
     }
@@ -157,6 +165,9 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
         }
 
         uint256 baseOutAmount = getDataToSellGarbiEC(repoOutAddress, garbiECInAmount);
+
+        require(baseOutAmount <= repoOut.getCapacityByToken(), 'INVALID_OUT_AMOUNT');
+
         uint256 fee = baseOutAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, baseOutAmount)).div(10000);
         uint256 baseOutAmountAfterFee = baseOutAmount.sub(fee);
 
@@ -206,6 +217,10 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
        uint256 assetPrice = repoOut.getBasePrice();
 
        assetOutAmount = garbiECInAmount.mul(garbiECPrice).div(assetPrice);
+       
+       if(assetOutAmount > repoOut.getCapacityByToken()) {
+            assetOutAmount = 0;
+       }
       
     }
 
@@ -230,4 +245,10 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
         shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
         fee = SELL_GARBIEC_FEE.mul(shareDiff).div(totalShares);
     }
+
+    function getTwoTokenDecimals(address tokenInputAddress, address tokenOutputAddress) public view returns (uint256, uint256) {
+        uint256 tokenInputDecimal = IGarbiRepository(baseToRepo[tokenInputAddress]).baseDecimal();
+        uint256 tokenOutputDecimal = IGarbiRepository(baseToRepo[tokenOutputAddress]).baseDecimal();
+        return (tokenInputDecimal, tokenOutputDecimal);
+    } 
 }
