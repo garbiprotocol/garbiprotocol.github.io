@@ -284,7 +284,22 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
        if(assetOutAmount > repoOut.getCapacityByToken()) {
             assetOutAmount = 0;
        }
-      
+    }
+
+    function getDataToSellGarbiECWithFee(address repoOutAddress, uint256 garbiECInAmount) public view returns (uint256 assetOutAmountAfterFee) {
+       uint256 garbiECPrice = getGarbiECPrice();
+       IGarbiRepository repoOut = IGarbiRepository(repoOutAddress);
+
+       uint256 assetPrice = repoOut.getBasePrice();
+
+       uint256 assetOutAmount = garbiECInAmount.mul(garbiECPrice).div(assetPrice);
+
+       uint256 fee = assetOutAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, assetOutAmount, SELL_GARBIEC_FEE)).div(10000);
+       assetOutAmountAfterFee = assetOutAmount.sub(fee);
+       
+       if(assetOutAmount > repoOut.getCapacityByToken()) {
+            assetOutAmountAfterFee = 0;
+       }
     }
 
     function getTotalAllRepoCapacityByUSD() public view returns (uint256 totalCapacityByUSD) {
