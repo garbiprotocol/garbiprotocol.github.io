@@ -5,12 +5,13 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
 
 import '../interfaces/IERC20withBurnAndMint.sol';
 import '../interfaces/IGarbiRepository.sol';
 import '../interfaces/IGarbiswapWhitelist.sol';
 
-contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
+contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
     using SafeMath for uint256;
 
     IGarbiswapWhitelist public whitelist; 
@@ -62,6 +63,7 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
     event onUpdateRepository(address repoAddress, uint256 repoShare, uint256 repoMaxCapacityLimit); 
     event onBuyGarbiEC(address user, address repoInAddress, uint256 assetInAmount, uint256 garbiECOutAmount);
     event onSellGarbiEC(address user, address repoOutAddress, uint256 assetOutAmount, uint256 garbiECInAmount);
+    event onSwapTokenToTokenWithTokenInput(address user, address repoInAddress, address repoOutAddress, uint256 tokenInputAmount, uint256 tokenOutputAmount);
 
     constructor(
         IERC20withBurnAndMint garbiECContract,
@@ -134,6 +136,7 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
         IERC20 base = IERC20(repoIn.base());
 
         uint256 baseUserBalance = base.balanceOf(msg.sender);
+        baseUserBalance = repoIn.convertDecimalTo18(baseUserBalance, repoIn.baseDecimal());
 
         if(assetInAmount > baseUserBalance) {
             assetInAmount = baseUserBalance;
@@ -142,9 +145,10 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
         uint256 garbiECOutAmount = getDataToBuyGarbiEC(repoInAddress, assetInAmount);
 
         //make trade
-        base.transferFrom(msg.sender, address(this), assetInAmount);
+        uint256 assetInAmountAtAssetDecimal = repoIn.convertToBaseDecimal(assetInAmount, 18);
+        base.transferFrom(msg.sender, address(this), assetInAmountAtAssetDecimal);
         GarbiEC.mint(address(this), garbiECOutAmount);
-        base.transfer(repoInAddress, assetInAmount);
+        base.transfer(repoInAddress, assetInAmountAtAssetDecimal);
         GarbiEC.transfer(msg.sender, garbiECOutAmount);
 
         emit onBuyGarbiEC(msg.sender, repoInAddress, assetInAmount, garbiECOutAmount);
@@ -165,7 +169,8 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
         }
 
         uint256 baseOutAmount = getDataToSellGarbiEC(repoOutAddress, garbiECInAmount);
-
+        
+        require(baseOutAmount > 0, 'INVALID_OUT_AMUNT_ZERO');
         require(baseOutAmount <= repoOut.getCapacityByToken(), 'INVALID_OUT_AMOUNT');
 
         uint256 fee = baseOutAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, baseOutAmount)).div(10000);
@@ -175,11 +180,52 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
         GarbiEC.transferFrom(msg.sender, address(this), garbiECInAmount);
         GarbiEC.burn(garbiECInAmount);
         repoOut.withdrawBaseToRepositoryManager(baseOutAmount);
-        base.transfer(msg.sender, baseOutAmountAfterFee);
+        base.transfer(msg.sender, repoOut.convertToBaseDecimal(baseOutAmountAfterFee, 18));
         //transfer fee
-        base.transfer(platformFundAddress, fee);
+        base.transfer(platformFundAddress, repoOut.convertToBaseDecimal(fee, 18));
 
         emit onSellGarbiEC(msg.sender, repoOutAddress, baseOutAmountAfterFee, garbiECInAmount);
+    }
+
+    function swapTokenToTokenWithTokenInput(address repoInAddress, address repoOutAddress, uint256 tokenInputAmount, uint256 minTokenOutputAmount) public onlyRepoInTheList(repoInAddress) onlyRepoInTheList(repoOutAddress) nonReentrant onlyWhitelist whenNotPaused {
+        require(repoInAddress != repoOutAddress, 'INVALID_PAIR');
+        require(tokenInputAmount > 0, 'INVALID_TOKEN_INPUT_AMOUNT');
+        require(minTokenOutputAmount > 0, 'INVALID_MIN_TOKEN_OUTPUT_AMOUNT');
+
+        IGarbiRepository repoIn = IGarbiRepository(repoInAddress);
+        IGarbiRepository repoOut = IGarbiRepository(repoOutAddress);
+        
+        uint256 tokenOutputAmount = getTokenOutputAmountFromTokenInput(repoIn, repoOut, tokenInputAmount);
+        require(tokenOutputAmount <= repoOut.getCapacityByToken(), 'INVALID_OUT_AMOUNT');
+        require(tokenOutputAmount >= minTokenOutputAmount, 'CAN_NOT_MAKE_TRADE');
+
+        IERC20 baseIn = IERC20(repoIn.base());
+
+        uint256 baseInUserBalance = repoIn.convertDecimalTo18(baseIn.balanceOf(msg.sender), repoIn.baseDecimal());
+
+        require(tokenInputAmount <= baseInUserBalance, 'TOKEN_INPUT_AMOUNT_HIGHER_USER_BALANCE');
+
+        //make trade
+        makeTradeOnTwoRepos(repoIn, repoOut, tokenInputAmount, tokenOutputAmount);
+
+        emit onSwapTokenToTokenWithTokenInput(msg.sender, repoInAddress, repoOutAddress, tokenInputAmount, tokenOutputAmount);
+    }
+
+    function makeTradeOnTwoRepos(IGarbiRepository repoIn, IGarbiRepository repoOut, uint256 tokenInputAmount, uint256 tokenOutputAmount) private {
+        IERC20 baseIn = IERC20(repoIn.base());
+        IERC20 baseOut = IERC20(repoOut.base());
+        uint256 tokenInputAmountAtTokenDecimal = repoIn.convertToBaseDecimal(tokenInputAmount, 18);
+        baseIn.transferFrom(msg.sender, address(this), tokenInputAmountAtTokenDecimal);
+        baseIn.transfer(address(repoIn), tokenInputAmountAtTokenDecimal);
+        repoOut.withdrawBaseToRepositoryManager(tokenOutputAmount);
+        baseOut.transfer(msg.sender, repoOut.convertToBaseDecimal(tokenOutputAmount, 18));
+    }
+
+    function getTokenOutputAmountFromTokenInput(IGarbiRepository repoIn, IGarbiRepository repoOut, uint256 tokenInputAmount) public view returns (uint256) {
+        uint256 tokenInputPriceFromOracle = repoIn.getBasePrice();
+        uint256 tokenOuputPriceFromOracle = repoOut.getBasePrice();
+        uint256 tokenOutputAmount = tokenInputAmount.mul(tokenInputPriceFromOracle).div(tokenOuputPriceFromOracle);
+        return tokenOutputAmount;
     }
 
     function getGarbiECPrice() public view returns(uint256 garbiECPrice) {
@@ -245,10 +291,4 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable {
         shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
         fee = SELL_GARBIEC_FEE.mul(shareDiff).div(totalShares);
     }
-
-    function getTwoTokenDecimals(address tokenInputAddress, address tokenOutputAddress) public view returns (uint256, uint256) {
-        uint256 tokenInputDecimal = IGarbiRepository(baseToRepo[tokenInputAddress]).baseDecimal();
-        uint256 tokenOutputDecimal = IGarbiRepository(baseToRepo[tokenOutputAddress]).baseDecimal();
-        return (tokenInputDecimal, tokenOutputDecimal);
-    } 
 }
