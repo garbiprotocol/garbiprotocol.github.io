@@ -39,6 +39,10 @@ contract GarbiRepository is Ownable {
         repositoryManagerAddress = repositoryManagerContract;
     }
 
+    function setGarbiOracle(IGarbiOracle newGarbiOracleContract) public onlyOwner {
+        garbiOracle = newGarbiOracleContract;
+    }
+
     function setRepositoryManagerAddress(address newAddress) public onlyOwner {
         repositoryManagerAddress = newAddress;
     }

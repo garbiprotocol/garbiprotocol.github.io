@@ -961,7 +961,7 @@
                 }
               ]
             },
-            "name": "abi_decode_tuple_t_addresst_addresst_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+            "name": "abi_decode_tuple_t_addresst_addresst_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -2055,7 +2055,7 @@
                 }
               ]
             },
-            "name": "abi_encode_tuple_t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr__to_t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr__fromStack_reversed",
+            "name": "abi_encode_tuple_t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr__to_t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr__fromStack_reversed",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -2462,7 +2462,7 @@
                 }
               ]
             },
-            "name": "abi_decode_tuple_t_contract$_IGarbiswapTrade_$17320",
+            "name": "abi_decode_tuple_t_contract$_IGarbiswapTrade_$17432",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -3387,7 +3387,7 @@
           }
         ]
       },
-      "contents": "{\n    { }\n    function validator_revert_address(value)\n    {\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_addresst_addresst_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr(headStart, dataEnd) -> value0, value1, value2, value3\n    {\n        if slt(sub(dataEnd, headStart), 96) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_address(value)\n        value0 := value\n        let value_1 := calldataload(add(headStart, 32))\n        validator_revert_address(value_1)\n        value1 := value_1\n        let offset := calldataload(add(headStart, 64))\n        let _1 := 0xffffffffffffffff\n        if gt(offset, _1) { revert(0, 0) }\n        let _2 := add(headStart, offset)\n        if iszero(slt(add(_2, 0x1f), dataEnd)) { revert(0, 0) }\n        let length := calldataload(_2)\n        if gt(length, _1) { revert(0, 0) }\n        if gt(add(add(_2, shl(5, length)), 32), dataEnd) { revert(0, 0) }\n        value2 := add(_2, 32)\n        value3 := length\n    }\n    function abi_encode_tuple_t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr__to_t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr__fromStack_reversed(headStart, value0) -> tail\n    {\n        let _1 := 32\n        let tail_1 := add(headStart, _1)\n        mstore(headStart, _1)\n        let pos := tail_1\n        let length := mload(value0)\n        mstore(tail_1, length)\n        let _2 := 64\n        pos := add(headStart, _2)\n        let srcPtr := add(value0, _1)\n        let i := 0\n        for { } lt(i, length) { i := add(i, 1) }\n        {\n            let _3 := mload(srcPtr)\n            mstore(pos, mload(_3))\n            mstore(add(pos, _1), mload(add(_3, _1)))\n            mstore(add(pos, _2), mload(add(_3, _2)))\n            let _4 := 0x60\n            mstore(add(pos, _4), mload(add(_3, _4)))\n            let _5 := 0x80\n            mstore(add(pos, _5), mload(add(_3, _5)))\n            let _6 := 0xa0\n            mstore(add(pos, _6), mload(add(_3, _6)))\n            let _7 := 0xc0\n            mstore(add(pos, _7), mload(add(_3, _7)))\n            let _8 := 0xe0\n            mstore(add(pos, _8), mload(add(_3, _8)))\n            pos := add(pos, 0x0100)\n            srcPtr := add(srcPtr, _1)\n        }\n        tail := pos\n    }\n    function panic_error_0x41()\n    {\n        mstore(0, shl(224, 0x4e487b71))\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n    function panic_error_0x32()\n    {\n        mstore(0, shl(224, 0x4e487b71))\n        mstore(4, 0x32)\n        revert(0, 0x24)\n    }\n    function abi_decode_tuple_t_contract$_IGarbiswapTrade_$17320(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_address(value)\n        value0 := value\n    }\n    function abi_decode_tuple_t_address_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := mload(headStart)\n        validator_revert_address(value)\n        value0 := value\n    }\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function abi_decode_tuple_t_uint256_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        value0 := mload(headStart)\n    }\n    function abi_encode_tuple_t_address_t_address__to_t_address_t_address__fromStack_reversed(headStart, value1, value0) -> tail\n    {\n        tail := add(headStart, 64)\n        let _1 := sub(shl(160, 1), 1)\n        mstore(headStart, and(value0, _1))\n        mstore(add(headStart, 32), and(value1, _1))\n    }\n    function increment_t_uint256(value) -> ret\n    {\n        if eq(value, not(0))\n        {\n            mstore(0, shl(224, 0x4e487b71))\n            mstore(4, 0x11)\n            revert(0, 0x24)\n        }\n        ret := add(value, 1)\n    }\n}",
+      "contents": "{\n    { }\n    function validator_revert_address(value)\n    {\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_addresst_addresst_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr(headStart, dataEnd) -> value0, value1, value2, value3\n    {\n        if slt(sub(dataEnd, headStart), 96) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_address(value)\n        value0 := value\n        let value_1 := calldataload(add(headStart, 32))\n        validator_revert_address(value_1)\n        value1 := value_1\n        let offset := calldataload(add(headStart, 64))\n        let _1 := 0xffffffffffffffff\n        if gt(offset, _1) { revert(0, 0) }\n        let _2 := add(headStart, offset)\n        if iszero(slt(add(_2, 0x1f), dataEnd)) { revert(0, 0) }\n        let length := calldataload(_2)\n        if gt(length, _1) { revert(0, 0) }\n        if gt(add(add(_2, shl(5, length)), 32), dataEnd) { revert(0, 0) }\n        value2 := add(_2, 32)\n        value3 := length\n    }\n    function abi_encode_tuple_t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr__to_t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr__fromStack_reversed(headStart, value0) -> tail\n    {\n        let _1 := 32\n        let tail_1 := add(headStart, _1)\n        mstore(headStart, _1)\n        let pos := tail_1\n        let length := mload(value0)\n        mstore(tail_1, length)\n        let _2 := 64\n        pos := add(headStart, _2)\n        let srcPtr := add(value0, _1)\n        let i := 0\n        for { } lt(i, length) { i := add(i, 1) }\n        {\n            let _3 := mload(srcPtr)\n            mstore(pos, mload(_3))\n            mstore(add(pos, _1), mload(add(_3, _1)))\n            mstore(add(pos, _2), mload(add(_3, _2)))\n            let _4 := 0x60\n            mstore(add(pos, _4), mload(add(_3, _4)))\n            let _5 := 0x80\n            mstore(add(pos, _5), mload(add(_3, _5)))\n            let _6 := 0xa0\n            mstore(add(pos, _6), mload(add(_3, _6)))\n            let _7 := 0xc0\n            mstore(add(pos, _7), mload(add(_3, _7)))\n            let _8 := 0xe0\n            mstore(add(pos, _8), mload(add(_3, _8)))\n            pos := add(pos, 0x0100)\n            srcPtr := add(srcPtr, _1)\n        }\n        tail := pos\n    }\n    function panic_error_0x41()\n    {\n        mstore(0, shl(224, 0x4e487b71))\n        mstore(4, 0x41)\n        revert(0, 0x24)\n    }\n    function panic_error_0x32()\n    {\n        mstore(0, shl(224, 0x4e487b71))\n        mstore(4, 0x32)\n        revert(0, 0x24)\n    }\n    function abi_decode_tuple_t_contract$_IGarbiswapTrade_$17432(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_address(value)\n        value0 := value\n    }\n    function abi_decode_tuple_t_address_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        let value := mload(headStart)\n        validator_revert_address(value)\n        value0 := value\n    }\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function abi_decode_tuple_t_uint256_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        value0 := mload(headStart)\n    }\n    function abi_encode_tuple_t_address_t_address__to_t_address_t_address__fromStack_reversed(headStart, value1, value0) -> tail\n    {\n        tail := add(headStart, 64)\n        let _1 := sub(shl(160, 1), 1)\n        mstore(headStart, and(value0, _1))\n        mstore(add(headStart, 32), and(value1, _1))\n    }\n    function increment_t_uint256(value) -> ret\n    {\n        if eq(value, not(0))\n        {\n            mstore(0, shl(224, 0x4e487b71))\n            mstore(4, 0x11)\n            revert(0, 0x24)\n        }\n        ret := add(value, 1)\n    }\n}",
       "id": 57,
       "language": "Yul",
       "name": "#utility.yul"
@@ -3401,21 +3401,21 @@
     "absolutePath": "project:/contracts/GarbiswapTradeInfo.sol",
     "exportedSymbols": {
       "GarbiswapTradeInfo": [
-        17518
+        17630
       ],
       "IERC20": [
         985
       ],
       "IGarbiswapTrade": [
-        17320
+        17432
       ]
     },
-    "id": 17519,
+    "id": 17631,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 17289,
+        "id": 17401,
         "literals": [
           "experimental",
           "ABIEncoderV2"
@@ -3426,10 +3426,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "id": 17290,
+        "id": 17402,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 17519,
+        "scope": 17631,
         "sourceUnit": 986,
         "src": "68:56:37",
         "symbolAliases": [],
@@ -3442,9 +3442,9 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 17320,
+        "id": 17432,
         "linearizedBaseContracts": [
-          17320
+          17432
         ],
         "name": "IGarbiswapTrade",
         "nameLocation": "136:15:37",
@@ -3452,7 +3452,7 @@
         "nodes": [
           {
             "functionSelector": "5001f3b5",
-            "id": 17295,
+            "id": 17407,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -3460,23 +3460,23 @@
             "nameLocation": "165:4:37",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 17291,
+              "id": 17403,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "169:2:37"
             },
             "returnParameters": {
-              "id": 17294,
+              "id": 17406,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 17293,
+                  "id": 17405,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17295,
+                  "scope": 17407,
                   "src": "195:7:37",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3485,7 +3485,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 17292,
+                    "id": 17404,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "195:7:37",
@@ -3500,7 +3500,7 @@
               ],
               "src": "194:9:37"
             },
-            "scope": 17320,
+            "scope": 17432,
             "src": "156:48:37",
             "stateMutability": "view",
             "virtual": false,
@@ -3508,7 +3508,7 @@
           },
           {
             "functionSelector": "fc0c546a",
-            "id": 17300,
+            "id": 17412,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -3516,23 +3516,23 @@
             "nameLocation": "216:5:37",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 17296,
+              "id": 17408,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "221:2:37"
             },
             "returnParameters": {
-              "id": 17299,
+              "id": 17411,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 17298,
+                  "id": 17410,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17300,
+                  "scope": 17412,
                   "src": "247:7:37",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3541,7 +3541,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 17297,
+                    "id": 17409,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "247:7:37",
@@ -3556,7 +3556,7 @@
               ],
               "src": "246:9:37"
             },
-            "scope": 17320,
+            "scope": 17432,
             "src": "207:49:37",
             "stateMutability": "view",
             "virtual": false,
@@ -3564,7 +3564,7 @@
           },
           {
             "functionSelector": "18160ddd",
-            "id": 17305,
+            "id": 17417,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -3572,23 +3572,23 @@
             "nameLocation": "268:11:37",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 17301,
+              "id": 17413,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "279:2:37"
             },
             "returnParameters": {
-              "id": 17304,
+              "id": 17416,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 17303,
+                  "id": 17415,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17305,
+                  "scope": 17417,
                   "src": "305:7:37",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3597,7 +3597,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 17302,
+                    "id": 17414,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "305:7:37",
@@ -3611,7 +3611,7 @@
               ],
               "src": "304:9:37"
             },
-            "scope": 17320,
+            "scope": 17432,
             "src": "259:55:37",
             "stateMutability": "view",
             "virtual": false,
@@ -3619,7 +3619,7 @@
           },
           {
             "functionSelector": "70a08231",
-            "id": 17312,
+            "id": 17424,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -3627,17 +3627,17 @@
             "nameLocation": "329:9:37",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 17308,
+              "id": 17420,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 17307,
+                  "id": 17419,
                   "mutability": "mutable",
                   "name": "account",
                   "nameLocation": "347:7:37",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17312,
+                  "scope": 17424,
                   "src": "339:15:37",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3646,7 +3646,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 17306,
+                    "id": 17418,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "339:7:37",
@@ -3662,17 +3662,17 @@
               "src": "338:17:37"
             },
             "returnParameters": {
-              "id": 17311,
+              "id": 17423,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 17310,
+                  "id": 17422,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17312,
+                  "scope": 17424,
                   "src": "379:7:37",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3681,7 +3681,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 17309,
+                    "id": 17421,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "379:7:37",
@@ -3695,7 +3695,7 @@
               ],
               "src": "378:9:37"
             },
-            "scope": 17320,
+            "scope": 17432,
             "src": "320:68:37",
             "stateMutability": "view",
             "virtual": false,
@@ -3703,7 +3703,7 @@
           },
           {
             "functionSelector": "ec022918",
-            "id": 17319,
+            "id": 17431,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -3711,23 +3711,23 @@
             "nameLocation": "400:15:37",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 17313,
+              "id": 17425,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "415:2:37"
             },
             "returnParameters": {
-              "id": 17318,
+              "id": 17430,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 17315,
+                  "id": 17427,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17319,
+                  "scope": 17431,
                   "src": "441:7:37",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3736,7 +3736,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 17314,
+                    "id": 17426,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "441:7:37",
@@ -3749,12 +3749,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 17317,
+                  "id": 17429,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17319,
+                  "scope": 17431,
                   "src": "450:7:37",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3763,7 +3763,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 17316,
+                    "id": 17428,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "450:7:37",
@@ -3777,14 +3777,14 @@
               ],
               "src": "440:18:37"
             },
-            "scope": 17320,
+            "scope": 17432,
             "src": "391:68:37",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 17519,
+        "scope": 17631,
         "src": "126:336:37",
         "usedErrors": []
       },
@@ -3795,9 +3795,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 17518,
+        "id": 17630,
         "linearizedBaseContracts": [
-          17518
+          17630
         ],
         "name": "GarbiswapTradeInfo",
         "nameLocation": "473:18:37",
@@ -3805,16 +3805,16 @@
         "nodes": [
           {
             "canonicalName": "GarbiswapTradeInfo.LP",
-            "id": 17337,
+            "id": 17449,
             "members": [
               {
                 "constant": false,
-                "id": 17322,
+                "id": 17434,
                 "mutability": "mutable",
                 "name": "baseReserve",
                 "nameLocation": "519:11:37",
                 "nodeType": "VariableDeclaration",
-                "scope": 17337,
+                "scope": 17449,
                 "src": "511:19:37",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3823,7 +3823,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 17321,
+                  "id": 17433,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "511:7:37",
@@ -3836,12 +3836,12 @@
               },
               {
                 "constant": false,
-                "id": 17324,
+                "id": 17436,
                 "mutability": "mutable",
                 "name": "tokenReserve",
                 "nameLocation": "543:12:37",
                 "nodeType": "VariableDeclaration",
-                "scope": 17337,
+                "scope": 17449,
                 "src": "535:20:37",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3850,7 +3850,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 17323,
+                  "id": 17435,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "535:7:37",
@@ -3863,12 +3863,12 @@
               },
               {
                 "constant": false,
-                "id": 17326,
+                "id": 17438,
                 "mutability": "mutable",
                 "name": "totalLP",
                 "nameLocation": "568:7:37",
                 "nodeType": "VariableDeclaration",
-                "scope": 17337,
+                "scope": 17449,
                 "src": "560:15:37",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3877,7 +3877,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 17325,
+                  "id": 17437,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "560:7:37",
@@ -3890,12 +3890,12 @@
               },
               {
                 "constant": false,
-                "id": 17328,
+                "id": 17440,
                 "mutability": "mutable",
                 "name": "uLPBal",
                 "nameLocation": "588:6:37",
                 "nodeType": "VariableDeclaration",
-                "scope": 17337,
+                "scope": 17449,
                 "src": "580:14:37",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3904,7 +3904,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 17327,
+                  "id": 17439,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "580:7:37",
@@ -3917,12 +3917,12 @@
               },
               {
                 "constant": false,
-                "id": 17330,
+                "id": 17442,
                 "mutability": "mutable",
                 "name": "uBaseAllowedToPair",
                 "nameLocation": "607:18:37",
                 "nodeType": "VariableDeclaration",
-                "scope": 17337,
+                "scope": 17449,
                 "src": "599:26:37",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3931,7 +3931,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 17329,
+                  "id": 17441,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "599:7:37",
@@ -3944,12 +3944,12 @@
               },
               {
                 "constant": false,
-                "id": 17332,
+                "id": 17444,
                 "mutability": "mutable",
                 "name": "uTokenAllowedToPair",
                 "nameLocation": "638:19:37",
                 "nodeType": "VariableDeclaration",
-                "scope": 17337,
+                "scope": 17449,
                 "src": "630:27:37",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3958,7 +3958,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 17331,
+                  "id": 17443,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "630:7:37",
@@ -3971,12 +3971,12 @@
               },
               {
                 "constant": false,
-                "id": 17334,
+                "id": 17446,
                 "mutability": "mutable",
                 "name": "uBaseAllowedToTradeMachine",
                 "nameLocation": "671:26:37",
                 "nodeType": "VariableDeclaration",
-                "scope": 17337,
+                "scope": 17449,
                 "src": "663:34:37",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3985,7 +3985,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 17333,
+                  "id": 17445,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "663:7:37",
@@ -3998,12 +3998,12 @@
               },
               {
                 "constant": false,
-                "id": 17336,
+                "id": 17448,
                 "mutability": "mutable",
                 "name": "uTokenAllowedToTradeMachine",
                 "nameLocation": "710:27:37",
                 "nodeType": "VariableDeclaration",
-                "scope": 17337,
+                "scope": 17449,
                 "src": "702:35:37",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4012,7 +4012,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 17335,
+                  "id": 17447,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
                   "src": "702:7:37",
@@ -4027,32 +4027,32 @@
             "name": "LP",
             "nameLocation": "503:2:37",
             "nodeType": "StructDefinition",
-            "scope": 17518,
+            "scope": 17630,
             "src": "496:247:37",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 17516,
+              "id": 17628,
               "nodeType": "Block",
               "src": "876:833:37",
               "statements": [
                 {
                   "expression": {
-                    "id": 17360,
+                    "id": 17472,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 17352,
+                      "id": 17464,
                       "name": "data_",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 17350,
+                      "referencedDeclaration": 17462,
                       "src": "881:5:37",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                        "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                         "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                       }
                     },
@@ -4062,18 +4062,18 @@
                       "arguments": [
                         {
                           "expression": {
-                            "id": 17357,
+                            "id": 17469,
                             "name": "_lps",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 17345,
+                            "referencedDeclaration": 17457,
                             "src": "898:4:37",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                              "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                               "typeString": "contract IGarbiswapTrade[] calldata"
                             }
                           },
-                          "id": 17358,
+                          "id": 17470,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -4095,7 +4095,7 @@
                             "typeString": "uint256"
                           }
                         ],
-                        "id": 17356,
+                        "id": 17468,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -4103,40 +4103,40 @@
                         "nodeType": "NewExpression",
                         "src": "889:8:37",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr_$",
+                          "typeIdentifier": "t_function_objectcreation_pure$_t_uint256_$returns$_t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr_$",
                           "typeString": "function (uint256) pure returns (struct GarbiswapTradeInfo.LP memory[] memory)"
                         },
                         "typeName": {
                           "baseType": {
-                            "id": 17354,
+                            "id": 17466,
                             "nodeType": "UserDefinedTypeName",
                             "pathNode": {
-                              "id": 17353,
+                              "id": 17465,
                               "name": "LP",
                               "nameLocations": [
                                 "893:2:37"
                               ],
                               "nodeType": "IdentifierPath",
-                              "referencedDeclaration": 17337,
+                              "referencedDeclaration": 17449,
                               "src": "893:2:37"
                             },
-                            "referencedDeclaration": 17337,
+                            "referencedDeclaration": 17449,
                             "src": "893:2:37",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_LP_$17337_storage_ptr",
+                              "typeIdentifier": "t_struct$_LP_$17449_storage_ptr",
                               "typeString": "struct GarbiswapTradeInfo.LP"
                             }
                           },
-                          "id": 17355,
+                          "id": 17467,
                           "nodeType": "ArrayTypeName",
                           "src": "893:4:37",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_array$_t_struct$_LP_$17337_storage_$dyn_storage_ptr",
+                            "typeIdentifier": "t_array$_t_struct$_LP_$17449_storage_$dyn_storage_ptr",
                             "typeString": "struct GarbiswapTradeInfo.LP[]"
                           }
                         }
                       },
-                      "id": 17359,
+                      "id": 17471,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -4148,33 +4148,33 @@
                       "src": "889:21:37",
                       "tryCall": false,
                       "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                        "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                         "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                       }
                     },
                     "src": "881:29:37",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                      "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                       "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                     }
                   },
-                  "id": 17361,
+                  "id": 17473,
                   "nodeType": "ExpressionStatement",
                   "src": "881:29:37"
                 },
                 {
                   "assignments": [
-                    17363
+                    17475
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 17363,
+                      "id": 17475,
                       "mutability": "mutable",
                       "name": "_base",
                       "nameLocation": "923:5:37",
                       "nodeType": "VariableDeclaration",
-                      "scope": 17516,
+                      "scope": 17628,
                       "src": "915:13:37",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -4183,7 +4183,7 @@
                         "typeString": "address"
                       },
                       "typeName": {
-                        "id": 17362,
+                        "id": 17474,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
                         "src": "915:7:37",
@@ -4196,23 +4196,23 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 17364,
+                  "id": 17476,
                   "nodeType": "VariableDeclarationStatement",
                   "src": "915:13:37"
                 },
                 {
                   "assignments": [
-                    17366
+                    17478
                   ],
                   "declarations": [
                     {
                       "constant": false,
-                      "id": 17366,
+                      "id": 17478,
                       "mutability": "mutable",
                       "name": "_token",
                       "nameLocation": "941:6:37",
                       "nodeType": "VariableDeclaration",
-                      "scope": 17516,
+                      "scope": 17628,
                       "src": "933:14:37",
                       "stateVariable": false,
                       "storageLocation": "default",
@@ -4221,7 +4221,7 @@
                         "typeString": "address"
                       },
                       "typeName": {
-                        "id": 17365,
+                        "id": 17477,
                         "name": "address",
                         "nodeType": "ElementaryTypeName",
                         "src": "933:7:37",
@@ -4234,29 +4234,29 @@
                       "visibility": "internal"
                     }
                   ],
-                  "id": 17367,
+                  "id": 17479,
                   "nodeType": "VariableDeclarationStatement",
                   "src": "933:14:37"
                 },
                 {
                   "body": {
-                    "id": 17514,
+                    "id": 17626,
                     "nodeType": "Block",
                     "src": "1000:705:37",
                     "statements": [
                       {
                         "expression": {
-                          "id": 17385,
+                          "id": 17497,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftHandSide": {
-                            "id": 17379,
+                            "id": 17491,
                             "name": "_base",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 17363,
+                            "referencedDeclaration": 17475,
                             "src": "1006:5:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
@@ -4271,24 +4271,24 @@
                               "argumentTypes": [],
                               "expression": {
                                 "baseExpression": {
-                                  "id": 17380,
+                                  "id": 17492,
                                   "name": "_lps",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 17345,
+                                  "referencedDeclaration": 17457,
                                   "src": "1014:4:37",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                                     "typeString": "contract IGarbiswapTrade[] calldata"
                                   }
                                 },
-                                "id": 17382,
+                                "id": 17494,
                                 "indexExpression": {
-                                  "id": 17381,
+                                  "id": 17493,
                                   "name": "idx",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 17369,
+                                  "referencedDeclaration": 17481,
                                   "src": "1019:3:37",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -4302,11 +4302,11 @@
                                 "nodeType": "IndexAccess",
                                 "src": "1014:9:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                  "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                   "typeString": "contract IGarbiswapTrade"
                                 }
                               },
-                              "id": 17383,
+                              "id": 17495,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -4314,14 +4314,14 @@
                               "memberLocation": "1024:4:37",
                               "memberName": "base",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 17295,
+                              "referencedDeclaration": 17407,
                               "src": "1014:14:37",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
                                 "typeString": "function () view external returns (address)"
                               }
                             },
-                            "id": 17384,
+                            "id": 17496,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -4343,23 +4343,23 @@
                             "typeString": "address"
                           }
                         },
-                        "id": 17386,
+                        "id": 17498,
                         "nodeType": "ExpressionStatement",
                         "src": "1006:24:37"
                       },
                       {
                         "expression": {
-                          "id": 17393,
+                          "id": 17505,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
                           "leftHandSide": {
-                            "id": 17387,
+                            "id": 17499,
                             "name": "_token",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 17366,
+                            "referencedDeclaration": 17478,
                             "src": "1036:6:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
@@ -4374,24 +4374,24 @@
                               "argumentTypes": [],
                               "expression": {
                                 "baseExpression": {
-                                  "id": 17388,
+                                  "id": 17500,
                                   "name": "_lps",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 17345,
+                                  "referencedDeclaration": 17457,
                                   "src": "1045:4:37",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                                     "typeString": "contract IGarbiswapTrade[] calldata"
                                   }
                                 },
-                                "id": 17390,
+                                "id": 17502,
                                 "indexExpression": {
-                                  "id": 17389,
+                                  "id": 17501,
                                   "name": "idx",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 17369,
+                                  "referencedDeclaration": 17481,
                                   "src": "1050:3:37",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -4405,11 +4405,11 @@
                                 "nodeType": "IndexAccess",
                                 "src": "1045:9:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                  "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                   "typeString": "contract IGarbiswapTrade"
                                 }
                               },
-                              "id": 17391,
+                              "id": 17503,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -4417,14 +4417,14 @@
                               "memberLocation": "1055:5:37",
                               "memberName": "token",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 17300,
+                              "referencedDeclaration": 17412,
                               "src": "1045:15:37",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
                                 "typeString": "function () view external returns (address)"
                               }
                             },
-                            "id": 17392,
+                            "id": 17504,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -4446,13 +4446,13 @@
                             "typeString": "address"
                           }
                         },
-                        "id": 17394,
+                        "id": 17506,
                         "nodeType": "ExpressionStatement",
                         "src": "1036:26:37"
                       },
                       {
                         "expression": {
-                          "id": 17410,
+                          "id": 17522,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -4460,24 +4460,24 @@
                           "leftHandSide": {
                             "expression": {
                               "baseExpression": {
-                                "id": 17395,
+                                "id": 17507,
                                 "name": "data_",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17350,
+                                "referencedDeclaration": 17462,
                                 "src": "1077:5:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                                  "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                                   "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                                 }
                               },
-                              "id": 17397,
+                              "id": 17509,
                               "indexExpression": {
-                                "id": 17396,
+                                "id": 17508,
                                 "name": "idx",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17369,
+                                "referencedDeclaration": 17481,
                                 "src": "1083:3:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -4491,11 +4491,11 @@
                               "nodeType": "IndexAccess",
                               "src": "1077:10:37",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_LP_$17337_memory_ptr",
+                                "typeIdentifier": "t_struct$_LP_$17449_memory_ptr",
                                 "typeString": "struct GarbiswapTradeInfo.LP memory"
                               }
                             },
-                            "id": 17398,
+                            "id": 17510,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -4503,7 +4503,7 @@
                             "memberLocation": "1088:11:37",
                             "memberName": "baseReserve",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 17322,
+                            "referencedDeclaration": 17434,
                             "src": "1077:22:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -4518,24 +4518,24 @@
                                 "arguments": [
                                   {
                                     "baseExpression": {
-                                      "id": 17405,
+                                      "id": 17517,
                                       "name": "_lps",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 17345,
+                                      "referencedDeclaration": 17457,
                                       "src": "1134:4:37",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                                        "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                                         "typeString": "contract IGarbiswapTrade[] calldata"
                                       }
                                     },
-                                    "id": 17407,
+                                    "id": 17519,
                                     "indexExpression": {
-                                      "id": 17406,
+                                      "id": 17518,
                                       "name": "idx",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 17369,
+                                      "referencedDeclaration": 17481,
                                       "src": "1139:3:37",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_uint256",
@@ -4549,7 +4549,7 @@
                                     "nodeType": "IndexAccess",
                                     "src": "1134:9:37",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                       "typeString": "contract IGarbiswapTrade"
                                     }
                                   }
@@ -4557,11 +4557,11 @@
                                 "expression": {
                                   "argumentTypes": [
                                     {
-                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                       "typeString": "contract IGarbiswapTrade"
                                     }
                                   ],
-                                  "id": 17404,
+                                  "id": 17516,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
@@ -4573,14 +4573,14 @@
                                     "typeString": "type(address)"
                                   },
                                   "typeName": {
-                                    "id": 17403,
+                                    "id": 17515,
                                     "name": "address",
                                     "nodeType": "ElementaryTypeName",
                                     "src": "1126:7:37",
                                     "typeDescriptions": {}
                                   }
                                 },
-                                "id": 17408,
+                                "id": 17520,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -4607,11 +4607,11 @@
                               "expression": {
                                 "arguments": [
                                   {
-                                    "id": 17400,
+                                    "id": 17512,
                                     "name": "_base",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 17363,
+                                    "referencedDeclaration": 17475,
                                     "src": "1109:5:37",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_address",
@@ -4626,7 +4626,7 @@
                                       "typeString": "address"
                                     }
                                   ],
-                                  "id": 17399,
+                                  "id": 17511,
                                   "name": "IERC20",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
@@ -4637,7 +4637,7 @@
                                     "typeString": "type(contract IERC20)"
                                   }
                                 },
-                                "id": 17401,
+                                "id": 17513,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -4653,7 +4653,7 @@
                                   "typeString": "contract IERC20"
                                 }
                               },
-                              "id": 17402,
+                              "id": 17514,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -4668,7 +4668,7 @@
                                 "typeString": "function (address) view external returns (uint256)"
                               }
                             },
-                            "id": 17409,
+                            "id": 17521,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -4690,13 +4690,13 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 17411,
+                        "id": 17523,
                         "nodeType": "ExpressionStatement",
                         "src": "1077:68:37"
                       },
                       {
                         "expression": {
-                          "id": 17427,
+                          "id": 17539,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -4704,24 +4704,24 @@
                           "leftHandSide": {
                             "expression": {
                               "baseExpression": {
-                                "id": 17412,
+                                "id": 17524,
                                 "name": "data_",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17350,
+                                "referencedDeclaration": 17462,
                                 "src": "1160:5:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                                  "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                                   "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                                 }
                               },
-                              "id": 17414,
+                              "id": 17526,
                               "indexExpression": {
-                                "id": 17413,
+                                "id": 17525,
                                 "name": "idx",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17369,
+                                "referencedDeclaration": 17481,
                                 "src": "1166:3:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -4735,11 +4735,11 @@
                               "nodeType": "IndexAccess",
                               "src": "1160:10:37",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_LP_$17337_memory_ptr",
+                                "typeIdentifier": "t_struct$_LP_$17449_memory_ptr",
                                 "typeString": "struct GarbiswapTradeInfo.LP memory"
                               }
                             },
-                            "id": 17415,
+                            "id": 17527,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -4747,7 +4747,7 @@
                             "memberLocation": "1171:12:37",
                             "memberName": "tokenReserve",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 17324,
+                            "referencedDeclaration": 17436,
                             "src": "1160:23:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -4762,24 +4762,24 @@
                                 "arguments": [
                                   {
                                     "baseExpression": {
-                                      "id": 17422,
+                                      "id": 17534,
                                       "name": "_lps",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 17345,
+                                      "referencedDeclaration": 17457,
                                       "src": "1219:4:37",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                                        "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                                         "typeString": "contract IGarbiswapTrade[] calldata"
                                       }
                                     },
-                                    "id": 17424,
+                                    "id": 17536,
                                     "indexExpression": {
-                                      "id": 17423,
+                                      "id": 17535,
                                       "name": "idx",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 17369,
+                                      "referencedDeclaration": 17481,
                                       "src": "1224:3:37",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_uint256",
@@ -4793,7 +4793,7 @@
                                     "nodeType": "IndexAccess",
                                     "src": "1219:9:37",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                       "typeString": "contract IGarbiswapTrade"
                                     }
                                   }
@@ -4801,11 +4801,11 @@
                                 "expression": {
                                   "argumentTypes": [
                                     {
-                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                       "typeString": "contract IGarbiswapTrade"
                                     }
                                   ],
-                                  "id": 17421,
+                                  "id": 17533,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
@@ -4817,14 +4817,14 @@
                                     "typeString": "type(address)"
                                   },
                                   "typeName": {
-                                    "id": 17420,
+                                    "id": 17532,
                                     "name": "address",
                                     "nodeType": "ElementaryTypeName",
                                     "src": "1211:7:37",
                                     "typeDescriptions": {}
                                   }
                                 },
-                                "id": 17425,
+                                "id": 17537,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -4851,11 +4851,11 @@
                               "expression": {
                                 "arguments": [
                                   {
-                                    "id": 17417,
+                                    "id": 17529,
                                     "name": "_token",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 17366,
+                                    "referencedDeclaration": 17478,
                                     "src": "1193:6:37",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_address",
@@ -4870,7 +4870,7 @@
                                       "typeString": "address"
                                     }
                                   ],
-                                  "id": 17416,
+                                  "id": 17528,
                                   "name": "IERC20",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
@@ -4881,7 +4881,7 @@
                                     "typeString": "type(contract IERC20)"
                                   }
                                 },
-                                "id": 17418,
+                                "id": 17530,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -4897,7 +4897,7 @@
                                   "typeString": "contract IERC20"
                                 }
                               },
-                              "id": 17419,
+                              "id": 17531,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -4912,7 +4912,7 @@
                                 "typeString": "function (address) view external returns (uint256)"
                               }
                             },
-                            "id": 17426,
+                            "id": 17538,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -4934,13 +4934,13 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 17428,
+                        "id": 17540,
                         "nodeType": "ExpressionStatement",
                         "src": "1160:70:37"
                       },
                       {
                         "expression": {
-                          "id": 17438,
+                          "id": 17550,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -4948,24 +4948,24 @@
                           "leftHandSide": {
                             "expression": {
                               "baseExpression": {
-                                "id": 17429,
+                                "id": 17541,
                                 "name": "data_",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17350,
+                                "referencedDeclaration": 17462,
                                 "src": "1236:5:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                                  "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                                   "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                                 }
                               },
-                              "id": 17431,
+                              "id": 17543,
                               "indexExpression": {
-                                "id": 17430,
+                                "id": 17542,
                                 "name": "idx",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17369,
+                                "referencedDeclaration": 17481,
                                 "src": "1242:3:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -4979,11 +4979,11 @@
                               "nodeType": "IndexAccess",
                               "src": "1236:10:37",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_LP_$17337_memory_ptr",
+                                "typeIdentifier": "t_struct$_LP_$17449_memory_ptr",
                                 "typeString": "struct GarbiswapTradeInfo.LP memory"
                               }
                             },
-                            "id": 17432,
+                            "id": 17544,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -4991,7 +4991,7 @@
                             "memberLocation": "1247:7:37",
                             "memberName": "totalLP",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 17326,
+                            "referencedDeclaration": 17438,
                             "src": "1236:18:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -5006,24 +5006,24 @@
                               "argumentTypes": [],
                               "expression": {
                                 "baseExpression": {
-                                  "id": 17433,
+                                  "id": 17545,
                                   "name": "_lps",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 17345,
+                                  "referencedDeclaration": 17457,
                                   "src": "1257:4:37",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                                     "typeString": "contract IGarbiswapTrade[] calldata"
                                   }
                                 },
-                                "id": 17435,
+                                "id": 17547,
                                 "indexExpression": {
-                                  "id": 17434,
+                                  "id": 17546,
                                   "name": "idx",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 17369,
+                                  "referencedDeclaration": 17481,
                                   "src": "1262:3:37",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -5037,11 +5037,11 @@
                                 "nodeType": "IndexAccess",
                                 "src": "1257:9:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                  "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                   "typeString": "contract IGarbiswapTrade"
                                 }
                               },
-                              "id": 17436,
+                              "id": 17548,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -5049,14 +5049,14 @@
                               "memberLocation": "1267:11:37",
                               "memberName": "totalSupply",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 17305,
+                              "referencedDeclaration": 17417,
                               "src": "1257:21:37",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
                                 "typeString": "function () view external returns (uint256)"
                               }
                             },
-                            "id": 17437,
+                            "id": 17549,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -5078,13 +5078,13 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 17439,
+                        "id": 17551,
                         "nodeType": "ExpressionStatement",
                         "src": "1236:44:37"
                       },
                       {
                         "expression": {
-                          "id": 17450,
+                          "id": 17562,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -5092,24 +5092,24 @@
                           "leftHandSide": {
                             "expression": {
                               "baseExpression": {
-                                "id": 17440,
+                                "id": 17552,
                                 "name": "data_",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17350,
+                                "referencedDeclaration": 17462,
                                 "src": "1286:5:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                                  "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                                   "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                                 }
                               },
-                              "id": 17442,
+                              "id": 17554,
                               "indexExpression": {
-                                "id": 17441,
+                                "id": 17553,
                                 "name": "idx",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17369,
+                                "referencedDeclaration": 17481,
                                 "src": "1292:3:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -5123,11 +5123,11 @@
                               "nodeType": "IndexAccess",
                               "src": "1286:10:37",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_LP_$17337_memory_ptr",
+                                "typeIdentifier": "t_struct$_LP_$17449_memory_ptr",
                                 "typeString": "struct GarbiswapTradeInfo.LP memory"
                               }
                             },
-                            "id": 17443,
+                            "id": 17555,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -5135,7 +5135,7 @@
                             "memberLocation": "1297:6:37",
                             "memberName": "uLPBal",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 17328,
+                            "referencedDeclaration": 17440,
                             "src": "1286:17:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -5147,11 +5147,11 @@
                           "rightHandSide": {
                             "arguments": [
                               {
-                                "id": 17448,
+                                "id": 17560,
                                 "name": "_owner",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17339,
+                                "referencedDeclaration": 17451,
                                 "src": "1326:6:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
@@ -5168,24 +5168,24 @@
                               ],
                               "expression": {
                                 "baseExpression": {
-                                  "id": 17444,
+                                  "id": 17556,
                                   "name": "_lps",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 17345,
+                                  "referencedDeclaration": 17457,
                                   "src": "1306:4:37",
                                   "typeDescriptions": {
-                                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                                     "typeString": "contract IGarbiswapTrade[] calldata"
                                   }
                                 },
-                                "id": 17446,
+                                "id": 17558,
                                 "indexExpression": {
-                                  "id": 17445,
+                                  "id": 17557,
                                   "name": "idx",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
-                                  "referencedDeclaration": 17369,
+                                  "referencedDeclaration": 17481,
                                   "src": "1311:3:37",
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_uint256",
@@ -5199,11 +5199,11 @@
                                 "nodeType": "IndexAccess",
                                 "src": "1306:9:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                  "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                   "typeString": "contract IGarbiswapTrade"
                                 }
                               },
-                              "id": 17447,
+                              "id": 17559,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -5211,14 +5211,14 @@
                               "memberLocation": "1316:9:37",
                               "memberName": "balanceOf",
                               "nodeType": "MemberAccess",
-                              "referencedDeclaration": 17312,
+                              "referencedDeclaration": 17424,
                               "src": "1306:19:37",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
                                 "typeString": "function (address) view external returns (uint256)"
                               }
                             },
-                            "id": 17449,
+                            "id": 17561,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -5240,13 +5240,13 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 17451,
+                        "id": 17563,
                         "nodeType": "ExpressionStatement",
                         "src": "1286:47:37"
                       },
                       {
                         "expression": {
-                          "id": 17468,
+                          "id": 17580,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -5254,24 +5254,24 @@
                           "leftHandSide": {
                             "expression": {
                               "baseExpression": {
-                                "id": 17452,
+                                "id": 17564,
                                 "name": "data_",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17350,
+                                "referencedDeclaration": 17462,
                                 "src": "1339:5:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                                  "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                                   "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                                 }
                               },
-                              "id": 17454,
+                              "id": 17566,
                               "indexExpression": {
-                                "id": 17453,
+                                "id": 17565,
                                 "name": "idx",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17369,
+                                "referencedDeclaration": 17481,
                                 "src": "1345:3:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -5285,11 +5285,11 @@
                               "nodeType": "IndexAccess",
                               "src": "1339:10:37",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_LP_$17337_memory_ptr",
+                                "typeIdentifier": "t_struct$_LP_$17449_memory_ptr",
                                 "typeString": "struct GarbiswapTradeInfo.LP memory"
                               }
                             },
-                            "id": 17455,
+                            "id": 17567,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -5297,7 +5297,7 @@
                             "memberLocation": "1350:18:37",
                             "memberName": "uBaseAllowedToPair",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 17330,
+                            "referencedDeclaration": 17442,
                             "src": "1339:29:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -5309,11 +5309,11 @@
                           "rightHandSide": {
                             "arguments": [
                               {
-                                "id": 17460,
+                                "id": 17572,
                                 "name": "_owner",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17339,
+                                "referencedDeclaration": 17451,
                                 "src": "1395:6:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
@@ -5324,24 +5324,24 @@
                                 "arguments": [
                                   {
                                     "baseExpression": {
-                                      "id": 17463,
+                                      "id": 17575,
                                       "name": "_lps",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 17345,
+                                      "referencedDeclaration": 17457,
                                       "src": "1411:4:37",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                                        "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                                         "typeString": "contract IGarbiswapTrade[] calldata"
                                       }
                                     },
-                                    "id": 17465,
+                                    "id": 17577,
                                     "indexExpression": {
-                                      "id": 17464,
+                                      "id": 17576,
                                       "name": "idx",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 17369,
+                                      "referencedDeclaration": 17481,
                                       "src": "1416:3:37",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_uint256",
@@ -5355,7 +5355,7 @@
                                     "nodeType": "IndexAccess",
                                     "src": "1411:9:37",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                       "typeString": "contract IGarbiswapTrade"
                                     }
                                   }
@@ -5363,11 +5363,11 @@
                                 "expression": {
                                   "argumentTypes": [
                                     {
-                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                       "typeString": "contract IGarbiswapTrade"
                                     }
                                   ],
-                                  "id": 17462,
+                                  "id": 17574,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
@@ -5379,14 +5379,14 @@
                                     "typeString": "type(address)"
                                   },
                                   "typeName": {
-                                    "id": 17461,
+                                    "id": 17573,
                                     "name": "address",
                                     "nodeType": "ElementaryTypeName",
                                     "src": "1403:7:37",
                                     "typeDescriptions": {}
                                   }
                                 },
-                                "id": 17466,
+                                "id": 17578,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -5417,11 +5417,11 @@
                               "expression": {
                                 "arguments": [
                                   {
-                                    "id": 17457,
+                                    "id": 17569,
                                     "name": "_base",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 17363,
+                                    "referencedDeclaration": 17475,
                                     "src": "1378:5:37",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_address",
@@ -5436,7 +5436,7 @@
                                       "typeString": "address"
                                     }
                                   ],
-                                  "id": 17456,
+                                  "id": 17568,
                                   "name": "IERC20",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
@@ -5447,7 +5447,7 @@
                                     "typeString": "type(contract IERC20)"
                                   }
                                 },
-                                "id": 17458,
+                                "id": 17570,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -5463,7 +5463,7 @@
                                   "typeString": "contract IERC20"
                                 }
                               },
-                              "id": 17459,
+                              "id": 17571,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -5478,7 +5478,7 @@
                                 "typeString": "function (address,address) view external returns (uint256)"
                               }
                             },
-                            "id": 17467,
+                            "id": 17579,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -5500,13 +5500,13 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 17469,
+                        "id": 17581,
                         "nodeType": "ExpressionStatement",
                         "src": "1339:83:37"
                       },
                       {
                         "expression": {
-                          "id": 17486,
+                          "id": 17598,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -5514,24 +5514,24 @@
                           "leftHandSide": {
                             "expression": {
                               "baseExpression": {
-                                "id": 17470,
+                                "id": 17582,
                                 "name": "data_",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17350,
+                                "referencedDeclaration": 17462,
                                 "src": "1428:5:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                                  "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                                   "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                                 }
                               },
-                              "id": 17472,
+                              "id": 17584,
                               "indexExpression": {
-                                "id": 17471,
+                                "id": 17583,
                                 "name": "idx",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17369,
+                                "referencedDeclaration": 17481,
                                 "src": "1434:3:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -5545,11 +5545,11 @@
                               "nodeType": "IndexAccess",
                               "src": "1428:10:37",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_LP_$17337_memory_ptr",
+                                "typeIdentifier": "t_struct$_LP_$17449_memory_ptr",
                                 "typeString": "struct GarbiswapTradeInfo.LP memory"
                               }
                             },
-                            "id": 17473,
+                            "id": 17585,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -5557,7 +5557,7 @@
                             "memberLocation": "1439:19:37",
                             "memberName": "uTokenAllowedToPair",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 17332,
+                            "referencedDeclaration": 17444,
                             "src": "1428:30:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -5569,11 +5569,11 @@
                           "rightHandSide": {
                             "arguments": [
                               {
-                                "id": 17478,
+                                "id": 17590,
                                 "name": "_owner",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17339,
+                                "referencedDeclaration": 17451,
                                 "src": "1486:6:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
@@ -5584,24 +5584,24 @@
                                 "arguments": [
                                   {
                                     "baseExpression": {
-                                      "id": 17481,
+                                      "id": 17593,
                                       "name": "_lps",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 17345,
+                                      "referencedDeclaration": 17457,
                                       "src": "1502:4:37",
                                       "typeDescriptions": {
-                                        "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                                        "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                                         "typeString": "contract IGarbiswapTrade[] calldata"
                                       }
                                     },
-                                    "id": 17483,
+                                    "id": 17595,
                                     "indexExpression": {
-                                      "id": 17482,
+                                      "id": 17594,
                                       "name": "idx",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 17369,
+                                      "referencedDeclaration": 17481,
                                       "src": "1507:3:37",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_uint256",
@@ -5615,7 +5615,7 @@
                                     "nodeType": "IndexAccess",
                                     "src": "1502:9:37",
                                     "typeDescriptions": {
-                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                       "typeString": "contract IGarbiswapTrade"
                                     }
                                   }
@@ -5623,11 +5623,11 @@
                                 "expression": {
                                   "argumentTypes": [
                                     {
-                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                                      "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                                       "typeString": "contract IGarbiswapTrade"
                                     }
                                   ],
-                                  "id": 17480,
+                                  "id": 17592,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": true,
@@ -5639,14 +5639,14 @@
                                     "typeString": "type(address)"
                                   },
                                   "typeName": {
-                                    "id": 17479,
+                                    "id": 17591,
                                     "name": "address",
                                     "nodeType": "ElementaryTypeName",
                                     "src": "1494:7:37",
                                     "typeDescriptions": {}
                                   }
                                 },
-                                "id": 17484,
+                                "id": 17596,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -5677,11 +5677,11 @@
                               "expression": {
                                 "arguments": [
                                   {
-                                    "id": 17475,
+                                    "id": 17587,
                                     "name": "_token",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 17366,
+                                    "referencedDeclaration": 17478,
                                     "src": "1468:6:37",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_address",
@@ -5696,7 +5696,7 @@
                                       "typeString": "address"
                                     }
                                   ],
-                                  "id": 17474,
+                                  "id": 17586,
                                   "name": "IERC20",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
@@ -5707,7 +5707,7 @@
                                     "typeString": "type(contract IERC20)"
                                   }
                                 },
-                                "id": 17476,
+                                "id": 17588,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -5723,7 +5723,7 @@
                                   "typeString": "contract IERC20"
                                 }
                               },
-                              "id": 17477,
+                              "id": 17589,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -5738,7 +5738,7 @@
                                 "typeString": "function (address,address) view external returns (uint256)"
                               }
                             },
-                            "id": 17485,
+                            "id": 17597,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -5760,13 +5760,13 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 17487,
+                        "id": 17599,
                         "nodeType": "ExpressionStatement",
                         "src": "1428:85:37"
                       },
                       {
                         "expression": {
-                          "id": 17499,
+                          "id": 17611,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -5774,24 +5774,24 @@
                           "leftHandSide": {
                             "expression": {
                               "baseExpression": {
-                                "id": 17488,
+                                "id": 17600,
                                 "name": "data_",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17350,
+                                "referencedDeclaration": 17462,
                                 "src": "1519:5:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                                  "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                                   "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                                 }
                               },
-                              "id": 17490,
+                              "id": 17602,
                               "indexExpression": {
-                                "id": 17489,
+                                "id": 17601,
                                 "name": "idx",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17369,
+                                "referencedDeclaration": 17481,
                                 "src": "1525:3:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -5805,11 +5805,11 @@
                               "nodeType": "IndexAccess",
                               "src": "1519:10:37",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_LP_$17337_memory_ptr",
+                                "typeIdentifier": "t_struct$_LP_$17449_memory_ptr",
                                 "typeString": "struct GarbiswapTradeInfo.LP memory"
                               }
                             },
-                            "id": 17491,
+                            "id": 17603,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -5817,7 +5817,7 @@
                             "memberLocation": "1530:26:37",
                             "memberName": "uBaseAllowedToTradeMachine",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 17334,
+                            "referencedDeclaration": 17446,
                             "src": "1519:37:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -5829,11 +5829,11 @@
                           "rightHandSide": {
                             "arguments": [
                               {
-                                "id": 17496,
+                                "id": 17608,
                                 "name": "_owner",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17339,
+                                "referencedDeclaration": 17451,
                                 "src": "1583:6:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
@@ -5841,11 +5841,11 @@
                                 }
                               },
                               {
-                                "id": 17497,
+                                "id": 17609,
                                 "name": "_tradeMachine",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17341,
+                                "referencedDeclaration": 17453,
                                 "src": "1591:13:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
@@ -5867,11 +5867,11 @@
                               "expression": {
                                 "arguments": [
                                   {
-                                    "id": 17493,
+                                    "id": 17605,
                                     "name": "_base",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 17363,
+                                    "referencedDeclaration": 17475,
                                     "src": "1566:5:37",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_address",
@@ -5886,7 +5886,7 @@
                                       "typeString": "address"
                                     }
                                   ],
-                                  "id": 17492,
+                                  "id": 17604,
                                   "name": "IERC20",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
@@ -5897,7 +5897,7 @@
                                     "typeString": "type(contract IERC20)"
                                   }
                                 },
-                                "id": 17494,
+                                "id": 17606,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -5913,7 +5913,7 @@
                                   "typeString": "contract IERC20"
                                 }
                               },
-                              "id": 17495,
+                              "id": 17607,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -5928,7 +5928,7 @@
                                 "typeString": "function (address,address) view external returns (uint256)"
                               }
                             },
-                            "id": 17498,
+                            "id": 17610,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -5950,13 +5950,13 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 17500,
+                        "id": 17612,
                         "nodeType": "ExpressionStatement",
                         "src": "1519:86:37"
                       },
                       {
                         "expression": {
-                          "id": 17512,
+                          "id": 17624,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -5964,24 +5964,24 @@
                           "leftHandSide": {
                             "expression": {
                               "baseExpression": {
-                                "id": 17501,
+                                "id": 17613,
                                 "name": "data_",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17350,
+                                "referencedDeclaration": 17462,
                                 "src": "1611:5:37",
                                 "typeDescriptions": {
-                                  "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                                  "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                                   "typeString": "struct GarbiswapTradeInfo.LP memory[] memory"
                                 }
                               },
-                              "id": 17503,
+                              "id": 17615,
                               "indexExpression": {
-                                "id": 17502,
+                                "id": 17614,
                                 "name": "idx",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17369,
+                                "referencedDeclaration": 17481,
                                 "src": "1617:3:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_uint256",
@@ -5995,11 +5995,11 @@
                               "nodeType": "IndexAccess",
                               "src": "1611:10:37",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_struct$_LP_$17337_memory_ptr",
+                                "typeIdentifier": "t_struct$_LP_$17449_memory_ptr",
                                 "typeString": "struct GarbiswapTradeInfo.LP memory"
                               }
                             },
-                            "id": 17504,
+                            "id": 17616,
                             "isConstant": false,
                             "isLValue": true,
                             "isPure": false,
@@ -6007,7 +6007,7 @@
                             "memberLocation": "1622:27:37",
                             "memberName": "uTokenAllowedToTradeMachine",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 17336,
+                            "referencedDeclaration": 17448,
                             "src": "1611:38:37",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -6019,11 +6019,11 @@
                           "rightHandSide": {
                             "arguments": [
                               {
-                                "id": 17509,
+                                "id": 17621,
                                 "name": "_owner",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17339,
+                                "referencedDeclaration": 17451,
                                 "src": "1677:6:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
@@ -6031,11 +6031,11 @@
                                 }
                               },
                               {
-                                "id": 17510,
+                                "id": 17622,
                                 "name": "_tradeMachine",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 17341,
+                                "referencedDeclaration": 17453,
                                 "src": "1685:13:37",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_address",
@@ -6057,11 +6057,11 @@
                               "expression": {
                                 "arguments": [
                                   {
-                                    "id": 17506,
+                                    "id": 17618,
                                     "name": "_token",
                                     "nodeType": "Identifier",
                                     "overloadedDeclarations": [],
-                                    "referencedDeclaration": 17366,
+                                    "referencedDeclaration": 17478,
                                     "src": "1659:6:37",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_address",
@@ -6076,7 +6076,7 @@
                                       "typeString": "address"
                                     }
                                   ],
-                                  "id": 17505,
+                                  "id": 17617,
                                   "name": "IERC20",
                                   "nodeType": "Identifier",
                                   "overloadedDeclarations": [],
@@ -6087,7 +6087,7 @@
                                     "typeString": "type(contract IERC20)"
                                   }
                                 },
-                                "id": 17507,
+                                "id": 17619,
                                 "isConstant": false,
                                 "isLValue": false,
                                 "isPure": false,
@@ -6103,7 +6103,7 @@
                                   "typeString": "contract IERC20"
                                 }
                               },
-                              "id": 17508,
+                              "id": 17620,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -6118,7 +6118,7 @@
                                 "typeString": "function (address,address) view external returns (uint256)"
                               }
                             },
-                            "id": 17511,
+                            "id": 17623,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -6140,7 +6140,7 @@
                             "typeString": "uint256"
                           }
                         },
-                        "id": 17513,
+                        "id": 17625,
                         "nodeType": "ExpressionStatement",
                         "src": "1611:88:37"
                       }
@@ -6151,17 +6151,17 @@
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     },
-                    "id": 17375,
+                    "id": 17487,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
-                      "id": 17372,
+                      "id": 17484,
                       "name": "idx",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 17369,
+                      "referencedDeclaration": 17481,
                       "src": "974:3:37",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
@@ -6172,18 +6172,18 @@
                     "operator": "<",
                     "rightExpression": {
                       "expression": {
-                        "id": 17373,
+                        "id": 17485,
                         "name": "_lps",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 17345,
+                        "referencedDeclaration": 17457,
                         "src": "980:4:37",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                          "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                           "typeString": "contract IGarbiswapTrade[] calldata"
                         }
                       },
-                      "id": 17374,
+                      "id": 17486,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -6203,20 +6203,20 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 17515,
+                  "id": 17627,
                   "initializationExpression": {
                     "assignments": [
-                      17369
+                      17481
                     ],
                     "declarations": [
                       {
                         "constant": false,
-                        "id": 17369,
+                        "id": 17481,
                         "mutability": "mutable",
                         "name": "idx",
                         "nameLocation": "965:3:37",
                         "nodeType": "VariableDeclaration",
-                        "scope": 17515,
+                        "scope": 17627,
                         "src": "957:11:37",
                         "stateVariable": false,
                         "storageLocation": "default",
@@ -6225,7 +6225,7 @@
                           "typeString": "uint256"
                         },
                         "typeName": {
-                          "id": 17368,
+                          "id": 17480,
                           "name": "uint256",
                           "nodeType": "ElementaryTypeName",
                           "src": "957:7:37",
@@ -6237,10 +6237,10 @@
                         "visibility": "internal"
                       }
                     ],
-                    "id": 17371,
+                    "id": 17483,
                     "initialValue": {
                       "hexValue": "30",
-                      "id": 17370,
+                      "id": 17482,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -6259,7 +6259,7 @@
                   },
                   "loopExpression": {
                     "expression": {
-                      "id": 17377,
+                      "id": 17489,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -6269,11 +6269,11 @@
                       "prefix": false,
                       "src": "993:5:37",
                       "subExpression": {
-                        "id": 17376,
+                        "id": 17488,
                         "name": "idx",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 17369,
+                        "referencedDeclaration": 17481,
                         "src": "993:3:37",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -6285,7 +6285,7 @@
                         "typeString": "uint256"
                       }
                     },
-                    "id": 17378,
+                    "id": 17490,
                     "nodeType": "ExpressionStatement",
                     "src": "993:5:37"
                   },
@@ -6295,7 +6295,7 @@
               ]
             },
             "functionSelector": "d5e16c2a",
-            "id": 17517,
+            "id": 17629,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -6303,17 +6303,17 @@
             "nameLocation": "755:7:37",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 17346,
+              "id": 17458,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 17339,
+                  "id": 17451,
                   "mutability": "mutable",
                   "name": "_owner",
                   "nameLocation": "771:6:37",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17517,
+                  "scope": 17629,
                   "src": "763:14:37",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -6322,7 +6322,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 17338,
+                    "id": 17450,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "763:7:37",
@@ -6336,12 +6336,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 17341,
+                  "id": 17453,
                   "mutability": "mutable",
                   "name": "_tradeMachine",
                   "nameLocation": "787:13:37",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17517,
+                  "scope": 17629,
                   "src": "779:21:37",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -6350,7 +6350,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 17340,
+                    "id": 17452,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "779:7:37",
@@ -6364,45 +6364,45 @@
                 },
                 {
                   "constant": false,
-                  "id": 17345,
+                  "id": 17457,
                   "mutability": "mutable",
                   "name": "_lps",
                   "nameLocation": "829:4:37",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17517,
+                  "scope": 17629,
                   "src": "802:31:37",
                   "stateVariable": false,
                   "storageLocation": "calldata",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_calldata_ptr",
+                    "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_calldata_ptr",
                     "typeString": "contract IGarbiswapTrade[]"
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 17343,
+                      "id": 17455,
                       "nodeType": "UserDefinedTypeName",
                       "pathNode": {
-                        "id": 17342,
+                        "id": 17454,
                         "name": "IGarbiswapTrade",
                         "nameLocations": [
                           "802:15:37"
                         ],
                         "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 17320,
+                        "referencedDeclaration": 17432,
                         "src": "802:15:37"
                       },
-                      "referencedDeclaration": 17320,
+                      "referencedDeclaration": 17432,
                       "src": "802:15:37",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_IGarbiswapTrade_$17320",
+                        "typeIdentifier": "t_contract$_IGarbiswapTrade_$17432",
                         "typeString": "contract IGarbiswapTrade"
                       }
                     },
-                    "id": 17344,
+                    "id": 17456,
                     "nodeType": "ArrayTypeName",
                     "src": "802:17:37",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17320_$dyn_storage_ptr",
+                      "typeIdentifier": "t_array$_t_contract$_IGarbiswapTrade_$17432_$dyn_storage_ptr",
                       "typeString": "contract IGarbiswapTrade[]"
                     }
                   },
@@ -6412,50 +6412,50 @@
               "src": "762:72:37"
             },
             "returnParameters": {
-              "id": 17351,
+              "id": 17463,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 17350,
+                  "id": 17462,
                   "mutability": "mutable",
                   "name": "data_",
                   "nameLocation": "867:5:37",
                   "nodeType": "VariableDeclaration",
-                  "scope": 17517,
+                  "scope": 17629,
                   "src": "855:17:37",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_struct$_LP_$17337_memory_ptr_$dyn_memory_ptr",
+                    "typeIdentifier": "t_array$_t_struct$_LP_$17449_memory_ptr_$dyn_memory_ptr",
                     "typeString": "struct GarbiswapTradeInfo.LP[]"
                   },
                   "typeName": {
                     "baseType": {
-                      "id": 17348,
+                      "id": 17460,
                       "nodeType": "UserDefinedTypeName",
                       "pathNode": {
-                        "id": 17347,
+                        "id": 17459,
                         "name": "LP",
                         "nameLocations": [
                           "855:2:37"
                         ],
                         "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 17337,
+                        "referencedDeclaration": 17449,
                         "src": "855:2:37"
                       },
-                      "referencedDeclaration": 17337,
+                      "referencedDeclaration": 17449,
                       "src": "855:2:37",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_LP_$17337_storage_ptr",
+                        "typeIdentifier": "t_struct$_LP_$17449_storage_ptr",
                         "typeString": "struct GarbiswapTradeInfo.LP"
                       }
                     },
-                    "id": 17349,
+                    "id": 17461,
                     "nodeType": "ArrayTypeName",
                     "src": "855:4:37",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_struct$_LP_$17337_storage_$dyn_storage_ptr",
+                      "typeIdentifier": "t_array$_t_struct$_LP_$17449_storage_$dyn_storage_ptr",
                       "typeString": "struct GarbiswapTradeInfo.LP[]"
                     }
                   },
@@ -6464,14 +6464,14 @@
               ],
               "src": "854:19:37"
             },
-            "scope": 17518,
+            "scope": 17630,
             "src": "746:963:37",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 17519,
+        "scope": 17631,
         "src": "464:1248:37",
         "usedErrors": []
       }
@@ -6484,7 +6484,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-02-23T04:52:28.874Z",
+  "updatedAt": "2023-02-23T08:25:41.134Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

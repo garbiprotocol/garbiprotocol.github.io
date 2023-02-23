@@ -34,6 +34,8 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
 
     uint256 SELL_GARBIEC_FEE = 35; //35/10000 = 0.35%
 
+    uint256 SWAP_FEE = 1; //1/10000 = 0.01%
+
     address public platformFundAddress;
 
     modifier onlyRepoInTheList(address repoAddress)
@@ -63,7 +65,7 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
     event onUpdateRepository(address repoAddress, uint256 repoShare, uint256 repoMaxCapacityLimit); 
     event onBuyGarbiEC(address user, address repoInAddress, uint256 assetInAmount, uint256 garbiECOutAmount);
     event onSellGarbiEC(address user, address repoOutAddress, uint256 assetOutAmount, uint256 garbiECInAmount);
-    event onSwapTokenToTokenWithTokenInput(address user, address repoInAddress, address repoOutAddress, uint256 tokenInputAmount, uint256 tokenOutputAmount);
+    event onSwapTokenToToken(address user, address repoInAddress, address repoOutAddress, uint256 tokenInputAmount, uint256 tokenOutputAmount);
 
     constructor(
         IERC20withBurnAndMint garbiECContract,
@@ -173,7 +175,7 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
         require(baseOutAmount > 0, 'INVALID_OUT_AMUNT_ZERO');
         require(baseOutAmount <= repoOut.getCapacityByToken(), 'INVALID_OUT_AMOUNT');
 
-        uint256 fee = baseOutAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, baseOutAmount)).div(10000);
+        uint256 fee = baseOutAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, baseOutAmount, SELL_GARBIEC_FEE)).div(10000);
         uint256 baseOutAmountAfterFee = baseOutAmount.sub(fee);
 
         //make trade
@@ -204,11 +206,11 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
         uint256 baseInUserBalance = repoIn.convertDecimalTo18(baseIn.balanceOf(msg.sender), repoIn.baseDecimal());
 
         require(tokenInputAmount <= baseInUserBalance, 'TOKEN_INPUT_AMOUNT_HIGHER_USER_BALANCE');
-
+        
         //make trade
         makeTradeOnTwoRepos(repoIn, repoOut, tokenInputAmount, tokenOutputAmount);
 
-        emit onSwapTokenToTokenWithTokenInput(msg.sender, repoInAddress, repoOutAddress, tokenInputAmount, tokenOutputAmount);
+        emit onSwapTokenToToken(msg.sender, repoInAddress, repoOutAddress, tokenInputAmount, tokenOutputAmount);
     }
 
     function makeTradeOnTwoRepos(IGarbiRepository repoIn, IGarbiRepository repoOut, uint256 tokenInputAmount, uint256 tokenOutputAmount) private {
@@ -218,7 +220,11 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
         baseIn.transferFrom(msg.sender, address(this), tokenInputAmountAtTokenDecimal);
         baseIn.transfer(address(repoIn), tokenInputAmountAtTokenDecimal);
         repoOut.withdrawBaseToRepositoryManager(tokenOutputAmount);
-        baseOut.transfer(msg.sender, repoOut.convertToBaseDecimal(tokenOutputAmount, 18));
+        uint256 fee = tokenOutputAmount.mul(getSellGarbiECDynamicFee(address(repoOut), tokenOutputAmount, SWAP_FEE)).div(10000);
+        uint256 tokenOutputAmountAfterFee = tokenOutputAmount.sub(fee);
+        baseOut.transfer(msg.sender, repoOut.convertToBaseDecimal(tokenOutputAmountAfterFee, 18));
+        //transfer fee
+        baseOut.transfer(platformFundAddress, repoOut.convertToBaseDecimal(fee, 18));
     }
 
     function getTokenOutputAmountFromTokenInput(IGarbiRepository repoIn, IGarbiRepository repoOut, uint256 tokenInputAmount) public view returns (uint256) {
@@ -226,6 +232,17 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
         uint256 tokenOuputPriceFromOracle = repoOut.getBasePrice();
         uint256 tokenOutputAmount = tokenInputAmount.mul(tokenInputPriceFromOracle).div(tokenOuputPriceFromOracle);
         return tokenOutputAmount;
+    }
+
+    function getTokenOutputWithFee(address repoInAddress, address repoOutAddress, uint256 tokenInputAmount) public view returns (uint256) {
+        IGarbiRepository repoIn = IGarbiRepository(repoInAddress);
+        IGarbiRepository repoOut = IGarbiRepository(repoOutAddress);
+        uint256 tokenInputPriceFromOracle = repoIn.getBasePrice();
+        uint256 tokenOuputPriceFromOracle = repoOut.getBasePrice();
+        uint256 tokenOutputAmount = tokenInputAmount.mul(tokenInputPriceFromOracle).div(tokenOuputPriceFromOracle);
+        uint256 fee = tokenOutputAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, tokenOutputAmount, SWAP_FEE)).div(10000);
+        uint256 tokenOutputAmountAfterFee = tokenOutputAmount.sub(fee);
+        return tokenOutputAmountAfterFee;
     }
 
     function getGarbiECPrice() public view returns(uint256 garbiECPrice) {
@@ -270,25 +287,22 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
       
     }
 
-    function getSellGarbiECDynamicFee(address repoOutAddress, uint256 assetOutAmount) public view returns (uint256 fee) {
-        uint256 totalCapacityByUSD = 0;
-        uint256 repoOutTotalCapacityByUSD = 0;
-        IGarbiRepository repoOut;
+    function getTotalAllRepoCapacityByUSD() public view returns (uint256 totalCapacityByUSD) {
         for (uint i = 0; i < repoAddresses.length; i++) {
             if(repoList[repoAddresses[i]].share > 0) {
                 IGarbiRepository repo = IGarbiRepository(repoAddresses[i]);
                 totalCapacityByUSD = totalCapacityByUSD.add(repo.getCapacityByUSD());
-                if(repoAddresses[i] == repoOutAddress) {
-                    repoOutTotalCapacityByUSD = repo.getCapacityByUSD();
-                    repoOut = repo;
-                }
             }
         }
-        uint256 assetPrice = repoOut.getBasePrice();
-        uint256 assetOutAmountByUSD = assetOutAmount.mul(assetPrice).div(10**18);
+    }
+
+    function getSellGarbiECDynamicFee(address repoOutAddress, uint256 assetOutAmount, uint256 baseFee) public view returns (uint256 fee) {
+        uint256 totalCapacityByUSD = getTotalAllRepoCapacityByUSD();
+        IGarbiRepository repoOut = IGarbiRepository(repoOutAddress);
+        uint256 repoOutTotalCapacityByUSD = repoOut.getCapacityByUSD();
+        uint256 assetOutAmountByUSD = assetOutAmount.mul(repoOut.getBasePrice()).div(10**18);
         uint256 repoShareAfterOut = repoOutTotalCapacityByUSD.sub(assetOutAmountByUSD).mul(totalShares).div(totalCapacityByUSD.sub(assetOutAmountByUSD));
-        uint256 shareDiff = 0;
-        shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
-        fee = SELL_GARBIEC_FEE.mul(shareDiff).div(totalShares);
+        uint256 shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
+        fee = baseFee.mul(shareDiff).div(totalShares);
     }
 }
