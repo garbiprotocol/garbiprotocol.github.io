@@ -57,6 +57,6 @@ module.exports = function(deployer) {
 //                    GarbiswapWhitelistAddress,
 //                    GarbiTimeLockAddress,
 //                    );
-      deployer.deploy(GarbiRepositoryManager, garbiECContract);
+      deployer.deploy(GarbiRepositoryManager, garbiECContract, GarbiswapWhitelistAddress);
 //      deployer.deploy(GarbiRepository, GWETH, garbiOracleContract, repositoryManagerContract);
 };

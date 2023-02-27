@@ -320,4 +320,15 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
         uint256 shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
         fee = baseFee.mul(shareDiff).div(totalShares);
     }
+
+    function getFeeWithOutAmount(address repoOutAddress, uint256 assetOutAmount) public view returns (uint256 sellGarbiECfee, uint256 swapFee) {
+        uint256 totalCapacityByUSD = getTotalAllRepoCapacityByUSD();
+        IGarbiRepository repoOut = IGarbiRepository(repoOutAddress);
+        uint256 repoOutTotalCapacityByUSD = repoOut.getCapacityByUSD();
+        uint256 assetOutAmountByUSD = assetOutAmount.mul(repoOut.getBasePrice()).div(10**18);
+        uint256 repoShareAfterOut = repoOutTotalCapacityByUSD.sub(assetOutAmountByUSD).mul(totalShares).div(totalCapacityByUSD.sub(assetOutAmountByUSD));
+        uint256 shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
+        sellGarbiECfee = SELL_GARBIEC_FEE.mul(shareDiff).div(totalShares);
+        swapFee = SWAP_FEE.mul(shareDiff).div(totalShares);
+    }
 }
