@@ -15,17 +15,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="../assets/js/web3.min.js"></script>
-        <script src="../assets/js/trustwallet.js"></script>
-        <script src="../js/contract/bsc/abi.js"></script>
-        <script src="../js/contract/bsc/config.js"></script>
-        <script src="../js/data/store.js"></script>
-        <script src="../js/contract/bsc/core.js"></script>
-        <script src="../js/contract/bsc/base.contract.js"></script>
-        <script src="../js/contract/bsc/data.js"></script>
-        <script src="../js/contract/bsc/garbi.farm.contract.js"></script>
-        <script src="../js/contract/bsc/garbi-venus-lp-info.contract.js"></script>
-        <script src="../js/contract/bsc/garbi.farm.info.contract.js"></script>
+        <script src="./assets/js/web3.min.js"></script>
+        <script src="./assets/js/trustwallet.js"></script>
+        <script src="./js/contract/arbitrum/abi.js"></script>
+        <script src="./js/contract/arbitrum/config.js"></script>
+        <script src="./js/data/store.js"></script>
+        <script src="./js/contract/arbitrum/core.js"></script>
+        <script src="./js/contract/arbitrum/base.contract.js"></script>
+        <script src="./js/contract/arbitrum/data.js"></script>
 
         <title>Garbi Equity Certificate Exchange - Garbi Protocol</title>
         <style id="svelte-166mr51-style">
@@ -289,7 +286,7 @@
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td>0.00 ETH ($0.00)</td>
+                                            <td>0.00 USDC ($0.00)</td>
                                             <td>0.30%</td>
                                         </tr>
                                         <tr>
@@ -312,7 +309,7 @@
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td>0.00 BTC ($0.00)</td>
+                                            <td>0.00 USDT ($0.00)</td>
                                             <td>0.40%</td>
                                         </tr>
                                         <tr>
@@ -335,7 +332,7 @@
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td>0.00 LINK ($0.00)</td>
+                                            <td>0.00 DAI ($0.00)</td>
                                             <td>0.29%</td>
                                         </tr>
                                     </tbody>
@@ -361,7 +358,7 @@
                             </article>
                         </div>
                         <div class="col-lg-4 col-sm-12">
-                            <article class="buy-sell__main garbi__box-1 p-3" id="buy-gec">
+                            <article class="buy-sell__main garbi__box-1 p-3" id="buy-gec-form">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="panel__header-row">
                                         <label class="label text-color-2">Exchange GEC</label>
@@ -377,7 +374,7 @@
                                                     <span class="color-2 f-roboto f-14 f-400">Pay:$</span>
                                                     <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
                                                 </div>
-                                                <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />    
+                                                <input class="swap__form-input" name="amountPay" placeholder="0.0" autofocus value="" />    
                                             </div>
                                             <div class="col-5" style=" text-align: right;">
                                                 <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
@@ -415,7 +412,7 @@
                                                 <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />    
                                             </div>
                                             <div class="col-5" style=" text-align: right;position: relative;">
-                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
+                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
                                                 <div class='swap__form-item-select' style="position: absolute;bottom:0;right:13px;">
                                                     <span>
                                                         <img src='./assets/images/GEC-logo.png' />
@@ -440,12 +437,13 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-                                <button type="button" class="header__btn-connect w-100 text-center btn-swap">Connect your wallet</button>
+                                <button type="button" class="button-approve approve-usdt header__btn-connect w-100 text-center btn-swap" style="display: none">Approve USDT</button>
+                                <button type="button" class="button-approve approve-usdc header__btn-connect w-100 text-center btn-swap" style="display: none">Approve USDC</button>
+                                <button type="button" class="button-approve approve-dai header__btn-connect w-100 text-center btn-swap" style="display: none">Approve DAI</button>
+                                <button type="button" class="button-buy-gec header__btn-connect w-100 text-center btn-swap" style="">Buy GEC</button>
 
                             </article>
-                            <article class="buy-sell__main garbi__box-1 p-3" id="sell-gec">
+                            <article class="buy-sell__main garbi__box-1 p-3" id="sell-gec-form">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="panel__header-row">
                                         <label class="label text-color-2">Exchange GEC</label>
@@ -690,7 +688,121 @@
 
     </body>
     <script>
-
+                    var abiHelper = new $.ABI();
+                    var coreHelper = new $.Core();
+                    var configHelper = new $.CONFIG();
+                    var contractBaseHelper = new $.CONTRACTBASE();
+                    var storeHelper = new $.STORE();
+                    var dataHelper = new $.DATA();
+                    var chainId = 421613;
+                    $(document).ready(function () {
+                        abiHelper.init({});
+                        coreHelper.init({});
+                        configHelper.init({});
+                        storeHelper.init({});
+                        contractBaseHelper.init({
+                            chainId
+                        });
+                        dataHelper.init({
+                            chainId
+                        });
+                        let erc20TokenABI = abiHelper.getTokenABI();
+                        let garbiRepositoryManagerABI = abiHelper.getGarbiRepositoryManagerABI();
+                        let _contractsObj = configHelper.getContracts(chainId);
+                        $('#buy-gec-form .selectpicker').change(function () {
+                            $('#buy-gec-form .user-from-bal').text("Loading");
+                            $('.button-approve').hide();
+                        });
+                        setInterval(function () {
+                            let userWallet = coreHelper.getUserAccount();
+                            let userAssetBalances = storeHelper.getValue('balanceOf');
+                            let userSelectedAsset = $('#buy-gec-form .selectpicker').val();
+                            $('#buy-gec-form .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedAsset).toLowerCase()].toFixed(6));
+                            $('#buy-gec-form .user-to-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, 'gec').toLowerCase()].toFixed(6));
+                        }, 1000);
+                        $('.button-buy-gec').click(function (e) {
+                            let userWallet = coreHelper.getUserAccount();
+                            let userSelectedAsset = $('#buy-gec-form .selectpicker').val();
+                            let userPayAssetContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, userSelectedAsset), erc20TokenABI);
+                            let userPayAssetDecimal = configHelper.getTokenDecimalByTokenName(chainId, userSelectedAsset);
+                            userPayAssetContract.methods.allowance(userWallet, _contractsObj['garbiRepositoryManager']["contract"]).call().then(result => {
+                                if (result == 0) { //need approve
+                                    $('.button-approve').hide();
+                                    $('.approve-' + userSelectedAsset).show();
+                                } else {
+                                    let amountPay = $(`input[name=amountPay]`).val();
+                                    if (!userWallet) {
+                                        return false;
+                                    }
+                                    if (amountPay <= 0) {
+                                        return false;
+                                    }
+                                    let repoInAddress = _contractsObj['garbiRepository'][userSelectedAsset];
+                                    let contractGarbiRepositoryManager = contractBaseHelper.getMainContract(_contractsObj['garbiRepositoryManager']["contract"], garbiRepositoryManagerABI);
+                                    contractGarbiRepositoryManager
+                                            .methods
+                                            .buyGarbiEquityCertificate(
+                                                    repoInAddress,
+                                                    coreHelper.toBN(amountPay, 18)
+                                                    )
+                                            .send({
+                                                from: userWallet
+                                            })
+                                            .on('transactionHash', (hash) => {
+                                                coreHelper.showPopup('confirm-popup');
+                                                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                            })
+                                            .on('confirmation', (confirmationNumber, receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                                $(`input[name=amountPay]`).val("");
+                                            })
+                                            .on('receipt', (receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                                $(`input[name=amountPay]`).val("");
+                                            })
+                                            .on('error', (err, receipt) => {
+                                                console.log(err);
+                                            });
+                                }
+                            });
+                        });
+                        $('#buy-gec-form .button-approve').click(function () {
+                            let userWallet = coreHelper.getUserAccount();
+                            let userSelectedAsset = $('#buy-gec-form .selectpicker').val();
+                            let userPayAssetContract = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, userSelectedAsset), erc20TokenABI);
+                            userPayAssetContract.methods
+                                    .approve(
+                                            _contractsObj['garbiRepositoryManager']["contract"],
+                                            coreHelper.getAmountAllow()
+                                            )
+                                    .send({
+                                        from: userWallet
+                                    })
+                                    .on('transactionHash', (hash) => {
+                                        coreHelper.showPopup('confirm-popup');
+                                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                    })
+                                    .on('confirmation', (confirmationNumber, receipt) => {
+                                        $('.button-approve').hide();
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('receipt', (receipt) => {
+                                        $('.button-approve').hide();
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('error', (err, receipt) => {
+                                        console.log(err);
+                                    });
+                        });
+                    });
     </script>
 
 </html>
