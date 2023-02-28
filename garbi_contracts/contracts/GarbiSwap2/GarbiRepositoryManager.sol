@@ -172,7 +172,7 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
 
         uint256 baseOutAmount = getDataToSellGarbiEC(repoOutAddress, garbiECInAmount);
         
-        require(baseOutAmount > 0, 'INVALID_OUT_AMUNT_ZERO');
+        require(baseOutAmount > 0, 'INVALID_OUT_AMOUNT_ZERO');
         require(baseOutAmount <= repoOut.getCapacityByToken(), 'INVALID_OUT_AMOUNT');
 
         uint256 fee = baseOutAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, baseOutAmount, SELL_GARBIEC_FEE)).div(10000);
