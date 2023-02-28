@@ -25,6 +25,9 @@ $.CONFIG.prototype = (function() {
             launchData: {
                 contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
             },
+            garbiOracle: {
+                contract: "0x686e28c4eE8C4c03770404506E0027BF5ed31AB6"
+            },
             garbiVestGRB: {
                 contract: "0xfc7d1892137800a3f30d00f9a33624338fd47158"
             },
@@ -407,6 +410,14 @@ $.CONFIG.prototype = (function() {
             let _tokens = TOKENS[_chainId];
             for (let _tokenName in _tokens) {
                 if (_tokens[_tokenName].toLowerCase() == _tokenAddr) return _tokenName;
+            }
+            return "";
+        },
+        getAddressByTokenName(_chainId = 42161, _tokenName = '') {
+            _tokenName = _tokenName.toLowerCase();
+            let _tokens = TOKENS[_chainId];
+            for (let _tokenAddr in _tokens) {
+                if (_tokens[_tokenAddr].toLowerCase() == _tokenName) return _tokenAddr;
             }
             return "";
         },

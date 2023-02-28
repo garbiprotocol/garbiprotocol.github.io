@@ -318,8 +318,8 @@
                                     </div>
                                      <div class="info">
                                         <div>USDC</div> 
-                                    <div class="usdc-price">
-                                        $304.87
+                                    <div >
+                                        $<span class="usdc-price">Loading</span>
                                     </div
                                     ></div>
                                 </div>
@@ -331,8 +331,8 @@
                                     </div>
                                      <div class="info">
                                         <div>USDT</div> 
-                                    <div class="usdt-price">
-                                        $304.87
+                                    <div >
+                                        $<span class="usdt-price">Loading</span>
                                     </div
                                     ></div>
                                 </div>
@@ -344,8 +344,8 @@
                                     </div>
                                      <div class="info">
                                         <div>DAI</div> 
-                                    <div class="dai-price">
-                                        $304.87
+                                    <div >
+                                        $<span class="dai-price">Loading</span>
                                     </div
                                     ></div>
                                 </div>
@@ -466,7 +466,44 @@
 
     </body>
     <script>
+            var abiHelper = new $.ABI();
+            var coreHelper = new $.Core();
+            var configHelper = new $.CONFIG();
+            var contractBaseHelper = new $.CONTRACTBASE();
+            var storeHelper = new $.STORE();
+            var chainId = 42161;
+            $(document).ready(function () {
+                abiHelper.init({});
+                coreHelper.init({});
+                configHelper.init({});
+                storeHelper.init({});
+                contractBaseHelper.init({
+                    chainId
+                });
 
+                let _abiGrabiOracle = abiHelper.getGarbiOracleABI();
+                let _contractsObj = configHelper.getContracts(chainId);
+                let _usdtAddr = configHelper.getTokenByTokenName(chainId, 'usdt');
+                let _usdcAddr = configHelper.getTokenByTokenName(chainId, 'usdc');
+                let _daiAddr = configHelper.getTokenByTokenName(chainId, 'dai');
+                let _contractGarbiOracleRead = contractBaseHelper.getReadContract(_contractsObj['garbiOracle']['contract'], _abiGrabiOracle);
+                _contractGarbiOracleRead.methods.getLatestPrice(_usdtAddr).call().then(function (result) {
+                    let USDTDecima = configHelper.getTokenDecimalByTokenName (chainId, 'usdt');
+                    let USDTprice = result / 10**USDTDecima;
+                    $('.usdt-price').text(USDTprice.toFixed(6));
+                });
+                _contractGarbiOracleRead.methods.getLatestPrice(_usdcAddr).call().then(function (result) {
+                    let USDCDecima = configHelper.getTokenDecimalByTokenName (chainId, 'usdc');
+                    let USDCprice = result / 10**USDCDecima;
+                    $('.usdc-price').text(USDCprice.toFixed(6));
+                });
+                _contractGarbiOracleRead.methods.getLatestPrice(_daiAddr).call().then(function (result) {
+                    let DAIDecima = configHelper.getTokenDecimalByTokenName (chainId, 'dai');
+                    let DAIprice = result / 10**DAIDecima;
+                    console.log(DAIprice);
+                    $('.dai-price').text(DAIprice.toFixed(6));
+                });
+            })
     </script>
 
 </html>
