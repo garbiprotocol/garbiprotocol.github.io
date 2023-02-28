@@ -361,7 +361,7 @@
                             </article>
                         </div>
                         <div class="col-lg-4 col-sm-12">
-                            <article class="buy-sell__main garbi__box-1 p-3">
+                            <article class="buy-sell__main garbi__box-1 p-3" id="buy-gec">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="panel__header-row">
                                         <label class="label text-color-2">USDC Wallet Balance</label>
@@ -397,13 +397,80 @@
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/dai_logo.png' /></span>DAI</div>"
                                                         >DAI
                                                     </option>
-                                                    <option
-                                                        value="weth"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/GEC-logo.png' /></span>GEC</div>"
-                                                        >GEC
-                                                    </option>
                                                 </select>
 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <img src="./assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
+
+                                    <div class="swap__form-item">
+                                        <div class="row">
+                                            <div class="col-7">
+                                                <div class="text-end">
+                                                    <span class="color-2 f-roboto f-14 f-400">Pay:$</span>
+                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
+                                                </div>
+                                                <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />    
+                                            </div>
+                                            <div class="col-5" style=" text-align: right;position: relative;">
+                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
+                                                <div class='swap__form-item-select' style="position: absolute;bottom:0;right:13px;">
+                                                    <span>
+                                                        <img src='./assets/images/GEC-logo.png' />
+                                                    </span>
+                                                    GEC
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between ">
+                                    <div class="fees-area">
+                                        <div class="position-card__row__info">
+                                            <p class="body">Fees</p>
+                                        </div>
+                                        <div class="position-card__row__balance">
+                                            <p class="body body--link ">
+                                                <span class="text-color-2" style="">0</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <button type="button" class="header__btn-connect w-100 text-center btn-swap">Connect your wallet</button>
+
+                            </article>
+                            <article class="buy-sell__main garbi__box-1 p-3" id="sell-gec">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="panel__header-row">
+                                        <label class="label text-color-2">USDC Wallet Balance</label>
+                                    </div>
+                                </div>
+
+                                <div class="swap__form">
+                                    <div class="swap__form-item mb-1">
+                                        <div class="row">
+
+                                            <div class="col-7">
+                                                <div class="text-end">
+                                                    <span class="color-2 f-roboto f-14 f-400">Pay:$</span>
+                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
+                                                </div>
+                                                <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />    
+                                            </div>
+                                            <div class="col-5" style=" text-align: right;position: relative;">
+                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
+                                                <div class='swap__form-item-select' style="position: absolute;bottom:0;right:13px;">
+                                                    <span>
+                                                        <img src='./assets/images/GEC-logo.png' />
+                                                    </span>
+                                                    GEC
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -423,11 +490,6 @@
                                             <div class="col-5" style=" text-align: right;">
                                                 <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
                                                 <select class="selectpicker swap__form-select mt-1" name="from">
-                                                    <option
-                                                        value="weth"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/GEC-logo.png' /></span>GEC</div>"
-                                                        >GEC
-                                                    </option>
                                                     <option
                                                         value="usdt"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdt_logo.png' /></span>USDT</div>"
@@ -468,7 +530,6 @@
                                 <button type="button" class="header__btn-connect w-100 text-center btn-swap">Connect your wallet</button>
 
                             </article>
-
                             <div class="position-card__summary garbi__box-1 p-3">
                                 <div class="panel position-card">
                                     <div class="panel__header-row">
