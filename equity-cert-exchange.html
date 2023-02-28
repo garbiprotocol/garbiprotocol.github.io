@@ -707,11 +707,16 @@
                             chainId
                         });
                         $('.button-buy-gec-form').click(function() {
-                            
+                            $(this).removeClass('button-disabled');
+                            $('#sell-gec-form').hide();
+                            $('#buy-gec-form').show();
+                            $('.button-sell-gec-form').addClass('button-disabled');
                         });
                         $('.button-sell-gec-form').click(function() {
+                            $(this).removeClass('buttion-disabled');
                             $('#buy-gec-form').hide();
                             $('#sell-gec-form').show();
+                            $('.button-buy-gec-form').addClass('button-disabled');
                         });
                         //setup before functions
                         var typingTimer;                //timer identifier
