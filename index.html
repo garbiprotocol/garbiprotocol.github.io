@@ -486,21 +486,18 @@
                 let _usdtAddr = configHelper.getTokenByTokenName(chainId, 'usdt');
                 let _usdcAddr = configHelper.getTokenByTokenName(chainId, 'usdc');
                 let _daiAddr = configHelper.getTokenByTokenName(chainId, 'dai');
+                let PriceDecima = 8;
                 let _contractGarbiOracleRead = contractBaseHelper.getReadContract(_contractsObj['garbiOracle']['contract'], _abiGrabiOracle);
                 _contractGarbiOracleRead.methods.getLatestPrice(_usdtAddr).call().then(function (result) {
-                    let USDTDecima = configHelper.getTokenDecimalByTokenName (chainId, 'usdt');
-                    let USDTprice = result / 10**USDTDecima;
+                    let USDTprice = result / 10**PriceDecima;
                     $('.usdt-price').text(USDTprice.toFixed(6));
                 });
                 _contractGarbiOracleRead.methods.getLatestPrice(_usdcAddr).call().then(function (result) {
-                    let USDCDecima = configHelper.getTokenDecimalByTokenName (chainId, 'usdc');
-                    let USDCprice = result / 10**USDCDecima;
+                    let USDCprice = result / 10**PriceDecima;
                     $('.usdc-price').text(USDCprice.toFixed(6));
                 });
                 _contractGarbiOracleRead.methods.getLatestPrice(_daiAddr).call().then(function (result) {
-                    let DAIDecima = configHelper.getTokenDecimalByTokenName (chainId, 'dai');
-                    let DAIprice = result / 10**DAIDecima;
-                    console.log(DAIprice);
+                    let DAIprice = result / 10**PriceDecima;
                     $('.dai-price').text(DAIprice.toFixed(6));
                 });
             })
