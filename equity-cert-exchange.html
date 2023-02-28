@@ -233,11 +233,11 @@
                         </div>
                         <div class="masthead__action-buttons">
                             <div class="masthead__action-buttons">
-                                <button class="button button--large button--borrow">
+                                <button class="button button--large button--buy button-buy-gec-form">
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                     <label class="label">Buy GEC</label>
                                 </button>
-                                <button class="button button--large button--supply" disabled="">
+                                <button class="button button--large button--sell button-sell-gec-form">
                                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                     <label class="label">Sell GEC</label>
                                 </button>
@@ -406,10 +406,10 @@
                                         <div class="row">
                                             <div class="col-7">
                                                 <div class="text-end">
-                                                    <span class="color-2 f-roboto f-14 f-400">Pay:$</span>
+                                                    <span class="color-2 f-roboto f-14 f-400">Receive:$</span>
                                                     <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
                                                 </div>
-                                                <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />    
+                                                <input class="swap__form-input" name="amountGECOut" placeholder="0.0" autofocus value="" />    
                                             </div>
                                             <div class="col-5" style=" text-align: right;position: relative;">
                                                 <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
@@ -443,7 +443,7 @@
                                 <button type="button" class="button-buy-gec header__btn-connect w-100 text-center btn-swap" style="">Buy GEC</button>
 
                             </article>
-                            <article class="buy-sell__main garbi__box-1 p-3" id="sell-gec-form">
+                            <article class="buy-sell__main garbi__box-1 p-3" id="sell-gec-form" style="display: none">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="panel__header-row">
                                         <label class="label text-color-2">Exchange GEC</label>
@@ -706,6 +706,41 @@
                         dataHelper.init({
                             chainId
                         });
+                        $('.button-buy-gec-form').click(function() {
+                            
+                        });
+                        $('.button-sell-gec-form').click(function() {
+                            $('#buy-gec-form').hide();
+                            $('#sell-gec-form').show();
+                        });
+                        //setup before functions
+                        var typingTimer;                //timer identifier
+                        var doneTypingInterval = 1000;  //time in ms, 3 second for example
+                        var $input = $('input[name=amountPay]');
+
+                        //on keyup, start the countdown
+                        $input.on('keyup', function () {
+                            clearTimeout(typingTimer);
+                            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                        });
+
+                        //on keydown, clear the countdown 
+                        $input.on('keydown', function () {
+                            clearTimeout(typingTimer);
+                        });
+
+                        //user is "finished typing," do something
+                        function doneTyping() {
+                            let amountPay = $(`input[name=amountPay]`).val();
+                            if (amountPay > 0) {
+                                let userSelectedAsset = $('#buy-gec-form .selectpicker').val();
+                                let repoInAddress = _contractsObj['garbiRepository'][userSelectedAsset];
+                                let contractGarbiRepositoryManagerRead = contractBaseHelper.getReadContract(_contractsObj['garbiRepositoryManager']["contract"], garbiRepositoryManagerABI);
+                                contractGarbiRepositoryManagerRead.methods.getDataToBuyGarbiEC(repoInAddress, coreHelper.toBN(amountPay, 18)).call().then(result => {
+                                    $(`input[name=amountGECOut]`).val((result / 10 ** 18).toFixed(6));
+                                });
+                            }
+                        }
                         let erc20TokenABI = abiHelper.getTokenABI();
                         let garbiRepositoryManagerABI = abiHelper.getGarbiRepositoryManagerABI();
                         let _contractsObj = configHelper.getContracts(chainId);
