@@ -25,6 +25,9 @@ $.CONFIG.prototype = (function() {
             launchData: {
                 contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
             },
+            garbiOracle: {
+                contract: "0x686e28c4eE8C4c03770404506E0027BF5ed31AB6"
+            },
             garbiVestGRB: {
                 contract: "0xfc7d1892137800a3f30d00f9a33624338fd47158"
             },
@@ -179,7 +182,7 @@ $.CONFIG.prototype = (function() {
         421613: {
             info: {
                 getAllowTransfer: '0x23E8f78ab3813Cf2297b3F49BaF93Ef9fDD5cD8B',
-                balanceInfo: '0x44e80DDF5F96fe5efbDFCDfb6e7C16F154467AEE',
+                balanceInfo: '0x18B9Bc83623c53b92e185A33b482F5206a1eD27b',
                 priceInfo: ''
             },
             protocolLiquidityLaunch: {
@@ -217,6 +220,17 @@ $.CONFIG.prototype = (function() {
             },
             garbiStakeVeGRB1Year: {
                 contract: "0xbf802cc94215a096de917dcb533d37e81ac9c21e"
+            },
+            gecExchangeInfo: {
+                contract: "0x7937047b7e2069981caf18563dCe5b3A047ab501"
+            },
+            garbiRepositoryManager: {
+                contract: "0x8B912C735e1dAe7C9b85F3179384872033bdAc3E"
+            },
+            garbiRepository: {
+                'dai': '0x508C16e20C4d3730570C7b9B73e1c88538dA8a26',
+                'usdc': '0xdf52a59987dfca14a09287e101e01654f143cde1',
+                'usdt': '0x02c90b0a584ead487ee5bee35f74cd0132789dd3'
             },
             garbiSwap: {
                 pool: {
@@ -316,10 +330,11 @@ $.CONFIG.prototype = (function() {
         421613: {//arbitrum testnet
             'grb': '0xd1eb8a5798e04703ec5324c99405f581bd6318b8',
             'vegrb': '0xcf7d3a1ff5188a0d398cf8181b8bdc051204f8da',
-            'weth': '0xe0eca46ea3308e8184e3b462b8a722f93a8f6f27',
-            'usdc': '0x29680bd5f3f324001add9229d6b44615353f554c',
-            'usdt': '0x2e4e7ebff934b6999bdc2983f17f6bd4b6a84206',
-            'dai': '0x9ce3c139316a560a57c861f558284cf31ebc8ace'
+            'weth': '0xE0EcA46EA3308E8184e3b462b8A722F93A8F6F27',
+            'usdc': '0x29680BD5F3f324001Add9229d6B44615353f554c',
+            'usdt': '0x2E4e7eBfF934B6999BDc2983F17F6bd4b6A84206',
+            'dai': '0x9Ce3C139316A560A57c861F558284CF31EBC8acE',
+            'gec': '0x965782738c1acca851104444bda0a03ee68355dc'
         }
     }
     var TOKENS_DECIMAL = {
@@ -340,7 +355,8 @@ $.CONFIG.prototype = (function() {
             'weth': 18,
             'usdc': 6,
             'usdt': 6,
-            'dai': 18
+            'dai': 18,
+            'gec': 18
         }
     };
     var PRICES = {
@@ -407,6 +423,14 @@ $.CONFIG.prototype = (function() {
             let _tokens = TOKENS[_chainId];
             for (let _tokenName in _tokens) {
                 if (_tokens[_tokenName].toLowerCase() == _tokenAddr) return _tokenName;
+            }
+            return "";
+        },
+        getAddressByTokenName(_chainId = 42161, _tokenName = '') {
+            _tokenName = _tokenName.toLowerCase();
+            let _tokens = TOKENS[_chainId];
+            for (let _tokenAddr in _tokens) {
+                if (_tokens[_tokenAddr].toLowerCase() == _tokenName) return _tokenAddr;
             }
             return "";
         },

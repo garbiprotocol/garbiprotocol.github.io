@@ -642,7 +642,7 @@ h6 {
 .header__btn-connect {
     display: inline-block;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 20px;
     color: #FFFFFF;
     background: rgb(45, 66, 252);
@@ -796,6 +796,16 @@ h6 {
     font-size: 24px;
     line-height: 30px;
     margin: 0 7%;
+}
+.home__banner .divider-center {
+    margin: 0.25rem 0;
+    width: 30px;
+    height: 40px;
+    border-left: solid 2px #fff;
+    margin-left: 30px;
+}
+.home__banner .img-logo img {
+    width: 150px;
 }
 .subtitle strong {
     font-weight: bold;
@@ -952,7 +962,9 @@ h6 {
 .page__swap .header__btn-connect {
     padding: 14px 10px;
 }
-
+.page__swap .button-approve {
+    margin-bottom: 1rem;
+}
 .swap__form {
     position: relative;
 }
@@ -1331,6 +1343,18 @@ input:checked+.slider:before {
     /* .ctmenu-sub {
         margin-left: -6%;
     } */
+    .masthead__action-buttons {
+        display: block!important;
+        width: 100%;
+        margin-top: 1.25rem;
+    }
+    .masthead__action-buttons button, .button {
+        width: 100%;
+    }
+    .masthead__action-buttons button+button, button+.button, .button+button, .button+.button {
+        margin-left: 0!important;
+        margin-top: 1rem;
+    }
 }
 
 @media screen and (max-width: 520px) {
@@ -1383,18 +1407,8 @@ input:checked+.slider:before {
     /* .ctmenu-sub {
         margin-left: -15%;
     } */
+
 }
-/*@media (max-width: 991px) {
-    .home__assets-table {
-        display: none;
-    }
-    .token-grid {
-        display: grid;
-        grid-template-columns: repeat(2,1fr);
-        grid-gap: 1.5rem;
-        margin-top: 0.8rem;
-    }
-}*/
 .addlp__form-item {
     padding: 20px;
     -webkit-border-radius: 12px;
@@ -1636,18 +1650,27 @@ input::-webkit-inner-spin-button {
     transition: background-color .25s ease,height .25s ease;
     min-width: 6.45rem;
 }
+.button-disabled {
+    background-color: #10171F!important;
+    border: 0.5px solid #10171F!important;
+    color: #516070!important;
+}
+
 .masthead__action-buttons button:disabled i, .button:disabled i, button i,.button i {
     font-size: 13px;
     margin-right: 0.5rem;
 }
 .masthead__action-buttons button:disabled .label, .button:disabled .label,.button .label,button .label {
-    cursor: auto;
+    cursor: pointer;
     pointer-events: inherit;
     font-size: .8125rem;
     font-weight: bold;
 }
 .masthead__action-buttons button+button, button+.button, .button+button, .button+.button {
     margin-left: 1rem;
+}
+.home__assets-table {
+    overflow-x: auto;
 }
 .home__assets-table .token-table {
     width: 100%;

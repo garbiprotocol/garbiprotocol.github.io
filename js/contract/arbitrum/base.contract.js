@@ -21,6 +21,7 @@ $.CONTRACTBASE.prototype = (function() {
                         return new Web3(bscRpcEndPoint);
                 },
                 getReadContract(_addr, _abi, _chainId = null) {
+                        _chainId = _chainId ? _chainId : setting.chainId;
                         if (!_readContracts[_addr]) {
                                 let _web3 = this.getWeb3ToReadData(_chainId);
                                 _readContracts[_addr] = new _web3.eth.Contract(_abi, _addr);
