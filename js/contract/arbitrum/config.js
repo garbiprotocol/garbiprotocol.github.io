@@ -221,6 +221,9 @@ $.CONFIG.prototype = (function() {
             garbiStakeVeGRB1Year: {
                 contract: "0xbf802cc94215a096de917dcb533d37e81ac9c21e"
             },
+            gecExchangeInfo: {
+                contract: "0x7937047b7e2069981caf18563dCe5b3A047ab501"
+            },
             garbiRepositoryManager: {
                 contract: "0x8B912C735e1dAe7C9b85F3179384872033bdAc3E"
             },
