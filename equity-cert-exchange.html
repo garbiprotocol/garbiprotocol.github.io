@@ -599,7 +599,7 @@
                                         </div>
                                         <div class="position-card__row__balance">
                                             <p class="body body--link ">
-                                                $<span class="text-color-2 gec-total-supply" style="">Loading</span>
+                                                <span class="text-color-2 gec-total-supply-token" style="">Loading</span>GEC ($<span class=" text-color-2 gec-total-supply-price">loading</span>)
                                         </div>
                                     </div>
                                 </div>
@@ -788,28 +788,6 @@
                         let _daiRepository = _contractsObj['garbiRepository']['dai'];
                         let _usdcRepository = _contractsObj['garbiRepository']['usdc'];
                         let _usdtRepository = _contractsObj['garbiRepository']['usdt'];
-                        _contractGecExchangeInfoRead.methods.getData(_contractsObj['garbiRepositoryManager']['contract'],_gecAddr,_user,_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
-                            console.log(result);
-                            let GECprice = result.gecPrice / 10**18;
-                            $('.gec-price').text(GECprice.toFixed(6));
-                            let GECtotalsupply = result.gecTotalSupply / 10**18;
-                            $('.gec-total-supply').text(GECtotalsupply.toFixed(6));
-                            let RepoDaiprice = result.repoDAIPrice / 10**18;
-                            $('.repo-dai-price').text(RepoDaiprice.toFixed(6));
-                            let RepoDaiToken = result.repoDAITotalToken / 10**18;
-                            $('.repo-dai-token').text(RepoDaiToken.toFixed(6));
-                            let RepoUSDTprice = result.repoUSDTPrice / 10**18;
-                            $('.repo-usdt-price').text(RepoUSDTprice.toFixed(6));
-                            let RepoUSDTToken = result.repoUSDTTotalToken / 10**18;
-                            $('.repo-usdt-token').text(RepoUSDTToken.toFixed(6));
-                            let RepoUSDCprice = result.repoUSDCPrice / 10**18;
-                            $('.repo-usdc-price').text(RepoUSDCprice.toFixed(6));
-                            let RepoUSDCToken = result.repoUSDCTotalToken / 10**18;
-                            $('.repo-usdc-token').text(RepoUSDCToken.toFixed(6));
-                            let UserWalletGEC = result.gecInUserWallet / 10**18;
-                            $('.user-wallet-gec').text(UserWalletGEC.toFixed(6));
-
-                        });
                         $('#buy-gec-form .selectpicker').change(function () {
                             $('#buy-gec-form .user-from-bal').text("Loading");
                             $('.button-approve').hide();
@@ -826,6 +804,32 @@
                             let userSelectedAssetOut = $('#sell-gec-form .selectpicker').val();
                             $('#sell-gec-form .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, 'gec').toLowerCase()].toFixed(6));
                             $('#sell-gec-form .user-to-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedAssetOut).toLowerCase()].toFixed(6));
+                            _contractGecExchangeInfoRead.methods.getData(_contractsObj['garbiRepositoryManager']['contract'],_gecAddr,_user,_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
+                            let GECprice = result.gecPrice / 10**18;
+                            $('.gec-price').text(GECprice.toFixed(6));
+                            let GECtotalsupplytoken = result.gecTotalSupply / 10**18;
+                            $('.gec-total-supply-token').text(GECtotalsupplytoken.toFixed(6));
+                            let GECtotalsupplyprice = GECtotalsupplytoken * GECprice;
+                            $('.gec-total-supply-price').text(GECtotalsupplyprice.toFixed(6));
+                            let RepoDaiprice = result.repoDAIPrice / 10**18;
+                            $('.repo-dai-price').text(RepoDaiprice.toFixed(6));
+                            let RepoDaiToken = result.repoDAITotalToken / 10**18;
+                            let RepoDaiTotal = RepoDaiToken * RepoDaiprice;
+                            $('.repo-dai-token').text(RepoDaiTotal.toFixed(6));
+                            let RepoUSDTprice = result.repoUSDTPrice / 10**18;
+                            $('.repo-usdt-price').text(RepoUSDTprice.toFixed(6));
+                            let RepoUSDTToken = result.repoUSDTTotalToken / 10**18;
+                            let RepoUSDTTotal = RepoUSDTToken * RepoUSDTprice;
+                            $('.repo-usdt-token').text(RepoUSDTTotal.toFixed(6));
+                            let RepoUSDCprice = result.repoUSDCPrice / 10**18;
+                            $('.repo-usdc-price').text(RepoUSDCprice.toFixed(6));
+                            let RepoUSDCToken = result.repoUSDCTotalToken / 10**18;
+                            let RepoUSDTCotal = RepoUSDCToken * RepoUSDCprice;
+                            $('.repo-usdc-token').text(RepoUSDTCotal.toFixed(6));
+                            let UserWalletGEC = result.gecInUserWallet / 10**18;
+                            $('.user-wallet-gec').text(UserWalletGEC.toFixed(6));
+
+                        });
                         }, 1000);
                         $('.button-buy-gec').click(function (e) {
                             let userWallet = coreHelper.getUserAccount();
