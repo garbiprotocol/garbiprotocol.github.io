@@ -566,7 +566,7 @@
                                         </div>
                                         <div class="position-card__row__balance">
                                             <p class="body body--link ">
-                                                <span class="text-color-2 user-wallet-gec" style="">Loading</span>
+                                                <span class="text-color-2 user-wallet-gec" style="">Loading</span> GEC ($0.00)
                                             </p>
                                         </div>
                                     </div>
@@ -589,7 +589,7 @@
                                         </div>
                                         <div class="position-card__row__balance">
                                             <p class="body body--link ">
-                                                <span class="text-color-2" style="">Loading</span>%
+                                                <span class="text-color-2" style="">20.5</span>%
                                             </p>
                                         </div>
                                     </div>
@@ -710,6 +710,12 @@
                         });
                         dataHelper.init({
                             chainId
+                        });
+                        $('#sell-gec-form .btn-reverse-pair').click(function() {
+                            $('.button-buy-gec-form').trigger("click");
+                        });
+                        $('#buy-gec-form .btn-reverse-pair').click(function() {
+                            $('.button-sell-gec-form').trigger("click");
                         });
                         $('.button-buy-gec-form').click(function() {
                             $(this).removeClass('button-disabled');
