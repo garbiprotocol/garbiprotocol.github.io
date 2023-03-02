@@ -90,18 +90,68 @@
       "stateMutability": "view",
       "type": "function",
       "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "gecInputAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract IGarbiRepositoryManager",
+          "name": "repositoryManager",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IGarbiRepository",
+          "name": "usdtRepo",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IGarbiRepository",
+          "name": "usdcRepo",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IGarbiRepository",
+          "name": "daiRepo",
+          "type": "address"
+        }
+      ],
+      "name": "getSellGECFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "repoUSDTSellGECFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "repoUSDCSellGECFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "repoDAISellGECFee",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"contract IGarbiRepositoryManager\",\"name\":\"repositoryManager\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"GECTOKEN\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"contract IGarbiRepository\",\"name\":\"usdtRepo\",\"type\":\"address\"},{\"internalType\":\"contract IGarbiRepository\",\"name\":\"usdcRepo\",\"type\":\"address\"},{\"internalType\":\"contract IGarbiRepository\",\"name\":\"daiRepo\",\"type\":\"address\"}],\"name\":\"getData\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"gecPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"gecTotalSupply\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"gecInUserWallet\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoUSDTPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoDAIPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoUSDCPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoUSDTTotalToken\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoUSDCTotalToken\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoDAITotalToken\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/GarbiSwap2/GECExchangeInfo.sol\":\"GECExchangeInfo\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34\",\"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr\"]},\"@openzeppelin/contracts/utils/math/SafeMath.sol\":{\"keccak256\":\"0x0f633a0223d9a1dcccfcf38a64c9de0874dfcbfac0c6941ccf074d63a2ce0e1e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://864a40efcffdf408044c332a5aa38ec5618ed7b4eecb8f65faf45671bd6cdc65\",\"dweb:/ipfs/QmQJquTMtc6fgm5JQzGdsGpA2fqBe3MHWEdt2qzaLySMdN\"]},\"project:/contracts/GarbiSwap2/GECExchangeInfo.sol\":{\"keccak256\":\"0x5c7bda15da094d7a1a6bd32a288b89c7705cda3b892172faa00670cb20ddc788\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5b856d10d7475584a1ecdd4760300e9bd05f150f98abcfc177a4808c8e1429c9\",\"dweb:/ipfs/QmS4d1MX5cXnn5qJfJ9SfV9WC1JnwuL82YhNbxt1GR1dZA\"]},\"project:/contracts/interfaces/IGarbiRepository.sol\":{\"keccak256\":\"0xe08f96200d42ac34df087fba5aadbf3be5d09a44ada28c5d8f20a065f274b824\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a139dfdda191c987541bf7dfd3f9793f553cb2ed0f92172bb8dc386808a83bd5\",\"dweb:/ipfs/QmagYrDfiywyy4cKsA4QZ6Zq7v184azVXEM3VN36VtsLCh\"]},\"project:/contracts/interfaces/IGarbiRepositoryManager.sol\":{\"keccak256\":\"0x33e73706e76c568306fce93e18d20c9c0221e0adac25164265b4184508bf2e32\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e715e9862c4e91be26d0e1142813c065e2a9ef7c4ba53489dfcbadfead32af13\",\"dweb:/ipfs/QmRPfEWdxYhvxr7zPSeKQqG17fjXXcZBCVfR5tu7aRJTNM\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610522806100206000396000f3fe608060405234801561001057600080fd5b506004361061002b5760003560e01c8063129113d714610030575b600080fd5b61004361003e366004610451565b61008b565b60408051998a5260208a0198909852968801959095526060870193909352608086019190915260a085015260c084015260e08301526101008201526101200160405180910390f35b60008060008060008060008060008e6001600160a01b031663d3b76e5c6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156100d7573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906100fb91906104d3565b98508d6001600160a01b03166318160ddd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561013b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061015f91906104d3565b6040516370a0823160e01b81526001600160a01b038f81166004830152919950908f16906370a0823190602401602060405180830381865afa1580156101a9573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906101cd91906104d3565b96508b6001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561020d573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061023191906104d3565b95508a6001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610271573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061029591906104d3565b9350896001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156102d5573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102f991906104d3565b94508b6001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa158015610339573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061035d91906104d3565b92508a6001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa15801561039d573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103c191906104d3565b9150896001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa158015610401573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061042591906104d3565b9050969d50969d949b509650965096509650565b6001600160a01b038116811461044e57600080fd5b50565b60008060008060008060c0878903121561046a57600080fd5b863561047581610439565b9550602087013561048581610439565b9450604087013561049581610439565b935060608701356104a581610439565b925060808701356104b581610439565b915060a08701356104c581610439565b809150509295509295509295565b6000602082840312156104e557600080fd5b505191905056fea264697066735822122006c0000dd87e68053b9c3805eb8b17bb4f034ca24bd605f63daa197a7e9a631964736f6c63430008110033",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061002b5760003560e01c8063129113d714610030575b600080fd5b61004361003e366004610451565b61008b565b60408051998a5260208a0198909852968801959095526060870193909352608086019190915260a085015260c084015260e08301526101008201526101200160405180910390f35b60008060008060008060008060008e6001600160a01b031663d3b76e5c6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156100d7573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906100fb91906104d3565b98508d6001600160a01b03166318160ddd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561013b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061015f91906104d3565b6040516370a0823160e01b81526001600160a01b038f81166004830152919950908f16906370a0823190602401602060405180830381865afa1580156101a9573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906101cd91906104d3565b96508b6001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561020d573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061023191906104d3565b95508a6001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610271573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061029591906104d3565b9350896001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156102d5573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102f991906104d3565b94508b6001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa158015610339573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061035d91906104d3565b92508a6001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa15801561039d573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103c191906104d3565b9150896001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa158015610401573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061042591906104d3565b9050969d50969d949b509650965096509650565b6001600160a01b038116811461044e57600080fd5b50565b60008060008060008060c0878903121561046a57600080fd5b863561047581610439565b9550602087013561048581610439565b9450604087013561049581610439565b935060608701356104a581610439565b925060808701356104b581610439565b915060a08701356104c581610439565b809150509295509295509295565b6000602082840312156104e557600080fd5b505191905056fea264697066735822122006c0000dd87e68053b9c3805eb8b17bb4f034ca24bd605f63daa197a7e9a631964736f6c63430008110033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"contract IGarbiRepositoryManager\",\"name\":\"repositoryManager\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"GECTOKEN\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"contract IGarbiRepository\",\"name\":\"usdtRepo\",\"type\":\"address\"},{\"internalType\":\"contract IGarbiRepository\",\"name\":\"usdcRepo\",\"type\":\"address\"},{\"internalType\":\"contract IGarbiRepository\",\"name\":\"daiRepo\",\"type\":\"address\"}],\"name\":\"getData\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"gecPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"gecTotalSupply\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"gecInUserWallet\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoUSDTPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoDAIPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoUSDCPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoUSDTTotalToken\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoUSDCTotalToken\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoDAITotalToken\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"gecInputAmount\",\"type\":\"uint256\"},{\"internalType\":\"contract IGarbiRepositoryManager\",\"name\":\"repositoryManager\",\"type\":\"address\"},{\"internalType\":\"contract IGarbiRepository\",\"name\":\"usdtRepo\",\"type\":\"address\"},{\"internalType\":\"contract IGarbiRepository\",\"name\":\"usdcRepo\",\"type\":\"address\"},{\"internalType\":\"contract IGarbiRepository\",\"name\":\"daiRepo\",\"type\":\"address\"}],\"name\":\"getSellGECFees\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"repoUSDTSellGECFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoUSDCSellGECFee\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"repoDAISellGECFee\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/GarbiSwap2/GECExchangeInfo.sol\":\"GECExchangeInfo\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34\",\"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr\"]},\"@openzeppelin/contracts/utils/math/SafeMath.sol\":{\"keccak256\":\"0x0f633a0223d9a1dcccfcf38a64c9de0874dfcbfac0c6941ccf074d63a2ce0e1e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://864a40efcffdf408044c332a5aa38ec5618ed7b4eecb8f65faf45671bd6cdc65\",\"dweb:/ipfs/QmQJquTMtc6fgm5JQzGdsGpA2fqBe3MHWEdt2qzaLySMdN\"]},\"project:/contracts/GarbiSwap2/GECExchangeInfo.sol\":{\"keccak256\":\"0x33eabfc69c4153766649e03729da9424000a8f748e60598de85011a7581b561f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1cac1bed4f8ecb0291bfc8fa8dfefe54d80c4d5233f32524b321d1692c8a2189\",\"dweb:/ipfs/QmYR5jMcfuF3qVuLibmC2yMiy9YAuJUwzkwkwKL53GXYXL\"]},\"project:/contracts/interfaces/IGarbiRepository.sol\":{\"keccak256\":\"0xe08f96200d42ac34df087fba5aadbf3be5d09a44ada28c5d8f20a065f274b824\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a139dfdda191c987541bf7dfd3f9793f553cb2ed0f92172bb8dc386808a83bd5\",\"dweb:/ipfs/QmagYrDfiywyy4cKsA4QZ6Zq7v184azVXEM3VN36VtsLCh\"]},\"project:/contracts/interfaces/IGarbiRepositoryManager.sol\":{\"keccak256\":\"0x151ab1a6ecfbe45057e6bdfbd717444c27528437f63cb493d70130a0e8c0a53d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://4a250ccc4ccd52f8753e7cbd4ad496d1e059767e02c3f99d53c0cec52fa93a96\",\"dweb:/ipfs/QmNeRz7iwrGSWaR9qQvJUKkYYgNYCeynT7m5FS9Yu5F9BR\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061089b806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c8063129113d71461003b5780632059da4514610097575b600080fd5b61004e610049366004610762565b6100c5565b60408051998a5260208a0198909852968801959095526060870193909352608086019190915260a085015260c084015260e0830152610100820152610120015b60405180910390f35b6100aa6100a53660046107e4565b610473565b6040805193845260208401929092529082015260600161008e565b60008060008060008060008060008e6001600160a01b031663d3b76e5c6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610111573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610135919061084c565b98508d6001600160a01b03166318160ddd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610175573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610199919061084c565b6040516370a0823160e01b81526001600160a01b038f81166004830152919950908f16906370a0823190602401602060405180830381865afa1580156101e3573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610207919061084c565b96508b6001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610247573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061026b919061084c565b95508a6001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156102ab573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102cf919061084c565b9350896001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561030f573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610333919061084c565b94508b6001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa158015610373573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610397919061084c565b92508a6001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa1580156103d7573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103fb919061084c565b9150896001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa15801561043b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061045f919061084c565b9050969d50969d949b509650965096509650565b60405163a5f270b760e01b81526001600160a01b0384811660048301526024820187905260009182918291829189169063a5f270b790604401602060405180830381865afa1580156104c9573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104ed919061084c565b60405163a84f57f560e01b81526001600160a01b038981166004830152602482018390529192509089169063a84f57f590604401602060405180830381865afa15801561053e573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610562919061084c565b60405163a5f270b760e01b81526001600160a01b038881166004830152602482018c90529195506000918a169063a5f270b790604401602060405180830381865afa1580156105b5573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906105d9919061084c565b60405163a84f57f560e01b81526001600160a01b03898116600483015260248201839052919250908a169063a84f57f590604401602060405180830381865afa15801561062a573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061064e919061084c565b60405163a5f270b760e01b81526001600160a01b038881166004830152602482018d90529195506000918b169063a5f270b790604401602060405180830381865afa1580156106a1573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106c5919061084c565b60405163a84f57f560e01b81526001600160a01b03898116600483015260248201839052919250908b169063a84f57f590604401602060405180830381865afa158015610716573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061073a919061084c565b9350505050955095509592505050565b6001600160a01b038116811461075f57600080fd5b50565b60008060008060008060c0878903121561077b57600080fd5b86356107868161074a565b955060208701356107968161074a565b945060408701356107a68161074a565b935060608701356107b68161074a565b925060808701356107c68161074a565b915060a08701356107d68161074a565b809150509295509295509295565b600080600080600060a086880312156107fc57600080fd5b85359450602086013561080e8161074a565b9350604086013561081e8161074a565b9250606086013561082e8161074a565b9150608086013561083e8161074a565b809150509295509295909350565b60006020828403121561085e57600080fd5b505191905056fea264697066735822122017b8932a54282a4c3884b32560eca7c62d27d17fa3d5520f4346a706d44b5c3964736f6c63430008110033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c8063129113d71461003b5780632059da4514610097575b600080fd5b61004e610049366004610762565b6100c5565b60408051998a5260208a0198909852968801959095526060870193909352608086019190915260a085015260c084015260e0830152610100820152610120015b60405180910390f35b6100aa6100a53660046107e4565b610473565b6040805193845260208401929092529082015260600161008e565b60008060008060008060008060008e6001600160a01b031663d3b76e5c6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610111573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610135919061084c565b98508d6001600160a01b03166318160ddd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610175573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610199919061084c565b6040516370a0823160e01b81526001600160a01b038f81166004830152919950908f16906370a0823190602401602060405180830381865afa1580156101e3573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610207919061084c565b96508b6001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa158015610247573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061026b919061084c565b95508a6001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa1580156102ab573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102cf919061084c565b9350896001600160a01b031663b49f4afd6040518163ffffffff1660e01b8152600401602060405180830381865afa15801561030f573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610333919061084c565b94508b6001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa158015610373573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610397919061084c565b92508a6001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa1580156103d7573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103fb919061084c565b9150896001600160a01b03166329b315d76040518163ffffffff1660e01b8152600401602060405180830381865afa15801561043b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061045f919061084c565b9050969d50969d949b509650965096509650565b60405163a5f270b760e01b81526001600160a01b0384811660048301526024820187905260009182918291829189169063a5f270b790604401602060405180830381865afa1580156104c9573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906104ed919061084c565b60405163a84f57f560e01b81526001600160a01b038981166004830152602482018390529192509089169063a84f57f590604401602060405180830381865afa15801561053e573d6000803e3d6000fd5b505050506040513d601f19601f82011682018060405250810190610562919061084c565b60405163a5f270b760e01b81526001600160a01b038881166004830152602482018c90529195506000918a169063a5f270b790604401602060405180830381865afa1580156105b5573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906105d9919061084c565b60405163a84f57f560e01b81526001600160a01b03898116600483015260248201839052919250908a169063a84f57f590604401602060405180830381865afa15801561062a573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061064e919061084c565b60405163a5f270b760e01b81526001600160a01b038881166004830152602482018d90529195506000918b169063a5f270b790604401602060405180830381865afa1580156106a1573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906106c5919061084c565b60405163a84f57f560e01b81526001600160a01b03898116600483015260248201839052919250908b169063a84f57f590604401602060405180830381865afa158015610716573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061073a919061084c565b9350505050955095509592505050565b6001600160a01b038116811461075f57600080fd5b50565b60008060008060008060c0878903121561077b57600080fd5b86356107868161074a565b955060208701356107968161074a565b945060408701356107a68161074a565b935060608701356107b68161074a565b925060808701356107c68161074a565b915060a08701356107d68161074a565b809150509295509295509295565b600080600080600060a086880312156107fc57600080fd5b85359450602086013561080e8161074a565b9350604086013561081e8161074a565b9250606086013561082e8161074a565b9150608086013561083e8161074a565b809150509295509295909350565b60006020828403121561085e57600080fd5b505191905056fea264697066735822122017b8932a54282a4c3884b32560eca7c62d27d17fa3d5520f4346a706d44b5c3964736f6c63430008110033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [
     {
       "ast": {
         "nodeType": "YulBlock",
-        "src": "0:2560:58",
+        "src": "0:4119:58",
         "statements": [
           {
             "nodeType": "YulBlock",
@@ -811,7 +861,7 @@
                 }
               ]
             },
-            "name": "abi_decode_tuple_t_contract$_IGarbiRepositoryManager_$21132t_contract$_IERC20_$985t_addresst_contract$_IGarbiRepository_$21117t_contract$_IGarbiRepository_$21117t_contract$_IGarbiRepository_$21117",
+            "name": "abi_decode_tuple_t_contract$_IGarbiRepositoryManager_$21240t_contract$_IERC20_$985t_addresst_contract$_IGarbiRepository_$21207t_contract$_IGarbiRepository_$21207t_contract$_IGarbiRepository_$21207",
             "nodeType": "YulFunctionDefinition",
             "parameters": [
               {
@@ -1354,12 +1404,12 @@
           {
             "body": {
               "nodeType": "YulBlock",
-              "src": "2247:103:58",
+              "src": "2415:702:58",
               "statements": [
                 {
                   "body": {
                     "nodeType": "YulBlock",
-                    "src": "2293:16:58",
+                    "src": "2462:16:58",
                     "statements": [
                       {
                         "expression": {
@@ -1367,14 +1417,14 @@
                             {
                               "kind": "number",
                               "nodeType": "YulLiteral",
-                              "src": "2302:1:58",
+                              "src": "2471:1:58",
                               "type": "",
                               "value": "0"
                             },
                             {
                               "kind": "number",
                               "nodeType": "YulLiteral",
-                              "src": "2305:1:58",
+                              "src": "2474:1:58",
                               "type": "",
                               "value": "0"
                             }
@@ -1382,13 +1432,13 @@
                           "functionName": {
                             "name": "revert",
                             "nodeType": "YulIdentifier",
-                            "src": "2295:6:58"
+                            "src": "2464:6:58"
                           },
                           "nodeType": "YulFunctionCall",
-                          "src": "2295:12:58"
+                          "src": "2464:12:58"
                         },
                         "nodeType": "YulExpressionStatement",
-                        "src": "2295:12:58"
+                        "src": "2464:12:58"
                       }
                     ]
                   },
@@ -1399,26 +1449,706 @@
                           {
                             "name": "dataEnd",
                             "nodeType": "YulIdentifier",
-                            "src": "2268:7:58"
+                            "src": "2436:7:58"
                           },
                           {
                             "name": "headStart",
                             "nodeType": "YulIdentifier",
-                            "src": "2277:9:58"
+                            "src": "2445:9:58"
                           }
                         ],
                         "functionName": {
                           "name": "sub",
                           "nodeType": "YulIdentifier",
-                          "src": "2264:3:58"
+                          "src": "2432:3:58"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2264:23:58"
+                        "src": "2432:23:58"
                       },
                       {
                         "kind": "number",
                         "nodeType": "YulLiteral",
-                        "src": "2289:2:58",
+                        "src": "2457:3:58",
+                        "type": "",
+                        "value": "160"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "slt",
+                      "nodeType": "YulIdentifier",
+                      "src": "2428:3:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "2428:33:58"
+                  },
+                  "nodeType": "YulIf",
+                  "src": "2425:53:58"
+                },
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "2487:33:58",
+                  "value": {
+                    "arguments": [
+                      {
+                        "name": "headStart",
+                        "nodeType": "YulIdentifier",
+                        "src": "2510:9:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "calldataload",
+                      "nodeType": "YulIdentifier",
+                      "src": "2497:12:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "2497:23:58"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "value0",
+                      "nodeType": "YulIdentifier",
+                      "src": "2487:6:58"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "YulVariableDeclaration",
+                  "src": "2529:45:58",
+                  "value": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "name": "headStart",
+                            "nodeType": "YulIdentifier",
+                            "src": "2559:9:58"
+                          },
+                          {
+                            "kind": "number",
+                            "nodeType": "YulLiteral",
+                            "src": "2570:2:58",
+                            "type": "",
+                            "value": "32"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "2555:3:58"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "2555:18:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "calldataload",
+                      "nodeType": "YulIdentifier",
+                      "src": "2542:12:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "2542:32:58"
+                  },
+                  "variables": [
+                    {
+                      "name": "value",
+                      "nodeType": "YulTypedName",
+                      "src": "2533:5:58",
+                      "type": ""
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "name": "value",
+                        "nodeType": "YulIdentifier",
+                        "src": "2633:5:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "validator_revert_contract_IGarbiRepositoryManager",
+                      "nodeType": "YulIdentifier",
+                      "src": "2583:49:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "2583:56:58"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "2583:56:58"
+                },
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "2648:15:58",
+                  "value": {
+                    "name": "value",
+                    "nodeType": "YulIdentifier",
+                    "src": "2658:5:58"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "value1",
+                      "nodeType": "YulIdentifier",
+                      "src": "2648:6:58"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "YulVariableDeclaration",
+                  "src": "2672:47:58",
+                  "value": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "name": "headStart",
+                            "nodeType": "YulIdentifier",
+                            "src": "2704:9:58"
+                          },
+                          {
+                            "kind": "number",
+                            "nodeType": "YulLiteral",
+                            "src": "2715:2:58",
+                            "type": "",
+                            "value": "64"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "2700:3:58"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "2700:18:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "calldataload",
+                      "nodeType": "YulIdentifier",
+                      "src": "2687:12:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "2687:32:58"
+                  },
+                  "variables": [
+                    {
+                      "name": "value_1",
+                      "nodeType": "YulTypedName",
+                      "src": "2676:7:58",
+                      "type": ""
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "name": "value_1",
+                        "nodeType": "YulIdentifier",
+                        "src": "2778:7:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "validator_revert_contract_IGarbiRepositoryManager",
+                      "nodeType": "YulIdentifier",
+                      "src": "2728:49:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "2728:58:58"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "2728:58:58"
+                },
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "2795:17:58",
+                  "value": {
+                    "name": "value_1",
+                    "nodeType": "YulIdentifier",
+                    "src": "2805:7:58"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "value2",
+                      "nodeType": "YulIdentifier",
+                      "src": "2795:6:58"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "YulVariableDeclaration",
+                  "src": "2821:47:58",
+                  "value": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "name": "headStart",
+                            "nodeType": "YulIdentifier",
+                            "src": "2853:9:58"
+                          },
+                          {
+                            "kind": "number",
+                            "nodeType": "YulLiteral",
+                            "src": "2864:2:58",
+                            "type": "",
+                            "value": "96"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "2849:3:58"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "2849:18:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "calldataload",
+                      "nodeType": "YulIdentifier",
+                      "src": "2836:12:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "2836:32:58"
+                  },
+                  "variables": [
+                    {
+                      "name": "value_2",
+                      "nodeType": "YulTypedName",
+                      "src": "2825:7:58",
+                      "type": ""
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "name": "value_2",
+                        "nodeType": "YulIdentifier",
+                        "src": "2927:7:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "validator_revert_contract_IGarbiRepositoryManager",
+                      "nodeType": "YulIdentifier",
+                      "src": "2877:49:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "2877:58:58"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "2877:58:58"
+                },
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "2944:17:58",
+                  "value": {
+                    "name": "value_2",
+                    "nodeType": "YulIdentifier",
+                    "src": "2954:7:58"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "value3",
+                      "nodeType": "YulIdentifier",
+                      "src": "2944:6:58"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "YulVariableDeclaration",
+                  "src": "2970:48:58",
+                  "value": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "name": "headStart",
+                            "nodeType": "YulIdentifier",
+                            "src": "3002:9:58"
+                          },
+                          {
+                            "kind": "number",
+                            "nodeType": "YulLiteral",
+                            "src": "3013:3:58",
+                            "type": "",
+                            "value": "128"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "2998:3:58"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "2998:19:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "calldataload",
+                      "nodeType": "YulIdentifier",
+                      "src": "2985:12:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "2985:33:58"
+                  },
+                  "variables": [
+                    {
+                      "name": "value_3",
+                      "nodeType": "YulTypedName",
+                      "src": "2974:7:58",
+                      "type": ""
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "name": "value_3",
+                        "nodeType": "YulIdentifier",
+                        "src": "3077:7:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "validator_revert_contract_IGarbiRepositoryManager",
+                      "nodeType": "YulIdentifier",
+                      "src": "3027:49:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "3027:58:58"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "3027:58:58"
+                },
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "3094:17:58",
+                  "value": {
+                    "name": "value_3",
+                    "nodeType": "YulIdentifier",
+                    "src": "3104:7:58"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "value4",
+                      "nodeType": "YulIdentifier",
+                      "src": "3094:6:58"
+                    }
+                  ]
+                }
+              ]
+            },
+            "name": "abi_decode_tuple_t_uint256t_contract$_IGarbiRepositoryManager_$21240t_contract$_IGarbiRepository_$21207t_contract$_IGarbiRepository_$21207t_contract$_IGarbiRepository_$21207",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "headStart",
+                "nodeType": "YulTypedName",
+                "src": "2349:9:58",
+                "type": ""
+              },
+              {
+                "name": "dataEnd",
+                "nodeType": "YulTypedName",
+                "src": "2360:7:58",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "value0",
+                "nodeType": "YulTypedName",
+                "src": "2372:6:58",
+                "type": ""
+              },
+              {
+                "name": "value1",
+                "nodeType": "YulTypedName",
+                "src": "2380:6:58",
+                "type": ""
+              },
+              {
+                "name": "value2",
+                "nodeType": "YulTypedName",
+                "src": "2388:6:58",
+                "type": ""
+              },
+              {
+                "name": "value3",
+                "nodeType": "YulTypedName",
+                "src": "2396:6:58",
+                "type": ""
+              },
+              {
+                "name": "value4",
+                "nodeType": "YulTypedName",
+                "src": "2404:6:58",
+                "type": ""
+              }
+            ],
+            "src": "2166:951:58"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "3279:162:58",
+              "statements": [
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "3289:26:58",
+                  "value": {
+                    "arguments": [
+                      {
+                        "name": "headStart",
+                        "nodeType": "YulIdentifier",
+                        "src": "3301:9:58"
+                      },
+                      {
+                        "kind": "number",
+                        "nodeType": "YulLiteral",
+                        "src": "3312:2:58",
+                        "type": "",
+                        "value": "96"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "add",
+                      "nodeType": "YulIdentifier",
+                      "src": "3297:3:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "3297:18:58"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "tail",
+                      "nodeType": "YulIdentifier",
+                      "src": "3289:4:58"
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "name": "headStart",
+                        "nodeType": "YulIdentifier",
+                        "src": "3331:9:58"
+                      },
+                      {
+                        "name": "value0",
+                        "nodeType": "YulIdentifier",
+                        "src": "3342:6:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "mstore",
+                      "nodeType": "YulIdentifier",
+                      "src": "3324:6:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "3324:25:58"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "3324:25:58"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "name": "headStart",
+                            "nodeType": "YulIdentifier",
+                            "src": "3369:9:58"
+                          },
+                          {
+                            "kind": "number",
+                            "nodeType": "YulLiteral",
+                            "src": "3380:2:58",
+                            "type": "",
+                            "value": "32"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "3365:3:58"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "3365:18:58"
+                      },
+                      {
+                        "name": "value1",
+                        "nodeType": "YulIdentifier",
+                        "src": "3385:6:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "mstore",
+                      "nodeType": "YulIdentifier",
+                      "src": "3358:6:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "3358:34:58"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "3358:34:58"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "name": "headStart",
+                            "nodeType": "YulIdentifier",
+                            "src": "3412:9:58"
+                          },
+                          {
+                            "kind": "number",
+                            "nodeType": "YulLiteral",
+                            "src": "3423:2:58",
+                            "type": "",
+                            "value": "64"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "3408:3:58"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "3408:18:58"
+                      },
+                      {
+                        "name": "value2",
+                        "nodeType": "YulIdentifier",
+                        "src": "3428:6:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "mstore",
+                      "nodeType": "YulIdentifier",
+                      "src": "3401:6:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "3401:34:58"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "3401:34:58"
+                }
+              ]
+            },
+            "name": "abi_encode_tuple_t_uint256_t_uint256_t_uint256__to_t_uint256_t_uint256_t_uint256__fromStack_reversed",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "headStart",
+                "nodeType": "YulTypedName",
+                "src": "3232:9:58",
+                "type": ""
+              },
+              {
+                "name": "value2",
+                "nodeType": "YulTypedName",
+                "src": "3243:6:58",
+                "type": ""
+              },
+              {
+                "name": "value1",
+                "nodeType": "YulTypedName",
+                "src": "3251:6:58",
+                "type": ""
+              },
+              {
+                "name": "value0",
+                "nodeType": "YulTypedName",
+                "src": "3259:6:58",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "tail",
+                "nodeType": "YulTypedName",
+                "src": "3270:4:58",
+                "type": ""
+              }
+            ],
+            "src": "3122:319:58"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "3527:103:58",
+              "statements": [
+                {
+                  "body": {
+                    "nodeType": "YulBlock",
+                    "src": "3573:16:58",
+                    "statements": [
+                      {
+                        "expression": {
+                          "arguments": [
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "3582:1:58",
+                              "type": "",
+                              "value": "0"
+                            },
+                            {
+                              "kind": "number",
+                              "nodeType": "YulLiteral",
+                              "src": "3585:1:58",
+                              "type": "",
+                              "value": "0"
+                            }
+                          ],
+                          "functionName": {
+                            "name": "revert",
+                            "nodeType": "YulIdentifier",
+                            "src": "3575:6:58"
+                          },
+                          "nodeType": "YulFunctionCall",
+                          "src": "3575:12:58"
+                        },
+                        "nodeType": "YulExpressionStatement",
+                        "src": "3575:12:58"
+                      }
+                    ]
+                  },
+                  "condition": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "name": "dataEnd",
+                            "nodeType": "YulIdentifier",
+                            "src": "3548:7:58"
+                          },
+                          {
+                            "name": "headStart",
+                            "nodeType": "YulIdentifier",
+                            "src": "3557:9:58"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "sub",
+                          "nodeType": "YulIdentifier",
+                          "src": "3544:3:58"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "3544:23:58"
+                      },
+                      {
+                        "kind": "number",
+                        "nodeType": "YulLiteral",
+                        "src": "3569:2:58",
                         "type": "",
                         "value": "32"
                       }
@@ -1426,38 +2156,38 @@
                     "functionName": {
                       "name": "slt",
                       "nodeType": "YulIdentifier",
-                      "src": "2260:3:58"
+                      "src": "3540:3:58"
                     },
                     "nodeType": "YulFunctionCall",
-                    "src": "2260:32:58"
+                    "src": "3540:32:58"
                   },
                   "nodeType": "YulIf",
-                  "src": "2257:52:58"
+                  "src": "3537:52:58"
                 },
                 {
                   "nodeType": "YulAssignment",
-                  "src": "2318:26:58",
+                  "src": "3598:26:58",
                   "value": {
                     "arguments": [
                       {
                         "name": "headStart",
                         "nodeType": "YulIdentifier",
-                        "src": "2334:9:58"
+                        "src": "3614:9:58"
                       }
                     ],
                     "functionName": {
                       "name": "mload",
                       "nodeType": "YulIdentifier",
-                      "src": "2328:5:58"
+                      "src": "3608:5:58"
                     },
                     "nodeType": "YulFunctionCall",
-                    "src": "2328:16:58"
+                    "src": "3608:16:58"
                   },
                   "variableNames": [
                     {
                       "name": "value0",
                       "nodeType": "YulIdentifier",
-                      "src": "2318:6:58"
+                      "src": "3598:6:58"
                     }
                   ]
                 }
@@ -1469,13 +2199,13 @@
               {
                 "name": "headStart",
                 "nodeType": "YulTypedName",
-                "src": "2213:9:58",
+                "src": "3493:9:58",
                 "type": ""
               },
               {
                 "name": "dataEnd",
                 "nodeType": "YulTypedName",
-                "src": "2224:7:58",
+                "src": "3504:7:58",
                 "type": ""
               }
             ],
@@ -1483,31 +2213,31 @@
               {
                 "name": "value0",
                 "nodeType": "YulTypedName",
-                "src": "2236:6:58",
+                "src": "3516:6:58",
                 "type": ""
               }
             ],
-            "src": "2166:184:58"
+            "src": "3446:184:58"
           },
           {
             "body": {
               "nodeType": "YulBlock",
-              "src": "2456:102:58",
+              "src": "3736:102:58",
               "statements": [
                 {
                   "nodeType": "YulAssignment",
-                  "src": "2466:26:58",
+                  "src": "3746:26:58",
                   "value": {
                     "arguments": [
                       {
                         "name": "headStart",
                         "nodeType": "YulIdentifier",
-                        "src": "2478:9:58"
+                        "src": "3758:9:58"
                       },
                       {
                         "kind": "number",
                         "nodeType": "YulLiteral",
-                        "src": "2489:2:58",
+                        "src": "3769:2:58",
                         "type": "",
                         "value": "32"
                       }
@@ -1515,16 +2245,16 @@
                     "functionName": {
                       "name": "add",
                       "nodeType": "YulIdentifier",
-                      "src": "2474:3:58"
+                      "src": "3754:3:58"
                     },
                     "nodeType": "YulFunctionCall",
-                    "src": "2474:18:58"
+                    "src": "3754:18:58"
                   },
                   "variableNames": [
                     {
                       "name": "tail",
                       "nodeType": "YulIdentifier",
-                      "src": "2466:4:58"
+                      "src": "3746:4:58"
                     }
                   ]
                 },
@@ -1534,14 +2264,14 @@
                       {
                         "name": "headStart",
                         "nodeType": "YulIdentifier",
-                        "src": "2508:9:58"
+                        "src": "3788:9:58"
                       },
                       {
                         "arguments": [
                           {
                             "name": "value0",
                             "nodeType": "YulIdentifier",
-                            "src": "2523:6:58"
+                            "src": "3803:6:58"
                           },
                           {
                             "arguments": [
@@ -1550,14 +2280,14 @@
                                   {
                                     "kind": "number",
                                     "nodeType": "YulLiteral",
-                                    "src": "2539:3:58",
+                                    "src": "3819:3:58",
                                     "type": "",
                                     "value": "160"
                                   },
                                   {
                                     "kind": "number",
                                     "nodeType": "YulLiteral",
-                                    "src": "2544:1:58",
+                                    "src": "3824:1:58",
                                     "type": "",
                                     "value": "1"
                                   }
@@ -1565,15 +2295,15 @@
                                 "functionName": {
                                   "name": "shl",
                                   "nodeType": "YulIdentifier",
-                                  "src": "2535:3:58"
+                                  "src": "3815:3:58"
                                 },
                                 "nodeType": "YulFunctionCall",
-                                "src": "2535:11:58"
+                                "src": "3815:11:58"
                               },
                               {
                                 "kind": "number",
                                 "nodeType": "YulLiteral",
-                                "src": "2548:1:58",
+                                "src": "3828:1:58",
                                 "type": "",
                                 "value": "1"
                               }
@@ -1581,31 +2311,31 @@
                             "functionName": {
                               "name": "sub",
                               "nodeType": "YulIdentifier",
-                              "src": "2531:3:58"
+                              "src": "3811:3:58"
                             },
                             "nodeType": "YulFunctionCall",
-                            "src": "2531:19:58"
+                            "src": "3811:19:58"
                           }
                         ],
                         "functionName": {
                           "name": "and",
                           "nodeType": "YulIdentifier",
-                          "src": "2519:3:58"
+                          "src": "3799:3:58"
                         },
                         "nodeType": "YulFunctionCall",
-                        "src": "2519:32:58"
+                        "src": "3799:32:58"
                       }
                     ],
                     "functionName": {
                       "name": "mstore",
                       "nodeType": "YulIdentifier",
-                      "src": "2501:6:58"
+                      "src": "3781:6:58"
                     },
                     "nodeType": "YulFunctionCall",
-                    "src": "2501:51:58"
+                    "src": "3781:51:58"
                   },
                   "nodeType": "YulExpressionStatement",
-                  "src": "2501:51:58"
+                  "src": "3781:51:58"
                 }
               ]
             },
@@ -1615,13 +2345,13 @@
               {
                 "name": "headStart",
                 "nodeType": "YulTypedName",
-                "src": "2425:9:58",
+                "src": "3705:9:58",
                 "type": ""
               },
               {
                 "name": "value0",
                 "nodeType": "YulTypedName",
-                "src": "2436:6:58",
+                "src": "3716:6:58",
                 "type": ""
               }
             ],
@@ -1629,44 +2359,239 @@
               {
                 "name": "tail",
                 "nodeType": "YulTypedName",
-                "src": "2447:4:58",
+                "src": "3727:4:58",
                 "type": ""
               }
             ],
-            "src": "2355:203:58"
+            "src": "3635:203:58"
+          },
+          {
+            "body": {
+              "nodeType": "YulBlock",
+              "src": "3972:145:58",
+              "statements": [
+                {
+                  "nodeType": "YulAssignment",
+                  "src": "3982:26:58",
+                  "value": {
+                    "arguments": [
+                      {
+                        "name": "headStart",
+                        "nodeType": "YulIdentifier",
+                        "src": "3994:9:58"
+                      },
+                      {
+                        "kind": "number",
+                        "nodeType": "YulLiteral",
+                        "src": "4005:2:58",
+                        "type": "",
+                        "value": "64"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "add",
+                      "nodeType": "YulIdentifier",
+                      "src": "3990:3:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "3990:18:58"
+                  },
+                  "variableNames": [
+                    {
+                      "name": "tail",
+                      "nodeType": "YulIdentifier",
+                      "src": "3982:4:58"
+                    }
+                  ]
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "name": "headStart",
+                        "nodeType": "YulIdentifier",
+                        "src": "4024:9:58"
+                      },
+                      {
+                        "arguments": [
+                          {
+                            "name": "value0",
+                            "nodeType": "YulIdentifier",
+                            "src": "4039:6:58"
+                          },
+                          {
+                            "arguments": [
+                              {
+                                "arguments": [
+                                  {
+                                    "kind": "number",
+                                    "nodeType": "YulLiteral",
+                                    "src": "4055:3:58",
+                                    "type": "",
+                                    "value": "160"
+                                  },
+                                  {
+                                    "kind": "number",
+                                    "nodeType": "YulLiteral",
+                                    "src": "4060:1:58",
+                                    "type": "",
+                                    "value": "1"
+                                  }
+                                ],
+                                "functionName": {
+                                  "name": "shl",
+                                  "nodeType": "YulIdentifier",
+                                  "src": "4051:3:58"
+                                },
+                                "nodeType": "YulFunctionCall",
+                                "src": "4051:11:58"
+                              },
+                              {
+                                "kind": "number",
+                                "nodeType": "YulLiteral",
+                                "src": "4064:1:58",
+                                "type": "",
+                                "value": "1"
+                              }
+                            ],
+                            "functionName": {
+                              "name": "sub",
+                              "nodeType": "YulIdentifier",
+                              "src": "4047:3:58"
+                            },
+                            "nodeType": "YulFunctionCall",
+                            "src": "4047:19:58"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "and",
+                          "nodeType": "YulIdentifier",
+                          "src": "4035:3:58"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "4035:32:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "mstore",
+                      "nodeType": "YulIdentifier",
+                      "src": "4017:6:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "4017:51:58"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "4017:51:58"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "name": "headStart",
+                            "nodeType": "YulIdentifier",
+                            "src": "4088:9:58"
+                          },
+                          {
+                            "kind": "number",
+                            "nodeType": "YulLiteral",
+                            "src": "4099:2:58",
+                            "type": "",
+                            "value": "32"
+                          }
+                        ],
+                        "functionName": {
+                          "name": "add",
+                          "nodeType": "YulIdentifier",
+                          "src": "4084:3:58"
+                        },
+                        "nodeType": "YulFunctionCall",
+                        "src": "4084:18:58"
+                      },
+                      {
+                        "name": "value1",
+                        "nodeType": "YulIdentifier",
+                        "src": "4104:6:58"
+                      }
+                    ],
+                    "functionName": {
+                      "name": "mstore",
+                      "nodeType": "YulIdentifier",
+                      "src": "4077:6:58"
+                    },
+                    "nodeType": "YulFunctionCall",
+                    "src": "4077:34:58"
+                  },
+                  "nodeType": "YulExpressionStatement",
+                  "src": "4077:34:58"
+                }
+              ]
+            },
+            "name": "abi_encode_tuple_t_address_t_uint256__to_t_address_t_uint256__fromStack_reversed",
+            "nodeType": "YulFunctionDefinition",
+            "parameters": [
+              {
+                "name": "headStart",
+                "nodeType": "YulTypedName",
+                "src": "3933:9:58",
+                "type": ""
+              },
+              {
+                "name": "value1",
+                "nodeType": "YulTypedName",
+                "src": "3944:6:58",
+                "type": ""
+              },
+              {
+                "name": "value0",
+                "nodeType": "YulTypedName",
+                "src": "3952:6:58",
+                "type": ""
+              }
+            ],
+            "returnVariables": [
+              {
+                "name": "tail",
+                "nodeType": "YulTypedName",
+                "src": "3963:4:58",
+                "type": ""
+              }
+            ],
+            "src": "3843:274:58"
           }
         ]
       },
-      "contents": "{\n    { }\n    function validator_revert_contract_IGarbiRepositoryManager(value)\n    {\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_contract$_IGarbiRepositoryManager_$21132t_contract$_IERC20_$985t_addresst_contract$_IGarbiRepository_$21117t_contract$_IGarbiRepository_$21117t_contract$_IGarbiRepository_$21117(headStart, dataEnd) -> value0, value1, value2, value3, value4, value5\n    {\n        if slt(sub(dataEnd, headStart), 192) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_contract_IGarbiRepositoryManager(value)\n        value0 := value\n        let value_1 := calldataload(add(headStart, 32))\n        validator_revert_contract_IGarbiRepositoryManager(value_1)\n        value1 := value_1\n        let value_2 := calldataload(add(headStart, 64))\n        validator_revert_contract_IGarbiRepositoryManager(value_2)\n        value2 := value_2\n        let value_3 := calldataload(add(headStart, 96))\n        validator_revert_contract_IGarbiRepositoryManager(value_3)\n        value3 := value_3\n        let value_4 := calldataload(add(headStart, 128))\n        validator_revert_contract_IGarbiRepositoryManager(value_4)\n        value4 := value_4\n        let value_5 := calldataload(add(headStart, 160))\n        validator_revert_contract_IGarbiRepositoryManager(value_5)\n        value5 := value_5\n    }\n    function abi_encode_tuple_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256__to_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256__fromStack_reversed(headStart, value8, value7, value6, value5, value4, value3, value2, value1, value0) -> tail\n    {\n        tail := add(headStart, 288)\n        mstore(headStart, value0)\n        mstore(add(headStart, 32), value1)\n        mstore(add(headStart, 64), value2)\n        mstore(add(headStart, 96), value3)\n        mstore(add(headStart, 128), value4)\n        mstore(add(headStart, 160), value5)\n        mstore(add(headStart, 192), value6)\n        mstore(add(headStart, 224), value7)\n        mstore(add(headStart, 256), value8)\n    }\n    function abi_decode_tuple_t_uint256_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        value0 := mload(headStart)\n    }\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n}",
+      "contents": "{\n    { }\n    function validator_revert_contract_IGarbiRepositoryManager(value)\n    {\n        if iszero(eq(value, and(value, sub(shl(160, 1), 1)))) { revert(0, 0) }\n    }\n    function abi_decode_tuple_t_contract$_IGarbiRepositoryManager_$21240t_contract$_IERC20_$985t_addresst_contract$_IGarbiRepository_$21207t_contract$_IGarbiRepository_$21207t_contract$_IGarbiRepository_$21207(headStart, dataEnd) -> value0, value1, value2, value3, value4, value5\n    {\n        if slt(sub(dataEnd, headStart), 192) { revert(0, 0) }\n        let value := calldataload(headStart)\n        validator_revert_contract_IGarbiRepositoryManager(value)\n        value0 := value\n        let value_1 := calldataload(add(headStart, 32))\n        validator_revert_contract_IGarbiRepositoryManager(value_1)\n        value1 := value_1\n        let value_2 := calldataload(add(headStart, 64))\n        validator_revert_contract_IGarbiRepositoryManager(value_2)\n        value2 := value_2\n        let value_3 := calldataload(add(headStart, 96))\n        validator_revert_contract_IGarbiRepositoryManager(value_3)\n        value3 := value_3\n        let value_4 := calldataload(add(headStart, 128))\n        validator_revert_contract_IGarbiRepositoryManager(value_4)\n        value4 := value_4\n        let value_5 := calldataload(add(headStart, 160))\n        validator_revert_contract_IGarbiRepositoryManager(value_5)\n        value5 := value_5\n    }\n    function abi_encode_tuple_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256__to_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256_t_uint256__fromStack_reversed(headStart, value8, value7, value6, value5, value4, value3, value2, value1, value0) -> tail\n    {\n        tail := add(headStart, 288)\n        mstore(headStart, value0)\n        mstore(add(headStart, 32), value1)\n        mstore(add(headStart, 64), value2)\n        mstore(add(headStart, 96), value3)\n        mstore(add(headStart, 128), value4)\n        mstore(add(headStart, 160), value5)\n        mstore(add(headStart, 192), value6)\n        mstore(add(headStart, 224), value7)\n        mstore(add(headStart, 256), value8)\n    }\n    function abi_decode_tuple_t_uint256t_contract$_IGarbiRepositoryManager_$21240t_contract$_IGarbiRepository_$21207t_contract$_IGarbiRepository_$21207t_contract$_IGarbiRepository_$21207(headStart, dataEnd) -> value0, value1, value2, value3, value4\n    {\n        if slt(sub(dataEnd, headStart), 160) { revert(0, 0) }\n        value0 := calldataload(headStart)\n        let value := calldataload(add(headStart, 32))\n        validator_revert_contract_IGarbiRepositoryManager(value)\n        value1 := value\n        let value_1 := calldataload(add(headStart, 64))\n        validator_revert_contract_IGarbiRepositoryManager(value_1)\n        value2 := value_1\n        let value_2 := calldataload(add(headStart, 96))\n        validator_revert_contract_IGarbiRepositoryManager(value_2)\n        value3 := value_2\n        let value_3 := calldataload(add(headStart, 128))\n        validator_revert_contract_IGarbiRepositoryManager(value_3)\n        value4 := value_3\n    }\n    function abi_encode_tuple_t_uint256_t_uint256_t_uint256__to_t_uint256_t_uint256_t_uint256__fromStack_reversed(headStart, value2, value1, value0) -> tail\n    {\n        tail := add(headStart, 96)\n        mstore(headStart, value0)\n        mstore(add(headStart, 32), value1)\n        mstore(add(headStart, 64), value2)\n    }\n    function abi_decode_tuple_t_uint256_fromMemory(headStart, dataEnd) -> value0\n    {\n        if slt(sub(dataEnd, headStart), 32) { revert(0, 0) }\n        value0 := mload(headStart)\n    }\n    function abi_encode_tuple_t_address__to_t_address__fromStack_reversed(headStart, value0) -> tail\n    {\n        tail := add(headStart, 32)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n    }\n    function abi_encode_tuple_t_address_t_uint256__to_t_address_t_uint256__fromStack_reversed(headStart, value1, value0) -> tail\n    {\n        tail := add(headStart, 64)\n        mstore(headStart, and(value0, sub(shl(160, 1), 1)))\n        mstore(add(headStart, 32), value1)\n    }\n}",
       "id": 58,
       "language": "Yul",
       "name": "#utility.yul"
     }
   ],
-  "sourceMap": "279:1030:28:-:0;;;343:48;;;;;;;;;;279:1030;;;;;;",
-  "deployedSourceMap": "279:1030:28:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;399:907;;;;;;:::i;:::-;;:::i;:::-;;;;1781:25:58;;;1837:2;1822:18;;1815:34;;;;1865:18;;;1858:34;;;;1923:2;1908:18;;1901:34;;;;1966:3;1951:19;;1944:35;;;;2010:3;1995:19;;1988:35;2054:3;2039:19;;2032:35;2098:3;2083:19;;2076:35;2142:3;2127:19;;2120:35;1768:3;1753:19;399:907:28;;;;;;;;591:16;609:22;633:23;658:21;681:20;703:21;726:26;754;782:25;831:17;-1:-1:-1;;;;;831:33:28;;:35;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;820:46;;894:8;-1:-1:-1;;;;;894:20:28;;:22;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;945:24;;-1:-1:-1;;;945:24:28;;-1:-1:-1;;;;;2519:32:58;;;945:24:28;;;2501:51:58;877:39:28;;-1:-1:-1;945:18:28;;;;;;2474::58;;945:24:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;927:42;;996:8;-1:-1:-1;;;;;996:21:28;;:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;980:39;;1046:8;-1:-1:-1;;;;;1046:21:28;;:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1030:39;;1095:7;-1:-1:-1;;;;;1095:20:28;;:22;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1080:37;;1149:8;-1:-1:-1;;;;;1149:27:28;;:29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1128:50;;1210:8;-1:-1:-1;;;;;1210:27:28;;:29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1189:50;;1270:7;-1:-1:-1;;;;;1270:26:28;;:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1250:48;;399:907;;;;;;;;;;;;;;;;:::o;14:156:58:-;-1:-1:-1;;;;;114:31:58;;104:42;;94:70;;160:1;157;150:12;94:70;14:156;:::o;175:1230::-;404:6;412;420;428;436;444;497:3;485:9;476:7;472:23;468:33;465:53;;;514:1;511;504:12;465:53;553:9;540:23;572:56;622:5;572:56;:::i;:::-;647:5;-1:-1:-1;704:2:58;689:18;;676:32;717:58;676:32;717:58;:::i;:::-;794:7;-1:-1:-1;853:2:58;838:18;;825:32;866:58;825:32;866:58;:::i;:::-;943:7;-1:-1:-1;1002:2:58;987:18;;974:32;1015:58;974:32;1015:58;:::i;:::-;1092:7;-1:-1:-1;1151:3:58;1136:19;;1123:33;1165:58;1123:33;1165:58;:::i;:::-;1242:7;-1:-1:-1;1301:3:58;1286:19;;1273:33;1315:58;1273:33;1315:58;:::i;:::-;1392:7;1382:17;;;175:1230;;;;;;;;:::o;2166:184::-;2236:6;2289:2;2277:9;2268:7;2264:23;2260:32;2257:52;;;2305:1;2302;2295:12;2257:52;-1:-1:-1;2328:16:58;;2166:184;-1:-1:-1;2166:184:58:o",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.8.0;\r\nimport \"@openzeppelin/contracts/utils/math/SafeMath.sol\";\r\nimport \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\r\n\r\nimport '../interfaces/IGarbiRepositoryManager.sol';\r\nimport '../interfaces/IGarbiRepository.sol';\r\n\r\ncontract GECExchangeInfo{\r\n    using SafeMath for uint256;\r\n    constructor(\r\n        \r\n    ) {\r\n        \r\n    }\r\n\r\n    function getData(IGarbiRepositoryManager repositoryManager, IERC20 GECTOKEN, address user, IGarbiRepository usdtRepo, IGarbiRepository usdcRepo, IGarbiRepository daiRepo) public view returns (uint256 gecPrice, uint256 gecTotalSupply, uint256 gecInUserWallet, uint256 repoUSDTPrice, uint256 repoDAIPrice, uint256 repoUSDCPrice, uint256 repoUSDTTotalToken, uint256 repoUSDCTotalToken, uint256 repoDAITotalToken) {\r\n        gecPrice = repositoryManager.getGarbiECPrice();\r\n        gecTotalSupply = GECTOKEN.totalSupply();\r\n        gecInUserWallet = GECTOKEN.balanceOf(user);\r\n        repoUSDTPrice = usdtRepo.getBasePrice();\r\n        repoUSDCPrice = usdcRepo.getBasePrice();\r\n        repoDAIPrice = daiRepo.getBasePrice();\r\n        repoUSDTTotalToken = usdtRepo.getCapacityByToken();\r\n        repoUSDCTotalToken = usdcRepo.getCapacityByToken();\r\n        repoDAITotalToken = daiRepo.getCapacityByToken();\r\n    }\r\n}",
+  "sourceMap": "279:1950:28:-:0;;;343:48;;;;;;;;;;279:1950;;;;;;",
+  "deployedSourceMap": "279:1950:28:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;399:907;;;;;;:::i;:::-;;:::i;:::-;;;;1781:25:58;;;1837:2;1822:18;;1815:34;;;;1865:18;;;1858:34;;;;1923:2;1908:18;;1901:34;;;;1966:3;1951:19;;1944:35;;;;2010:3;1995:19;;1988:35;2054:3;2039:19;;2032:35;2098:3;2083:19;;2076:35;2142:3;2127:19;;2120:35;1768:3;1753:19;399:907:28;;;;;;;;1314:912;;;;;;:::i;:::-;;:::i;:::-;;;;3324:25:58;;;3380:2;3365:18;;3358:34;;;;3408:18;;;3401:34;3312:2;3297:18;1314:912:28;3122:319:58;399:907:28;591:16;609:22;633:23;658:21;681:20;703:21;726:26;754;782:25;831:17;-1:-1:-1;;;;;831:33:28;;:35;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;820:46;;894:8;-1:-1:-1;;;;;894:20:28;;:22;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;945:24;;-1:-1:-1;;;945:24:28;;-1:-1:-1;;;;;3799:32:58;;;945:24:28;;;3781:51:58;877:39:28;;-1:-1:-1;945:18:28;;;;;;3754::58;;945:24:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;927:42;;996:8;-1:-1:-1;;;;;996:21:28;;:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;980:39;;1046:8;-1:-1:-1;;;;;1046:21:28;;:23;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1030:39;;1095:7;-1:-1:-1;;;;;1095:20:28;;:22;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1080:37;;1149:8;-1:-1:-1;;;;;1149:27:28;;:29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1128:50;;1210:8;-1:-1:-1;;;;;1210:27:28;;:29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1189:50;;1270:7;-1:-1:-1;;;;;1270:26:28;;:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1250:48;;399:907;;;;;;;;;;;;;;;;:::o;1314:912::-;1625:73;;-1:-1:-1;;;1625:73:28;;-1:-1:-1;;;;;4035:32:58;;;1625:73:28;;;4017:51:58;4084:18;;;4077:34;;;1506:26:28;;;;;;;;1625:38;;;;;3990:18:58;;1625:73:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1730:71;;-1:-1:-1;;;1730:71:28;;-1:-1:-1;;;;;4035:32:58;;;1730:71:28;;;4017:51:58;4084:18;;;4077:34;;;1601:97:28;;-1:-1:-1;1730:37:28;;;;;;3990:18:58;;1730:71:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1836:73;;-1:-1:-1;;;1836:73:28;;-1:-1:-1;;;;;4035:32:58;;;1836:73:28;;;4017:51:58;4084:18;;;4077:34;;;1709:92:28;;-1:-1:-1;1812:21:28;;1836:38;;;;;3990:18:58;;1836:73:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;1941:71;;-1:-1:-1;;;1941:71:28;;-1:-1:-1;;;;;4035:32:58;;;1941:71:28;;;4017:51:58;4084:18;;;4077:34;;;1812:97:28;;-1:-1:-1;1941:37:28;;;;;;3990:18:58;;1941:71:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;2046:72;;-1:-1:-1;;;2046:72:28;;-1:-1:-1;;;;;4035:32:58;;;2046:72:28;;;4017:51:58;4084:18;;;4077:34;;;1920:92:28;;-1:-1:-1;2023:20:28;;2046:38;;;;;3990:18:58;;2046:72:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;2149:69;;-1:-1:-1;;;2149:69:28;;-1:-1:-1;;;;;4035:32:58;;;2149:69:28;;;4017:51:58;4084:18;;;4077:34;;;2023:95:28;;-1:-1:-1;2149:37:28;;;;;;3990:18:58;;2149:69:28;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;2129:89;;1590:636;;;1314:912;;;;;;;;;:::o;14:156:58:-;-1:-1:-1;;;;;114:31:58;;104:42;;94:70;;160:1;157;150:12;94:70;14:156;:::o;175:1230::-;404:6;412;420;428;436;444;497:3;485:9;476:7;472:23;468:33;465:53;;;514:1;511;504:12;465:53;553:9;540:23;572:56;622:5;572:56;:::i;:::-;647:5;-1:-1:-1;704:2:58;689:18;;676:32;717:58;676:32;717:58;:::i;:::-;794:7;-1:-1:-1;853:2:58;838:18;;825:32;866:58;825:32;866:58;:::i;:::-;943:7;-1:-1:-1;1002:2:58;987:18;;974:32;1015:58;974:32;1015:58;:::i;:::-;1092:7;-1:-1:-1;1151:3:58;1136:19;;1123:33;1165:58;1123:33;1165:58;:::i;:::-;1242:7;-1:-1:-1;1301:3:58;1286:19;;1273:33;1315:58;1273:33;1315:58;:::i;:::-;1392:7;1382:17;;;175:1230;;;;;;;;:::o;2166:951::-;2372:6;2380;2388;2396;2404;2457:3;2445:9;2436:7;2432:23;2428:33;2425:53;;;2474:1;2471;2464:12;2425:53;2510:9;2497:23;2487:33;;2570:2;2559:9;2555:18;2542:32;2583:56;2633:5;2583:56;:::i;:::-;2658:5;-1:-1:-1;2715:2:58;2700:18;;2687:32;2728:58;2687:32;2728:58;:::i;:::-;2805:7;-1:-1:-1;2864:2:58;2849:18;;2836:32;2877:58;2836:32;2877:58;:::i;:::-;2954:7;-1:-1:-1;3013:3:58;2998:19;;2985:33;3027:58;2985:33;3027:58;:::i;:::-;3104:7;3094:17;;;2166:951;;;;;;;;:::o;3446:184::-;3516:6;3569:2;3557:9;3548:7;3544:23;3540:32;3537:52;;;3585:1;3582;3575:12;3537:52;-1:-1:-1;3608:16:58;;3446:184;-1:-1:-1;3446:184:58:o",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.8.0;\r\nimport \"@openzeppelin/contracts/utils/math/SafeMath.sol\";\r\nimport \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\r\n\r\nimport '../interfaces/IGarbiRepositoryManager.sol';\r\nimport '../interfaces/IGarbiRepository.sol';\r\n\r\ncontract GECExchangeInfo{\r\n    using SafeMath for uint256;\r\n    constructor(\r\n        \r\n    ) {\r\n        \r\n    }\r\n\r\n    function getData(IGarbiRepositoryManager repositoryManager, IERC20 GECTOKEN, address user, IGarbiRepository usdtRepo, IGarbiRepository usdcRepo, IGarbiRepository daiRepo) public view returns (uint256 gecPrice, uint256 gecTotalSupply, uint256 gecInUserWallet, uint256 repoUSDTPrice, uint256 repoDAIPrice, uint256 repoUSDCPrice, uint256 repoUSDTTotalToken, uint256 repoUSDCTotalToken, uint256 repoDAITotalToken) {\r\n        gecPrice = repositoryManager.getGarbiECPrice();\r\n        gecTotalSupply = GECTOKEN.totalSupply();\r\n        gecInUserWallet = GECTOKEN.balanceOf(user);\r\n        repoUSDTPrice = usdtRepo.getBasePrice();\r\n        repoUSDCPrice = usdcRepo.getBasePrice();\r\n        repoDAIPrice = daiRepo.getBasePrice();\r\n        repoUSDTTotalToken = usdtRepo.getCapacityByToken();\r\n        repoUSDCTotalToken = usdcRepo.getCapacityByToken();\r\n        repoDAITotalToken = daiRepo.getCapacityByToken();\r\n    }\r\n\r\n    function getSellGECFees(uint256 gecInputAmount, IGarbiRepositoryManager repositoryManager, IGarbiRepository usdtRepo, IGarbiRepository usdcRepo, IGarbiRepository daiRepo) public view returns (uint256 repoUSDTSellGECFee, uint256 repoUSDCSellGECFee, uint256 repoDAISellGECFee)  {\r\n        uint256 usdtOutAmount = repositoryManager.getDataToSellGarbiEC(address(usdtRepo), gecInputAmount);\r\n        repoUSDTSellGECFee = repositoryManager.getFeeWithOutAmount(address(usdtRepo), usdtOutAmount);\r\n        uint256 usdcOutAmount = repositoryManager.getDataToSellGarbiEC(address(usdcRepo), gecInputAmount);\r\n        repoUSDCSellGECFee = repositoryManager.getFeeWithOutAmount(address(usdcRepo), usdcOutAmount);\r\n        uint256 daiOutAmount = repositoryManager.getDataToSellGarbiEC(address(daiRepo), gecInputAmount);\r\n        repoDAISellGECFee = repositoryManager.getFeeWithOutAmount(address(daiRepo), daiOutAmount);\r\n    }\r\n}",
   "sourcePath": "C:\\Users\\David\\Documents\\NetBeansProjects\\garbiprotocol.github.io\\garbi_contracts\\contracts\\GarbiSwap2\\GECExchangeInfo.sol",
   "ast": {
     "absolutePath": "project:/contracts/GarbiSwap2/GECExchangeInfo.sol",
     "exportedSymbols": {
       "GECExchangeInfo": [
-        8954
+        9044
       ],
       "IERC20": [
         985
       ],
       "IGarbiRepository": [
-        21117
+        21207
       ],
       "IGarbiRepositoryManager": [
-        21132
+        21240
       ],
       "SafeMath": [
         1388
       ]
     },
-    "id": 8955,
+    "id": 9045,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -1687,7 +2612,7 @@
         "id": 8849,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 8955,
+        "scope": 9045,
         "sourceUnit": 1389,
         "src": "59:57:28",
         "symbolAliases": [],
@@ -1699,7 +2624,7 @@
         "id": 8850,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 8955,
+        "scope": 9045,
         "sourceUnit": 986,
         "src": "118:56:28",
         "symbolAliases": [],
@@ -1711,8 +2636,8 @@
         "id": 8851,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 8955,
-        "sourceUnit": 21133,
+        "scope": 9045,
+        "sourceUnit": 21241,
         "src": "178:51:28",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1723,8 +2648,8 @@
         "id": 8852,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 8955,
-        "sourceUnit": 21118,
+        "scope": 9045,
+        "sourceUnit": 21208,
         "src": "231:44:28",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1736,9 +2661,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 8954,
+        "id": 9044,
         "linearizedBaseContracts": [
-          8954
+          9044
         ],
         "name": "GECExchangeInfo",
         "nameLocation": "288:15:28",
@@ -1796,7 +2721,7 @@
               "parameters": [],
               "src": "373:0:28"
             },
-            "scope": 8954,
+            "scope": 9044,
             "src": "343:48:28",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -1841,7 +2766,7 @@
                           "referencedDeclaration": 8862,
                           "src": "831:17:28",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21132",
+                            "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
                             "typeString": "contract IGarbiRepositoryManager"
                           }
                         },
@@ -1853,7 +2778,7 @@
                         "memberLocation": "849:15:28",
                         "memberName": "getGarbiECPrice",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 21131,
+                        "referencedDeclaration": 21221,
                         "src": "831:33:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
@@ -2093,7 +3018,7 @@
                           "referencedDeclaration": 8870,
                           "src": "996:8:28",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                            "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                             "typeString": "contract IGarbiRepository"
                           }
                         },
@@ -2105,7 +3030,7 @@
                         "memberLocation": "1005:12:28",
                         "memberName": "getBasePrice",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 21083,
+                        "referencedDeclaration": 21173,
                         "src": "996:21:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
@@ -2171,7 +3096,7 @@
                           "referencedDeclaration": 8873,
                           "src": "1046:8:28",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                            "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                             "typeString": "contract IGarbiRepository"
                           }
                         },
@@ -2183,7 +3108,7 @@
                         "memberLocation": "1055:12:28",
                         "memberName": "getBasePrice",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 21083,
+                        "referencedDeclaration": 21173,
                         "src": "1046:21:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
@@ -2249,7 +3174,7 @@
                           "referencedDeclaration": 8876,
                           "src": "1095:7:28",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                            "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                             "typeString": "contract IGarbiRepository"
                           }
                         },
@@ -2261,7 +3186,7 @@
                         "memberLocation": "1103:12:28",
                         "memberName": "getBasePrice",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 21083,
+                        "referencedDeclaration": 21173,
                         "src": "1095:20:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
@@ -2327,7 +3252,7 @@
                           "referencedDeclaration": 8870,
                           "src": "1149:8:28",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                            "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                             "typeString": "contract IGarbiRepository"
                           }
                         },
@@ -2339,7 +3264,7 @@
                         "memberLocation": "1158:18:28",
                         "memberName": "getCapacityByToken",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 21073,
+                        "referencedDeclaration": 21163,
                         "src": "1149:27:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
@@ -2405,7 +3330,7 @@
                           "referencedDeclaration": 8873,
                           "src": "1210:8:28",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                            "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                             "typeString": "contract IGarbiRepository"
                           }
                         },
@@ -2417,7 +3342,7 @@
                         "memberLocation": "1219:18:28",
                         "memberName": "getCapacityByToken",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 21073,
+                        "referencedDeclaration": 21163,
                         "src": "1210:27:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
@@ -2483,7 +3408,7 @@
                           "referencedDeclaration": 8876,
                           "src": "1270:7:28",
                           "typeDescriptions": {
-                            "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                            "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                             "typeString": "contract IGarbiRepository"
                           }
                         },
@@ -2495,7 +3420,7 @@
                         "memberLocation": "1278:18:28",
                         "memberName": "getCapacityByToken",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 21073,
+                        "referencedDeclaration": 21163,
                         "src": "1270:26:28",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_external_view$__$returns$_t_uint256_$",
@@ -2554,7 +3479,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21132",
+                    "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
                     "typeString": "contract IGarbiRepositoryManager"
                   },
                   "typeName": {
@@ -2567,13 +3492,13 @@
                         "416:23:28"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 21132,
+                      "referencedDeclaration": 21240,
                       "src": "416:23:28"
                     },
-                    "referencedDeclaration": 21132,
+                    "referencedDeclaration": 21240,
                     "src": "416:23:28",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21132",
+                      "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
                       "typeString": "contract IGarbiRepositoryManager"
                     }
                   },
@@ -2656,7 +3581,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                    "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                     "typeString": "contract IGarbiRepository"
                   },
                   "typeName": {
@@ -2669,13 +3594,13 @@
                         "490:16:28"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 21117,
+                      "referencedDeclaration": 21207,
                       "src": "490:16:28"
                     },
-                    "referencedDeclaration": 21117,
+                    "referencedDeclaration": 21207,
                     "src": "490:16:28",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                      "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                       "typeString": "contract IGarbiRepository"
                     }
                   },
@@ -2693,7 +3618,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                    "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                     "typeString": "contract IGarbiRepository"
                   },
                   "typeName": {
@@ -2706,13 +3631,13 @@
                         "517:16:28"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 21117,
+                      "referencedDeclaration": 21207,
                       "src": "517:16:28"
                     },
-                    "referencedDeclaration": 21117,
+                    "referencedDeclaration": 21207,
                     "src": "517:16:28",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                      "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                       "typeString": "contract IGarbiRepository"
                     }
                   },
@@ -2730,7 +3655,7 @@
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                    "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                     "typeString": "contract IGarbiRepository"
                   },
                   "typeName": {
@@ -2743,13 +3668,13 @@
                         "544:16:28"
                       ],
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 21117,
+                      "referencedDeclaration": 21207,
                       "src": "544:16:28"
                     },
-                    "referencedDeclaration": 21117,
+                    "referencedDeclaration": 21207,
                     "src": "544:16:28",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IGarbiRepository_$21117",
+                      "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
                       "typeString": "contract IGarbiRepository"
                     }
                   },
@@ -3008,19 +3933,1271 @@
               ],
               "src": "590:218:28"
             },
-            "scope": 8954,
+            "scope": 9044,
             "src": "399:907:28",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 9042,
+              "nodeType": "Block",
+              "src": "1590:636:28",
+              "statements": [
+                {
+                  "assignments": [
+                    8977
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 8977,
+                      "mutability": "mutable",
+                      "name": "usdtOutAmount",
+                      "nameLocation": "1609:13:28",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 9042,
+                      "src": "1601:21:28",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 8976,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1601:7:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 8986,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "id": 8982,
+                            "name": "usdtRepo",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 8961,
+                            "src": "1672:8:28",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                              "typeString": "contract IGarbiRepository"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                              "typeString": "contract IGarbiRepository"
+                            }
+                          ],
+                          "id": 8981,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "1664:7:28",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_address_$",
+                            "typeString": "type(address)"
+                          },
+                          "typeName": {
+                            "id": 8980,
+                            "name": "address",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "1664:7:28",
+                            "typeDescriptions": {}
+                          }
+                        },
+                        "id": 8983,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1664:17:28",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "id": 8984,
+                        "name": "gecInputAmount",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 8955,
+                        "src": "1683:14:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "id": 8978,
+                        "name": "repositoryManager",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 8958,
+                        "src": "1625:17:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
+                          "typeString": "contract IGarbiRepositoryManager"
+                        }
+                      },
+                      "id": 8979,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "1643:20:28",
+                      "memberName": "getDataToSellGarbiEC",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 21230,
+                      "src": "1625:38:28",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_address_$_t_uint256_$returns$_t_uint256_$",
+                        "typeString": "function (address,uint256) view external returns (uint256)"
+                      }
+                    },
+                    "id": 8985,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1625:73:28",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1601:97:28"
+                },
+                {
+                  "expression": {
+                    "id": 8996,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 8987,
+                      "name": "repoUSDTSellGECFee",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 8970,
+                      "src": "1709:18:28",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [
+                        {
+                          "arguments": [
+                            {
+                              "id": 8992,
+                              "name": "usdtRepo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 8961,
+                              "src": "1776:8:28",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                                "typeString": "contract IGarbiRepository"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                                "typeString": "contract IGarbiRepository"
+                              }
+                            ],
+                            "id": 8991,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "1768:7:28",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": {
+                              "id": 8990,
+                              "name": "address",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "1768:7:28",
+                              "typeDescriptions": {}
+                            }
+                          },
+                          "id": 8993,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1768:17:28",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        {
+                          "id": 8994,
+                          "name": "usdtOutAmount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 8977,
+                          "src": "1787:13:28",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        ],
+                        "expression": {
+                          "id": 8988,
+                          "name": "repositoryManager",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 8958,
+                          "src": "1730:17:28",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
+                            "typeString": "contract IGarbiRepositoryManager"
+                          }
+                        },
+                        "id": 8989,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1748:19:28",
+                        "memberName": "getFeeWithOutAmount",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 21239,
+                        "src": "1730:37:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_view$_t_address_$_t_uint256_$returns$_t_uint256_$",
+                          "typeString": "function (address,uint256) view external returns (uint256)"
+                        }
+                      },
+                      "id": 8995,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1730:71:28",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1709:92:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 8997,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1709:92:28"
+                },
+                {
+                  "assignments": [
+                    8999
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 8999,
+                      "mutability": "mutable",
+                      "name": "usdcOutAmount",
+                      "nameLocation": "1820:13:28",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 9042,
+                      "src": "1812:21:28",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 8998,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "1812:7:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 9008,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "id": 9004,
+                            "name": "usdcRepo",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 8964,
+                            "src": "1883:8:28",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                              "typeString": "contract IGarbiRepository"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                              "typeString": "contract IGarbiRepository"
+                            }
+                          ],
+                          "id": 9003,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "1875:7:28",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_address_$",
+                            "typeString": "type(address)"
+                          },
+                          "typeName": {
+                            "id": 9002,
+                            "name": "address",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "1875:7:28",
+                            "typeDescriptions": {}
+                          }
+                        },
+                        "id": 9005,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "1875:17:28",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "id": 9006,
+                        "name": "gecInputAmount",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 8955,
+                        "src": "1894:14:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "id": 9000,
+                        "name": "repositoryManager",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 8958,
+                        "src": "1836:17:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
+                          "typeString": "contract IGarbiRepositoryManager"
+                        }
+                      },
+                      "id": 9001,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "1854:20:28",
+                      "memberName": "getDataToSellGarbiEC",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 21230,
+                      "src": "1836:38:28",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_address_$_t_uint256_$returns$_t_uint256_$",
+                        "typeString": "function (address,uint256) view external returns (uint256)"
+                      }
+                    },
+                    "id": 9007,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "1836:73:28",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "1812:97:28"
+                },
+                {
+                  "expression": {
+                    "id": 9018,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 9009,
+                      "name": "repoUSDCSellGECFee",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 8972,
+                      "src": "1920:18:28",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [
+                        {
+                          "arguments": [
+                            {
+                              "id": 9014,
+                              "name": "usdcRepo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 8964,
+                              "src": "1987:8:28",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                                "typeString": "contract IGarbiRepository"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                                "typeString": "contract IGarbiRepository"
+                              }
+                            ],
+                            "id": 9013,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "1979:7:28",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": {
+                              "id": 9012,
+                              "name": "address",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "1979:7:28",
+                              "typeDescriptions": {}
+                            }
+                          },
+                          "id": 9015,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "1979:17:28",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        {
+                          "id": 9016,
+                          "name": "usdcOutAmount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 8999,
+                          "src": "1998:13:28",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        ],
+                        "expression": {
+                          "id": 9010,
+                          "name": "repositoryManager",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 8958,
+                          "src": "1941:17:28",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
+                            "typeString": "contract IGarbiRepositoryManager"
+                          }
+                        },
+                        "id": 9011,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "1959:19:28",
+                        "memberName": "getFeeWithOutAmount",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 21239,
+                        "src": "1941:37:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_view$_t_address_$_t_uint256_$returns$_t_uint256_$",
+                          "typeString": "function (address,uint256) view external returns (uint256)"
+                        }
+                      },
+                      "id": 9017,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "1941:71:28",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "1920:92:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 9019,
+                  "nodeType": "ExpressionStatement",
+                  "src": "1920:92:28"
+                },
+                {
+                  "assignments": [
+                    9021
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 9021,
+                      "mutability": "mutable",
+                      "name": "daiOutAmount",
+                      "nameLocation": "2031:12:28",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 9042,
+                      "src": "2023:20:28",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 9020,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "2023:7:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 9030,
+                  "initialValue": {
+                    "arguments": [
+                      {
+                        "arguments": [
+                          {
+                            "id": 9026,
+                            "name": "daiRepo",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 8967,
+                            "src": "2093:7:28",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                              "typeString": "contract IGarbiRepository"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                              "typeString": "contract IGarbiRepository"
+                            }
+                          ],
+                          "id": 9025,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "lValueRequested": false,
+                          "nodeType": "ElementaryTypeNameExpression",
+                          "src": "2085:7:28",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_address_$",
+                            "typeString": "type(address)"
+                          },
+                          "typeName": {
+                            "id": 9024,
+                            "name": "address",
+                            "nodeType": "ElementaryTypeName",
+                            "src": "2085:7:28",
+                            "typeDescriptions": {}
+                          }
+                        },
+                        "id": 9027,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "nameLocations": [],
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "2085:16:28",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      {
+                        "id": 9028,
+                        "name": "gecInputAmount",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 8955,
+                        "src": "2103:14:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      ],
+                      "expression": {
+                        "id": 9022,
+                        "name": "repositoryManager",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 8958,
+                        "src": "2046:17:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
+                          "typeString": "contract IGarbiRepositoryManager"
+                        }
+                      },
+                      "id": 9023,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberLocation": "2064:20:28",
+                      "memberName": "getDataToSellGarbiEC",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 21230,
+                      "src": "2046:38:28",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$_t_address_$_t_uint256_$returns$_t_uint256_$",
+                        "typeString": "function (address,uint256) view external returns (uint256)"
+                      }
+                    },
+                    "id": 9029,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "nameLocations": [],
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "2046:72:28",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "2023:95:28"
+                },
+                {
+                  "expression": {
+                    "id": 9040,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftHandSide": {
+                      "id": 9031,
+                      "name": "repoDAISellGECFee",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 8974,
+                      "src": "2129:17:28",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "nodeType": "Assignment",
+                    "operator": "=",
+                    "rightHandSide": {
+                      "arguments": [
+                        {
+                          "arguments": [
+                            {
+                              "id": 9036,
+                              "name": "daiRepo",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 8967,
+                              "src": "2195:7:28",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                                "typeString": "contract IGarbiRepository"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                                "typeString": "contract IGarbiRepository"
+                              }
+                            ],
+                            "id": 9035,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": true,
+                            "lValueRequested": false,
+                            "nodeType": "ElementaryTypeNameExpression",
+                            "src": "2187:7:28",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_address_$",
+                              "typeString": "type(address)"
+                            },
+                            "typeName": {
+                              "id": 9034,
+                              "name": "address",
+                              "nodeType": "ElementaryTypeName",
+                              "src": "2187:7:28",
+                              "typeDescriptions": {}
+                            }
+                          },
+                          "id": 9037,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "nameLocations": [],
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "2187:16:28",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        {
+                          "id": 9038,
+                          "name": "daiOutAmount",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 9021,
+                          "src": "2205:12:28",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          },
+                          {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        ],
+                        "expression": {
+                          "id": 9032,
+                          "name": "repositoryManager",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 8958,
+                          "src": "2149:17:28",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
+                            "typeString": "contract IGarbiRepositoryManager"
+                          }
+                        },
+                        "id": 9033,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberLocation": "2167:19:28",
+                        "memberName": "getFeeWithOutAmount",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 21239,
+                        "src": "2149:37:28",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_view$_t_address_$_t_uint256_$returns$_t_uint256_$",
+                          "typeString": "function (address,uint256) view external returns (uint256)"
+                        }
+                      },
+                      "id": 9039,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "kind": "functionCall",
+                      "lValueRequested": false,
+                      "nameLocations": [],
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "2149:69:28",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "src": "2129:89:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 9041,
+                  "nodeType": "ExpressionStatement",
+                  "src": "2129:89:28"
+                }
+              ]
+            },
+            "functionSelector": "2059da45",
+            "id": 9043,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getSellGECFees",
+            "nameLocation": "1323:14:28",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 8968,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 8955,
+                  "mutability": "mutable",
+                  "name": "gecInputAmount",
+                  "nameLocation": "1346:14:28",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9043,
+                  "src": "1338:22:28",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 8954,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1338:7:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 8958,
+                  "mutability": "mutable",
+                  "name": "repositoryManager",
+                  "nameLocation": "1386:17:28",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9043,
+                  "src": "1362:41:28",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
+                    "typeString": "contract IGarbiRepositoryManager"
+                  },
+                  "typeName": {
+                    "id": 8957,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 8956,
+                      "name": "IGarbiRepositoryManager",
+                      "nameLocations": [
+                        "1362:23:28"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 21240,
+                      "src": "1362:23:28"
+                    },
+                    "referencedDeclaration": 21240,
+                    "src": "1362:23:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IGarbiRepositoryManager_$21240",
+                      "typeString": "contract IGarbiRepositoryManager"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 8961,
+                  "mutability": "mutable",
+                  "name": "usdtRepo",
+                  "nameLocation": "1422:8:28",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9043,
+                  "src": "1405:25:28",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                    "typeString": "contract IGarbiRepository"
+                  },
+                  "typeName": {
+                    "id": 8960,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 8959,
+                      "name": "IGarbiRepository",
+                      "nameLocations": [
+                        "1405:16:28"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 21207,
+                      "src": "1405:16:28"
+                    },
+                    "referencedDeclaration": 21207,
+                    "src": "1405:16:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                      "typeString": "contract IGarbiRepository"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 8964,
+                  "mutability": "mutable",
+                  "name": "usdcRepo",
+                  "nameLocation": "1449:8:28",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9043,
+                  "src": "1432:25:28",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                    "typeString": "contract IGarbiRepository"
+                  },
+                  "typeName": {
+                    "id": 8963,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 8962,
+                      "name": "IGarbiRepository",
+                      "nameLocations": [
+                        "1432:16:28"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 21207,
+                      "src": "1432:16:28"
+                    },
+                    "referencedDeclaration": 21207,
+                    "src": "1432:16:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                      "typeString": "contract IGarbiRepository"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 8967,
+                  "mutability": "mutable",
+                  "name": "daiRepo",
+                  "nameLocation": "1476:7:28",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9043,
+                  "src": "1459:24:28",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                    "typeString": "contract IGarbiRepository"
+                  },
+                  "typeName": {
+                    "id": 8966,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 8965,
+                      "name": "IGarbiRepository",
+                      "nameLocations": [
+                        "1459:16:28"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 21207,
+                      "src": "1459:16:28"
+                    },
+                    "referencedDeclaration": 21207,
+                    "src": "1459:16:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_IGarbiRepository_$21207",
+                      "typeString": "contract IGarbiRepository"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1337:147:28"
+            },
+            "returnParameters": {
+              "id": 8975,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 8970,
+                  "mutability": "mutable",
+                  "name": "repoUSDTSellGECFee",
+                  "nameLocation": "1514:18:28",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9043,
+                  "src": "1506:26:28",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 8969,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1506:7:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 8972,
+                  "mutability": "mutable",
+                  "name": "repoUSDCSellGECFee",
+                  "nameLocation": "1542:18:28",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9043,
+                  "src": "1534:26:28",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 8971,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1534:7:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 8974,
+                  "mutability": "mutable",
+                  "name": "repoDAISellGECFee",
+                  "nameLocation": "1570:17:28",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9043,
+                  "src": "1562:25:28",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 8973,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1562:7:28",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1505:83:28"
+            },
+            "scope": 9044,
+            "src": "1314:912:28",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 8955,
-        "src": "279:1030:28",
+        "scope": 9045,
+        "src": "279:1950:28",
         "usedErrors": []
       }
     ],
-    "src": "33:1276:28"
+    "src": "33:2196:28"
   },
   "compiler": {
     "name": "solc",
@@ -3030,12 +5207,12 @@
     "421613": {
       "events": {},
       "links": {},
-      "address": "0x7937047b7e2069981caf18563dCe5b3A047ab501",
-      "transactionHash": "0xba2e55ce85bd8c058b07458f79624fa4779ffaa0df5fa9e0d94d6703d3c030c6"
+      "address": "0xd6c0dFd5a711cfEd1d1FeA79B638A4478872d04E",
+      "transactionHash": "0x2fa7b24af39f4eaa0b21a99ecb9ddc730e66fe0613ad84d5e91b83d42fbc2548"
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-03-01T06:52:32.514Z",
+  "updatedAt": "2023-03-02T09:19:48.877Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
