@@ -147,7 +147,7 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.WETH.LP',
-                    price: 1500,
+                    price: 1600,
                     version: 1
                 },
                 4: {
@@ -160,7 +160,7 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.WBTC.LP',
-                    price: 20000,
+                    price: 23000,
                     version: 1
                 },
                 5: {
@@ -173,7 +173,7 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.GRB_ETH.LP',
-                    price: 1500,
+                    price: 5500,
                     version: 1
                 },
             },
@@ -361,9 +361,9 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         42161: {
-            'grb': 0.2,
-            'weth': 1500,
-            'wbtc': 20000,
+            'grb': 0.4,
+            'weth': 1600,
+            'wbtc': 23000,
             'usdc': 1,
             'usdt': 1,
             'dai': 1

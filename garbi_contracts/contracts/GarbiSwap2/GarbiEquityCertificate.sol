@@ -22,7 +22,7 @@ contract GarbiEquityCertificate is ERC20Burnable, Ownable {
     }
 
     constructor(
-    ) ERC20("Garbi Equity Cert", "GarbiEC"){
+    ) ERC20("Garbi Equity Cert", "GEC"){
     }
 
     function setRepositoryManagerAddress(address newAddress) public onlyOwner {
