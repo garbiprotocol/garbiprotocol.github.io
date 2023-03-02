@@ -1,7 +1,40 @@
 {
   "contractName": "IGarbiRepositoryManager",
-  "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IGarbiRepositoryManager.sol\":\"IGarbiRepositoryManager\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/IGarbiRepositoryManager.sol\":{\"keccak256\":\"0x14c75782217534832debf71c59cc89ac647af4bd45cbb8bb5277bb10a319ea0a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3fb8e5af3d0cd5df7ba71e64f0750b84460496cc10a0225fed58f778a9341de2\",\"dweb:/ipfs/QmQnDHugWdmZjds3huihhrtMss1Crxic2ixcC2Zom9gBE6\"]}},\"version\":1}",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "repoAddresses",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getGarbiECPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getGarbiECPrice\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"repoAddresses\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/interfaces/IGarbiRepositoryManager.sol\":\"IGarbiRepositoryManager\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/interfaces/IGarbiRepositoryManager.sol\":{\"keccak256\":\"0x33e73706e76c568306fce93e18d20c9c0221e0adac25164265b4184508bf2e32\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e715e9862c4e91be26d0e1142813c065e2a9ef7c4ba53489dfcbadfead32af13\",\"dweb:/ipfs/QmRPfEWdxYhvxr7zPSeKQqG17fjXXcZBCVfR5tu7aRJTNM\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -9,21 +42,21 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\ninterface IGarbiRepositoryManager {\r\n    \r\n}",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\ninterface IGarbiRepositoryManager {\r\n    function repoAddresses(uint256) external view returns(address);\r\n    function getGarbiECPrice() external view returns(uint256);\r\n}",
   "sourcePath": "C:\\Users\\David\\Documents\\NetBeansProjects\\garbiprotocol.github.io\\garbi_contracts\\contracts\\interfaces\\IGarbiRepositoryManager.sol",
   "ast": {
     "absolutePath": "project:/contracts/interfaces/IGarbiRepositoryManager.sol",
     "exportedSymbols": {
       "IGarbiRepositoryManager": [
-        21012
+        21132
       ]
     },
-    "id": 21013,
+    "id": 21133,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 21011,
+        "id": 21119,
         "literals": [
           "solidity",
           ">=",
@@ -31,7 +64,7 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:25:48"
+        "src": "33:25:49"
       },
       {
         "abstract": false,
@@ -39,21 +72,161 @@
         "canonicalName": "IGarbiRepositoryManager",
         "contractDependencies": [],
         "contractKind": "interface",
-        "fullyImplemented": true,
-        "id": 21012,
+        "fullyImplemented": false,
+        "id": 21132,
         "linearizedBaseContracts": [
-          21012
+          21132
         ],
         "name": "IGarbiRepositoryManager",
-        "nameLocation": "72:23:48",
+        "nameLocation": "72:23:49",
         "nodeType": "ContractDefinition",
-        "nodes": [],
-        "scope": 21013,
-        "src": "62:44:48",
+        "nodes": [
+          {
+            "functionSelector": "ebf3da93",
+            "id": 21126,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "repoAddresses",
+            "nameLocation": "112:13:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 21122,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 21121,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 21126,
+                  "src": "126:7:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 21120,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "126:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "125:9:49"
+            },
+            "returnParameters": {
+              "id": 21125,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 21124,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 21126,
+                  "src": "157:7:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 21123,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "157:7:49",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "156:9:49"
+            },
+            "scope": 21132,
+            "src": "103:63:49",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "d3b76e5c",
+            "id": 21131,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getGarbiECPrice",
+            "nameLocation": "181:15:49",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 21127,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "196:2:49"
+            },
+            "returnParameters": {
+              "id": 21130,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 21129,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 21131,
+                  "src": "221:7:49",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 21128,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "221:7:49",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "220:9:49"
+            },
+            "scope": 21132,
+            "src": "172:58:49",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 21133,
+        "src": "62:171:49",
         "usedErrors": []
       }
     ],
-    "src": "33:73:48"
+    "src": "33:200:49"
   },
   "compiler": {
     "name": "solc",
@@ -61,7 +234,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-02-28T07:38:38.982Z",
+  "updatedAt": "2023-03-01T06:51:28.465Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

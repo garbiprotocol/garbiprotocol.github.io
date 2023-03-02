@@ -11,6 +11,7 @@ const GarbiVestGRB = artifacts.require("GarbiVestGRB");
 const GarbiRepositoryManager = artifacts.require("GarbiRepositoryManager");
 const GarbiRepository = artifacts.require("GarbiRepository");
 const BalanceInfo = artifacts.require("BalanceInfo");
+const GECExchangeInfo = artifacts.require("GECExchangeInfo");
 
 //production
 //const GRB = "0x5Fd71280b6385157b291b9962f22153FC9E79000";
@@ -64,5 +65,6 @@ module.exports = function(deployer) {
 //      deployer.deploy(GarbiRepository, GDAI, garbiOracleContract, repositoryManagerContract);
 //      deployer.deploy(GarbiRepository, GUSDC, garbiOracleContract, repositoryManagerContract);
 //      deployer.deploy(GarbiRepository, GUSDT, garbiOracleContract, repositoryManagerContract);
-       deployer.deploy(BalanceInfo);
+//       deployer.deploy(BalanceInfo);
+       deployer.deploy(GECExchangeInfo);
 };
