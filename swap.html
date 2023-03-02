@@ -448,10 +448,10 @@
                             <article class="garbi__box-1 p-3 mb-3">
                                 <p class="f-700">Market Data</p>
 
-                                <div>USDT Price: <span class="swap-liquidity-usdt">$0.0</span></div>
-                                <div>USDC Price: <span class="swap-liquidity-usdc">$0.0</span></div>
-                                <div>DAI Price: <span class="swap-liquidity-dai">$0.0</span></div>
-                                <div>Available Liquidity: $0.0</div>
+                                <div>USDT Price: $<span class="swap-liquidity-usdt">Loading</span></div>
+                                <div>USDC Price: $<span class="swap-liquidity-usdc">Loading</span></div>
+                                <div>DAI Price: $<span class="swap-liquidity-dai">Loading</span></div>
+                                <div>Available Liquidity: <span class="available-token">Loading</span></div>
                             </article>
                          </div>
                     </div>
@@ -579,6 +579,13 @@
                         let erc20TokenABI = abiHelper.getTokenABI();
                         let garbiRepositoryManagerABI = abiHelper.getGarbiRepositoryManagerABI();
                         let _contractsObj = configHelper.getContracts(chainId);
+                        let _abiGecExchangeInfo = abiHelper.getGecExchangeInfoABI();
+                        let _contractGecExchangeInfoRead = contractBaseHelper.getReadContract(_contractsObj['gecExchangeInfo']['contract'], _abiGecExchangeInfo);
+                        let _daiRepository = _contractsObj['garbiRepository']['dai'];
+                        let _usdcRepository = _contractsObj['garbiRepository']['usdc'];
+                        let _usdtRepository = _contractsObj['garbiRepository']['usdt'];
+                        let _gecAddr = configHelper.getTokenByTokenName(chainId, 'gec');
+                        let _user = coreHelper.getUserAccount();
                         setInterval(function () {
                             let userWallet = coreHelper.getUserAccount();
                             let userAssetBalances = storeHelper.getValue('balanceOf');
@@ -586,6 +593,27 @@
                             let userSelectedAssetOut = $('.stable-swap-out .selectpicker').val();
                             $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedAssetPay).toLowerCase()].toFixed(6));
                             $('.stable-swap-pay .user-to-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedAssetOut).toLowerCase()].toFixed(6));
+                            _contractGecExchangeInfoRead.methods.getData(_contractsObj['garbiRepositoryManager']['contract'],_gecAddr,_user,_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
+                                    let RepoDaiprice = result.repoDAIPrice / 10**18;
+                                    $('.swap-liquidity-dai').text(RepoDaiprice.toFixed(6));
+                                    let RepoUSDTprice = result.repoUSDTPrice / 10**18;
+                                    $('.swap-liquidity-usdt').text(RepoUSDTprice.toFixed(6));
+                                    let RepoUSDCprice = result.repoUSDCPrice / 10**18;
+                                    $('.swap-liquidity-usdc').text(RepoUSDCprice.toFixed(6));
+                                    let RepoDaiToken = result.repoDAITotalToken / 10**18;
+                                    let RepoUSDTToken = result.repoUSDTTotalToken / 10**18;
+                                    let RepoUSDCToken = result.repoUSDCTotalToken / 10**18;
+                                    if (userSelectedAssetOut == ['usdt']) {
+                                        $('.available-token').text(RepoUSDTToken.toFixed(6));
+                                    }
+                                    if (userSelectedAssetOut == ['usdc']) {
+                                        $('.available-token').text(RepoUSDCToken.toFixed(6));
+                                    }
+                                    if (userSelectedAssetOut == ['dai']) {
+                                        $('.available-token').text(RepoDaiToken.toFixed(6));
+                                    }
+
+                                });
                         }, 1000);
                         //setup before functions
                         var typingTimerAmountStableSwap;                //timer identifier
