@@ -376,7 +376,7 @@
                                             <div class="col-6">
                                                 <div class="text-end">
                                                     <span class="color-2 f-roboto f-14 f-400">Pay: $</span>
-                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
+                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0.0</span>
                                                 </div>
                                                 <input class="swap__form-input" name="amountPay" placeholder="0.0" autofocus value="" />    
                                             </div>
@@ -411,7 +411,7 @@
                                             <div class="col-6">
                                                 <div class="text-end">
                                                     <span class="color-2 f-roboto f-14 f-400">Receive: $</span>
-                                                    <span class="text-white f-700 f-roboto f-14 to-volume">0</span>
+                                                    <span class="text-white f-700 f-roboto f-14 to-volume">0.0</span>
                                                 </div>
                                                 <input class="swap__form-input" name="amountGECOut" placeholder="0.0" autofocus value="" />    
                                             </div>
@@ -461,7 +461,7 @@
                                             <div class="col-6">
                                                 <div class="text-end">
                                                     <span class="color-2 f-roboto f-14 f-400">Pay: $</span>
-                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
+                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0.0</span>
                                                 </div>
                                                 <input class="swap__form-input" name="amountGEC" placeholder="0.0" autofocus value="" />    
                                             </div>
@@ -485,7 +485,7 @@
                                             <div class="col-6">
                                                 <div class="text-end">
                                                     <span class="color-2 f-roboto f-14 f-400">Receive: $</span>
-                                                    <span class="text-white f-700 f-roboto f-14 to-volume">0</span>
+                                                    <span class="text-white f-700 f-roboto f-14 to-volume">0.0</span>
                                                 </div>
                                                 <input class="swap__form-input" name="amountAssetOut" placeholder="0.0" autofocus value="" />    
                                             </div>
@@ -718,12 +718,30 @@
                             $('#sell-gec-form').hide();
                             $('#buy-gec-form').show();
                             $('.button-sell-gec-form').addClass('button-disabled');
+                            $(`input[name=amountGEC]`).val("");
+                            $(`input[name=amountAssetOut]`).val("");
+                            $('#sell-gec-form .from-volume').text("0.0");
+                            $('#sell-gec-form .to-volume').text("0.0");
                         });
                         $('.button-sell-gec-form').click(function() {
                             $(this).removeClass('button-disabled');
                             $('#buy-gec-form').hide();
                             $('#sell-gec-form').show();
                             $('.button-buy-gec-form').addClass('button-disabled');
+                            $('input[name=amountPay]').val("");
+                            $(`input[name=amountGECOut]`).val("");
+                            $('#buy-gec-form .from-volume').text("0.0");
+                            $('#buy-gec-form .to-volume').text("0.0");
+                        });
+                        $('#buy-gec-form .user-from-bal').click(function() {
+                            let userBalance = $(this).text();
+                            $('input[name=amountPay]').val(userBalance);
+                            doneTypingAmountPay();
+                        });
+                        $('#sell-gec-form .user-from-bal').click(function() {
+                            let userBalance = $(this).text();
+                            $('input[name=amountGEC]').val(userBalance);
+                            doneTypingAmountGEC();
                         });
                         //setup before functions
                         var typingTimerAmountPay;                //timer identifier
@@ -761,6 +779,11 @@
                                 });
                                 setTimeout(doneTypingAmountPay, 3000);
                             }
+                            else {
+                                $(`input[name=amountGECOut]`).val("");
+                                $('#buy-gec-form .from-volume').text("0.0");
+                                $('#buy-gec-form .to-volume').text("0.0");
+                            }
                         }
                         //setup before functions
                         var typingTimerAmountGEC;                //timer identifier
@@ -796,6 +819,11 @@
                                     }
                                 });
                                 setTimeout(doneTypingAmountGEC, 3000);
+                            }
+                            else {
+                                $(`input[name=amountAssetOut]`).val("");
+                                $('#sell-gec-form .from-volume').text("0.0");
+                                $('#sell-gec-form .to-volume').text("0.0");
                             }
                         }
                         let erc20TokenABI = abiHelper.getTokenABI();
@@ -922,6 +950,8 @@
                                                 coreHelper.hidePopup('success-confirm-popup', 10000);
                                                 $(`input[name=amountPay]`).val("");
                                                 $(`input[name=amountGECOut]`).val("");
+                                                $('#buy-gec-form .from-volume').text("0.0");
+                                                $('#buy-gec-form .to-volume').text("0.0");
                                             })
                                             .on('receipt', (receipt) => {
                                                 coreHelper.hidePopup('confirm-popup', 0);
@@ -929,6 +959,8 @@
                                                 coreHelper.hidePopup('success-confirm-popup', 10000);
                                                 $(`input[name=amountPay]`).val("");
                                                 $(`input[name=amountGECOut]`).val("");
+                                                $('#buy-gec-form .from-volume').text("0.0");
+                                                $('#buy-gec-form .to-volume').text("0.0");
                                             })
                                             .on('error', (err, receipt) => {
                                                 console.log(err);
@@ -973,7 +1005,6 @@
                             let userSelectedAsset = $('#sell-gec-form .selectpicker').val();
                             let garbiECContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'gec'), erc20TokenABI);
                             garbiECContract.methods.allowance(userWallet, _contractsObj['garbiRepositoryManager']["contract"]).call().then(result => {
-                                console.log(result);
                                 if (result == 0) { //need approve
                                     $('.approve-gec').show();
                                 } else {
@@ -1005,6 +1036,8 @@
                                                 coreHelper.hidePopup('success-confirm-popup', 10000);
                                                 $(`input[name=amountGEC]`).val("");
                                                 $(`input[name=amountAssetOut]`).val("");
+                                                $('#sell-gec-form .from-volume').text("0.0");
+                                                $('#sell-gec-form .to-volume').text("0.0");
                                             })
                                             .on('receipt', (receipt) => {
                                                 coreHelper.hidePopup('confirm-popup', 0);
