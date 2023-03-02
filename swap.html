@@ -213,228 +213,249 @@
                 </nav>
             </header>
             <main class="page__swap">
-                <section class="blog__container">
-                    <article class="swap__main garbi__box-1 p-3 mb-3 stable-swap">
-                        <div class="d-flex align-items-center justify-content-between mb-14">
-                            <div class="f-700">Stable Swap</div>
-                        </div>
-
-                        <div class="swap__form mb-2 pb-1 stable-swap-pay">
-                            <div class="swap__form-item mb-1">
-                                <div class="row">
-                                    <div class="col-5">
-                                        <select class="selectpicker swap__form-select mb-1" name="from">
-                                            <option
-                                                value="usdt"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdt_logo.png' /></span>USDT</div>"
-                                                >USDT</option>
-                                            <option
-                                                value="usdc"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdc_logo.png' /></span>USDC</div>"
-                                                >USDC</option>
-                                            <option
-                                                value="dai"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/dai_logo.png' /></span>DAI</div>"
-                                                >DAI</option>
-                                        </select>
-                                        <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
-                                    </div>
-                                    <div class="col-7">
-                                        <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
-                                        <div class="text-end">
-                                            <span class="color-2 f-roboto f-14 f-400">~$</span>
-                                            <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
-                                        </div>
-                                    </div>
-                                </div>
+                <section class="container">
+                    <div class="masthead">
+                        <div class="masthead__action-buttons">
+                            <div class="masthead__action-buttons">
+                                <button class="button button--large button--buy button-stable-swap-form">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                    <label class="label">Stable Swap</label>
+                                </button>
+                                <button class="button button--large button--sell button-token-swap-form button-disabled">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                    <label class="label">Token Swap</label>
+                                </button>
                             </div>
-
-                            <img src="./assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
-
-                            <div class="swap__form-item stable-swap-out">
-                                <div class="row">
-                                    <div class="col-5">
-                                        <select class="selectpicker swap__form-select mb-1" name="to">
-                                            <option
-                                                value="usdc"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdc_logo.png' /></span>USDC</div>"
-                                                >USDC</option>
-                                            <option
-                                                value="usdt"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdt_logo.png' /></span>USDT</div>"
-                                                >USDT</option>
-                                            <option
-                                                value="dai"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/dai_logo.png' /></span>DAI</div>"
-                                                >DAI</option>
-                                        </select>
-                                        <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
-                                    </div>
-                                    <div class="col-7">
-                                        <input class="swap__form-input" placeholder="0.0" name="amountOut" readonly/>
-                                        <div class="text-end">
-                                            <span class="color-2 f-roboto f-14 f-400">~$</span>
-                                            <span class="text-white f-700 f-roboto f-14 to-volume">0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-12">
+                            <article class="swap__main garbi__box-1 p-3 mb-3 stable-swap" id="stable-swap-form">
+                                <div class="d-flex align-items-center justify-content-between mb-14">
+                                    <div class="f-700">Stable Swap</div>
+                                </div>
 
-                        <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none">Approve</button>
-                        <button type="button" class="header__btn-connect w-100 text-center button-swap">Swap</button>
-
-                    </article>
-                    <article class="swap__main garbi__box-1 p-3 mb-3 token-swap" style="display: none">
-                        <div class="d-flex align-items-center justify-content-between mb-14">
-                            <div class="f-700">Token Swap</div>
-                            <div class="transaction__setting">
-                                <img src="./assets/images/setting.svg" class="cursor-pointer" id="transaction__setting-icon" />
-
-                                <div class="transaction__setting-description swap-box" id="transaction__setting-description">
-                                    <header class="f-14 f-700 text-white title">Transaction Settings</header>
-                                    <section class="f-12">
-                                        <div class="mb-2">
-                                            <div class="f-roboto f-700 mb-1">Slippage tolerance?</div>
-                                            <div class="d-flex align-items-center transaction__setting-slippage">
-                                                <button type="button" class="btn-auto f-12 f-roboto f-400 text-white btn-auto-slippage">Auto</button>
-                                                <div class="slippage-input ml-2 flex-grow-1">
-                                                    <input type="text" class="input-transaction-deadline  input-transaction-slippage f-12 f-roboto color-2 text-end" name="slippage" value="0.5" />
-                                                    <span class="percent text-white f-12">%</span>
+                                <div class="swap__form mb-2 pb-1 stable-swap-pay">
+                                    <div class="swap__form-item mb-1">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <select class="selectpicker swap__form-select mb-1" name="from">
+                                                    <option
+                                                        value="usdt"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdt_logo.png' /></span>USDT</div>"
+                                                        >USDT</option>
+                                                    <option
+                                                        value="usdc"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdc_logo.png' /></span>USDC</div>"
+                                                        >USDC</option>
+                                                    <option
+                                                        value="dai"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/dai_logo.png' /></span>DAI</div>"
+                                                        >DAI</option>
+                                                </select>
+                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
+                                            </div>
+                                            <div class="col-7">
+                                                <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
+                                                <div class="text-end">
+                                                    <span class="color-2 f-roboto f-14 f-400">~$</span>
+                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="swap__form mb-2 pb-1">
-                            <div class="swap__form-item mb-1">
-                                <div class="row">
-                                    <div class="col-5">
-                                        <select class="selectpicker swap__form-select mb-1" name="from">
-                                            <option
-                                                value="grb"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
-                                                >GRB</option>
-                                            <option
-                                                value="weth"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth_logo.png' /></span>WETH</div>"
-                                                >WETH</option>
-                                        </select>
-                                        <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
                                     </div>
-                                    <div class="col-7">
-                                        <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
-                                        <div class="text-end">
-                                            <span class="color-2 f-roboto f-14 f-400">~$</span>
-                                            <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <img src="./assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
+                                    <img src="./assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
 
-                            <div class="swap__form-item">
-                                <div class="row">
-                                    <div class="col-5">
-                                        <select class="selectpicker swap__form-select mb-1" name="to">
-                                            <option
-                                                value="weth"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth_logo.png' /></span>WETH</div>"
-                                                >WETH</option>
-                                            <option
-                                                value="grb"
-                                                data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
-                                                >GRB</option>
-                                        </select>
-                                        <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
-                                    </div>
-                                    <div class="col-7">
-                                        <input class="swap__form-input" placeholder="0.0" name="amountOut" readonly/>
-                                        <div class="text-end">
-                                            <span class="color-2 f-roboto f-14 f-400">~$</span>
-                                            <span class="text-white f-700 f-roboto f-14 to-volume">0</span>
+                                    <div class="swap__form-item stable-swap-out">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <select class="selectpicker swap__form-select mb-1" name="to">
+                                                    <option
+                                                        value="usdc"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdc_logo.png' /></span>USDC</div>"
+                                                        >USDC</option>
+                                                    <option
+                                                        value="usdt"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdt_logo.png' /></span>USDT</div>"
+                                                        >USDT</option>
+                                                    <option
+                                                        value="dai"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/dai_logo.png' /></span>DAI</div>"
+                                                        >DAI</option>
+                                                </select>
+                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
+                                            </div>
+                                            <div class="col-7">
+                                                <input class="swap__form-input" placeholder="0.0" name="amountOut" readonly/>
+                                                <div class="text-end">
+                                                    <span class="color-2 f-roboto f-14 f-400">~$</span>
+                                                    <span class="text-white f-700 f-roboto f-14 to-volume">0</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
-                            </div>
 
-                        </div>
+                                <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none">Approve</button>
+                                <button type="button" class="header__btn-connect w-100 text-center button-swap">Swap</button>
 
-                        <div class="d-flex align-items-center justify-content-between mb-2 pb-1">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            </svg>
+                            </article>
+                            <article class="swap__main garbi__box-1 p-3 mb-3 token-swap" id="token-swap-form" style="display: none">
+                                <div class="d-flex align-items-center justify-content-between mb-14">
+                                    <div class="f-700">Token Swap</div>
+                                    <div class="transaction__setting">
+                                        <img src="./assets/images/setting.svg" class="cursor-pointer" id="transaction__setting-icon" />
 
-                            <div class="d-flex align-items-center">
-                                <span class="text-white f-roboto f-14 f-400 estimate-price"></span>
-                                <div class="transaction__tooltip ms-1">
-                                    <img src="./assets/images/transaction-detail.svg" class="cursor-pointer icon-swap" />
+                                        <div class="transaction__setting-description swap-box" id="transaction__setting-description">
+                                            <header class="f-14 f-700 text-white title">Transaction Settings</header>
+                                            <section class="f-12">
+                                                <div class="mb-2">
+                                                    <div class="f-roboto f-700 mb-1">Slippage tolerance?</div>
+                                                    <div class="d-flex align-items-center transaction__setting-slippage">
+                                                        <button type="button" class="btn-auto f-12 f-roboto f-400 text-white btn-auto-slippage">Auto</button>
+                                                        <div class="slippage-input ml-2 flex-grow-1">
+                                                            <input type="text" class="input-transaction-deadline  input-transaction-slippage f-12 f-roboto color-2 text-end" name="slippage" value="0.5" />
+                                                            <span class="percent text-white f-12">%</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                    <div class="transaction__tooltip-description swap-box">
-                                        <header class="f-14 f-700 text-white title">Transaction Detail</header>
-                                        <section>
-                                            <div class="d-flex align-items-center justify-content-between text-white f-14 mb-1">
-                                                <span class="f-roboto f-400">Liquidity Provider Fee</span>
-                                                <span class="f-700 trxn-liquidity-provider-fee">-</span>
+                                                <div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="swap__form mb-2 pb-1">
+                                    <div class="swap__form-item mb-1">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <select class="selectpicker swap__form-select mb-1" name="from">
+                                                    <option
+                                                        value="grb"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
+                                                        >GRB</option>
+                                                    <option
+                                                        value="weth"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth_logo.png' /></span>WETH</div>"
+                                                        >WETH</option>
+                                                </select>
+                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
                                             </div>
-                                            <div class="d-flex align-items-center justify-content-between text-white f-14 mb-1">
-                                                <span class="f-roboto f-400">Price Impact</span>
-                                                <span class="f-roboto trxn-price-impact">-</span>
+                                            <div class="col-7">
+                                                <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
+                                                <div class="text-end">
+                                                    <span class="color-2 f-roboto f-14 f-400">~$</span>
+                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
+                                                </div>
                                             </div>
-                                            <div class="d-flex align-items-center justify-content-between text-white f-14 mb-1">
-                                                <span class="f-roboto f-400">Allowed Slippage</span>
-                                                <span class="f-700 trxn-allowed-slippage">-</span>
+                                        </div>
+                                    </div>
+
+                                    <img src="./assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
+
+                                    <div class="swap__form-item">
+                                        <div class="row">
+                                            <div class="col-5">
+                                                <select class="selectpicker swap__form-select mb-1" name="to">
+                                                    <option
+                                                        value="weth"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth_logo.png' /></span>WETH</div>"
+                                                        >WETH</option>
+                                                    <option
+                                                        value="grb"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
+                                                        >GRB</option>
+                                                </select>
+                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
                                             </div>
-                                            <div class="d-flex align-items-center justify-content-between text-white f-14">
-                                                <span class="f-roboto f-400">Minimum received</span>
-                                                <span class="f-700 trxn-min-receiver">-</span>
+                                            <div class="col-7">
+                                                <input class="swap__form-input" placeholder="0.0" name="amountOut" readonly/>
+                                                <div class="text-end">
+                                                    <span class="color-2 f-roboto f-14 f-400">~$</span>
+                                                    <span class="text-white f-700 f-roboto f-14 to-volume">0</span>
+                                                </div>
                                             </div>
-                                        </section>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between mb-2 pb-1">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    </svg>
+
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-white f-roboto f-14 f-400 estimate-price"></span>
+                                        <div class="transaction__tooltip ms-1">
+                                            <img src="./assets/images/transaction-detail.svg" class="cursor-pointer icon-swap" />
+
+                                            <div class="transaction__tooltip-description swap-box">
+                                                <header class="f-14 f-700 text-white title">Transaction Detail</header>
+                                                <section>
+                                                    <div class="d-flex align-items-center justify-content-between text-white f-14 mb-1">
+                                                        <span class="f-roboto f-400">Liquidity Provider Fee</span>
+                                                        <span class="f-700 trxn-liquidity-provider-fee">-</span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-between text-white f-14 mb-1">
+                                                        <span class="f-roboto f-400">Price Impact</span>
+                                                        <span class="f-roboto trxn-price-impact">-</span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-between text-white f-14 mb-1">
+                                                        <span class="f-roboto f-400">Allowed Slippage</span>
+                                                        <span class="f-700 trxn-allowed-slippage">-</span>
+                                                    </div>
+                                                    <div class="d-flex align-items-center justify-content-between text-white f-14">
+                                                        <span class="f-roboto f-400">Minimum received</span>
+                                                        <span class="f-700 trxn-min-receiver">-</span>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
-                            </div>
+
+                                <button type="button" class="header__btn-connect w-100 text-center btn-swap">Connect your wallet</button>
+                                <button type="button" class="header__btn-connect w-100 text-center btn-approve">Approve</button>
+
+                            </article>
                         </div>
+                         <div class="col-lg-6 col-sm-12">
+                             <article class="garbi__box-1 p-3 mb-3">
+                                <p class="f-700">What is Swap?</p>
 
+                                <p>Garbiswap is an AMM (like Uniswap) focused on stablecoin trading, so it is lower risk and nearly no impermanent loss.</p>
 
-                        <button type="button" class="header__btn-connect w-100 text-center btn-swap">Connect your wallet</button>
-                        <button type="button" class="header__btn-connect w-100 text-center btn-approve">Approve</button>
+                                <p>With Garbiswap, Liquidity Providers will not earn only from trading fees, and the protocol is also supplied to Lending protocol or other DeFi pools to create more interest.</p>
 
-                    </article>
-                    <article class="garbi__box-1 p-3 mb-3">
-                        <p class="f-700">What is Swap?</p>
+                                <p>The Garbiswap Contract will move the liquidity around to do both works (trading and farming).</p>
 
-                        <p>Garbiswap is an AMM (like Uniswap) focused on stablecoin trading, so it is lower risk and nearly no impermanent loss.</p>
+                                <p>What is Transaction Fee Mining?</p>
 
-                        <p>With Garbiswap, Liquidity Providers will not earn only from trading fees, and the protocol is also supplied to Lending protocol or other DeFi pools to create more interest.</p>
+                                <p>When you use Garbiswap to trade the assets, you'll automatically begin getting GRB from our Refund Pool.</p>
 
-                        <p>The Garbiswap Contract will move the liquidity around to do both works (trading and farming).</p>
+                                <p>Risks of using Garbiswap Liquidity Pool?</p>
 
-                        <p>What is Transaction Fee Mining?</p>
+                                <div>Check it <a href="risks.html" target="_blank" rel="noopener noreferrer"><b> here.</b></a> </div>
+                            </article>
 
-                        <p>When you use Garbiswap to trade the assets, you'll automatically begin getting GRB from our Refund Pool.</p>
+                            <article class="garbi__box-1 p-3 mb-3">
+                                <p class="f-700">Market Data</p>
 
-                        <p>Risks of using Garbiswap Liquidity Pool?</p>
-
-                        <div>Check it <a href="risks.html" target="_blank" rel="noopener noreferrer"><b> here.</b></a> </div>
-                    </article>
-
-                    <article class="garbi__box-1 p-3 mb-3">
-                        <p class="f-700">Market Data</p>
-
-                        <div>USDT Price: <span class="swap-liquidity-usdt">$0.0</span></div>
-                        <div>USDC Price: <span class="swap-liquidity-usdc">$0.0</span></div>
-                        <div>DAI Price: <span class="swap-liquidity-dai">$0.0</span></div>
-                        <div>Available Liquidity: $0.0</div>
-                    </article>
+                                <div>USDT Price: <span class="swap-liquidity-usdt">$0.0</span></div>
+                                <div>USDC Price: <span class="swap-liquidity-usdc">$0.0</span></div>
+                                <div>DAI Price: <span class="swap-liquidity-dai">$0.0</span></div>
+                                <div>Available Liquidity: $0.0</div>
+                            </article>
+                         </div>
+                    </div>
+                    
                 </section>
             </main>
 
@@ -542,6 +563,18 @@
                         });
                         dataHelper.init({
                             chainId
+                        });
+                        $('.button-stable-swap-form').click(function() {
+                            $(this).removeClass('button-disabled');
+                            $('#token-swap-form').hide();
+                            $('#stable-swap-form').show();
+                            $('.button-token-swap-form').addClass('button-disabled');
+                        });
+                        $('.button-token-swap-form').click(function() {
+                            $(this).removeClass('button-disabled');
+                            $('#stable-swap-form').hide();
+                            $('#token-swap-form').show();
+                            $('.button-stable-swap-form').addClass('button-disabled');
                         });
                         let erc20TokenABI = abiHelper.getTokenABI();
                         let garbiRepositoryManagerABI = abiHelper.getGarbiRepositoryManagerABI();
