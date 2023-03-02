@@ -67,9 +67,9 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"releasePlatformFund\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/GarbiPlatformFund.sol\":\"GarbiPlatformFund\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0xa94b34880e3c1b0b931662cb1c09e5dfa6662f31cba80e07c5ee71cd135c9673\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://40fb1b5102468f783961d0af743f91b9980cf66b50d1d12009f6bb1869cea4d2\",\"dweb:/ipfs/QmYqEbJML4jB1GHbzD4cUZDtJg5wVwNm3vDJq1GbyDus8y\"]},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34\",\"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"@openzeppelin/contracts/utils/math/SafeMath.sol\":{\"keccak256\":\"0x0f633a0223d9a1dcccfcf38a64c9de0874dfcbfac0c6941ccf074d63a2ce0e1e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://864a40efcffdf408044c332a5aa38ec5618ed7b4eecb8f65faf45671bd6cdc65\",\"dweb:/ipfs/QmQJquTMtc6fgm5JQzGdsGpA2fqBe3MHWEdt2qzaLySMdN\"]},\"project:/contracts/GarbiPlatformFund.sol\":{\"keccak256\":\"0x856f1d805267a0d509eb9903f87d0b79f73c5046d73b797be5f4f3d19f071767\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6b930d0645ba2f6cc8d472955e138dfb9d7bc07dfc4f2c7d69236ea5348a3d27\",\"dweb:/ipfs/QmbFqEJk9FjQeZJT3y4jdWuVavHxFUtTyUaJM4t4zR8H9b\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b5061001a3361001f565b61006f565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6103898061007e6000396000f3fe608060405234801561001057600080fd5b506004361061004b5760003560e01c8062f8017314610050578063715018a6146100655780638da5cb5b1461006d578063f2fde38b1461008c575b600080fd5b61006361005e3660046102f4565b61009f565b005b6100636101a3565b600054604080516001600160a01b039092168252519081900360200190f35b61006361009a3660046102f4565b6101b7565b6100a7610235565b806001600160a01b031663a9059cbb6100c86000546001600160a01b031690565b6040516370a0823160e01b81523060048201526001600160a01b038516906370a0823190602401602060405180830381865afa15801561010c573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906101309190610318565b6040516001600160e01b031960e085901b1681526001600160a01b03909216600483015260248201526044016020604051808303816000875af115801561017b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061019f9190610331565b5050565b6101ab610235565b6101b5600061028f565b565b6101bf610235565b6001600160a01b0381166102295760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b60648201526084015b60405180910390fd5b6102328161028f565b50565b6000546001600160a01b031633146101b55760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610220565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6001600160a01b038116811461023257600080fd5b60006020828403121561030657600080fd5b8135610311816102df565b9392505050565b60006020828403121561032a57600080fd5b5051919050565b60006020828403121561034357600080fd5b8151801515811461031157600080fdfea26469706673582212209d17ad8e236816474c773cbbf157b574a5ff2eaf439fc0ea2c1e27a747479f7c64736f6c63430008110033",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004b5760003560e01c8062f8017314610050578063715018a6146100655780638da5cb5b1461006d578063f2fde38b1461008c575b600080fd5b61006361005e3660046102f4565b61009f565b005b6100636101a3565b600054604080516001600160a01b039092168252519081900360200190f35b61006361009a3660046102f4565b6101b7565b6100a7610235565b806001600160a01b031663a9059cbb6100c86000546001600160a01b031690565b6040516370a0823160e01b81523060048201526001600160a01b038516906370a0823190602401602060405180830381865afa15801561010c573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906101309190610318565b6040516001600160e01b031960e085901b1681526001600160a01b03909216600483015260248201526044016020604051808303816000875af115801561017b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061019f9190610331565b5050565b6101ab610235565b6101b5600061028f565b565b6101bf610235565b6001600160a01b0381166102295760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b60648201526084015b60405180910390fd5b6102328161028f565b50565b6000546001600160a01b031633146101b55760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610220565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6001600160a01b038116811461023257600080fd5b60006020828403121561030657600080fd5b8135610311816102df565b9392505050565b60006020828403121561032a57600080fd5b5051919050565b60006020828403121561034357600080fd5b8151801515811461031157600080fdfea26469706673582212209d17ad8e236816474c773cbbf157b574a5ff2eaf439fc0ea2c1e27a747479f7c64736f6c63430008110033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"releasePlatformFund\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/GarbiPlatformFund.sol\":\"GarbiPlatformFund\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0xa94b34880e3c1b0b931662cb1c09e5dfa6662f31cba80e07c5ee71cd135c9673\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://40fb1b5102468f783961d0af743f91b9980cf66b50d1d12009f6bb1869cea4d2\",\"dweb:/ipfs/QmYqEbJML4jB1GHbzD4cUZDtJg5wVwNm3vDJq1GbyDus8y\"]},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0x9750c6b834f7b43000631af5cc30001c5f547b3ceb3635488f140f60e897ea6b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5a7d5b1ef5d8d5889ad2ed89d8619c09383b80b72ab226e0fe7bde1636481e34\",\"dweb:/ipfs/QmebXWgtEfumQGBdVeM6c71McLixYXQP5Bk6kKXuoY4Bmr\"]},\"@openzeppelin/contracts/utils/Context.sol\":{\"keccak256\":\"0xe2e337e6dde9ef6b680e07338c493ebea1b5fd09b43424112868e9cc1706bca7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6df0ddf21ce9f58271bdfaa85cde98b200ef242a05a3f85c2bc10a8294800a92\",\"dweb:/ipfs/QmRK2Y5Yc6BK7tGKkgsgn3aJEQGi5aakeSPZvS65PV8Xp3\"]},\"@openzeppelin/contracts/utils/math/SafeMath.sol\":{\"keccak256\":\"0x0f633a0223d9a1dcccfcf38a64c9de0874dfcbfac0c6941ccf074d63a2ce0e1e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://864a40efcffdf408044c332a5aa38ec5618ed7b4eecb8f65faf45671bd6cdc65\",\"dweb:/ipfs/QmQJquTMtc6fgm5JQzGdsGpA2fqBe3MHWEdt2qzaLySMdN\"]},\"project:/contracts/GarbiPlatformFund.sol\":{\"keccak256\":\"0xd3cb234f89a603ac8d7a4996cddbd4078c6064afda5c6a18c0ca7d469c3c5852\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://0d317a02af22b70c305836314f005ec536009972780b8edcd8b5f32837321c43\",\"dweb:/ipfs/QmdvyCu69LFfybQouJdfqRwhdtcgGNxyMnqqBFB4HfjybN\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b5061001a3361001f565b61006f565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6103898061007e6000396000f3fe608060405234801561001057600080fd5b506004361061004b5760003560e01c8062f8017314610050578063715018a6146100655780638da5cb5b1461006d578063f2fde38b1461008c575b600080fd5b61006361005e3660046102f4565b61009f565b005b6100636101a3565b600054604080516001600160a01b039092168252519081900360200190f35b61006361009a3660046102f4565b6101b7565b6100a7610235565b806001600160a01b031663a9059cbb6100c86000546001600160a01b031690565b6040516370a0823160e01b81523060048201526001600160a01b038516906370a0823190602401602060405180830381865afa15801561010c573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906101309190610318565b6040516001600160e01b031960e085901b1681526001600160a01b03909216600483015260248201526044016020604051808303816000875af115801561017b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061019f9190610331565b5050565b6101ab610235565b6101b5600061028f565b565b6101bf610235565b6001600160a01b0381166102295760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b60648201526084015b60405180910390fd5b6102328161028f565b50565b6000546001600160a01b031633146101b55760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610220565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6001600160a01b038116811461023257600080fd5b60006020828403121561030657600080fd5b8135610311816102df565b9392505050565b60006020828403121561032a57600080fd5b5051919050565b60006020828403121561034357600080fd5b8151801515811461031157600080fdfea264697066735822122083468d7aff1ad1adf20bce0f3aaad6f92247a249e2f8f9af193b2be1d5b99ec364736f6c63430008110033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061004b5760003560e01c8062f8017314610050578063715018a6146100655780638da5cb5b1461006d578063f2fde38b1461008c575b600080fd5b61006361005e3660046102f4565b61009f565b005b6100636101a3565b600054604080516001600160a01b039092168252519081900360200190f35b61006361009a3660046102f4565b6101b7565b6100a7610235565b806001600160a01b031663a9059cbb6100c86000546001600160a01b031690565b6040516370a0823160e01b81523060048201526001600160a01b038516906370a0823190602401602060405180830381865afa15801561010c573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906101309190610318565b6040516001600160e01b031960e085901b1681526001600160a01b03909216600483015260248201526044016020604051808303816000875af115801561017b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061019f9190610331565b5050565b6101ab610235565b6101b5600061028f565b565b6101bf610235565b6001600160a01b0381166102295760405162461bcd60e51b815260206004820152602660248201527f4f776e61626c653a206e6577206f776e657220697320746865207a65726f206160448201526564647265737360d01b60648201526084015b60405180910390fd5b6102328161028f565b50565b6000546001600160a01b031633146101b55760405162461bcd60e51b815260206004820181905260248201527f4f776e61626c653a2063616c6c6572206973206e6f7420746865206f776e65726044820152606401610220565b600080546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b6001600160a01b038116811461023257600080fd5b60006020828403121561030657600080fd5b8135610311816102df565b9392505050565b60006020828403121561032a57600080fd5b5051919050565b60006020828403121561034357600080fd5b8151801515811461031157600080fdfea264697066735822122083468d7aff1ad1adf20bce0f3aaad6f92247a249e2f8f9af193b2be1d5b99ec364736f6c63430008110033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [
@@ -1716,10 +1716,10 @@
       "name": "#utility.yul"
     }
   ],
-  "sourceMap": "235:221:26:-:0;;;;;;;;;;;;-1:-1:-1;936:32:1;719:10:8;936:18:1;:32::i;:::-;235:221:26;;2433:187:1;2506:16;2525:6;;-1:-1:-1;;;;;2541:17:1;;;-1:-1:-1;;;;;;2541:17:1;;;;;;2573:40;;2525:6;;;;;;;2573:40;;2506:16;2573:40;2496:124;2433:187;:::o;235:221:26:-;;;;;;;",
-  "deployedSourceMap": "235:221:26:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;317:134;;;;;;:::i;:::-;;:::i;:::-;;1831:101:1;;;:::i;1201:85::-;1247:7;1273:6;1201:85;;;-1:-1:-1;;;;;1273:6:1;;;578:51:58;;1201:85:1;;;;;566:2:58;1201:85:1;;;2081:198;;;;;;:::i;:::-;;:::i;317:134:26:-;1094:13:1;:11;:13::i;:::-;388:5:26::1;-1:-1:-1::0;;;;;388:14:26::1;;403:7;1247::1::0;1273:6;-1:-1:-1;;;;;1273:6:1;;1201:85;403:7:26::1;412:30;::::0;-1:-1:-1;;;412:30:26;;436:4:::1;412:30;::::0;::::1;578:51:58::0;-1:-1:-1;;;;;412:15:26;::::1;::::0;::::1;::::0;551:18:58;;412:30:26::1;;;;;;;;;;;;;;;;;::::0;::::1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;388:55;::::0;-1:-1:-1;;;;;;388:55:26::1;::::0;;;;;;-1:-1:-1;;;;;1281:32:58;;;388:55:26::1;::::0;::::1;1263:51:58::0;1330:18;;;1323:34;1236:18;;388:55:26::1;;;;;;;;;;;;;;;;;;::::0;::::1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;317:134:::0;:::o;1831:101:1:-;1094:13;:11;:13::i;:::-;1895:30:::1;1922:1;1895:18;:30::i;:::-;1831:101::o:0;2081:198::-;1094:13;:11;:13::i;:::-;-1:-1:-1;;;;;2169:22:1;::::1;2161:73;;;::::0;-1:-1:-1;;;2161:73:1;;1852:2:58;2161:73:1::1;::::0;::::1;1834:21:58::0;1891:2;1871:18;;;1864:30;1930:34;1910:18;;;1903:62;-1:-1:-1;;;1981:18:58;;;1974:36;2027:19;;2161:73:1::1;;;;;;;;;2244:28;2263:8;2244:18;:28::i;:::-;2081:198:::0;:::o;1359:130::-;1247:7;1273:6;-1:-1:-1;;;;;1273:6:1;719:10:8;1422:23:1;1414:68;;;;-1:-1:-1;;;1414:68:1;;2259:2:58;1414:68:1;;;2241:21:58;;;2278:18;;;2271:30;2337:34;2317:18;;;2310:62;2389:18;;1414:68:1;2057:356:58;2433:187:1;2506:16;2525:6;;-1:-1:-1;;;;;2541:17:1;;;-1:-1:-1;;;;;;2541:17:1;;;;;;2573:40;;2525:6;;;;;;;2573:40;;2506:16;2573:40;2496:124;2433:187;:::o;14:139:58:-;-1:-1:-1;;;;;97:31:58;;87:42;;77:70;;143:1;140;133:12;158:269;231:6;284:2;272:9;263:7;259:23;255:32;252:52;;;300:1;297;290:12;252:52;339:9;326:23;358:39;391:5;358:39;:::i;:::-;416:5;158:269;-1:-1:-1;;;158:269:58:o;900:184::-;970:6;1023:2;1011:9;1002:7;998:23;994:32;991:52;;;1039:1;1036;1029:12;991:52;-1:-1:-1;1062:16:58;;900:184;-1:-1:-1;900:184:58:o;1368:277::-;1435:6;1488:2;1476:9;1467:7;1463:23;1459:32;1456:52;;;1504:1;1501;1494:12;1456:52;1536:9;1530:16;1589:5;1582:13;1575:21;1568:5;1565:32;1555:60;;1611:1;1608;1601:12",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity >=0.6.12;\r\n\r\nimport \"@openzeppelin/contracts/utils/math/SafeMath.sol\";\r\nimport \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\r\nimport \"@openzeppelin/contracts/access/Ownable.sol\";\r\n\r\ncontract GarbiPlatformFund is Ownable {\r\n\r\n    using SafeMath for uint256;\r\n\r\n    function releasePlatformFund(IERC20 token) public onlyOwner {\r\n        token.transfer(owner(), token.balanceOf(address(this)));\r\n    }\r\n\r\n}",
-  "sourcePath": "C:\\Users\\David\\Documents\\NetBeansProjects\\garbiprotocol.github.io\\garbi_contracts\\contracts\\GarbiPlatformFund.sol",
+  "sourceMap": "228:213:26:-:0;;;;;;;;;;;;-1:-1:-1;936:32:1;719:10:8;936:18:1;:32::i;:::-;228:213:26;;2433:187:1;2506:16;2525:6;;-1:-1:-1;;;;;2541:17:1;;;-1:-1:-1;;;;;;2541:17:1;;;;;;2573:40;;2525:6;;;;;;;2573:40;;2506:16;2573:40;2496:124;2433:187;:::o;228:213:26:-;;;;;;;",
+  "deployedSourceMap": "228:213:26:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;306:132;;;;;;:::i;:::-;;:::i;:::-;;1831:101:1;;;:::i;1201:85::-;1247:7;1273:6;1201:85;;;-1:-1:-1;;;;;1273:6:1;;;578:51:58;;1201:85:1;;;;;566:2:58;1201:85:1;;;2081:198;;;;;;:::i;:::-;;:::i;306:132:26:-;1094:13:1;:11;:13::i;:::-;376:5:26::1;-1:-1:-1::0;;;;;376:14:26::1;;391:7;1247::1::0;1273:6;-1:-1:-1;;;;;1273:6:1;;1201:85;391:7:26::1;400:30;::::0;-1:-1:-1;;;400:30:26;;424:4:::1;400:30;::::0;::::1;578:51:58::0;-1:-1:-1;;;;;400:15:26;::::1;::::0;::::1;::::0;551:18:58;;400:30:26::1;;;;;;;;;;;;;;;;;::::0;::::1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;376:55;::::0;-1:-1:-1;;;;;;376:55:26::1;::::0;;;;;;-1:-1:-1;;;;;1281:32:58;;;376:55:26::1;::::0;::::1;1263:51:58::0;1330:18;;;1323:34;1236:18;;376:55:26::1;;;;;;;;;;;;;;;;;;::::0;::::1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;306:132:::0;:::o;1831:101:1:-;1094:13;:11;:13::i;:::-;1895:30:::1;1922:1;1895:18;:30::i;:::-;1831:101::o:0;2081:198::-;1094:13;:11;:13::i;:::-;-1:-1:-1;;;;;2169:22:1;::::1;2161:73;;;::::0;-1:-1:-1;;;2161:73:1;;1852:2:58;2161:73:1::1;::::0;::::1;1834:21:58::0;1891:2;1871:18;;;1864:30;1930:34;1910:18;;;1903:62;-1:-1:-1;;;1981:18:58;;;1974:36;2027:19;;2161:73:1::1;;;;;;;;;2244:28;2263:8;2244:18;:28::i;:::-;2081:198:::0;:::o;1359:130::-;1247:7;1273:6;-1:-1:-1;;;;;1273:6:1;719:10:8;1422:23:1;1414:68;;;;-1:-1:-1;;;1414:68:1;;2259:2:58;1414:68:1;;;2241:21:58;;;2278:18;;;2271:30;2337:34;2317:18;;;2310:62;2389:18;;1414:68:1;2057:356:58;2433:187:1;2506:16;2525:6;;-1:-1:-1;;;;;2541:17:1;;;-1:-1:-1;;;;;;2541:17:1;;;;;;2573:40;;2525:6;;;;;;;2573:40;;2506:16;2573:40;2496:124;2433:187;:::o;14:139:58:-;-1:-1:-1;;;;;97:31:58;;87:42;;77:70;;143:1;140;133:12;158:269;231:6;284:2;272:9;263:7;259:23;255:32;252:52;;;300:1;297;290:12;252:52;339:9;326:23;358:39;391:5;358:39;:::i;:::-;416:5;158:269;-1:-1:-1;;;158:269:58:o;900:184::-;970:6;1023:2;1011:9;1002:7;998:23;994:32;991:52;;;1039:1;1036;1029:12;991:52;-1:-1:-1;1062:16:58;;900:184;-1:-1:-1;900:184:58:o;1368:277::-;1435:6;1488:2;1476:9;1467:7;1463:23;1459:32;1456:52;;;1504:1;1501;1494:12;1456:52;1536:9;1530:16;1589:5;1582:13;1575:21;1568:5;1565:32;1555:60;;1611:1;1608;1601:12",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.6.12;\n\nimport \"@openzeppelin/contracts/utils/math/SafeMath.sol\";\nimport \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\nimport \"@openzeppelin/contracts/access/Ownable.sol\";\n\ncontract GarbiPlatformFund is Ownable {\n\n    using SafeMath for uint256;\n\n    function releasePlatformFund(IERC20 token) public onlyOwner {\n        token.transfer(owner(), token.balanceOf(address(this)));\n    }\n\n}",
+  "sourcePath": "/Applications/projects/garbiprotocol.github.io/garbi_contracts/contracts/GarbiPlatformFund.sol",
   "ast": {
     "absolutePath": "project:/contracts/GarbiPlatformFund.sol",
     "exportedSymbols": {
@@ -1752,7 +1752,7 @@
           ".12"
         ],
         "nodeType": "PragmaDirective",
-        "src": "33:25:26"
+        "src": "32:25:26"
       },
       {
         "absolutePath": "@openzeppelin/contracts/utils/math/SafeMath.sol",
@@ -1762,7 +1762,7 @@
         "nodeType": "ImportDirective",
         "scope": 7956,
         "sourceUnit": 1389,
-        "src": "62:57:26",
+        "src": "59:57:26",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -1774,7 +1774,7 @@
         "nodeType": "ImportDirective",
         "scope": 7956,
         "sourceUnit": 986,
-        "src": "121:56:26",
+        "src": "117:56:26",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -1786,7 +1786,7 @@
         "nodeType": "ImportDirective",
         "scope": 7956,
         "sourceUnit": 159,
-        "src": "179:52:26",
+        "src": "174:52:26",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -1798,15 +1798,15 @@
               "id": 7927,
               "name": "Ownable",
               "nameLocations": [
-                "265:7:26"
+                "258:7:26"
               ],
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 158,
-              "src": "265:7:26"
+              "src": "258:7:26"
             },
             "id": 7928,
             "nodeType": "InheritanceSpecifier",
-            "src": "265:7:26"
+            "src": "258:7:26"
           }
         ],
         "canonicalName": "GarbiPlatformFund",
@@ -1820,7 +1820,7 @@
           1076
         ],
         "name": "GarbiPlatformFund",
-        "nameLocation": "244:17:26",
+        "nameLocation": "237:17:26",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
@@ -1830,19 +1830,19 @@
               "id": 7929,
               "name": "SafeMath",
               "nameLocations": [
-                "288:8:26"
+                "279:8:26"
               ],
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 1388,
-              "src": "288:8:26"
+              "src": "279:8:26"
             },
             "nodeType": "UsingForDirective",
-            "src": "282:27:26",
+            "src": "273:27:26",
             "typeName": {
               "id": 7930,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
-              "src": "301:7:26",
+              "src": "292:7:26",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -1853,7 +1853,7 @@
             "body": {
               "id": 7953,
               "nodeType": "Block",
-              "src": "377:74:26",
+              "src": "366:72:26",
               "statements": [
                 {
                   "expression": {
@@ -1867,7 +1867,7 @@
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
                           "referencedDeclaration": 86,
-                          "src": "403:5:26",
+                          "src": "391:5:26",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
                             "typeString": "function () view returns (address)"
@@ -1882,7 +1882,7 @@
                         "nameLocations": [],
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "403:7:26",
+                        "src": "391:7:26",
                         "tryCall": false,
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1899,7 +1899,7 @@
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": 4294967268,
-                                "src": "436:4:26",
+                                "src": "424:4:26",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_contract$_GarbiPlatformFund_$7955",
                                   "typeString": "contract GarbiPlatformFund"
@@ -1919,7 +1919,7 @@
                               "isPure": true,
                               "lValueRequested": false,
                               "nodeType": "ElementaryTypeNameExpression",
-                              "src": "428:7:26",
+                              "src": "416:7:26",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_type$_t_address_$",
                                 "typeString": "type(address)"
@@ -1928,7 +1928,7 @@
                                 "id": 7946,
                                 "name": "address",
                                 "nodeType": "ElementaryTypeName",
-                                "src": "428:7:26",
+                                "src": "416:7:26",
                                 "typeDescriptions": {}
                               }
                             },
@@ -1941,7 +1941,7 @@
                             "nameLocations": [],
                             "names": [],
                             "nodeType": "FunctionCall",
-                            "src": "428:13:26",
+                            "src": "416:13:26",
                             "tryCall": false,
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
@@ -1962,7 +1962,7 @@
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
                             "referencedDeclaration": 7934,
-                            "src": "412:5:26",
+                            "src": "400:5:26",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_IERC20_$985",
                               "typeString": "contract IERC20"
@@ -1973,11 +1973,11 @@
                           "isLValue": false,
                           "isPure": false,
                           "lValueRequested": false,
-                          "memberLocation": "418:9:26",
+                          "memberLocation": "406:9:26",
                           "memberName": "balanceOf",
                           "nodeType": "MemberAccess",
                           "referencedDeclaration": 942,
-                          "src": "412:15:26",
+                          "src": "400:15:26",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
                             "typeString": "function (address) view external returns (uint256)"
@@ -1992,7 +1992,7 @@
                         "nameLocations": [],
                         "names": [],
                         "nodeType": "FunctionCall",
-                        "src": "412:30:26",
+                        "src": "400:30:26",
                         "tryCall": false,
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -2017,7 +2017,7 @@
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 7934,
-                        "src": "388:5:26",
+                        "src": "376:5:26",
                         "typeDescriptions": {
                           "typeIdentifier": "t_contract$_IERC20_$985",
                           "typeString": "contract IERC20"
@@ -2028,11 +2028,11 @@
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
-                      "memberLocation": "394:8:26",
+                      "memberLocation": "382:8:26",
                       "memberName": "transfer",
                       "nodeType": "MemberAccess",
                       "referencedDeclaration": 952,
-                      "src": "388:14:26",
+                      "src": "376:14:26",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$_t_uint256_$returns$_t_bool_$",
                         "typeString": "function (address,uint256) external returns (bool)"
@@ -2047,7 +2047,7 @@
                     "nameLocations": [],
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "388:55:26",
+                    "src": "376:55:26",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
@@ -2056,7 +2056,7 @@
                   },
                   "id": 7952,
                   "nodeType": "ExpressionStatement",
-                  "src": "388:55:26"
+                  "src": "376:55:26"
                 }
               ]
             },
@@ -2072,18 +2072,18 @@
                   "id": 7936,
                   "name": "onlyOwner",
                   "nameLocations": [
-                    "367:9:26"
+                    "356:9:26"
                   ],
                   "nodeType": "IdentifierPath",
                   "referencedDeclaration": 77,
-                  "src": "367:9:26"
+                  "src": "356:9:26"
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "367:9:26"
+                "src": "356:9:26"
               }
             ],
             "name": "releasePlatformFund",
-            "nameLocation": "326:19:26",
+            "nameLocation": "315:19:26",
             "nodeType": "FunctionDefinition",
             "parameters": {
               "id": 7935,
@@ -2094,10 +2094,10 @@
                   "id": 7934,
                   "mutability": "mutable",
                   "name": "token",
-                  "nameLocation": "353:5:26",
+                  "nameLocation": "342:5:26",
                   "nodeType": "VariableDeclaration",
                   "scope": 7954,
-                  "src": "346:12:26",
+                  "src": "335:12:26",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -2111,14 +2111,14 @@
                       "id": 7932,
                       "name": "IERC20",
                       "nameLocations": [
-                        "346:6:26"
+                        "335:6:26"
                       ],
                       "nodeType": "IdentifierPath",
                       "referencedDeclaration": 985,
-                      "src": "346:6:26"
+                      "src": "335:6:26"
                     },
                     "referencedDeclaration": 985,
-                    "src": "346:6:26",
+                    "src": "335:6:26",
                     "typeDescriptions": {
                       "typeIdentifier": "t_contract$_IERC20_$985",
                       "typeString": "contract IERC20"
@@ -2127,27 +2127,27 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "345:14:26"
+              "src": "334:14:26"
             },
             "returnParameters": {
               "id": 7938,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "377:0:26"
+              "src": "366:0:26"
             },
             "scope": 7955,
-            "src": "317:134:26",
+            "src": "306:132:26",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "public"
           }
         ],
         "scope": 7956,
-        "src": "235:221:26",
+        "src": "228:213:26",
         "usedErrors": []
       }
     ],
-    "src": "33:423:26"
+    "src": "32:409:26"
   },
   "compiler": {
     "name": "solc",
@@ -2162,7 +2162,7 @@
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-03-02T09:19:48.850Z",
+  "updatedAt": "2023-03-02T17:15:10.223Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

@@ -258,8 +258,8 @@
                                             <div class="col-7">
                                                 <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
                                                 <div class="text-end">
-                                                    <span class="color-2 f-roboto f-14 f-400">~$</span>
-                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0</span>
+                                                    <span class="color-2 f-roboto f-14 f-400">$</span>
+                                                    <span class="text-white f-700 f-roboto f-14 from-volume">0.0</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -289,8 +289,8 @@
                                             <div class="col-7">
                                                 <input class="swap__form-input" placeholder="0.0" name="amountOut" readonly/>
                                                 <div class="text-end">
-                                                    <span class="color-2 f-roboto f-14 f-400">~$</span>
-                                                    <span class="text-white f-700 f-roboto f-14 to-volume">0</span>
+                                                    <span class="color-2 f-roboto f-14 f-400">$</span>
+                                                    <span class="text-white f-700 f-roboto f-14 to-volume">0.0</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -585,6 +585,18 @@
                         let _usdtRepository = _contractsObj['garbiRepository']['usdt'];
                         let _gecAddr = configHelper.getTokenByTokenName(chainId, 'gec');
                         let _user = coreHelper.getUserAccount();
+                        _contractGecExchangeInfoRead.methods.getData(_contractsObj['garbiRepositoryManager']['contract'],_gecAddr,_user,_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
+                            let RepoDaiprice = result.repoDAIPrice / 10**18;
+                            $('.swap-liquidity-dai').text(RepoDaiprice.toFixed(6));
+                            let RepoUSDTprice = result.repoUSDTPrice / 10**18;
+                            $('.swap-liquidity-usdt').text(RepoUSDTprice.toFixed(6));
+                            let RepoUSDCprice = result.repoUSDCPrice / 10**18;
+                            $('.swap-liquidity-usdc').text(RepoUSDCprice.toFixed(6));
+                            let RepoDaiToken = result.repoDAITotalToken / 10**18;
+                            let RepoUSDTToken = result.repoUSDTTotalToken / 10**18;
+                            let RepoUSDCToken = result.repoUSDCTotalToken / 10**18;
+                            $('.available-token').text(RepoUSDCToken.toFixed(6) + " " + "USDC".toUpperCase());
+                        });
                         setInterval(function () {
                             let userWallet = coreHelper.getUserAccount();
                             let userAssetBalances = storeHelper.getValue('balanceOf');
@@ -592,28 +604,10 @@
                             let userSelectedAssetOut = $('.stable-swap-out .selectpicker').val();
                             $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedAssetPay).toLowerCase()].toFixed(6));
                             $('.stable-swap-pay .user-to-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedAssetOut).toLowerCase()].toFixed(6));
-                            _contractGecExchangeInfoRead.methods.getData(_contractsObj['garbiRepositoryManager']['contract'],_gecAddr,_user,_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
-                                    let RepoDaiprice = result.repoDAIPrice / 10**18;
-                                    $('.swap-liquidity-dai').text(RepoDaiprice.toFixed(6));
-                                    let RepoUSDTprice = result.repoUSDTPrice / 10**18;
-                                    $('.swap-liquidity-usdt').text(RepoUSDTprice.toFixed(6));
-                                    let RepoUSDCprice = result.repoUSDCPrice / 10**18;
-                                    $('.swap-liquidity-usdc').text(RepoUSDCprice.toFixed(6));
-                                    let RepoDaiToken = result.repoDAITotalToken / 10**18;
-                                    let RepoUSDTToken = result.repoUSDTTotalToken / 10**18;
-                                    let RepoUSDCToken = result.repoUSDCTotalToken / 10**18;
-                                    if (userSelectedAssetOut == ['usdt']) {
-                                        $('.available-token').text(RepoUSDTToken.toFixed(6) + " " + "USDT".toUpperCase());
-                                    }
-                                    if (userSelectedAssetOut == ['usdc']) {
-                                        $('.available-token').text(RepoUSDCToken.toFixed(6) + " " + "USDC".toUpperCase());
-                                    }
-                                    if (userSelectedAssetOut == ['dai']) {
-                                        $('.available-token').text(RepoDaiToken.toFixed(6) + " " + "DAI".toUpperCase());
-                                    }
-
-                                });
                         }, 1000);
+                        setInterval(function () {
+                            updateMarketData();
+                        }, 6000);
                         //setup before functions
                         var typingTimerAmountStableSwap;                //timer identifier
                         var doneTypingInterval = 1000;  //time in ms, 3 second for example
@@ -638,7 +632,12 @@
                                 let repoOutAddress = _contractsObj['garbiRepository'][userSelectedAssetOut];
                                 let contractGarbiRepositoryManagerRead = contractBaseHelper.getReadContract(_contractsObj['garbiRepositoryManager']["contract"], garbiRepositoryManagerABI);
                                 contractGarbiRepositoryManagerRead.methods.getTokenOutputWithFee(repoInAddress, repoOutAddress, coreHelper.toBN(amountIn, 18)).call().then(result => {
-                                    $('.stable-swap input[name=amountOut]').val((((result / 10 ** 18)*99.999)/100).toFixed(6));
+                                    let amountOut = (((result / 10 ** 18)*99.999)/100).toFixed(6);
+                                    $('.stable-swap input[name=amountOut]').val(amountOut);
+                                    let assetPayPrice = parseFloat($('.swap-liquidity-'+userSelectedAssetPay).text());
+                                    let assetOutPrice = parseFloat($('.swap-liquidity-'+userSelectedAssetOut).text());
+                                    $('.stable-swap .from-volume').text((amountIn*assetPayPrice).toFixed(2));
+                                    $('.stable-swap .to-volume').text((amountOut*assetOutPrice).toFixed(2));
                                 });
                                 setTimeout(doneTypingAmountStableSwap, 3000);
                             }
@@ -648,6 +647,7 @@
                             $('.stable-swap-out .user-to-bal').text("Loading");
                             $('.stable-swap .button-approve').hide();
                             doneTypingAmountStableSwap();
+                            updateMarketData();
                         });
                         $('.stable-swap .btn-reverse-pair').click(function() {
                             $('.stable-swap-pay .user-from-bal').text("Loading");
@@ -699,6 +699,8 @@
                                                 coreHelper.hidePopup('success-confirm-popup', 10000);
                                                 $('.stable-swap input[name=amountIn]').val("");
                                                 $('.stable-swap input[name=amountOut]').val("");
+                                                $('.stable-swap .from-volume').text("0.0");
+                                                $('.stable-swap .to-volume').text("0.0");
                                             })
                                             .on('receipt', (receipt) => {
                                                 coreHelper.hidePopup('confirm-popup', 0);
@@ -706,6 +708,8 @@
                                                 coreHelper.hidePopup('success-confirm-popup', 10000);
                                                 $('.stable-swap input[name=amountIn]').val("");
                                                 $('.stable-swap input[name=amountOut]').val("");
+                                                $('.stable-swap .from-volume').text("0.0");
+                                                $('.stable-swap .to-volume').text("0.0");
                                             })
                                             .on('error', (err, receipt) => {
                                                 console.log(err);
@@ -745,6 +749,30 @@
                                         console.log(err);
                                     });
                         });
+                        function updateMarketData() {
+                            let userSelectedAssetOut = $('.stable-swap-out .selectpicker').val();
+                            _contractGecExchangeInfoRead.methods.getData(_contractsObj['garbiRepositoryManager']['contract'],_gecAddr,_user,_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
+                                let RepoDaiprice = result.repoDAIPrice / 10**18;
+                                $('.swap-liquidity-dai').text(RepoDaiprice.toFixed(6));
+                                let RepoUSDTprice = result.repoUSDTPrice / 10**18;
+                                $('.swap-liquidity-usdt').text(RepoUSDTprice.toFixed(6));
+                                let RepoUSDCprice = result.repoUSDCPrice / 10**18;
+                                $('.swap-liquidity-usdc').text(RepoUSDCprice.toFixed(6));
+                                let RepoDaiToken = result.repoDAITotalToken / 10**18;
+                                let RepoUSDTToken = result.repoUSDTTotalToken / 10**18;
+                                let RepoUSDCToken = result.repoUSDCTotalToken / 10**18;
+                                if (userSelectedAssetOut == ['usdt']) {
+                                    $('.available-token').text(RepoUSDTToken.toFixed(6) + " " + "USDT".toUpperCase());
+                                }
+                                if (userSelectedAssetOut == ['usdc']) {
+                                    $('.available-token').text(RepoUSDCToken.toFixed(6) + " " + "USDC".toUpperCase());
+                                }
+                                if (userSelectedAssetOut == ['dai']) {
+                                    $('.available-token').text(RepoDaiToken.toFixed(6) + " " + "DAI".toUpperCase());
+                                }
+
+                            });
+                        }
                     });
     </script>
 </html>

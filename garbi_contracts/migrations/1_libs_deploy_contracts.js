@@ -61,10 +61,10 @@ module.exports = function(deployer) {
 //                    GarbiswapWhitelistAddress,
 //                    GarbiTimeLockAddress,
 //                    );
-//      deployer.deploy(GarbiRepositoryManager, garbiECContract, GarbiswapWhitelistAddress);
+      deployer.deploy(GarbiRepositoryManager, garbiECContract, GarbiswapWhitelistAddress);
 //      deployer.deploy(GarbiRepository, GDAI, garbiOracleContract, repositoryManagerContract);
 //      deployer.deploy(GarbiRepository, GUSDC, garbiOracleContract, repositoryManagerContract);
 //      deployer.deploy(GarbiRepository, GUSDT, garbiOracleContract, repositoryManagerContract);
 //       deployer.deploy(BalanceInfo);
-       deployer.deploy(GECExchangeInfo);
+//       deployer.deploy(GECExchangeInfo);
 };

@@ -225,7 +225,7 @@ $.CONFIG.prototype = (function() {
                 contract: "0xd6c0dFd5a711cfEd1d1FeA79B638A4478872d04E"
             },
             garbiRepositoryManager: {
-                contract: "0x8B912C735e1dAe7C9b85F3179384872033bdAc3E"
+                contract: "0xAD11F7E2af5A107b67D413154a21CB2779E9d527"
             },
             garbiRepository: {
                 'dai': '0x508C16e20C4d3730570C7b9B73e1c88538dA8a26',

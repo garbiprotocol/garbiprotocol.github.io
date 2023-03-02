@@ -216,12 +216,12 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
     function makeTradeOnTwoRepos(IGarbiRepository repoIn, IGarbiRepository repoOut, uint256 tokenInputAmount, uint256 tokenOutputAmount) private {
         IERC20 baseIn = IERC20(repoIn.base());
         IERC20 baseOut = IERC20(repoOut.base());
+        uint256 fee = tokenOutputAmount.mul(getSellGarbiECDynamicFee(address(repoOut), tokenOutputAmount, SWAP_FEE)).div(10000);
+        uint256 tokenOutputAmountAfterFee = tokenOutputAmount.sub(fee);
         uint256 tokenInputAmountAtTokenDecimal = repoIn.convertToBaseDecimal(tokenInputAmount, 18);
         baseIn.transferFrom(msg.sender, address(this), tokenInputAmountAtTokenDecimal);
         baseIn.transfer(address(repoIn), tokenInputAmountAtTokenDecimal);
         repoOut.withdrawBaseToRepositoryManager(tokenOutputAmount);
-        uint256 fee = tokenOutputAmount.mul(getSellGarbiECDynamicFee(address(repoOut), tokenOutputAmount, SWAP_FEE)).div(10000);
-        uint256 tokenOutputAmountAfterFee = tokenOutputAmount.sub(fee);
         baseOut.transfer(msg.sender, repoOut.convertToBaseDecimal(tokenOutputAmountAfterFee, 18));
         //transfer fee
         baseOut.transfer(platformFundAddress, repoOut.convertToBaseDecimal(fee, 18));
