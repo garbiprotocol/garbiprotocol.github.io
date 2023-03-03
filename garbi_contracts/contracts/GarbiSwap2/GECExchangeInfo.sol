@@ -28,10 +28,21 @@ contract GECExchangeInfo{
 
     function getSellGECFees(uint256 gecInputAmount, IGarbiRepositoryManager repositoryManager, IGarbiRepository usdtRepo, IGarbiRepository usdcRepo, IGarbiRepository daiRepo) public view returns (uint256 repoUSDTSellGECFee, uint256 repoUSDCSellGECFee, uint256 repoDAISellGECFee)  {
         uint256 usdtOutAmount = repositoryManager.getDataToSellGarbiEC(address(usdtRepo), gecInputAmount);
+        if(usdtOutAmount > usdtRepo.getCapacityByToken()) {
+            usdtOutAmount = usdtRepo.getCapacityByToken();
+        }
         repoUSDTSellGECFee = repositoryManager.getFeeWithOutAmount(address(usdtRepo), usdtOutAmount);
+
         uint256 usdcOutAmount = repositoryManager.getDataToSellGarbiEC(address(usdcRepo), gecInputAmount);
+        if(usdcOutAmount > usdcRepo.getCapacityByToken()) {
+            usdcOutAmount = usdcRepo.getCapacityByToken();
+        }
         repoUSDCSellGECFee = repositoryManager.getFeeWithOutAmount(address(usdcRepo), usdcOutAmount);
+
         uint256 daiOutAmount = repositoryManager.getDataToSellGarbiEC(address(daiRepo), gecInputAmount);
+        if(daiOutAmount > daiRepo.getCapacityByToken()) {
+            daiOutAmount = daiRepo.getCapacityByToken();
+        }
         repoDAISellGECFee = repositoryManager.getFeeWithOutAmount(address(daiRepo), daiOutAmount);
     }
 }

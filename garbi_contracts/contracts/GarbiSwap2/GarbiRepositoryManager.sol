@@ -280,10 +280,6 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
        uint256 assetPrice = repoOut.getBasePrice();
 
        assetOutAmount = garbiECInAmount.mul(garbiECPrice).div(assetPrice);
-       
-       if(assetOutAmount > repoOut.getCapacityByToken()) {
-            assetOutAmount = 0;
-       }
     }
 
     function getDataToSellGarbiECWithFee(address repoOutAddress, uint256 garbiECInAmount) public view returns (uint256 assetOutAmountAfterFee) {
@@ -294,11 +290,12 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
 
        uint256 assetOutAmount = garbiECInAmount.mul(garbiECPrice).div(assetPrice);
 
-       uint256 fee = assetOutAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, assetOutAmount, SELL_GARBIEC_FEE)).div(10000);
-       assetOutAmountAfterFee = assetOutAmount.sub(fee);
-       
        if(assetOutAmount > repoOut.getCapacityByToken()) {
             assetOutAmountAfterFee = 0;
+       }
+       else {
+            uint256 fee = assetOutAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, assetOutAmount, SELL_GARBIEC_FEE)).div(10000);
+            assetOutAmountAfterFee = assetOutAmount.sub(fee);
        }
     }
 
@@ -317,8 +314,16 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
         uint256 repoOutTotalCapacityByUSD = repoOut.getCapacityByUSD();
         uint256 assetOutAmountByUSD = assetOutAmount.mul(repoOut.getBasePrice()).div(10**18);
         uint256 repoShareAfterOut = repoOutTotalCapacityByUSD.sub(assetOutAmountByUSD).mul(totalShares).div(totalCapacityByUSD.sub(assetOutAmountByUSD));
-        uint256 shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
-        fee = baseFee.mul(shareDiff).div(totalShares);
+        if(repoShareAfterOut > 0) {
+            uint256 shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
+            fee = baseFee.mul(shareDiff).div(totalShares);
+            if(fee > baseFee*10) {
+                fee = baseFee*10; //max fee
+            }
+        }
+        else {
+            fee = baseFee*10; //max fee
+        }
     }
 
     function getFeeWithOutAmount(address repoOutAddress, uint256 assetOutAmount) public view returns (uint256 sellGarbiECfee, uint256 swapFee) {
@@ -327,8 +332,20 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
         uint256 repoOutTotalCapacityByUSD = repoOut.getCapacityByUSD();
         uint256 assetOutAmountByUSD = assetOutAmount.mul(repoOut.getBasePrice()).div(10**18);
         uint256 repoShareAfterOut = repoOutTotalCapacityByUSD.sub(assetOutAmountByUSD).mul(totalShares).div(totalCapacityByUSD.sub(assetOutAmountByUSD));
-        uint256 shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
-        sellGarbiECfee = SELL_GARBIEC_FEE.mul(shareDiff).div(totalShares);
-        swapFee = SWAP_FEE.mul(shareDiff).div(totalShares);
+        if(repoShareAfterOut > 0) {
+            uint256 shareDiff = repoList[repoOutAddress].share.mul(totalShares).div(repoShareAfterOut);
+            sellGarbiECfee = SELL_GARBIEC_FEE.mul(shareDiff).div(totalShares);
+            swapFee = SWAP_FEE.mul(shareDiff).div(totalShares);
+            if(sellGarbiECfee > SELL_GARBIEC_FEE*10) {
+                sellGarbiECfee = SELL_GARBIEC_FEE*10; //max fee
+            }
+            if(swapFee > SWAP_FEE*10) {
+                swapFee = SWAP_FEE*10; //max fee
+            }
+        }
+        else {
+            sellGarbiECfee = SELL_GARBIEC_FEE*10;
+            swapFee = SWAP_FEE*10;
+        }
     }
 }
