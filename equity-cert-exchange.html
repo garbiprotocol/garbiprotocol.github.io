@@ -804,6 +804,7 @@
                         function doneTypingAmountGEC() {
                             let amountGEC = $(`input[name=amountGEC]`).val();
                             if (amountGEC > 0) {
+                                updateSellFees(amountGEC);
                                 let userSelectedAsset = $('#sell-gec-form .selectpicker').val();
                                 let gecPrice = parseFloat($('.gec-price').text());
                                 if(gecPrice > 0) {
@@ -868,29 +869,7 @@
                             let UserWalletGEC = result.gecInUserWallet / 10**18;
                             $('.user-wallet-gec').text(UserWalletGEC.toFixed(6));
                         });
-                        let amountGEC = $(`input[name=amountGEC]`).val();
-                        if (amountGEC>0) {
-                            _contractGecExchangeInfoRead.methods.getSellGECFees(coreHelper.toBN(amountGEC, 18),_contractsObj['garbiRepositoryManager']['contract'],_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
-                                let DAIFees = result.repoDAISellGECFee / 10000 * 100;
-                                $('.dai-fees').text(DAIFees.toFixed(2));
-                                let USDCFees = result.repoUSDCSellGECFee / 10000 * 100;
-                                $('.usdc-fees').text(USDCFees.toFixed(2));
-                                let USDTFees = result.repoUSDTSellGECFee / 10000 * 100;
-                                $('.usdt-fees').text(USDTFees.toFixed(2));
-                             });
-                        }
-                        else {
-                            let amountGEC = 10;
-                            _contractGecExchangeInfoRead.methods.getSellGECFees(coreHelper.toBN(amountGEC, 18),_contractsObj['garbiRepositoryManager']['contract'],_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
-                                let DAIFees = result.repoDAISellGECFee / 10000 * 100;
-                                $('.dai-fees').text(DAIFees.toFixed(2));
-                                let USDCFees = result.repoUSDCSellGECFee / 10000 * 100;
-                                $('.usdc-fees').text(USDCFees.toFixed(2));
-                                let USDTFees = result.repoUSDTSellGECFee / 10000 * 100;
-                                $('.usdt-fees').text(USDTFees.toFixed(2));
-                             });
-                        }  ;
-                        
+                        updateSellFees(10);
                         setInterval(function () {
                             let userWallet = coreHelper.getUserAccount();
                             let userAssetBalances = storeHelper.getValue('balanceOf');
@@ -934,28 +913,34 @@
 
                             });
                             let amountGEC = $(`input[name=amountGEC]`).val();
-                            if (amountGEC>0) {
-                                _contractGecExchangeInfoRead.methods.getSellGECFees(coreHelper.toBN(amountGEC, 18),_contractsObj['garbiRepositoryManager']['contract'],_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
-                                    let DAIFees = result.repoDAISellGECFee / 10000 * 100;
-                                    $('.dai-fees').text(DAIFees.toFixed(2));
-                                    let USDCFees = result.repoUSDCSellGECFee / 10000 * 100;
-                                    $('.usdc-fees').text(USDCFees.toFixed(2));
-                                    let USDTFees = result.repoUSDTSellGECFee / 10000 * 100;
-                                    $('.usdt-fees').text(USDTFees.toFixed(2));
-                                 });
+                            if (amountGEC > 0) {
+                                
                             }
                             else {
-                                let amountGEC = 10;
-                                _contractGecExchangeInfoRead.methods.getSellGECFees(coreHelper.toBN(amountGEC, 18),_contractsObj['garbiRepositoryManager']['contract'],_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
-                                    let DAIFees = result.repoDAISellGECFee / 10000 * 100;
-                                    $('.dai-fees').text(DAIFees.toFixed(2));
-                                    let USDCFees = result.repoUSDCSellGECFee / 10000 * 100;
-                                    $('.usdc-fees').text(USDCFees.toFixed(2));
-                                    let USDTFees = result.repoUSDTSellGECFee / 10000 * 100;
-                                    $('.usdt-fees').text(USDTFees.toFixed(2));
-                                 });
-                            }  ;
+                                amountGEC = 10;
+                            }
+                            updateSellFees(amountGEC);
                         }, 6000);
+                        function updateSellFees(amountGEC) {
+                            _contractGecExchangeInfoRead.methods.getSellGECFees(coreHelper.toBN(amountGEC, 18),_contractsObj['garbiRepositoryManager']['contract'],_usdtRepository,_usdcRepository,_daiRepository).call().then(function (result) {
+                                let DAIFees = result.repoDAISellGECFee / 10000 * 100;
+                                $('.dai-fees').text(DAIFees.toFixed(2));
+                                let USDCFees = result.repoUSDCSellGECFee / 10000 * 100;
+                                $('.usdc-fees').text(USDCFees.toFixed(2));
+                                let USDTFees = result.repoUSDTSellGECFee / 10000 * 100;
+                                $('.usdt-fees').text(USDTFees.toFixed(2));
+                                let userSelectedAsset = $('#sell-gec-form .selectpicker').val();
+                                if(userSelectedAsset === 'usdt') {
+                                    $('.sell-gec-fee').text(USDTFees.toFixed(2));
+                                }
+                                if(userSelectedAsset === 'usdc') {
+                                    $('.sell-gec-fee').text(USDCFees.toFixed(2));
+                                }
+                                if(userSelectedAsset === 'dai') {
+                                    $('.sell-gec-fee').text(DAIFees.toFixed(2));
+                                }
+                             });
+                        }
                         $('.button-buy-gec').click(function (e) {
                             let userWallet = coreHelper.getUserAccount();
                             let userSelectedAsset = $('#buy-gec-form .selectpicker').val();
