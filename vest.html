@@ -1014,17 +1014,13 @@
                             let apr = result.totalMintPerDay_/10 ** veGRBDecimal/veGrb1YearTotalStaked*365*100;
                             $('.user-vegrb-1year-apr').text(apr.toFixed(2));
                         });
-                        let grbPrice = 0;
-                        $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
-                          grbPrice = data["garbi-protocol"]["usd"];
-                        });
-                        $('.grb-price').text(grbPrice.toFixed(6));
-                        setInterval(function () {   
+                        setInterval(function () {
                             let grbPrice = 0;
                             $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
                               grbPrice = data["garbi-protocol"]["usd"];
-                            });                    
-                            $('.grb-price').text(grbPrice.toFixed(6));
+                            });
+                            GRBPrice = grbPrice;
+                            $('.grb-price').text(GRBPrice.toFixed(6));
                         }, 15000);
                         setInterval(function () {
                             _user = coreHelper.getUserAccount();
