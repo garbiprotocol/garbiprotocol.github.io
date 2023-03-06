@@ -49,6 +49,17 @@ $.CONFIG.prototype = (function() {
             garbiStakeVeGRB1Year: {
                 contract: "0x69f4f40fb8ad7f123f8fef86cbdf9bbac06f9f91"
             },
+            garbiSwapPairs: {
+                'wethgrb': {
+                    contract: '0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874',
+                    tradeFee: 0.002,
+                    performanceFee: 0.5,
+                    safuFund: 0,
+                    lbDecimal: 18,
+                    base: 'weth',
+                    token: 'grb'
+                }
+            },
             garbiSwap: {
                 pool: {
                     default: {
@@ -231,6 +242,26 @@ $.CONFIG.prototype = (function() {
                 'dai': '0x508C16e20C4d3730570C7b9B73e1c88538dA8a26',
                 'usdc': '0xdf52a59987dfca14a09287e101e01654f143cde1',
                 'usdt': '0x02c90b0a584ead487ee5bee35f74cd0132789dd3'
+            },
+            garbiSwapPairs: {
+                'wethgrb': {
+                    contract: '0x1914513cc76018f399e58ccc9b87be681423a9ce',
+                    tradeFee: 0.001,
+                    performanceFee: 0.5,
+                    safuFund: 0,
+                    lbDecimal: 18,
+                    base: 'weth',
+                    token: 'grb'
+                },
+                'grbweth': {
+                    contract: '0x1914513cc76018f399e58ccc9b87be681423a9ce',
+                    tradeFee: 0.001,
+                    performanceFee: 0.5,
+                    safuFund: 0,
+                    lbDecimal: 18,
+                    base: 'weth',
+                    token: 'grb'
+                }
             },
             garbiSwap: {
                 pool: {

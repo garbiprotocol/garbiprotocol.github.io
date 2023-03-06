@@ -341,7 +341,7 @@
                                 </div>
 
                                 <div class="swap__form mb-2 pb-1">
-                                    <div class="swap__form-item mb-1">
+                                    <div class="swap__form-item mb-1 token-swap-pay">
                                         <div class="row">
                                             <div class="col-5">
                                                 <select class="selectpicker swap__form-select mb-1" name="from">
@@ -368,7 +368,7 @@
 
                                     <img src="./assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
 
-                                    <div class="swap__form-item">
+                                    <div class="swap__form-item token-swap-out">
                                         <div class="row">
                                             <div class="col-5">
                                                 <select class="selectpicker swap__form-select mb-1" name="to">
@@ -429,10 +429,8 @@
 
                                     </div>
                                 </div>
-
-
-                                <button type="button" class="header__btn-connect w-100 text-center btn-swap">Connect your wallet</button>
-                                <button type="button" class="header__btn-connect w-100 text-center btn-approve">Approve</button>
+                                <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none">Approve</button>
+                                <button type="button" class="header__btn-connect w-100 text-center button-swap">Swap</button>
 
                             </article>
                             <article class="garbi__box-1 p-3 mb-3">
@@ -614,6 +612,12 @@
                             let userSelectedAssetOut = $('.stable-swap-out .selectpicker').val();
                             $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedAssetPay).toLowerCase()].toFixed(6));
                             $('.stable-swap-pay .user-to-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedAssetOut).toLowerCase()].toFixed(6));
+                            
+                            let userSelectedTokenPay = $('.token-swap-pay .selectpicker').val();
+                            let userSelectedTokenOut = $('.token-swap-out .selectpicker').val();
+                            $('.token-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenPay).toLowerCase()].toFixed(6));
+                            $('.token-swap-out .user-to-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenOut).toLowerCase()].toFixed(6));
+                            $('.token-swap-out .user-from-bal').data('balance-no-fixed', userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenPay).toLowerCase()]);
                         }, 1000);
                         setInterval(function () {
                             updateMarketData();
@@ -671,6 +675,11 @@
                             let to = $('.stable-swap-out .selectpicker').val();
                             $('.stable-swap-pay .selectpicker').selectpicker('val', to);
                             $('.stable-swap-out .selectpicker').selectpicker('val', from);
+                            doneTypingAmountStableSwap();
+                        });
+                        $('.stable-swap-pay .user-from-bal').click(function() {
+                            let userBalance = parseFloat($(this).text());
+                            $('.stable-swap input[name=amountIn]').val(userBalance);
                             doneTypingAmountStableSwap();
                         });
                         $('.stable-swap .button-swap').click(function (e) {
@@ -739,6 +748,193 @@
                             userPayAssetContract.methods
                                     .approve(
                                             _contractsObj['garbiRepositoryManager']["contract"],
+                                            coreHelper.getAmountAllow()
+                                            )
+                                    .send({
+                                        from: userWallet
+                                    })
+                                    .on('transactionHash', (hash) => {
+                                        coreHelper.showPopup('confirm-popup');
+                                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                    })
+                                    .on('confirmation', (confirmationNumber, receipt) => {
+                                        $('.button-approve').hide();
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('receipt', (receipt) => {
+                                        $('.button-approve').hide();
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('error', (err, receipt) => {
+                                        console.log(err);
+                                    });
+                        });
+                        $('.token-swap .selectpicker').change(function () {
+                            $('.token-swap-pay .user-from-bal').text("Loading");
+                            $('.token-swap-out .user-to-bal').text("Loading");
+                            $('.token-swap .button-approve').hide();
+                        });
+                        $('.token-swap .btn-reverse-pair').click(function() {
+                            $('.token-swap-pay .user-from-bal').text("Loading");
+                            $('.token-swap-out .user-to-bal').text("Loading");
+                            let from = $('.token-swap-pay .selectpicker').val();
+                            let to = $('.token-swap-out .selectpicker').val();
+                            $('.token-swap-pay .selectpicker').selectpicker('val', to);
+                            $('.token-swap-out .selectpicker').selectpicker('val', from);
+                        });
+                        $('.token-swap-pay .user-from-bal').click(function() {
+                            let userBalance = parseFloat($(this).text());
+                            $('.token-swap input[name=amountIn]').val(userBalance);
+                            doneTypingAmountTokenSwap();
+                        });
+                        //setup before functions
+                        var typingTimerAmountTokenSwap; //timer identifier
+                        //on keyup, start the countdown
+                        $('.token-swap input[name=amountIn]').on('keyup', function () {
+                            clearTimeout(typingTimerAmountTokenSwap);
+                            typingTimerAmountTokenSwap = setTimeout(doneTypingAmountTokenSwap, doneTypingInterval);
+                        });
+
+                        //on keydown, clear the countdown 
+                        $('.token-swap input[name=amountIn]').on('keydown', function () {
+                            clearTimeout(typingTimerAmountTokenSwap);
+                        });
+
+                        //user is "finished typing," do something
+                        function doneTypingAmountTokenSwap() {
+                            let amountIn = $('.token-swap input[name=amountIn]').val();
+                            if (amountIn > 0) {
+                                let userSelectedTokenPay = $('.token-swap-pay .selectpicker').val();
+                                let userSelectedTokenOut = $('.token-swap-out .selectpicker').val();
+                                let payDecimal = configHelper.getTokenDecimalByTokenName(chainId, userSelectedTokenPay);
+                                let outDecimal = configHelper.getTokenDecimalByTokenName(chainId, userSelectedTokenOut);
+                                let pairABI = abiHelper.getGarbiSwapABI();
+                                let pairAddress = _contractsObj['garbiSwapPairs'][userSelectedTokenPay+userSelectedTokenOut]["contract"];
+                                let pairContract = contractBaseHelper.getMainContract(pairAddress, pairABI);
+                                if(userSelectedTokenOut === 'weth') { //token to base
+                                    pairContract.methods.getBaseOutput(coreHelper.toBN(amountIn, payDecimal)).call().then(function(result) {
+                                        let amountOut = (parseInt(result) / (10 ** outDecimal)).toFixed(6);
+                                        $('.token-swap input[name=amountOut]').val(amountOut);
+                                    });
+                                }
+                                else {
+                                    pairContract.methods.getTokenOutput(coreHelper.toBN(amountIn, payDecimal)).call().then(function(result) {
+                                        let amountOut = (parseInt(result) / (10 ** outDecimal)).toFixed(6);
+                                        $('.token-swap input[name=amountOut]').val(amountOut);
+                                    });
+                                }
+                                setTimeout(doneTypingAmountTokenSwap, 3000);
+                            }
+                        }
+                        $('.token-swap .button-swap').click(function (e) {
+                            let userWallet = coreHelper.getUserAccount();
+                            let userSelectedTokenPay = $('.token-swap-pay .selectpicker').val();
+                            let userSelectedTokenOut = $('.token-swap-out .selectpicker').val();
+                            let userPayTokenContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, userSelectedTokenPay), erc20TokenABI);
+                            userPayTokenContract.methods.allowance(userWallet, _contractsObj['garbiSwapPairs'][userSelectedTokenPay+userSelectedTokenOut]["contract"]).call().then(result => {
+                                if (result === 0) { //need approve
+                                    $('.button-approve').show();
+                                } else {
+                                    let amountIn = $('.token-swap input[name=amountIn]').val();
+                                    let amountOut = $('.token-swap input[name=amountOut]').val();
+                                    if (!userWallet) {
+                                        return false;
+                                    }
+                                    if (amountIn <= 0 || amountOut <= 0) {
+                                        return false;
+                                    }
+                                    let userAssetBalances = storeHelper.getValue('balanceOf');
+                                    let userTokenPayBalance = userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenPay).toLowerCase()];
+                                    if(amountIn > userTokenPayBalance) {
+                                        amountIn = userTokenPayBalance;
+                                    }
+                                    let pairABI = abiHelper.getGarbiSwapABI();
+                                    let pairAddress = _contractsObj['garbiSwapPairs'][userSelectedTokenPay+userSelectedTokenOut]["contract"];
+                                    let pairContract = contractBaseHelper.getMainContract(pairAddress, pairABI);
+                                    let payDecimal = configHelper.getTokenDecimalByTokenName(chainId, userSelectedTokenPay);
+                                    let outDecimal = configHelper.getTokenDecimalByTokenName(chainId, userSelectedTokenOut);
+                                    let _deadlineDelay = 5;
+                                    let _now = parseInt(Date.now() / 1000);
+                                    let deadline = parseInt(_now + 60 * _deadlineDelay);
+                                    let slippage = $('.token-swap input[name=slippage]').val();
+                                    if (!slippage || slippage == '') {
+                                        slippage = 0;
+                                    }
+                                    slippage = parseFloat(slippage);
+                                    if (isNaN(slippage) == true) {
+                                        slippage = 0;
+                                    }
+                                    let minOut = amountOut - amountOut * slippage/100;
+                                    if(userSelectedTokenOut === 'weth') { //token to base
+                                        pairContract
+                                            .methods
+                                            .swapTokenToBaseWithTokenInput(
+                                                coreHelper.toBN(amountIn, payDecimal),
+                                                coreHelper.toBN(minOut, outDecimal),
+                                                deadline
+                                            )
+                                            .send({ from: userWallet })
+                                            .on('transactionHash', (hash) => {
+                                                coreHelper.showPopup('confirm-popup');
+                                                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
+                                            })
+                                            .on('confirmation', (confirmationNumber, receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                            })
+                                            .on('receipt', (receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                            })
+                                            .on('error', (err, receipt) => {
+                                                console.log(err);
+                                            });
+                                    }
+                                    else {
+                                        pairContract
+                                            .methods
+                                            .swapBaseToTokenWithBaseInput(
+                                                coreHelper.toBN(amountIn, payDecimal),
+                                                coreHelper.toBN(minOut, outDecimal),
+                                                deadline
+                                            )
+                                            .send({ from: userWallet })
+                                            .on('transactionHash', (hash) => {
+                                                coreHelper.showPopup('confirm-popup');
+                                                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
+                                            })
+                                            .on('confirmation', (confirmationNumber, receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                            })
+                                            .on('receipt', (receipt) => {
+                                                coreHelper.hidePopup('confirm-popup', 0);
+                                                coreHelper.showPopup('success-confirm-popup');
+                                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                                            })
+                                            .on('error', (err, receipt) => {
+                                                console.log(err);
+                                            });
+                                    }
+                                }
+                            });
+                        });
+                        $('.token-swap .button-approve').click(function () {
+                            let userWallet = coreHelper.getUserAccount();
+                            let userSelectedTokenPay = $('.token-swap-pay .selectpicker').val();
+                            let userSelectedTokenOut = $('.token-swap-out .selectpicker').val();
+                            let userPayTokenContract = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, userSelectedTokenPay), erc20TokenABI);
+                            let pairAddress = _contractsObj['garbiSwapPairs'][userSelectedTokenPay+userSelectedTokenOut]["contract"];
+                            userPayTokenContract.methods
+                                    .approve(
+                                            pairAddress,
                                             coreHelper.getAmountAllow()
                                             )
                                     .send({
