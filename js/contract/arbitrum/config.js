@@ -392,7 +392,7 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         42161: {
-            'grb': 0.4,
+            'grb': 0.5,
             'weth': 1600,
             'wbtc': 23000,
             'usdc': 1,
