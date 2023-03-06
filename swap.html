@@ -845,7 +845,7 @@
                             let userSelectedTokenOut = $('.token-swap-out .selectpicker').val();
                             let userPayTokenContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, userSelectedTokenPay), erc20TokenABI);
                             userPayTokenContract.methods.allowance(userWallet, _contractsObj['garbiSwapPairs'][userSelectedTokenPay+userSelectedTokenOut]["contract"]).call().then(result => {
-                                if (result === 0) { //need approve
+                                if (result == 0) { //need approve
                                     $('.button-approve').show();
                                 } else {
                                     let amountIn = $('.token-swap input[name=amountIn]').val();
