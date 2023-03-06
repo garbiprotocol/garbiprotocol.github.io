@@ -237,9 +237,10 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
     function getTokenOutputWithFee(address repoInAddress, address repoOutAddress, uint256 tokenInputAmount) public view returns (uint256) {
         IGarbiRepository repoIn = IGarbiRepository(repoInAddress);
         IGarbiRepository repoOut = IGarbiRepository(repoOutAddress);
-        uint256 tokenInputPriceFromOracle = repoIn.getBasePrice();
-        uint256 tokenOuputPriceFromOracle = repoOut.getBasePrice();
-        uint256 tokenOutputAmount = tokenInputAmount.mul(tokenInputPriceFromOracle).div(tokenOuputPriceFromOracle);
+        uint256 tokenOutputAmount = getTokenOutputAmountFromTokenInput(repoIn, repoOut, tokenInputAmount);
+        if(tokenOutputAmount > repoOut.getCapacityByToken()) {
+            tokenOutputAmount = repoOut.getCapacityByToken();
+        }
         uint256 fee = tokenOutputAmount.mul(getSellGarbiECDynamicFee(repoOutAddress, tokenOutputAmount, SWAP_FEE)).div(10000);
         uint256 tokenOutputAmountAfterFee = tokenOutputAmount.sub(fee);
         return tokenOutputAmountAfterFee;

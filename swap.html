@@ -295,9 +295,19 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
+                                <div class="d-flex align-items-center justify-content-between ">
+                                    <div class="fees-area">
+                                        <div class="position-card__row__info">
+                                            <p class="body">Fees</p>
+                                        </div>
+                                        <div class="position-card__row__balance">
+                                            <p class="body body--link ">
+                                                <span class="text-color-2" style=""><span class="swap-fee">0</span>%</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none">Approve</button>
                                 <button type="button" class="header__btn-connect w-100 text-center button-swap">Swap</button>
 
@@ -638,6 +648,11 @@
                                     let assetOutPrice = parseFloat($('.swap-liquidity-'+userSelectedAssetOut).text());
                                     $('.stable-swap .from-volume').text((amountIn*assetPayPrice).toFixed(2));
                                     $('.stable-swap .to-volume').text((amountOut*assetOutPrice).toFixed(2));
+                                    contractGarbiRepositoryManagerRead.methods.getFeeWithOutAmount(repoOutAddress, result).call().then(data => {
+                                        let swapFee = data.swapFee;
+                                        swapFee = swapFee / 10000 * 100;
+                                        $('.swap-fee').text(swapFee.toFixed(2));
+                                    });
                                 });
                                 setTimeout(doneTypingAmountStableSwap, 3000);
                             }

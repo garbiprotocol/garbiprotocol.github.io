@@ -222,10 +222,10 @@ $.CONFIG.prototype = (function() {
                 contract: "0xbf802cc94215a096de917dcb533d37e81ac9c21e"
             },
             gecExchangeInfo: {
-                contract: "0xd6c0dFd5a711cfEd1d1FeA79B638A4478872d04E"
+                contract: "0x1f1d5365edd3dbb43d600590079d732f74ee0485"
             },
             garbiRepositoryManager: {
-                contract: "0xAD11F7E2af5A107b67D413154a21CB2779E9d527"
+                contract: "0x18784b6ac1849e0015d83944a173427ee100a805"
             },
             garbiRepository: {
                 'dai': '0x508C16e20C4d3730570C7b9B73e1c88538dA8a26',
