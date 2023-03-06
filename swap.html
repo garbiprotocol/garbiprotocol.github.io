@@ -803,7 +803,12 @@
                         $('.token-swap input[name=amountIn]').on('keydown', function () {
                             clearTimeout(typingTimerAmountTokenSwap);
                         });
-
+                        let grbPrice = 0;
+                        let wethPrice = 0;
+                        $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
+                          wethPrice = data["ethereum"]["usd"];
+                          grbPrice = data["garbi-protocol"]["usd"];
+                        });
                         //user is "finished typing," do something
                         function doneTypingAmountTokenSwap() {
                             let amountIn = $('.token-swap input[name=amountIn]').val();
@@ -819,12 +824,16 @@
                                     pairContract.methods.getBaseOutput(coreHelper.toBN(amountIn, payDecimal)).call().then(function(result) {
                                         let amountOut = (parseInt(result) / (10 ** outDecimal)).toFixed(6);
                                         $('.token-swap input[name=amountOut]').val(amountOut);
-                                    });
+                                        $('.token-swap .to-volume').text((amountOut*wethPrice).toFixed(2));
+                                        $('.token-swap .from-volume').text((amountIn*grbPrice).toFixed(2));
+                                    });                                   
                                 }
-                                else {
+                                else {                                   
                                     pairContract.methods.getTokenOutput(coreHelper.toBN(amountIn, payDecimal)).call().then(function(result) {
                                         let amountOut = (parseInt(result) / (10 ** outDecimal)).toFixed(6);
                                         $('.token-swap input[name=amountOut]').val(amountOut);
+                                        $('.token-swap .to-volume').text((amountOut*grbPrice).toFixed(2));
+                                        $('.token-swap .from-volume').text((amountIn*wethPrice).toFixed(2));
                                     });
                                 }
                                 setTimeout(doneTypingAmountTokenSwap, 3000);
