@@ -306,7 +306,7 @@
                                                                 <td>
                                                                     Your wallet
                                                                 </td>
-                                                                <td><span class="user-wallet-grb-balance">Loading</span>GRB <br>
+                                                                <td><span class="user-wallet-grb-balance">Loading</span> GRB <br>
                                                                     $<span class="user-grb-balance-usd">0.0</span>
                                                                 </td>
                                                             </tr>
@@ -921,12 +921,10 @@
                             let contractGRBBalance = result.contractGRBBalance / 10 ** GRBDecimal;
                             $('.contract-grb-balance').text(contractGRBBalance.toFixed(6));
                         });
-                        _contractPairGRBWETHread.methods.getBaseOutput(coreHelper.toBN(1, GRBDecimal)).call().then(function (result) {
-                            let WETHDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'weth');
-                            let WETHPrice = configHelper.getPriceByTokenName(chainId, 'weth');
-                            GRBPrice = result / 10 ** WETHDecimal * WETHPrice;
-                            $('.grb-price').text(GRBPrice.toFixed(6));
-                        });
+                        $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
+                                GRBPrice = data["garbi-protocol"]["usd"];
+                                $('.grb-price').text(GRBPrice.toFixed(6));
+                            });                      
                         _contractGarbiStakeGRB1weekRead.methods.getData(_user).call().then(function (result) {
                             let userStaked1week = result.userWantShare_ / 10 ** GRBDecimal;
                             $('.user-staked-grb-1week').text(userStaked1week.toFixed(6));
@@ -1017,8 +1015,8 @@
                         setInterval(function () {
                             $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
                                 GRBPrice = data["garbi-protocol"]["usd"];
-                            });
-                            $('.grb-price').text(GRBPrice.toFixed(6));
+                                $('.grb-price').text(GRBPrice.toFixed(6));
+                            });                           
                         }, 15000);
                         setInterval(function () {
                             _user = coreHelper.getUserAccount();
