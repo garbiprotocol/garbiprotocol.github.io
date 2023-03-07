@@ -26,7 +26,7 @@ $.CONFIG.prototype = (function() {
                 contract: "0xF1fab3169bd20F9384181599d711f28Afe560788"
             },
             garbiOracle: {
-                contract: "0x686e28c4eE8C4c03770404506E0027BF5ed31AB6"
+                contract: "0xb4e6898c12e782f0e01f610d9f73df1055095cbc"
             },
             garbiVestGRB: {
                 contract: "0xfc7d1892137800a3f30d00f9a33624338fd47158"
@@ -49,8 +49,28 @@ $.CONFIG.prototype = (function() {
             garbiStakeVeGRB1Year: {
                 contract: "0x69f4f40fb8ad7f123f8fef86cbdf9bbac06f9f91"
             },
+            gecExchangeInfo: {
+                contract: "0xcd364dd29baab2bd044b9164b9a7d36bb679bf68"
+            },
+            garbiRepositoryManager: {
+                contract: "0x7cc0dca4d117e2fc19a471dc75ba44e82386e8ee"
+            },
+            garbiRepository: {
+                'dai': '0xa9d63685d81d29bf8d74c122380df98a7c0a00a2',
+                'usdc': '0x9e9c654ce87c0bb58d5df7835ac69a202a1deb9b',
+                'usdt': '0x08e4983da044aa8a8d3121913ee0d368a3ff9ae4'
+            },
             garbiSwapPairs: {
                 'wethgrb': {
+                    contract: '0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874',
+                    tradeFee: 0.002,
+                    performanceFee: 0.5,
+                    safuFund: 0,
+                    lbDecimal: 18,
+                    base: 'weth',
+                    token: 'grb'
+                },
+                'grbweth': {
                     contract: '0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874',
                     tradeFee: 0.002,
                     performanceFee: 0.5,
@@ -184,7 +204,20 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.GRB_ETH.LP',
-                    price: 5500,
+                    price: 6800,
+                    version: 1
+                },
+                12: {
+                    type: 'garbi_pool',
+                    contract: '0xca38f8cd4c816016c46ba27adf377618baec9024',
+                    want: '0x5eba4d078a28578d24aa536f70448d507e1cc78e', // 
+                    wantDecimal: 18,
+                    pid: 12,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.GEC.LP',
+                    price: 1,
                     version: 1
                 },
             },
@@ -369,7 +402,8 @@ $.CONFIG.prototype = (function() {
             'wbtc': '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f',
             'usdc': '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8',
             'usdt': '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
-            'dai': '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1'
+            'dai': '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
+            'gec': '0x5eba4d078a28578d24aa536f70448d507e1cc78e'
         },
         421613: {//arbitrum testnet
             'grb': '0xd1eb8a5798e04703ec5324c99405f581bd6318b8',
@@ -391,7 +425,8 @@ $.CONFIG.prototype = (function() {
             'wbtc': 8,
             'usdc': 6,
             'usdt': 6,
-            'dai': 18
+            'dai': 18,
+            'gec': 18
         },
         421613: {
             'grb': 18,
@@ -406,8 +441,8 @@ $.CONFIG.prototype = (function() {
     var PRICES = {
         42161: {
             'grb': 0.5,
-            'weth': 1600,
-            'wbtc': 23000,
+            'weth': 1550,
+            'wbtc': 22500,
             'usdc': 1,
             'usdt': 1,
             'dai': 1

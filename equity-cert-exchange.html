@@ -708,7 +708,7 @@
                     var contractBaseHelper = new $.CONTRACTBASE();
                     var storeHelper = new $.STORE();
                     var dataHelper = new $.DATA();
-                    var chainId = 421613;
+                    var chainId = 42161;
                     $(document).ready(function () {
                         abiHelper.init({});
                         coreHelper.init({});
@@ -882,7 +882,7 @@
                             let UserWalletGEC = result.gecInUserWallet / 10**18;
                             $('.user-wallet-gec').text(UserWalletGEC.toFixed(6));
                         });
-                        updateSellFees(10);
+                        updateSellFees(0.1);
                         setInterval(function () {
                             let userWallet = coreHelper.getUserAccount();
                             let userAssetBalances = storeHelper.getValue('balanceOf');
@@ -930,7 +930,7 @@
                                 
                             }
                             else {
-                                amountGEC = 10;
+                                amountGEC = 0.1;
                             }
                             updateSellFees(amountGEC);
                         }, 6000);

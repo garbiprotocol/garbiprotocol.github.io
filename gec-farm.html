@@ -381,8 +381,8 @@
     var storeHelper = new $.STORE();
     var dataHelper = new $.DATA();
     var garbiFarmHelper = new $.GARBI_FARM();
-    var pid = 13;
-    var chainId = 421613;
+    var pid = 12;
+    var chainId = 42161;
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
@@ -433,7 +433,7 @@
             let contractsObj = configHelper.getContracts(chainId);
             let farmsObj = contractsObj.farms ? contractsObj.farms : {};
             let farm = farmsObj[pid];
-            
+            console.log(farm);
             let wantTokenContract = contractBaseHelper.getReadContract(farm['want'], erc20TokenABI);
             if (!userWallet) {
                 return false;
@@ -449,7 +449,6 @@
                     }
                     let userAssetBalances = storeHelper.getValue('balanceOf');
                     let userWantBalance = userAssetBalances[configHelper.getTokenByTokenName(chainId, 'gec').toLowerCase()];
-                    console.log(userWantBalance);
                     if(amount > userWantBalance) {
                         amount = userWantBalance;
                     }
@@ -505,7 +504,7 @@
                         $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
-                        $('.button-approve').hide();
+                        $('.btn-approve').hide();
                         coreHelper.hidePopup('confirm-popup', 0);
                         coreHelper.showPopup('success-confirm-popup');
                         coreHelper.hidePopup('success-confirm-popup', 10000);
