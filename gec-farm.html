@@ -232,7 +232,7 @@
                             </div>
                         </li>
                         <li style="list-style-type: none; margin-left: -30px;">
-                            <button type="button" class="header__btn-connect text-center mt-3  btn-approve">Approve</button>
+                            <button type="button" class="header__btn-connect text-center mt-3  btn-approve" style="display: none">Approve GEC</button>
                             <button type="button" class="header__btn-connect text-center mt-3 btn-farm btn-deposit">Deposit</button>
 
                         </li>
@@ -384,17 +384,177 @@
         garbiFarmHelper.init({
             "chainId": chainId,
             "pid": pid
-        })
+        });
         coreHelper.initBTNName('btn-farm', 'Deposit');
         garbiFarmHelper.initFarmDetailPageInterface(pid);
-        garbiFarmHelper.onchangeMaxWantBall(pid);
-        garbiFarmHelper.onchangeMaxShare(pid);
-        garbiFarmHelper.checkAllowce(pid, "btn-approve", "btn-deposit");
+        //garbiFarmHelper.onchangeMaxWantBall(pid);
+        //garbiFarmHelper.onchangeMaxShare(pid);
+        //garbiFarmHelper.checkAllowce(pid, "btn-approve", "btn-deposit");
         garbiFarmHelper.approve(pid, "btn-approve");
-        garbiFarmHelper.deposit(pid, `btn-deposit`, `input[name=deposit_amt]`);
+        //garbiFarmHelper.deposit(pid, `btn-deposit`, `input[name=deposit_amt]`);
         garbiFarmHelper.harvest(pid, `btn-harvest`);
-        garbiFarmHelper.withdraw(pid, `btn-withdraw`, `input[name=withdraw_amt]`);
-        
+        //garbiFarmHelper.withdraw(pid, `btn-withdraw`, `input[name=withdraw_amt]`);
+        let erc20TokenABI = abiHelper.getTokenABI();
+        $('.max-want-bal').click(function() {
+            let userWallet = coreHelper.getUserAccount();
+            let contractsObj = configHelper.getContracts(chainId);
+            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
+            let farm = farmsObj[pid];
+            let farmInfoOf = storeHelper.getValue('farmInfoOf');
+            let userFarmInfoObj = farmInfoOf && farmInfoOf[userWallet] ? farmInfoOf[userWallet] : {};
+            let userFarmInfoByPoolContract = userFarmInfoObj[farm['contract']];
+            $(`input[name=deposit_amt]`).val(userFarmInfoByPoolContract["userWantBal"].toFixed(6));
+        });
+        $('.max-share').click(function() {
+            let userWallet = coreHelper.getUserAccount();
+            let contractsObj = configHelper.getContracts(chainId);
+            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
+            let farm = farmsObj[pid];
+            let farmInfoOf = storeHelper.getValue('farmInfoOf');
+            let userFarmInfoObj = farmInfoOf && farmInfoOf[userWallet] ? farmInfoOf[userWallet] : {};
+            let userFarmInfoByPoolContract = userFarmInfoObj[farm['contract']];
+            $(`input[name=withdraw_amt`).val(userFarmInfoByPoolContract["userWantShare"].toFixed(6));
+        });
+        $('.btn-deposit').click(function() {
+            let userWallet = coreHelper.getUserAccount();
+            let contractsObj = configHelper.getContracts(chainId);
+            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
+            let farm = farmsObj[pid];
+            
+            let wantTokenContract = contractBaseHelper.getReadContract(farm['want'], erc20TokenABI);
+            if (!userWallet) {
+                return false;
+
+            }
+            wantTokenContract.methods.allowance(userWallet, farm['contract']).call().then(result => {
+                if (result == 0) { //need approve
+                    $('.btn-approve').show();
+                } else {
+                    let amount = $(`input[name=deposit_amt]`).val();
+                    if (amount <= 0) {
+                        return false;
+                    }
+                    let userAssetBalances = storeHelper.getValue('balanceOf');
+                    let userWantBalance = userAssetBalances[configHelper.getTokenByTokenName(chainId, 'gec').toLowerCase()];
+                    console.log(userWantBalance);
+                    if(amount > userWantBalance) {
+                        amount = userWantBalance;
+                    }
+                    let userWallet = coreHelper.getUserAccount();
+                    let farmABI = abiHelper.getGarbiFarmPoolABI();
+                    let farmContract = contractBaseHelper.getMainContract(farm["contract"], farmABI);
+                    farmContract
+                        .methods
+                        .deposit(
+                            coreHelper.toBN(amount, farm["wantDecimal"])
+                        )
+                        .send({
+                            from: userWallet
+                        })
+                        .on('transactionHash', (hash) => {
+                            coreHelper.showPopup('confirm-popup');
+                            $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
+                        })
+                        .on('confirmation', (confirmationNumber, receipt) => {
+                            $(`input[name=deposit_amt]`).val("");
+                            coreHelper.hidePopup('confirm-popup', 0);
+                            coreHelper.showPopup('success-confirm-popup');
+                            coreHelper.hidePopup('success-confirm-popup', 10000);
+                        })
+                        .on('receipt', (receipt) => {
+                            $(`input[name=deposit_amt]`).val("");
+                            coreHelper.hidePopup('confirm-popup', 0);
+                            coreHelper.showPopup('success-confirm-popup');
+                            coreHelper.hidePopup('success-confirm-popup', 10000);
+                        })
+                        .on('error', (err, receipt) => {
+                            console.log(err);
+                        });
+                }
+            })
+        });
+        $('.btn-approve').click(function() {
+            let userWallet = coreHelper.getUserAccount();
+            let contractsObj = configHelper.getContracts(chainId);
+            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
+            let farm = farmsObj[pid];
+            let wantTokenContract = contractBaseHelper.getMainContract(farm['want'], erc20TokenABI);
+            wantTokenContract.methods
+                    .approve(
+                            farm['contract'],
+                            coreHelper.getAmountAllow()
+                            )
+                    .send({
+                        from: userWallet
+                    })
+                    .on('transactionHash', (hash) => {
+                        coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                    })
+                    .on('confirmation', (confirmationNumber, receipt) => {
+                        $('.button-approve').hide();
+                        coreHelper.hidePopup('confirm-popup', 0);
+                        coreHelper.showPopup('success-confirm-popup');
+                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                    })
+                    .on('receipt', (receipt) => {
+                        $('.btn-approve').hide();
+                        coreHelper.hidePopup('confirm-popup', 0);
+                        coreHelper.showPopup('success-confirm-popup');
+                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                    })
+                    .on('error', (err, receipt) => {
+                        console.log(err);
+                    }); 
+        });
+        $('.btn-withdraw').click(function() {
+            let userWallet = coreHelper.getUserAccount();
+            let contractsObj = configHelper.getContracts(chainId);
+            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
+            let farm = farmsObj[pid];
+            
+            let amount = $(`input[name=withdraw_amt`).val();
+            if (amount <= 0) {
+                return false;
+            }
+            let farmInfoOf = storeHelper.getValue('farmInfoOf');
+            let userFarmInfoObj = farmInfoOf && farmInfoOf[userWallet] ? farmInfoOf[userWallet] : {};
+            let userFarmInfoByPoolContract = userFarmInfoObj[farm['contract']];
+            
+            let farmABI = abiHelper.getGarbiFarmPoolABI();
+            let farmContract = contractBaseHelper.getMainContract(farm["contract"], farmABI);
+            let amountBigInt = coreHelper.toBN(amount, farm["wantDecimal"]);
+            if(amountBigInt > userFarmInfoByPoolContract['userWantShareBigInt']) {
+                amountBigInt = userFarmInfoByPoolContract['userWantShareBigInt'];
+            }
+            farmContract
+                .methods
+                .withdraw(
+                    amountBigInt
+                )
+                .send({
+                    from: userWallet
+                })
+                .on('transactionHash', (hash) => {
+                    coreHelper.showPopup('confirm-popup');
+                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
+                })
+                .on('confirmation', (confirmationNumber, receipt) => {
+                    $(`input[name=withdraw_amt`).val("");
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('receipt', (receipt) => {
+                    $(`input[name=withdraw_amt`).val("");
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('error', (err, receipt) => {
+                    console.log(err);
+                });
+        });
     });
 </script>
 

@@ -352,7 +352,7 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.GEC.LP',
-                    price: 2,
+                    price: 1,
                     version: 1
                 }
             },

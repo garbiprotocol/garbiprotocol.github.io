@@ -21,12 +21,14 @@ $.GARBI_FARM.prototype = (function() {
         },
         async updateGRBPrice() {
             let self = this;
-            let _abiPairGRBWETH = abiHelper.getGarbiSwapABI();
-            let _contractPairGRBWETHread = contractBaseHelper.getReadContract("0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874", _abiPairGRBWETH);
-            let result = await _contractPairGRBWETHread.methods.getBaseOutput(coreHelper.toBN(1, GRB_TOKEN_DECIMAL)).call();
-            let WETHDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, 'weth');
-            let WETHPrice = configHelper.getPriceByTokenName(setting.chainId, 'weth');
-            GRBPrice = result/10**WETHDecimal*WETHPrice;
+//            let _abiPairGRBWETH = abiHelper.getGarbiSwapABI();
+//            let _contractPairGRBWETHread = contractBaseHelper.getReadContract("0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874", _abiPairGRBWETH);
+//            let result = await _contractPairGRBWETHread.methods.getBaseOutput(coreHelper.toBN(1, GRB_TOKEN_DECIMAL)).call();
+//            let WETHDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, 'weth');
+//            let WETHPrice = configHelper.getPriceByTokenName(setting.chainId, 'weth');
+            $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
+                GRBPrice = data["garbi-protocol"]["usd"];
+            });
             setTimeout(function() {
                 self.updateGRBPrice();
             }, 15000);
@@ -341,6 +343,7 @@ $.GARBI_FARM.prototype = (function() {
             _data["totalWantShare"] = coreHelper.parseFloatNumber(parseInt(_r["tvl_"]) / (10 ** _pool["wantDecimal"]), _pool["wantDecimal"]);
             _data["userWantBal"] = coreHelper.parseFloatNumber(parseInt(_r["userWantBal_"]) / (10 ** _pool["wantDecimal"]), _pool["wantDecimal"]);
             _data["userWantShare"] = coreHelper.parseFloatNumber(parseInt(_r["userWantShare_"]) / (10 ** _pool["wantDecimal"]), _pool["wantDecimal"]);
+            _data["userWantShareBigInt"] = _r["userWantShare_"];
             _data["userETHBal"] = coreHelper.parseFloatNumber(parseInt(_r["userETHBal_"]) / (10 ** 18), 18);
             // Calculate TVL and APY
             
