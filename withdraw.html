@@ -192,12 +192,26 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
                                         </li>
+                                        <li class="nav-item dropdown active">
+                                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            GRB-WETH Liquidity
+                                          </a>
+                                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+                                                <li>
+                                                    <a class="dropdown-item" href="deposit.html">Deposit</a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item active" href="withdraw.html">Withdraw</a>
+                                                </li>
+                                            </ul>                                
+                                        </li>
+                                         <li class="nav-item">
+                                            <a class="nav-link" href="v1/index.html">V1</a>
+                                        </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="v1/index.html">V1</a>
-                                        </li>
+                                       
                                         <!-- <li class="nav-item">
                                             <a class="nav-link" href="deposit.html">Deposit</a>
                                         </li>
@@ -224,28 +238,9 @@
                                             <option value="default">Default Pool</option>
                                         </select>
                                     </div>
-                                    <select name="lp_token" class="selectpicker" id="selectPool">
-                                        <option 
-                                            data-contet="<div> class = 'addLp__form-item-select'</div>" 
-                                            value="grbweth">
-                                            GRB-WETH
-                                        </option>
-                                        <option 
-                                            data-contet="<div> class = 'addLp__form-item-select'</div>" 
-                                            value="grboetho">
-                                            GRB-WETH OLD
-                                        </option>
-                                        <option 
-                                            data-contet="<div> class = 'addLp__form-item-select'</div>" 
-                                            value="usdtusdc">
-                                            USDT-USDC
-                                        </option>
-                                        <option 
-                                            data-contet="<div> class = 'addLp__form-item-select'</div>" 
-                                            value="daiusdc">
-                                            DAI-USDC
-                                        </option>
-                                    </select>
+                                    <div class='swap__form-item-select' style="display: inline-block;">
+                                        GRB-WETH
+                                    </div>
                                 </span>
                             </div>
                             <div class="transaction__setting">
@@ -313,15 +308,6 @@
                         <div>
                             <button type="button" class="header__btn-connect mt-2 btn-remove text-center" id="remove-liquidity">Remove</button>
                         </div>
-                        <article class="mb-3 mt-3">
-                            <p class="f-700">Liquidity Pool's stats</p>
-                            
-                            <div>USDT: <span class="swap-liquidity-usdt">-</span></div>
-                            <div>USDC: <span class="swap-liquidity-usdc">-</span></div>
-                            <div>DAI: <span class="swap-liquidity-dai">-</span></div>
-                            <div>Trade Fee: 0.01%</div>
-                            <div>Platform Fee: 0%</div>
-                        </article>
                     </article>
 
                 </section>
