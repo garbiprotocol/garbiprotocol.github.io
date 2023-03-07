@@ -127,7 +127,7 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
         GarbiEC = newGarbiECContract;
     }
 
-    function buyGarbiEquityCertificate(address repoInAddress, uint256 assetInAmount) public nonReentrant onlyRepoInTheList(repoInAddress) onlyWhitelist {
+    function buyGarbiEquityCertificate(address repoInAddress, uint256 assetInAmount) public nonReentrant onlyRepoInTheList(repoInAddress) onlyWhitelist whenNotPaused{
         require(assetInAmount > 0, 'INVALID_ASSET_AMOUNT');
         require(repoList[repoInAddress].share > 0, 'INVALID_REPO');
         
@@ -156,7 +156,7 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
         emit onBuyGarbiEC(msg.sender, repoInAddress, assetInAmount, garbiECOutAmount);
     }
 
-    function sellGarbiEquityCertificate(address repoOutAddress, uint256 garbiECInAmount) public nonReentrant onlyRepoInTheList(repoOutAddress) onlyWhitelist {
+    function sellGarbiEquityCertificate(address repoOutAddress, uint256 garbiECInAmount) public nonReentrant onlyRepoInTheList(repoOutAddress) onlyWhitelist whenNotPaused{
         require(garbiECInAmount > 0, 'INVALID_GARBIEC_AMOUNT');
         require(repoList[repoOutAddress].share > 0, 'INVALID_REPO');
         
@@ -348,5 +348,13 @@ contract GarbiRepositoryManager is ReentrancyGuard, Ownable, Pausable {
             sellGarbiECfee = SELL_GARBIEC_FEE*10;
             swapFee = SWAP_FEE*10;
         }
+    }
+
+    function pause() public onlyOwner {
+        _pause();
+    }
+    
+    function unpause() public onlyOwner {
+        _unpause();
     }
 }
