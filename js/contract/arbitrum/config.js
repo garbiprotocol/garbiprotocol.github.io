@@ -341,6 +341,19 @@ $.CONFIG.prototype = (function() {
                     label: 'GarbiFarm.DAI_USDC.LP',
                     price: 2,
                     version: 1
+                },
+                13: {
+                    type: 'garbi_pool',
+                    contract: '0x45b6EeCc4CDeB14A39DcF638fAbF1A563D528538',
+                    want: '0x965782738c1acca851104444bda0a03ee68355dc', // 
+                    wantDecimal: 18,
+                    pid: 13,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.GEC.LP',
+                    price: 2,
+                    version: 1
                 }
             },
             harvestMachine: ""

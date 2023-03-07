@@ -58,8 +58,8 @@ const veGRB = "0xcf7d3a1ff5188a0d398cf8181b8bdc051204f8da";
 const pidOfMiningSingleVeGRB = 12;
 const blockToUnlockVeGRB = 5760*365; //1 week
 //
-const GEC = "";
-const pidOfMiningGEC = 4;
+const GEC = "0x965782738c1acca851104444bda0a03ee68355dc";
+const pidOfMiningGEC = 13;
 //end testnet
 
 module.exports = function(deployer) {
