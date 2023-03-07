@@ -25,7 +25,7 @@
     <script src="./js/contract/arbitrum/data.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
 
-    <title>GRB-WETH Vault - Garbi Protocol</title>
+    <title>GEC Vault - Garbi Protocol</title>
     <style id="svelte-166mr51-style">
         ul.svelte-166mr51 {
             display: flex;
@@ -176,45 +176,45 @@
                         <div class="col-lg-8">
                             <div class="collapse navbar-collapse" id="navbar-header">
                                 <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
-                                        <li>
-                                            <a class="nav-link" href="swap.html">Swap</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="earn.html">Earn</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            GRB-WETH Liquidity
-                                          </a>
-                                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                                                <li>
-                                                    <a class="dropdown-item" href="deposit.html">Deposit</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="withdraw.html">Withdraw</a>
-                                                </li>
-                                            </ul>                                
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="v1/index.html">V1</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
-                                        </li>
-                                        <!-- <li class="nav-item">
-                                            <a class="nav-link" href="deposit.html">Deposit</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="withdraw.html">Withdraw</a>
-                                        </li> -->
+                                    <li>
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="earn.html">Earn</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        GRB-WETH Liquidity
+                                      </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="deposit.html">Deposit</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="withdraw.html">Withdraw</a>
+                                            </li>
+                                        </ul>                                
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="v1/index.html">V1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
+                                    </li>
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" href="deposit.html">Deposit</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="withdraw.html">Withdraw</a>
+                                    </li> -->
                                         
-                                    </ul>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -226,20 +226,28 @@
                 <article class="swap__main garbi__box-1 p-3 mb-3">
                     <div class="d-flex align-items-center justify-content-between mb-14">
                         <div class="f-700">
-                            <span>GRB-WETH Old Vault</span>
+                            <span>GEC Vault</span>
                         </div>
                     </div>
 
                     <ul>
                         <li style="list-style-type: none; margin-left: -30px;">
-                            <p> Stake GRB-WETH GarbiLP to earn veGRB. <a href="./deposit.html" target="_blank" style="text-decoration: none; color: rgb(0, 162, 255);"><b> GET GRB-WETH GarbiLP token.</b></a></p>
+                            <p> Stake GEC to earn veGRB.</p>
                             <label for="currency_0">
                                 <span class="currency-laybal"> 
-                                    <img src="./assets/images/grb_token.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GRB-WETH GarbiLP</span>
+                                    <img src="./assets/images/gec-logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GEC</span>
                                     <button class="maxBalanceCoin max-want-bal">Max: </button>
                                     <span class="u-want-bal">Loading</span>
                                 </span>
                             </label>
+                            <div class="addLp__form_input mb-2">
+                                <input autofocus type="" class="swap__form-input" name="deposit_amt" value="" placeholder="0.0">
+                            </div>
+                        </li>
+                        <li style="list-style-type: none; margin-left: -30px;">
+                            <button type="button" class="header__btn-connect text-center mt-3  btn-approve">Approve</button>
+                            <button type="button" class="header__btn-connect text-center mt-3 btn-farm btn-deposit">Deposit</button>
+
                         </li>
                     </ul>
                 </article>
@@ -259,7 +267,7 @@
                             </p>
                             <label for="currency_0">
                                 <span class="currency-laybal"> 
-                                    <img src="./assets/images/grb_token.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GRB-WETH GarbiLP</span>
+                                    <img src="./assets/images/gec-logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GEC</span>
                                     <button class="maxBalanceCoin max-share">Max: </button>
                                     <span class="u-share">Loading</span>
                                 </span>
@@ -270,14 +278,13 @@
                         </li>
                     </ul>
                     <div>
-                        <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw">Withdraw your GarbiLP</button>
+                        <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw">Withdraw your GEC</button>
                     </div>
                     <article class="mb-3 mt-3">
                         <p class="f-700">Vault's stats</p>
 
                         <div>Apr: <span class="apy">-</span></div>
                         <div>Total: <span class="tvl">-</span></div>
-                        <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
                     </article>
 
                 </article>
@@ -374,8 +381,8 @@
     var storeHelper = new $.STORE();
     var dataHelper = new $.DATA();
     var garbiFarmHelper = new $.GARBI_FARM();
-    var pid = 0;
-    var chainId = 42161;
+    var pid = 3;
+    var chainId = 421613;
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
