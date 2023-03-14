@@ -232,28 +232,30 @@
                         </header>
                         <div class="row">
                             <div id="myContainer"></div>
-                            <div class="col-md-6 col-lg-3 offset-lg-2 text-center mb-3 mb-lg-0" style="margin-right: 25px;">
+                            <div class="col-md-6 col-lg-2 offset-lg-2 text-center mb-3 mb-lg-0" style="margin-right: 25px;">
                                 <div class="title">
-                                    $<span id="total-balance">Loading</span>
+                                    $<span id="total-trade-vol">Loading</span>
                                 </div>
-                                <div class="description">Balance</div>
+                                <div class="description">Trade Volumes</div>
                             </div>
-                            <div class="col-md-6 col-lg-3 text-center mb-3" style="margin-right: 25px;">
+                            <div class="col-md-6 col-lg-2 text-center mb-3" style="margin-right: 25px;">
                                 <div class="title">
                                     <span id="total-trading-vol">Loading</span>
                                 </div>
                                 <div class="description">Transactions</div>
                             </div>
-                            <div class="col-md-6 col-lg-3 text-center mb-3" style="margin-right: 25px;">
+                            <div class="col-md-6 col-lg-2 text-center mb-3" style="margin-right: 25px;">
                                 <div class="title ">
                                     <span class="user-active-wallet">Loading</span>
                                 </div>
-                                <div class="description">User Active Wallet</div>
+                                <div class="description">Users</div>
                             </div>
-                            <!-- <div class="col-md-6 col-lg-2 text-center mb-3" style="margin-right: 25px;">
-                                <div class="title turing-token-price">200</div>
-                                <div class="description">Contest participants</div>
-                            </div> -->
+                            <div class="col-md-6 col-lg-2 text-center mb-3" style="margin-right: 25px;">
+                                <div class="title">
+                                    $<span class="total-asset-value">Loading</span>
+                                </div>
+                                <div class="description">Total Asset Value Secured</div>
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -541,31 +543,47 @@
                   }
                   return null;
                 }
-                const options = {
+
+                let myData = getCookie("myData");
+                if (myData) {
+                    const data = JSON.parse(myData);
+                    let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
+                    let numTransactions = data.results.metrics.transactions;
+                    let numUaw = data.results.metrics.uaw;
+                    let numAsset = coreHelper.formatBalance(125000, 2);
+                    $('#total-trade-vol').text(numVolume);
+                    $('#total-trading-vol').text(numTransactions);
+                    $('.user-active-wallet').text(numUaw);
+                    $('.total-asset-value').text(numAsset);
+                    console.log(myData);
+                }
+                if (myData == null) {
+                  const options = {
                   method: 'GET',
                   headers: {
-                    'X-BLOBR-KEY': 'JvHWzgoPqMKCjZ99uxMa8BS37GLwGtIy'
-                  },
+                        'X-BLOBR-KEY': 'JvHWzgoPqMKCjZ99uxMa8BS37GLwGtIy'
+                      },
+                    };
+                    fetch('https://api.dappradar.com/4tsxo4vuhotaojtl/dapps/24697?range=30d', options)
+                      .then(response => response.json())
+                      .then(response => {
+                        setCookie("myData", response, 7);
+
+                        const myData = getCookie("myData");
+                        const data = JSON.parse(myData);
+                        let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
+                        let numTransactions = data.results.metrics.transactions;
+                        let numUaw = data.results.metrics.uaw;
+                        let numAsset = coreHelper.formatBalance(125000, 2);
+                        $('#total-trade-vol').text(numVolume);
+                        $('#total-trading-vol').text(numTransactions);
+                        $('.user-active-wallet').text(numUaw);
+                        $('.total-asset-value').text(numAsset);
+                    })
+                    .catch(err => console.error(err));
                 };
 
-                fetch('https://api.dappradar.com/4tsxo4vuhotaojtl/dapps/24697?range=30d', options)
-                  .then(response => response.json())
-                  .then(response => {
-                    setCookie("myData", response, 7);
-
-                    const myData = getCookie("myData");
-                    if (myData) {
-                      const data = JSON.parse(myData);
-                      let numBalance = data.results.metrics.balance;
-                      let numTransactions = data.results.metrics.transactions;
-                      let numUaw = data.results.metrics.uaw;
-                      $('#total-balance').text(numBalance);
-                      $('#total-trading-vol').text(numTransactions);
-                      $('.user-active-wallet').text(numUaw);
-                    }
-                  })
-                  .catch(err => console.error(err));
-            })
+            });
     </script>
 
 </html>
