@@ -148,6 +148,9 @@
     <body>
         <div class="wrapper">
             <header class="header" id="header">
+                <div class="alert-banner" style="background: rgb(45, 66, 252)">
+                    <div class="message">Garbi Protocol is not supported on this network. Please switch to a supported network.</div>
+                </div>
                 <nav class="navbar navbar-expand-lg">
                     <div class="container container-1">
                         <div class="row flex-grow-1 align-items-center">
@@ -519,6 +522,24 @@
                     let DAIprice = result / 10**PriceDecimal;
                     $('.dai-price').text(DAIprice.toFixed(6));
                 });
+                if (typeof window.ethereum !== 'undefined') {
+                  const web3 = new Web3(window.ethereum);
+                  window.ethereum.enable();
+                  web3.eth.getChainId()
+                    .then(chainId => {
+                      if (chainId !== 42161) {
+                        $('.alert-banner').show();
+                      }
+                      else {
+                        $('.alert-banner').hide();
+                      }
+                    })
+                    .catch(error => {
+                      console.error(error);
+                    });
+                } else {
+                  console.log("Metamask not found");
+                }
                 function setCookie(name, value, days) {
                   let expires = "";
                   if (days) {
@@ -555,7 +576,6 @@
                     $('#total-trading-vol').text(numTransactions);
                     $('.user-active-wallet').text(numUaw);
                     $('.total-asset-value').text(numAsset);
-                    console.log(myData);
                 }
                 if (myData == null) {
                   const options = {
