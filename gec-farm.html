@@ -148,6 +148,9 @@
 <body>
     <div class="wrapper">
         <header class="header" id="header">
+            <div class="alert-banner" style="background: rgb(45, 66, 252)">
+                <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
+            </div>
             <nav class="navbar navbar-expand-lg">
                 <div class="container container-1">
                     <div class="row flex-grow-1 align-items-center">
@@ -383,6 +386,25 @@
     var garbiFarmHelper = new $.GARBI_FARM();
     var pid = 12;
     var chainId = 42161;
+    $('.alert-banner').hide();
+        if (typeof window.ethereum !== 'undefined') {
+          const web3 = new Web3(window.ethereum);
+          window.ethereum.enable();
+          web3.eth.getChainId()
+            .then(chainId => {
+              if (chainId !== 42161) {
+                $('.alert-banner').show();
+              }
+              else {
+                $('.alert-banner').hide();
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        } else {
+          console.log("Metamask not found");
+        }
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});

@@ -146,6 +146,9 @@
     <body>
         <div class="wrapper">
             <header class="header" id="header">
+                <div class="alert-banner" style="background: rgb(45, 66, 252)">
+                    <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
+                </div>
                 <nav class="navbar navbar-expand-lg">
                     <div class="container container-1">
                         <div class="row flex-grow-1 align-items-center">
@@ -288,7 +291,7 @@
                                         <fieldset>
                                             <p>Transform veGRB tokens to GRB tokens.</p>
                                             <p>
-                                                Once you lock your veGRB to the GRB Transform Repository, you will receive 40% in GRB immediately, while the remaining 60% will be gradually converted to GRB over the course of one month, block by block. This provides stability and incentivizes long-term holding. 
+                                                Once you lock your veGRB to the GRB Transform Repository, you will receive 40% in GRB immediately, while the remaining 60% will be gradually converted to GRB over the course of one month, block by block. This provides stability and incentivizes long-term holding. It is worth noting that there may be instances where the Treasury of the Garbi Protocol appears empty due to the timelock function in the GRB token contract. During such periods, users may experience delays in receiving rewards or may not receive rewards at all until the timelock expires.
                                             </p>
                                             <p>
                                                 Additionally, veGRB and GRB can be locked into pools with time durations ranging from one week to one year. This feature allows for flexible options to earn rewards and maximize profits while supporting the Garbi Protocol ecosystem.
@@ -876,6 +879,25 @@
                     var contractBaseHelper = new $.CONTRACTBASE();
                     var storeHelper = new $.STORE();
                     var chainId = 42161;
+                    $('.alert-banner').hide();
+                    if (typeof window.ethereum !== 'undefined') {
+                      const web3 = new Web3(window.ethereum);
+                      window.ethereum.enable();
+                      web3.eth.getChainId()
+                        .then(chainId => {
+                          if (chainId !== 42161) {
+                            $('.alert-banner').show();
+                          }
+                          else {
+                            $('.alert-banner').hide();
+                          }
+                        })
+                        .catch(error => {
+                          console.error(error);
+                        });
+                    } else {
+                      console.log("Metamask not found");
+                    }
                     $(document).ready(function () {
                         abiHelper.init({});
                         coreHelper.init({});
