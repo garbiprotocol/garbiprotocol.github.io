@@ -12,6 +12,8 @@ const GarbiRepositoryManager = artifacts.require("GarbiRepositoryManager");
 const GarbiRepository = artifacts.require("GarbiRepository");
 const BalanceInfo = artifacts.require("BalanceInfo");
 const GECExchangeInfo = artifacts.require("GECExchangeInfo");
+const GarbiTimeLockController = artifacts.require("GarbiTimeLockController");
+const TestTimeLockController = artifacts.require("TestTimeLockController");
 
 //production
 const GRB = "0x5Fd71280b6385157b291b9962f22153FC9E79000";
@@ -68,9 +70,11 @@ module.exports = function(deployer) {
 //                    GarbiTimeLockAddress,
 //                    );
 //      deployer.deploy(GarbiRepositoryManager, garbiECContract, GarbiswapWhitelistAddress);
-      deployer.deploy(GarbiRepository, DAI, garbiOracleContract, repositoryManagerContract);
-      deployer.deploy(GarbiRepository, USDC, garbiOracleContract, repositoryManagerContract);
-      deployer.deploy(GarbiRepository, USDT, garbiOracleContract, repositoryManagerContract);
-//       deployer.deploy(BalanceInfo);
-       deployer.deploy(GECExchangeInfo);
+//      deployer.deploy(GarbiRepository, DAI, garbiOracleContract, repositoryManagerContract);
+//      deployer.deploy(GarbiRepository, USDC, garbiOracleContract, repositoryManagerContract);
+//      deployer.deploy(GarbiRepository, USDT, garbiOracleContract, repositoryManagerContract);
+////       deployer.deploy(BalanceInfo);
+//       deployer.deploy(GECExchangeInfo);
+        deployer.deploy(GarbiTimeLockController, 1, ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], "0x632414bbF1C1DE108Aec3Ff3B716ace89e582063");
+        deployer.deploy(TestTimeLockController);
 };
