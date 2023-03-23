@@ -13,14 +13,12 @@ import "@uniswap/v3-core/contracts/libraries/TickMath.sol";
 import './interfaces/IGarbiMining.sol';
 
 contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
-
     using SafeMath for uint256;
-    uint256 public version = 100;
     
     IERC721 public want; // GRBWETH UNI V3 NFT
 
-    address public token0; //GRB
-    address public token1; //WETH
+    address public poolToken0; //GRB
+    address public poolToken1; //WETH
 
     INonfungiblePositionManager public positionManager;
 
@@ -37,26 +35,8 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
     uint256 public totalShare = 0;
     mapping(address => uint256) public shareOf;
 
-    mapping(bytes32 => TimeLock) public timeLockOf;
-
-    uint public constant GRACE_PERIOD = 30 days;
-    uint public constant MINIMUM_DELAY = 2 days;
-    uint public constant MAXIMUM_DELAY = 30 days;
-    uint public delay;
-
-    struct TimeLock {
-        bool queuedTransactions;
-        uint256 timeOfExecute;
-        mapping(bytes32 => address) addressOf;
-        mapping(bytes32 => uint256) uintOf;
-    }
-
     event onDeposit(address _user, uint256 tokenId);
     event onWithdraw(address _user, uint256 tokenId);
-
-    event onQueuedTransactionsChangeAddress(string _functionName, string _fieldName, address _value);
-    event onQueuedTransactionsChangeUint(string _functionName, string _fieldName, uint256 _value);
-    event onCancelTransactions(string _functionName);
 
     constructor(
         IGarbiMining _miningMachine,
@@ -74,87 +54,55 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         uniswapV3Pool = IUniswapV3Pool(_uniswapV3Pool);
         pidOfMining = _pidOfMining;
         positionManager = INonfungiblePositionManager(_positionManager);
-        token0 = _token0;
-        token1 = _token1;
+        poolToken0 = _token0;
+        poolToken1 = _token1;
         poolTickLower = _tickLower;
         poolTickUpper = _tickUpper;
     }
 
-    function setDelay(uint delay_) public onlyOwner {
-        require(delay_ >= MINIMUM_DELAY, "Timelock::setDelay: Delay must exceed minimum delay.");
-        require(delay_ <= MAXIMUM_DELAY, "Timelock::setDelay: Delay must not exceed maximum delay.");
-
-        delay = delay_;
-    }
-
-    function cancelTransactions(string memory _functionName) public onlyOwner {
-
-        TimeLock storage _timelock = timeLockOf[keccak256(abi.encode(_functionName))];
-        _timelock.queuedTransactions = false;
-
-        emit onCancelTransactions(_functionName);
-    }
-
-    function queuedTransactionsChangeAddress(string memory _functionName, string memory _fieldName, address _newAddr) public onlyOwner 
+    function setPoolTicks(int24 newTickLower, int24 newTickUpper) public onlyOwner 
     {
-        TimeLock storage _timelock = timeLockOf[keccak256(abi.encode(_functionName))];
-
-        _timelock.addressOf[keccak256(abi.encode(_fieldName))] = _newAddr;
-        _timelock.queuedTransactions = true;
-        _timelock.timeOfExecute = block.timestamp.add(delay);
-
-        emit onQueuedTransactionsChangeAddress(_functionName, _fieldName, _newAddr);
+        require(newTickLower > 0, "INVALID_TICK");
+        require(newTickUpper >= newTickLower, "INVALID_TICK");
+        poolTickLower = newTickLower;
+        poolTickUpper = newTickUpper;
     }
 
-    function queuedTransactionsChangeUint(string memory _functionName, string memory _fieldName, uint256 _value) public onlyOwner 
+    function setUniswapV3Pool(address newAddress) public onlyOwner 
     {
-        TimeLock storage _timelock = timeLockOf[keccak256(abi.encode(_functionName))];
-
-        _timelock.uintOf[keccak256(abi.encode(_fieldName))] = _value;
-        _timelock.queuedTransactions = true;
-        _timelock.timeOfExecute = block.timestamp.add(delay);
-
-        emit onQueuedTransactionsChangeUint(_functionName, _fieldName, _value);
+        require(newAddress != address(0), "INVALID_ADDRESS");
+        uniswapV3Pool = IUniswapV3Pool(newAddress);
     }
 
-    function setMiningMachine() public onlyOwner 
+    function setTokens(address newToken0, address newToken1) public onlyOwner 
     {
-        TimeLock storage _timelock = timeLockOf[keccak256(abi.encode('setMiningMachine'))];
-        _validateTimelock(_timelock);
-        require(_timelock.addressOf[keccak256(abi.encode('miningMachine'))] != address(0), "INVALID_ADDRESS");
-
-        miningMachine = IGarbiMining(_timelock.addressOf[keccak256(abi.encode('miningMachine'))]);
-        _timelock.queuedTransactions = false;
+        require(newToken0 != address(0), "INVALID_ADDRESS");
+        require(newToken1 != address(0), "INVALID_ADDRESS");
+        poolToken0 = newToken0;
+        poolToken1 = newToken1;
     }
 
-    function changeTokenAddress() public onlyOwner
+    function setPositionManager(address newAddress) public onlyOwner 
     {
-        TimeLock storage _timelock = timeLockOf[keccak256(abi.encode('changeTokenAddress'))];
-
-        _validateTimelock(_timelock);
-    
-        if (_timelock.addressOf[keccak256(abi.encode('want'))] != address(0)) {
-            want = IERC721(_timelock.addressOf[keccak256(abi.encode('want'))]);
-            delete _timelock.addressOf[keccak256(abi.encode('want'))];
-        }
-        _timelock.queuedTransactions = false;
+        require(newAddress != address(0), "INVALID_ADDRESS");
+        positionManager = INonfungiblePositionManager(newAddress);
     }
 
-    function setPidOfMining() public onlyOwner 
+    function setMiningMachine(address newAddress) public onlyOwner 
     {
-        TimeLock storage _timelock = timeLockOf[keccak256(abi.encode('setPidOfMining'))];
-        _validateTimelock(_timelock);
-        require(_timelock.uintOf[keccak256(abi.encode('pidOfMining'))] > 0, "INVALID_AMOUNT");
-
-        pidOfMining = _timelock.uintOf[keccak256(abi.encode('pidOfMining'))];
-        _timelock.queuedTransactions = false;
+        require(newAddress != address(0), "INVALID_ADDRESS");
+        miningMachine = IGarbiMining(newAddress);
     }
 
-    function _validateTimelock(TimeLock storage _timelock) private view
+    function setWantToken(address newAddress) public onlyOwner
     {
-        require(_timelock.queuedTransactions == true, "Transaction hasn't been queued.");
-        require(_timelock.timeOfExecute <= block.timestamp, "Transaction hasn't surpassed time lock.");
-        require(_timelock.timeOfExecute.add(GRACE_PERIOD) >= block.timestamp, "Transaction is stale.");
+        require(newAddress != address(0), "INVALID_ADDRESS");
+        want = IERC721(newAddress);
+    }
+
+    function setPidOfMining(uint256 newPidOfMining) public onlyOwner 
+    {
+        pidOfMining = newPidOfMining;
     }
 
     function onERC721Received(
@@ -167,14 +115,14 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         return this.onERC721Received.selector;
     }
 
-
     function deposit(uint256 tokenId) external nonReentrant 
     {
         require(tokenId > 0, 'INVALID_INPUT');
         require(want.ownerOf(tokenId) == msg.sender, 'INVALID_INPUT');
         require(userInfoTokenId[msg.sender] == 0, 'NEED_WITHDRAW_TOKEN_ID');
-        (, , , , , int24 tickLower , int24 tickUpper , uint128 liquidity, , , , ) = positionManager.positions(tokenId);
+        (, , address token0, address token1, , int24 tickLower , int24 tickUpper , uint128 liquidity, , , , ) = positionManager.positions(tokenId);
         require(tickLower >= poolTickLower && tickUpper <= poolTickUpper, 'INVALID_PRICE_RANGE');
+        require((poolToken0 == token0 && poolToken1 == token1) || (poolToken0 == token1 && poolToken1 == token0), 'INVALID_TOKENS');
 
         harvest(msg.sender);
     	want.safeTransferFrom(msg.sender, address(this), tokenId);
@@ -185,8 +133,8 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         totalShare = totalShare.add(wantAmt);
         miningMachine.updateUser(pidOfMining, msg.sender);
         emit onDeposit(msg.sender, tokenId);
-
     }
+
     function withdraw() external nonReentrant 
     {
         require(userInfoTokenId[msg.sender] != 0, 'NO_TOKEN_ID_TO_WITHDRAW');
@@ -225,6 +173,34 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         return sqrtPriceX96 >= sqrtPriceLowerX96 && sqrtPriceX96 < sqrtPriceUpperX96;
     }
 
+    function getNFTTokensWithPair(address user) external view returns (uint256[] memory) {
+        uint256 tokenCount = positionManager.balanceOf(user);
+        uint256[] memory tokenIds = new uint256[](tokenCount);
+
+        uint256 validTokenCount = 0;
+        for (uint256 i = 0; i < tokenCount; i++) {
+            uint256 tokenId = positionManager.tokenOfOwnerByIndex(user, i);
+            (, , address nftToken0, address nftToken1, , , , , , , , ) = positionManager.positions(tokenId);
+
+            if ((nftToken0 == poolToken0 && nftToken1 == poolToken1) || (nftToken0 == poolToken1 && nftToken1 == poolToken0)) {
+                tokenIds[validTokenCount] = tokenId;
+                validTokenCount++;
+            }
+        }
+
+        uint256[] memory validTokenIds = new uint256[](validTokenCount);
+        for (uint256 i = 0; i < validTokenCount; i++) {
+            validTokenIds[i] = tokenIds[i];
+        }
+
+        return validTokenIds;
+    }
+
+    function getNFTTokenInfo(uint256 tokenId) external view returns(address token0, address token1, uint256 token0Amount, uint256 token1Amount) {
+        (, , token0, token1, , , , uint128 liquidity, , , , ) = positionManager.positions(tokenId);
+        (token0Amount, token1Amount) = uniswapV3Pool.getPositionLiquidityAmounts(tokenId, liquidity);
+    }
+
     function getData(
         address _user
     ) 
@@ -235,7 +211,7 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         uint256 totalMintPerDay_, 
         uint256 userGRBPending_, 
         uint256 tvl_,
-        uint256 tokenId
+        uint256 tokenId,
     ) {
         if(isCurrentPriceInRange()) {
             (userGRBPending_, , ) = miningMachine.getUserInfo(pidOfMining, _user);
