@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/INonfungiblePositionManager.sol";
 import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
 import "@uniswap/v3-core/contracts/libraries/TickMath.sol";
+import "@uniswap/v3-periphery/contracts/libraries/LiquidityAmounts.sol";
 
 import './interfaces/IGarbiMining.sol';
 
@@ -197,8 +198,17 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
     }
 
     function getNFTTokenInfo(uint256 tokenId) external view returns(address token0, address token1, uint256 token0Amount, uint256 token1Amount) {
-        (, , token0, token1, , , , uint128 liquidity, , , , ) = positionManager.positions(tokenId);
-        (token0Amount, token1Amount) = uniswapV3Pool.getPositionLiquidityAmounts(tokenId, liquidity);
+        (, , address tokenAddress0, address tokenAddress1, , int24 tickLower , int24 tickUpper , uint128 liquidity, , , , ) = positionManager.positions(tokenId);
+        token0 = tokenAddress0;
+        token1 = tokenAddress1;
+        // Fetch token amounts using liquidity value
+        uint160 sqrtRatioX96 = TickMath.getSqrtRatioAtTick(uniswapV3Pool.tickSpacing());
+        (token0Amount, token1Amount) = LiquidityAmounts.getAmountsForLiquidity(
+            sqrtRatioX96,
+            TickMath.getSqrtRatioAtTick(tickLower),
+            TickMath.getSqrtRatioAtTick(tickUpper),
+            liquidity
+        );
     }
 
     function getData(
@@ -211,7 +221,7 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         uint256 totalMintPerDay_, 
         uint256 userGRBPending_, 
         uint256 tvl_,
-        uint256 tokenId,
+        uint256 tokenId
     ) {
         if(isCurrentPriceInRange()) {
             (userGRBPending_, , ) = miningMachine.getUserInfo(pidOfMining, _user);
