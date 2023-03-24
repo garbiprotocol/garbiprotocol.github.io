@@ -551,12 +551,30 @@
         dataHelper.init({
             "chainId": chainId
         });
-        $('.grb-farm-2 .button-deposit-nft').click(function () {
-            let userWallet = coreHelper.getUserAccount();
-            let NonfungiblePositionManagerABI = abiHelper.getNonfungiblePositionManagerABI();
+        let userWallet = coreHelper.getUserAccount();
+        $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
+          wethPrice = data["ethereum"]["usd"];
+          grbPrice = data["garbi-protocol"]["usd"];
+        });
+        setInterval(function () {
             let GarbiFarmUniV3ABI = abiHelper.getGarbiFarmUniV3ABI();
-            let NonfungiblePositionManagerContract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'NonfungiblePositionManager'), NonfungiblePositionManagerABI);
             let GarbiFarmUniV3Contract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+            var TokenId;
+            //Get data system
+            GarbiFarmUniV3Contract.methods.getData(userWallet).call().then(result =>{
+                
+                TokenId = 164;
+                console.log(result);
+                 //Get data NFT user deposit
+                GarbiFarmUniV3Contract.methods.getNFTTokenInfo(TokenId).call().then(result =>{
+                    console.log(result);
+                });
+            });
+           
+        }, 3000);
+        $('.grb-farm-2 .button-deposit-nft').click(function () {
+            let NonfungiblePositionManagerABI = abiHelper.getNonfungiblePositionManagerABI();         
+            let NonfungiblePositionManagerContract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'NonfungiblePositionManager'), NonfungiblePositionManagerABI);
             NonfungiblePositionManagerContract.methods.getApproved(164).call().then(result => {
                 if (result == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')) {
                     $('#token-increase .btn-approve').hide();
@@ -611,11 +629,13 @@
                     $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
                 })
                 .on('confirmation', (confirmationNumber, receipt) => {
+                    $('#token-increase').modal('hide');
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
                 })
                 .on('receipt', (receipt) => {
+                    $('#token-increase').modal('hide');
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
