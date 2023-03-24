@@ -252,7 +252,7 @@
                     </div>
                     <div class="masthead__action-buttons">
                         <div class="masthead__action-buttons">
-                            <button class="button button--large button--buy button-buy-gec-form" data-bs-toggle="modal" data-bs-target="#token-increase">
+                            <button class="button button--large button--buy button-deposit-nft">
                                 <label class="label">Deposit NFT-LP, Earn veGRB</label>
                             </button>
                             <button class="button button--large button--sell button-sell-gec-form button-disabled">
@@ -519,7 +519,7 @@
     var dataHelper = new $.DATA();
     var garbiFarmHelper = new $.GARBI_FARM();
     var pid = 5;
-    var chainId = 42161;
+    var chainId = 421613;
     $('.alert-banner').hide();
         if (typeof window.ethereum !== 'undefined') {
           const web3 = new Web3(window.ethereum);
@@ -550,19 +550,24 @@
         dataHelper.init({
             "chainId": chainId
         });
-        garbiFarmHelper.init({
-            "chainId": chainId,
-            "pid": pid
-        })
-        coreHelper.initBTNName('btn-farm', 'Deposit');
-        garbiFarmHelper.initFarmDetailPageInterface(pid);
-        garbiFarmHelper.onchangeMaxWantBall(pid);
-        garbiFarmHelper.onchangeMaxShare(pid);
-        garbiFarmHelper.checkAllowce(pid, "btn-approve", "btn-deposit");
-        garbiFarmHelper.approve(pid, "btn-approve");
-        garbiFarmHelper.deposit(pid, `btn-deposit`, `input[name=deposit_amt]`);
-        garbiFarmHelper.harvest(pid, `btn-harvest`);
-        garbiFarmHelper.withdraw(pid, `btn-withdraw`, `input[name=withdraw_amt]`);
+        $('.grb-farm-2 .button-deposit-nft').click(function () {
+            let NonfungiblePositionManagerABI = abiHelper.getNonfungiblePositionManagerABI();
+            let NonfungiblePositionManagerContract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'NonfungiblePositionManager'), NonfungiblePositionManagerABI);
+            NonfungiblePositionManagerContract.methods.getApproved(164).call().then(result => {
+                if (result == '0x0000000000000000000000000000000000000000') {
+                    $('#token-increase').modal('show');
+                }
+                else {
+                    $('#token-increase').modal('hide');
+                }
+            });
+           
+
+
+            // console.log(NonfungiblePositionManagerContract);
+        });
+
+
         
     });
 </script>
