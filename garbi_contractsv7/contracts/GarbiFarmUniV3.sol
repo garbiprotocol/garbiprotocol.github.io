@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/INonfungiblePositionManager.sol";
 import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
 import "@uniswap/v3-core/contracts/libraries/TickMath.sol";
+import "@uniswap/v3-periphery/contracts/libraries/LiquidityAmounts.sol";
 
 import './interfaces/IGarbiMining.sol';
 
@@ -200,9 +201,14 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         (, , address tokenAddress0, address tokenAddress1, , int24 tickLower , int24 tickUpper , uint128 liquidity, , , , ) = positionManager.positions(tokenId);
         token0 = tokenAddress0;
         token1 = tokenAddress1;
+        // Fetch token amounts using liquidity value
         uint160 sqrtRatioX96 = TickMath.getSqrtRatioAtTick(uniswapV3Pool.tickSpacing());
-        token0Amount = uniswapV3Pool.liquidityToAmount0(tickLower, tickUpper, liquidity, sqrtRatioX96);
-        token1Amount = uniswapV3Pool.liquidityToAmount1(tickLower, tickUpper, liquidity, sqrtRatioX96);
+        (token0Amount, token1Amount) = LiquidityAmounts.getAmountsForLiquidity(
+            sqrtRatioX96,
+            TickMath.getSqrtRatioAtTick(tickLower),
+            TickMath.getSqrtRatioAtTick(tickUpper),
+            liquidity
+        );
     }
 
     function getData(
