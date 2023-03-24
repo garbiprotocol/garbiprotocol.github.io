@@ -55,6 +55,7 @@ $.CONFIG.prototype = (function() {
             garbiRepositoryManager: {
                 contract: "0x7cc0dca4d117e2fc19a471dc75ba44e82386e8ee"
             },
+
             garbiRepository: {
                 'dai': '0xa9d63685d81d29bf8d74c122380df98a7c0a00a2',
                 'usdc': '0x9e9c654ce87c0bb58d5df7835ac69a202a1deb9b',
@@ -270,6 +271,9 @@ $.CONFIG.prototype = (function() {
             },
             garbiRepositoryManager: {
                 contract: "0x18784b6ac1849e0015d83944a173427ee100a805"
+            },
+            NonfungiblePositionManager: {
+                contract: "0x622e4726a167799826d1E1D150b076A7725f5D81"
             },
             garbiRepository: {
                 'dai': '0x508C16e20C4d3730570C7b9B73e1c88538dA8a26',

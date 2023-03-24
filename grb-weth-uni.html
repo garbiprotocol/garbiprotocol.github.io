@@ -252,7 +252,7 @@
                     </div>
                     <div class="masthead__action-buttons">
                         <div class="masthead__action-buttons">
-                            <button class="button button--large button--buy button-buy-gec-form" data-bs-toggle="modal" data-bs-target="#token-increase">
+                            <button class="button button--large button--buy button-deposit-nft" data-bs-toggle="modal" data-bs-target="#token-increase">
                                 <label class="label">Deposit NFT-LP, Earn veGRB</label>
                             </button>
                             <button class="button button--large button--sell button-sell-gec-form button-disabled">
@@ -547,22 +547,17 @@
         contractBaseHelper.init({
             "chainId": chainId
         });
-        dataHelper.init({
-            "chainId": chainId
+        $('.grb-farm-2 .button-deposit-nft').click(async function () {
+            let NonfungiblePositionManagerABI = abiHelper.getNonfungiblePositionManagerABI();
+            let NonfungiblePositionManagerContract = contractBaseHelper.getReadContract("0x622e4726a167799826d1E1D150b076A7725f5D81", NonfungiblePositionManagerABI);
+            
+           
+
+
+            console.log(NonfungiblePositionManagerContract.methods.getApproved(164).call());
         });
-        garbiFarmHelper.init({
-            "chainId": chainId,
-            "pid": pid
-        })
-        coreHelper.initBTNName('btn-farm', 'Deposit');
-        garbiFarmHelper.initFarmDetailPageInterface(pid);
-        garbiFarmHelper.onchangeMaxWantBall(pid);
-        garbiFarmHelper.onchangeMaxShare(pid);
-        garbiFarmHelper.checkAllowce(pid, "btn-approve", "btn-deposit");
-        garbiFarmHelper.approve(pid, "btn-approve");
-        garbiFarmHelper.deposit(pid, `btn-deposit`, `input[name=deposit_amt]`);
-        garbiFarmHelper.harvest(pid, `btn-harvest`);
-        garbiFarmHelper.withdraw(pid, `btn-withdraw`, `input[name=withdraw_amt]`);
+
+
         
     });
 </script>
