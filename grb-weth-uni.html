@@ -563,34 +563,13 @@
         $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
               wethPrice = data["ethereum"]["usd"];
               grbPrice = data["garbi-protocol"]["usd"];
-          });
-        //Get data system 
-        GarbiFarmUniV3Contract.methods.getData(userWallet).call().then(result =>{
-            userTokenId = result.tokenId;
-            if (userTokenId == 0)  {
-
-            }
-            if (userTokenId != 0)   {
-                $('.button-withdraw').removeClass('button-disabled');
-                let UserEarnToken = result.userGRBPending_ / 10 ** 18;
-                $('.user-earn-token').text(UserEarnToken);
-                //Get data NFT user deposit
-                GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call().then(result =>{
-                    let UserToken2Amount = result.token0Amount / 10 ** 6;
-                    $('.user-token-2-amount').text(UserToken2Amount);
-                    let UserToken1Amount = result.token1Amount / 10 ** 18;            
-                    $('.user-token-1-amount').text(UserToken1Amount);
-                    let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
-                    $('.volume-liquidity').text(VolumeLiquidity.toFixed(2));       
-                });
-            }    
-        });
-        setInterval(function () {
-            //Get data system
-            GarbiFarmUniV3Contract.methods.getData(userWallet).call().then(result =>{
+              GarbiFarmUniV3Contract.methods.getData(userWallet).call().then(result =>{
                 userTokenId = result.tokenId;
                 if (userTokenId == 0)  {
-
+                    $('.user-earn-token').text('0');
+                    $('.user-token-2-amount').text('0');
+                    $('.user-token-1-amount').text('0');
+                    $('.volume-liquidity').text('0.0');
                 }
                 if (userTokenId != 0)   {
                     $('.button-withdraw').removeClass('button-disabled');
@@ -603,14 +582,40 @@
                         let UserToken1Amount = result.token1Amount / 10 ** 18;            
                         $('.user-token-1-amount').text(UserToken1Amount);
                         let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
-                        $('.volume-liquidity').text(VolumeLiquidity.toFixed(2));        
+                        $('.volume-liquidity').text(VolumeLiquidity.toFixed(2));       
                     });
                 }    
             });
-        }, 3000);
+            //Get data system 
+            setInterval(function () {
+                //Get data system
+                GarbiFarmUniV3Contract.methods.getData(userWallet).call().then(result =>{
+                    userTokenId = result.tokenId;
+                    if (userTokenId == 0)  {
+                        $('.user-earn-token').text('0');
+                        $('.user-token-2-amount').text('0');
+                        $('.user-token-1-amount').text('0');
+                        $('.volume-liquidity').text('0.0');
+                    }
+                    if (userTokenId != 0)   {
+                        $('.button-withdraw').removeClass('button-disabled');
+                        let UserEarnToken = result.userGRBPending_ / 10 ** 18;
+                        $('.user-earn-token').text(UserEarnToken);
+                        //Get data NFT user deposit
+                        GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call().then(result =>{
+                            let UserToken2Amount = result.token0Amount / 10 ** 6;
+                            $('.user-token-2-amount').text(UserToken2Amount);
+                            let UserToken1Amount = result.token1Amount / 10 ** 18;            
+                            $('.user-token-1-amount').text(UserToken1Amount);
+                            let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                            $('.volume-liquidity').text(VolumeLiquidity.toFixed(2));        
+                        });
+                    }    
+                });
+            }, 3000);
+        });
         $('.grb-farm-2 .button-deposit-nft').click(function () {
             NonfungiblePositionManagerContract.methods.getApproved(userTokenIdTest).call().then(result => {
-                console.log(result);
                 if (result == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')) {
                     $('#token-increase .btn-approve').hide();
                     $('#token-increase .btn-deposit').show();
