@@ -569,12 +569,8 @@
                 });
             });
         }
-
         async function updateData() {
             try {
-                let data = await getCoinGeckoData();
-                wethPrice = data["ethereum"]["usd"];
-                grbPrice = data["garbi-protocol"]["usd"];
                 const result = await GarbiFarmUniV3Contract.methods.getData(userWallet).call();
                 let userTokenId = result.tokenId;
                 if (userTokenId == 0) {
@@ -584,6 +580,9 @@
                     $('.liquidity-volume').text('0.0');
                     $('.earn-volume').text('0.0');
                 } else {
+                    let data = await getCoinGeckoData();
+                    wethPrice = data["ethereum"]["usd"];
+                    grbPrice = data["garbi-protocol"]["usd"];
                     $('.button-withdraw').removeClass('button-disabled');
                     let UserEarnToken = result.userGRBPending_ / 10 ** 18;
                     $('.user-earn-token').text(UserEarnToken);
