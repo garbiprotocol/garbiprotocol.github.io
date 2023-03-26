@@ -586,6 +586,14 @@
                     $('.user-token-1-amount').text(UserToken1Amount);
                     let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
                     $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
+                    if (resultNFT.inPriceRange == true) {
+                        $('.notice-range').hide();
+                    }
+                    else {
+                        $('.notice-range').show();
+                    }
+                    dataUrl=JSON.parse(resultNFT.tokenURI);
+                    console.log(dataUrl);
                 } else {
                     let data = await getCoinGeckoData();
                     wethPrice = data["ethereum"]["usd"];
@@ -602,6 +610,12 @@
                     $('.user-token-1-amount').text(UserToken1Amount);
                     let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
                     $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
+                    if (resultNFT.inPriceRange == true) {
+                        $('.notice-range').hide();
+                    }
+                    else {
+                        $('.notice-range').show();
+                    }
                 }
             } catch (err) {
                 console.log(err);
