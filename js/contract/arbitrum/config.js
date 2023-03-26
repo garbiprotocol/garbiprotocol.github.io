@@ -276,7 +276,7 @@ $.CONFIG.prototype = (function() {
                 contract: "0x622e4726a167799826d1E1D150b076A7725f5D81"
             },
             GarbiFarmUniV3: {
-                contract: "0xB11ef8B1871A1b4308eaf0d8ce47538a04cdE300"
+                contract: "0xC85B56d06aF4be45ab4aC5F00156322783DC77d6"
             },
             garbiRepository: {
                 'dai': '0x508C16e20C4d3730570C7b9B73e1c88538dA8a26',

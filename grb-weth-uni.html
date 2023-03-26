@@ -574,11 +574,18 @@
                 const result = await GarbiFarmUniV3Contract.methods.getData(userWallet).call();
                 let userTokenId = result.tokenId;
                 if (userTokenId == 0) {
-                    $('.user-earn-token').text('0');
-                    $('.user-token-2-amount').text('0');
-                    $('.user-token-1-amount').text('0');
-                    $('.liquidity-volume').text('0.0');
-                    $('.earn-volume').text('0.0');
+                    let data = await getCoinGeckoData();
+                    wethPrice = data["ethereum"]["usd"];
+                    grbPrice = data["garbi-protocol"]["usd"];
+                    const result = await GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call();        
+                    userTokenId = result[result.length - 1];
+                    let resultNFT = await GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call();
+                    let UserToken2Amount = resultNFT.token0Amount / 10 ** 6;
+                    $('.user-token-2-amount').text(UserToken2Amount);
+                    let UserToken1Amount = resultNFT.token1Amount / 10 ** 18;
+                    $('.user-token-1-amount').text(UserToken1Amount);
+                    let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                    $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                 } else {
                     let data = await getCoinGeckoData();
                     wethPrice = data["ethereum"]["usd"];
