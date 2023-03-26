@@ -197,18 +197,24 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         return validTokenIds;
     }
 
-    function getNFTTokenInfo(uint256 tokenId) external view returns(address token0, address token1, uint256 token0Amount, uint256 token1Amount) {
+    function getNFTTokenInfo(uint256 tokenId) external view returns(address token0, address token1, uint256 token0Amount, uint256 token1Amount, bool inPriceRange, string memory tokenURI) {
         (, , address tokenAddress0, address tokenAddress1, , int24 tickLower , int24 tickUpper , uint128 liquidity, , , , ) = positionManager.positions(tokenId);
         token0 = tokenAddress0;
         token1 = tokenAddress1;
+        // Get the current price (square root price) from the Uniswap v3 pool
+        (uint160 sqrtPriceX96, , , , , , ) = uniswapV3Pool.slot0();
         // Fetch token amounts using liquidity value
-        uint160 sqrtRatioX96 = TickMath.getSqrtRatioAtTick(uniswapV3Pool.tickSpacing());
         (token0Amount, token1Amount) = LiquidityAmounts.getAmountsForLiquidity(
-            sqrtRatioX96,
+            sqrtPriceX96,
             TickMath.getSqrtRatioAtTick(tickLower),
             TickMath.getSqrtRatioAtTick(tickUpper),
             liquidity
         );
+        inPriceRange = false;
+        if(tickLower >= poolTickLower && tickUpper <= poolTickUpper) {
+            inPriceRange = true;
+        }
+        tokenURI = positionManager.tokenURI(tokenId);
     }
 
     function getData(
