@@ -665,38 +665,8 @@
                         .on('error', (err, receipt) => {
                             console.log(err);
                         });
-                    });
-                    $('.button-withdraw').click(function () {
-                        if (!$(this).hasClass('button-disabled')) {
-                            let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
-                            GarbiFarmUniV3Contract.methods.withdraw()
-                            .send({
-                                from: userWallet
-                            })
-                            .on('transactionHash', (hash) => {
-                                coreHelper.showPopup('confirm-popup');
-                                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-                            })
-                            .on('confirmation', (confirmationNumber, receipt) => {
-                                $(this).addClass('button-disabled');
-                                coreHelper.hidePopup('confirm-popup', 0);
-                                coreHelper.showPopup('success-confirm-popup');
-                                coreHelper.hidePopup('success-confirm-popup', 10000);
-                            })
-                            .on('receipt', (receipt) => {
-                                $(this).addClass('button-disabled');
-                                coreHelper.hidePopup('confirm-popup', 0);
-                                coreHelper.showPopup('success-confirm-popup');
-                                coreHelper.hidePopup('success-confirm-popup', 10000);
-                            })
-                            .on('error', (err, receipt) => {
-                                console.log(err);
-                            });
-                        }
-                        
-                    });        
+                    });      
                 });
-
             }
             else {
                 $('.button-deposit-nft').addClass('button-disabled');
@@ -718,7 +688,7 @@
                     else {
                         $('.notice-range').show();
                     }
-                    let dataUrlString = resultNFT.tokenURI;
+                    let dataUrlString = result.tokenURI;
                     let Base64DataUrl = dataUrlString.split(",")[1]
                     let DataUrl = JSON.parse(atob(Base64DataUrl));
                     $('.image-token').attr('src', DataUrl.image);
@@ -775,6 +745,37 @@
                 }
             });
         }, 3000);
+        $('.button-withdraw').click(function () {
+            if (!$(this).hasClass('button-disabled')) {
+                let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+                GarbiFarmUniV3Contract.methods.withdraw()
+                .send({
+                    from: userWallet
+                })
+                .on('transactionHash', (hash) => {
+                    coreHelper.showPopup('confirm-popup');
+                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                })
+                .on('confirmation', (confirmationNumber, receipt) => {
+                    $(this).addClass('button-disabled');
+                    $('.button-deposit-nft').removeClass('button-disabled');
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('receipt', (receipt) => {
+                    $(this).addClass('button-disabled');
+                    $('.button-deposit-nft').removeClass('button-disabled');
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('error', (err, receipt) => {
+                    console.log(err);
+                });
+            }
+            
+        });  
         $('.harvest-button').click(function () {
             let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
             GarbiFarmUniV3Contract.methods
