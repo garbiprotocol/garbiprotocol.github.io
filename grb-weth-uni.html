@@ -332,8 +332,8 @@
                                 <div class="f-700">
                                     <span>Earned</span>
                                 </div>
-                                <button width="fit-content" class="harvest-button">
-                                    <span font-size="12px" class="">Harvest</span>
+                                <button width="fit-content" class="button button--large button--buy harvest-button">
+                                    <label class="label">Harvest</label>
                                 </button>                          
                             </div>
                             <div class="volume">$<span class="earn-volume">0.0</span></div>
@@ -560,36 +560,159 @@
         let userWallet = coreHelper.getUserAccount();
         let GarbiFarmUniV3Contract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
         let userTokenId;
-        let userTokenIdTest = 170;
         let wethPrice;
         let grbPrice;
-        function getCoinGeckoData() {
-            return new Promise((resolve, reject) => {
-                $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
-                    resolve(data);
-                }).fail(function() {
-                    reject("Error getting CoinGecko data");
-                });
-            });
-        }
-        async function updateData() {
-            try {
-                const result = await GarbiFarmUniV3Contract.methods.getData(userWallet).call();
-                let userTokenId = result.tokenId;
-                if (userTokenId == 0) {
-                    let data = await getCoinGeckoData();
-                    wethPrice = data["ethereum"]["usd"];
-                    grbPrice = data["garbi-protocol"]["usd"];
-                    const result = await GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call();        
+        $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
+            wethPrice = data["ethereum"]["usd"];
+            grbPrice = data["garbi-protocol"]["usd"];
+        });
+        GarbiFarmUniV3Contract.methods.getData(userWallet).call()
+        .then(function (result) {
+            let userTokenId = result.tokenId;
+            if (userTokenId == 0) {  
+                GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
+                .then(function (result) {      
                     userTokenId = result[result.length - 1];
-                    let resultNFT = await GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call();
-                    let UserToken2Amount = resultNFT.token0Amount / 10 ** 6;
+                    GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
+                    .then (function (result) {
+                        let UserToken2Amount = result.token0Amount / 10 ** 6;
+                        $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
+                        let UserToken1Amount = result.token1Amount / 10 ** 18;
+                        $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
+                        let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                        $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
+                        if (result.inPriceRange == true) {
+                            $('.notice-range').hide();
+                        }
+                        else {
+                            $('.notice-range').show();
+                        }
+                        let dataUrlString = result.tokenURI;
+                        let Base64DataUrl = dataUrlString.split(",")[1]
+                        let DataUrl = JSON.parse(atob(Base64DataUrl));
+                        $('.image-token').attr('src', DataUrl.image);
+                    });
+                    $('.grb-farm-2 .button-deposit-nft').click(function () {
+                        NonfungiblePositionManagerContract.methods.getApproved(userTokenId).call().then(function (result) {
+                            if (result == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')) {
+                                $('#token-increase .btn-approve').hide();
+                                $('#token-increase .btn-deposit').show();
+                            }
+                            else {
+                                $('#token-increase .btn-approve').show();
+                                $('#token-increase .btn-deposit').hide();               
+                            }
+                        });
+                    });
+                    $('#token-increase .btn-approve').click(function () {
+                        let NonfungiblePositionManagerContract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'NonfungiblePositionManager'), NonfungiblePositionManagerABI);
+                        NonfungiblePositionManagerContract.methods
+                        .approve(
+                            configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')
+                            ,userTokenId)
+                        .send({
+                            from: userWallet
+                        })
+                        .on('transactionHash', (hash) => {
+                            coreHelper.showPopup('confirm-popup');
+                            $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                        })
+                        .on('confirmation', (confirmationNumber, receipt) => {
+                            $('#token-increase .btn-approve').hide();
+                            $('#token-increase .btn-deposit').show();
+                            coreHelper.hidePopup('confirm-popup', 0);
+                            coreHelper.showPopup('success-confirm-popup');
+                            coreHelper.hidePopup('success-confirm-popup', 10000);
+                        })
+                        .on('receipt', (receipt) => {
+                            $('#token-increase .btn-approve').hide();
+                            $('#token-increase .btn-deposit').show();
+                            coreHelper.hidePopup('confirm-popup', 0);
+                            coreHelper.showPopup('success-confirm-popup');
+                            coreHelper.hidePopup('success-confirm-popup', 10000);
+                        })
+                        .on('error', (err, receipt) => {
+                            console.log(err);
+                        });
+                    });
+                    $('#token-increase .btn-deposit').click(function () {
+                        let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+                        GarbiFarmUniV3Contract.methods
+                        .deposit(userTokenId)
+                        .send({
+                            from: userWallet
+                        })
+                        .on('transactionHash', (hash) => {
+                            coreHelper.showPopup('confirm-popup');
+                            $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                        })
+                        .on('confirmation', (confirmationNumber, receipt) => {
+                            $('#token-increase').modal('hide');                     
+                            $('.button-deposit-nft').addClass('button-disabled');
+                            $('.button-withdraw').removeClass('button-disabled');
+                            coreHelper.hidePopup('confirm-popup', 0);
+                            coreHelper.showPopup('success-confirm-popup');
+                            coreHelper.hidePopup('success-confirm-popup', 10000);
+                        })
+                        .on('receipt', (receipt) => {
+                            $('#token-increase').modal('hide');
+                            $('.button-deposit-nft').addClass('button-disabled');
+                            $('.button-withdraw').removeClass('button-disabled');
+                            coreHelper.hidePopup('confirm-popup', 0);
+                            coreHelper.showPopup('success-confirm-popup');
+                            coreHelper.hidePopup('success-confirm-popup', 10000);
+                        })
+                        .on('error', (err, receipt) => {
+                            console.log(err);
+                        });
+                    });
+                    $('.button-withdraw').click(function () {
+                        if (!$(this).hasClass('button-disabled')) {
+                            let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+                            GarbiFarmUniV3Contract.methods.withdraw()
+                            .send({
+                                from: userWallet
+                            })
+                            .on('transactionHash', (hash) => {
+                                coreHelper.showPopup('confirm-popup');
+                                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                            })
+                            .on('confirmation', (confirmationNumber, receipt) => {
+                                $(this).addClass('button-disabled');
+                                coreHelper.hidePopup('confirm-popup', 0);
+                                coreHelper.showPopup('success-confirm-popup');
+                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                            })
+                            .on('receipt', (receipt) => {
+                                $(this).addClass('button-disabled');
+                                coreHelper.hidePopup('confirm-popup', 0);
+                                coreHelper.showPopup('success-confirm-popup');
+                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                            })
+                            .on('error', (err, receipt) => {
+                                console.log(err);
+                            });
+                        }
+                        
+                    });        
+                });
+
+            }
+            else {
+                $('.button-deposit-nft').addClass('button-disabled');
+                let UserEarnToken = result.userGRBPending_ / 10 ** 18;
+                $('.user-earn-token').text(UserEarnToken.toFixed(2));
+                let EarnVolume = UserEarnToken * grbPrice;
+                $('.earn-volume').text(EarnVolume.toFixed(2));
+                GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
+                .then (function (result){
+                    let UserToken2Amount = result.token0Amount / 10 ** 6;
                     $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
-                    let UserToken1Amount = resultNFT.token1Amount / 10 ** 18;
+                    let UserToken1Amount = result.token1Amount / 10 ** 18;
                     $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
                     let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
                     $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
-                    if (resultNFT.inPriceRange == true) {
+                    if (result.inPriceRange == true) {
                         $('.notice-range').hide();
                     }
                     else {
@@ -599,139 +722,59 @@
                     let Base64DataUrl = dataUrlString.split(",")[1]
                     let DataUrl = JSON.parse(atob(Base64DataUrl));
                     $('.image-token').attr('src', DataUrl.image);
-                } else {
-                    let data = await getCoinGeckoData();
-                    wethPrice = data["ethereum"]["usd"];
-                    grbPrice = data["garbi-protocol"]["usd"];
+                });
+            }
+
+        });
+        setInterval(function () {
+            GarbiFarmUniV3Contract.methods.getData(userWallet).call()
+            .then(function (result) {
+                let userTokenId = result.tokenId;
+                if (userTokenId == 0) {  
+                    GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
+                    .then(function (result) {      
+                        userTokenId = result[result.length - 1];
+                        GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
+                        .then (function (result) {
+                            let UserToken2Amount = result.token0Amount / 10 ** 6;
+                            $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
+                            let UserToken1Amount = result.token1Amount / 10 ** 18;
+                            $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
+                            let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                            $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
+                            if (result.inPriceRange == true) {
+                                $('.notice-range').hide();
+                            }
+                            else {
+                                $('.notice-range').show();
+                            }
+                        });
+                    });
+                }
+                else {
                     $('.button-withdraw').removeClass('button-disabled');
                     let UserEarnToken = result.userGRBPending_ / 10 ** 18;
                     $('.user-earn-token').text(UserEarnToken.toFixed(2));
                     let EarnVolume = UserEarnToken * grbPrice;
                     $('.earn-volume').text(EarnVolume.toFixed(2));
-                    let resultNFT = await GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call();
-                    let UserToken2Amount = resultNFT.token0Amount / 10 ** 6;
-                    $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
-                    let UserToken1Amount = resultNFT.token1Amount / 10 ** 18;
-                    $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
-                    let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
-                    $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
-                    if (resultNFT.inPriceRange == true) {
-                        $('.notice-range').hide();
-                    }
-                    else {
-                        $('.notice-range').show();
-                    }
-                    let dataUrlString = resultNFT.tokenURI;
-                    let Base64DataUrl = dataUrlString.split(",")[1]
-                    let DataUrl = JSON.parse(atob(Base64DataUrl));
-                    $('.image-token').attr('src', DataUrl.image);
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-        setInterval(updateData, 3000);
-
-        $('.grb-farm-2 .button-deposit-nft').click(function () {
-            NonfungiblePositionManagerContract.methods.getApproved(userTokenIdTest).call().then(result => {
-                if (result == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')) {
-                    $('#token-increase .btn-approve').hide();
-                    $('#token-increase .btn-deposit').show();
-                }
-                else {
-                    $('#token-increase .btn-approve').show();
-                    $('#token-increase .btn-deposit').hide();               
+                    GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
+                    .then (function (result){
+                        let UserToken2Amount = result.token0Amount / 10 ** 6;
+                        $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
+                        let UserToken1Amount = result.token1Amount / 10 ** 18;
+                        $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
+                        let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                        $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
+                        if (result.inPriceRange == true) {
+                            $('.notice-range').hide();
+                        }
+                        else {
+                            $('.notice-range').show();
+                        }
+                    });
                 }
             });
-        });
-        $('#token-increase .btn-approve').click(function () {
-            let NonfungiblePositionManagerContract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'NonfungiblePositionManager'), NonfungiblePositionManagerABI);
-            NonfungiblePositionManagerContract.methods
-            .approve(
-                configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')
-                ,userTokenIdTest)
-            .send({
-                from: userWallet
-            })
-            .on('transactionHash', (hash) => {
-                coreHelper.showPopup('confirm-popup');
-                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-            })
-            .on('confirmation', (confirmationNumber, receipt) => {
-                $('#token-increase .btn-approve').hide();
-                $('#token-increase .btn-deposit').show();
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('receipt', (receipt) => {
-                $('#token-increase .btn-approve').hide();
-                $('#token-increase .btn-deposit').show();
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('error', (err, receipt) => {
-                console.log(err);
-            });
-        });
-        $('#token-increase .btn-deposit').click(function () {
-            let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
-            GarbiFarmUniV3Contract.methods
-            .deposit(userTokenIdTest)
-            .send({
-                from: userWallet
-            })
-            .on('transactionHash', (hash) => {
-                coreHelper.showPopup('confirm-popup');
-                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-            })
-            .on('confirmation', (confirmationNumber, receipt) => {
-                $('#token-increase').modal('hide');
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('receipt', (receipt) => {
-                $('#token-increase').modal('hide');
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('error', (err, receipt) => {
-                console.log(err);
-            });
-        });
-        $('.button-withdraw').click(function () {
-            if (!$(this).hasClass('button-disabled')) {
-                let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
-                GarbiFarmUniV3Contract.methods.withdraw()
-                .send({
-                    from: userWallet
-                })
-                .on('transactionHash', (hash) => {
-                    coreHelper.showPopup('confirm-popup');
-                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-                })
-                .on('confirmation', (confirmationNumber, receipt) => {
-                    $(this).addClass('button-disabled');
-                    coreHelper.hidePopup('confirm-popup', 0);
-                    coreHelper.showPopup('success-confirm-popup');
-                    coreHelper.hidePopup('success-confirm-popup', 10000);
-                })
-                .on('receipt', (receipt) => {
-                    $(this).addClass('button-disabled');
-                    coreHelper.hidePopup('confirm-popup', 0);
-                    coreHelper.showPopup('success-confirm-popup');
-                    coreHelper.hidePopup('success-confirm-popup', 10000);
-                })
-                .on('error', (err, receipt) => {
-                    console.log(err);
-                });
-            }
-            
-        });
+        }, 3000);
         $('.harvest-button').click(function () {
             let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
             GarbiFarmUniV3Contract.methods
@@ -756,7 +799,7 @@
             .on('error', (err, receipt) => {
                 console.log(err);
             });
-        });        
+        });
     });
 </script>
 
