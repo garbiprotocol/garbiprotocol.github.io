@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/INonfungiblePositionManager.sol";
 import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
 import "@uniswap/v3-core/contracts/libraries/TickMath.sol";
@@ -227,7 +228,10 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         uint256 totalMintPerDay_, 
         uint256 userGRBPending_, 
         uint256 tvl_,
-        uint256 tokenId
+        uint256 tokenId,
+        uint256 totalBalance0,
+        uint256 totalBalance1,
+        uint160 currentPrice
     ) {
         if(isCurrentPriceInRange()) {
             (userGRBPending_, , ) = miningMachine.getUserInfo(pidOfMining, _user);
@@ -242,5 +246,9 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         
         tvl_ = totalShare;
         tokenId = userInfoTokenId[_user];
+        totalBalance0 = IERC20(poolToken0).balanceOf(address(uniswapV3Pool));
+        totalBalance1 = IERC20(poolToken1).balanceOf(address(uniswapV3Pool));
+        (uint160 sqrtPriceX96, , , , , , ) = uniswapV3Pool.slot0();
+        currentPrice = sqrtPriceX96;
     } 
 }

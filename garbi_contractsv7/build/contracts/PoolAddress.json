@@ -7,23 +7,23 @@
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
-  "sourceMap": "167:1652:25:-:0;;;;;;;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "167:1652:25:-:0;;;;;;;;",
+  "sourceMap": "167:1652:26:-:0;;;;;;;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "167:1652:26:-:0;;;;;;;;",
   "source": "// SPDX-License-Identifier: GPL-2.0-or-later\npragma solidity >=0.5.0;\n\n/// @title Provides functions for deriving a pool address from the factory, tokens, and the fee\nlibrary PoolAddress {\n    bytes32 internal constant POOL_INIT_CODE_HASH = 0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54;\n\n    /// @notice The identifying key of the pool\n    struct PoolKey {\n        address token0;\n        address token1;\n        uint24 fee;\n    }\n\n    /// @notice Returns PoolKey: the ordered tokens with the matched fee levels\n    /// @param tokenA The first token of a pool, unsorted\n    /// @param tokenB The second token of a pool, unsorted\n    /// @param fee The fee level of the pool\n    /// @return Poolkey The pool details with ordered token0 and token1 assignments\n    function getPoolKey(\n        address tokenA,\n        address tokenB,\n        uint24 fee\n    ) internal pure returns (PoolKey memory) {\n        if (tokenA > tokenB) (tokenA, tokenB) = (tokenB, tokenA);\n        return PoolKey({token0: tokenA, token1: tokenB, fee: fee});\n    }\n\n    /// @notice Deterministically computes the pool address given the factory and PoolKey\n    /// @param factory The Uniswap V3 factory contract address\n    /// @param key The PoolKey\n    /// @return pool The contract address of the V3 pool\n    function computeAddress(address factory, PoolKey memory key) internal pure returns (address pool) {\n        require(key.token0 < key.token1);\n        pool = address(\n            uint256(\n                keccak256(\n                    abi.encodePacked(\n                        hex'ff',\n                        factory,\n                        keccak256(abi.encode(key.token0, key.token1, key.fee)),\n                        POOL_INIT_CODE_HASH\n                    )\n                )\n            )\n        );\n    }\n}\n",
   "sourcePath": "@uniswap\\v3-periphery\\contracts\\libraries\\PoolAddress.sol",
   "ast": {
     "absolutePath": "@uniswap/v3-periphery/contracts/libraries/PoolAddress.sol",
     "exportedSymbols": {
       "PoolAddress": [
-        2614
+        2692
       ]
     },
-    "id": 2615,
+    "id": 2693,
     "license": "GPL-2.0-or-later",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2524,
+        "id": 2602,
         "literals": [
           "solidity",
           ">=",
@@ -31,7 +31,7 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "45:24:25"
+        "src": "45:24:26"
       },
       {
         "abstract": false,
@@ -39,27 +39,27 @@
         "contractDependencies": [],
         "contractKind": "library",
         "documentation": {
-          "id": 2525,
+          "id": 2603,
           "nodeType": "StructuredDocumentation",
-          "src": "71:96:25",
+          "src": "71:96:26",
           "text": "@title Provides functions for deriving a pool address from the factory, tokens, and the fee"
         },
         "fullyImplemented": true,
-        "id": 2614,
+        "id": 2692,
         "linearizedBaseContracts": [
-          2614
+          2692
         ],
         "name": "PoolAddress",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": true,
-            "id": 2528,
+            "id": 2606,
             "mutability": "constant",
             "name": "POOL_INIT_CODE_HASH",
             "nodeType": "VariableDeclaration",
-            "scope": 2614,
-            "src": "193:114:25",
+            "scope": 2692,
+            "src": "193:114:26",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -67,10 +67,10 @@
               "typeString": "bytes32"
             },
             "typeName": {
-              "id": 2526,
+              "id": 2604,
               "name": "bytes32",
               "nodeType": "ElementaryTypeName",
-              "src": "193:7:25",
+              "src": "193:7:26",
               "typeDescriptions": {
                 "typeIdentifier": "t_bytes32",
                 "typeString": "bytes32"
@@ -78,14 +78,14 @@
             },
             "value": {
               "hexValue": "307865333466313939623139623262346634376636383434323631396435353535323764323434663738613332393765613839333235663834336638376238623534",
-              "id": 2527,
+              "id": 2605,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
               "kind": "number",
               "lValueRequested": false,
               "nodeType": "Literal",
-              "src": "241:66:25",
+              "src": "241:66:26",
               "typeDescriptions": {
                 "typeIdentifier": "t_rational_102814774271675688723325049954498779091328469440286648861889194717372678376276_by_1",
                 "typeString": "int_const 1028...(70 digits omitted)...6276"
@@ -96,16 +96,16 @@
           },
           {
             "canonicalName": "PoolAddress.PoolKey",
-            "id": 2535,
+            "id": 2613,
             "members": [
               {
                 "constant": false,
-                "id": 2530,
+                "id": 2608,
                 "mutability": "mutable",
                 "name": "token0",
                 "nodeType": "VariableDeclaration",
-                "scope": 2535,
-                "src": "387:14:25",
+                "scope": 2613,
+                "src": "387:14:26",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -113,10 +113,10 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 2529,
+                  "id": 2607,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
-                  "src": "387:7:25",
+                  "src": "387:7:26",
                   "stateMutability": "nonpayable",
                   "typeDescriptions": {
                     "typeIdentifier": "t_address",
@@ -127,12 +127,12 @@
               },
               {
                 "constant": false,
-                "id": 2532,
+                "id": 2610,
                 "mutability": "mutable",
                 "name": "token1",
                 "nodeType": "VariableDeclaration",
-                "scope": 2535,
-                "src": "411:14:25",
+                "scope": 2613,
+                "src": "411:14:26",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -140,10 +140,10 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 2531,
+                  "id": 2609,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
-                  "src": "411:7:25",
+                  "src": "411:7:26",
                   "stateMutability": "nonpayable",
                   "typeDescriptions": {
                     "typeIdentifier": "t_address",
@@ -154,12 +154,12 @@
               },
               {
                 "constant": false,
-                "id": 2534,
+                "id": 2612,
                 "mutability": "mutable",
                 "name": "fee",
                 "nodeType": "VariableDeclaration",
-                "scope": 2535,
-                "src": "435:10:25",
+                "scope": 2613,
+                "src": "435:10:26",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -167,10 +167,10 @@
                   "typeString": "uint24"
                 },
                 "typeName": {
-                  "id": 2533,
+                  "id": 2611,
                   "name": "uint24",
                   "nodeType": "ElementaryTypeName",
-                  "src": "435:6:25",
+                  "src": "435:6:26",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint24",
                     "typeString": "uint24"
@@ -181,15 +181,15 @@
             ],
             "name": "PoolKey",
             "nodeType": "StructDefinition",
-            "scope": 2614,
-            "src": "362:90:25",
+            "scope": 2692,
+            "src": "362:90:26",
             "visibility": "public"
           },
           {
             "body": {
-              "id": 2565,
+              "id": 2643,
               "nodeType": "Block",
-              "src": "917:141:25",
+              "src": "917:141:26",
               "statements": [
                 {
                   "condition": {
@@ -197,18 +197,18 @@
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     },
-                    "id": 2549,
+                    "id": 2627,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftExpression": {
-                      "id": 2547,
+                      "id": 2625,
                       "name": "tokenA",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2538,
-                      "src": "931:6:25",
+                      "referencedDeclaration": 2616,
+                      "src": "931:6:26",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -217,29 +217,29 @@
                     "nodeType": "BinaryOperation",
                     "operator": ">",
                     "rightExpression": {
-                      "id": 2548,
+                      "id": 2626,
                       "name": "tokenB",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2540,
-                      "src": "940:6:25",
+                      "referencedDeclaration": 2618,
+                      "src": "940:6:26",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
                       }
                     },
-                    "src": "931:15:25",
+                    "src": "931:15:26",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "id": 2558,
+                  "id": 2636,
                   "nodeType": "IfStatement",
-                  "src": "927:56:25",
+                  "src": "927:56:26",
                   "trueBody": {
                     "expression": {
-                      "id": 2556,
+                      "id": 2634,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -247,38 +247,38 @@
                       "leftHandSide": {
                         "components": [
                           {
-                            "id": 2550,
+                            "id": 2628,
                             "name": "tokenA",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2538,
-                            "src": "949:6:25",
+                            "referencedDeclaration": 2616,
+                            "src": "949:6:26",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
                             }
                           },
                           {
-                            "id": 2551,
+                            "id": 2629,
                             "name": "tokenB",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2540,
-                            "src": "957:6:25",
+                            "referencedDeclaration": 2618,
+                            "src": "957:6:26",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
                             }
                           }
                         ],
-                        "id": 2552,
+                        "id": 2630,
                         "isConstant": false,
                         "isInlineArray": false,
                         "isLValue": true,
                         "isPure": false,
                         "lValueRequested": true,
                         "nodeType": "TupleExpression",
-                        "src": "948:16:25",
+                        "src": "948:16:26",
                         "typeDescriptions": {
                           "typeIdentifier": "t_tuple$_t_address_$_t_address_$",
                           "typeString": "tuple(address,address)"
@@ -289,88 +289,88 @@
                       "rightHandSide": {
                         "components": [
                           {
-                            "id": 2553,
+                            "id": 2631,
                             "name": "tokenB",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2540,
-                            "src": "968:6:25",
+                            "referencedDeclaration": 2618,
+                            "src": "968:6:26",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
                             }
                           },
                           {
-                            "id": 2554,
+                            "id": 2632,
                             "name": "tokenA",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2538,
-                            "src": "976:6:25",
+                            "referencedDeclaration": 2616,
+                            "src": "976:6:26",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address",
                               "typeString": "address"
                             }
                           }
                         ],
-                        "id": 2555,
+                        "id": 2633,
                         "isConstant": false,
                         "isInlineArray": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "nodeType": "TupleExpression",
-                        "src": "967:16:25",
+                        "src": "967:16:26",
                         "typeDescriptions": {
                           "typeIdentifier": "t_tuple$_t_address_$_t_address_$",
                           "typeString": "tuple(address,address)"
                         }
                       },
-                      "src": "948:35:25",
+                      "src": "948:35:26",
                       "typeDescriptions": {
                         "typeIdentifier": "t_tuple$__$",
                         "typeString": "tuple()"
                       }
                     },
-                    "id": 2557,
+                    "id": 2635,
                     "nodeType": "ExpressionStatement",
-                    "src": "948:35:25"
+                    "src": "948:35:26"
                   }
                 },
                 {
                   "expression": {
                     "arguments": [
                       {
-                        "id": 2560,
+                        "id": 2638,
                         "name": "tokenA",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2538,
-                        "src": "1017:6:25",
+                        "referencedDeclaration": 2616,
+                        "src": "1017:6:26",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         }
                       },
                       {
-                        "id": 2561,
+                        "id": 2639,
                         "name": "tokenB",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2540,
-                        "src": "1033:6:25",
+                        "referencedDeclaration": 2618,
+                        "src": "1033:6:26",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         }
                       },
                       {
-                        "id": 2562,
+                        "id": 2640,
                         "name": "fee",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2542,
-                        "src": "1046:3:25",
+                        "referencedDeclaration": 2620,
+                        "src": "1046:3:26",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint24",
                           "typeString": "uint24"
@@ -392,18 +392,18 @@
                           "typeString": "uint24"
                         }
                       ],
-                      "id": 2559,
+                      "id": 2637,
                       "name": "PoolKey",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2535,
-                      "src": "1000:7:25",
+                      "referencedDeclaration": 2613,
+                      "src": "1000:7:26",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_type$_t_struct$_PoolKey_$2535_storage_ptr_$",
+                        "typeIdentifier": "t_type$_t_struct$_PoolKey_$2613_storage_ptr_$",
                         "typeString": "type(struct PoolAddress.PoolKey storage pointer)"
                       }
                     },
-                    "id": 2563,
+                    "id": 2641,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -415,44 +415,44 @@
                       "fee"
                     ],
                     "nodeType": "FunctionCall",
-                    "src": "1000:51:25",
+                    "src": "1000:51:26",
                     "tryCall": false,
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_PoolKey_$2535_memory_ptr",
+                      "typeIdentifier": "t_struct$_PoolKey_$2613_memory_ptr",
                       "typeString": "struct PoolAddress.PoolKey memory"
                     }
                   },
-                  "functionReturnParameters": 2546,
-                  "id": 2564,
+                  "functionReturnParameters": 2624,
+                  "id": 2642,
                   "nodeType": "Return",
-                  "src": "993:58:25"
+                  "src": "993:58:26"
                 }
               ]
             },
             "documentation": {
-              "id": 2536,
+              "id": 2614,
               "nodeType": "StructuredDocumentation",
-              "src": "458:321:25",
+              "src": "458:321:26",
               "text": "@notice Returns PoolKey: the ordered tokens with the matched fee levels\n @param tokenA The first token of a pool, unsorted\n @param tokenB The second token of a pool, unsorted\n @param fee The fee level of the pool\n @return Poolkey The pool details with ordered token0 and token1 assignments"
             },
-            "id": 2566,
+            "id": 2644,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "getPoolKey",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2543,
+              "id": 2621,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2538,
+                  "id": 2616,
                   "mutability": "mutable",
                   "name": "tokenA",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2566,
-                  "src": "813:14:25",
+                  "scope": 2644,
+                  "src": "813:14:26",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -460,10 +460,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2537,
+                    "id": 2615,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "813:7:25",
+                    "src": "813:7:26",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -474,12 +474,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 2540,
+                  "id": 2618,
                   "mutability": "mutable",
                   "name": "tokenB",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2566,
-                  "src": "837:14:25",
+                  "scope": 2644,
+                  "src": "837:14:26",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -487,10 +487,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2539,
+                    "id": 2617,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "837:7:25",
+                    "src": "837:7:26",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -501,12 +501,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 2542,
+                  "id": 2620,
                   "mutability": "mutable",
                   "name": "fee",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2566,
-                  "src": "861:10:25",
+                  "scope": 2644,
+                  "src": "861:10:26",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -514,10 +514,10 @@
                     "typeString": "uint24"
                   },
                   "typeName": {
-                    "id": 2541,
+                    "id": 2619,
                     "name": "uint24",
                     "nodeType": "ElementaryTypeName",
-                    "src": "861:6:25",
+                    "src": "861:6:26",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint24",
                       "typeString": "uint24"
@@ -526,53 +526,53 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "803:74:25"
+              "src": "803:74:26"
             },
             "returnParameters": {
-              "id": 2546,
+              "id": 2624,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2545,
+                  "id": 2623,
                   "mutability": "mutable",
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2566,
-                  "src": "901:14:25",
+                  "scope": 2644,
+                  "src": "901:14:26",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_PoolKey_$2535_memory_ptr",
+                    "typeIdentifier": "t_struct$_PoolKey_$2613_memory_ptr",
                     "typeString": "struct PoolAddress.PoolKey"
                   },
                   "typeName": {
-                    "id": 2544,
+                    "id": 2622,
                     "name": "PoolKey",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2535,
-                    "src": "901:7:25",
+                    "referencedDeclaration": 2613,
+                    "src": "901:7:26",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_PoolKey_$2535_storage_ptr",
+                      "typeIdentifier": "t_struct$_PoolKey_$2613_storage_ptr",
                       "typeString": "struct PoolAddress.PoolKey"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "900:16:25"
+              "src": "900:16:26"
             },
-            "scope": 2614,
-            "src": "784:274:25",
+            "scope": 2692,
+            "src": "784:274:26",
             "stateMutability": "pure",
             "virtual": false,
             "visibility": "internal"
           },
           {
             "body": {
-              "id": 2612,
+              "id": 2690,
               "nodeType": "Block",
-              "src": "1403:414:25",
+              "src": "1403:414:26",
               "statements": [
                 {
                   "expression": {
@@ -582,33 +582,33 @@
                           "typeIdentifier": "t_address",
                           "typeString": "address"
                         },
-                        "id": 2581,
+                        "id": 2659,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "expression": {
-                            "id": 2577,
+                            "id": 2655,
                             "name": "key",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2571,
-                            "src": "1421:3:25",
+                            "referencedDeclaration": 2649,
+                            "src": "1421:3:26",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_PoolKey_$2535_memory_ptr",
+                              "typeIdentifier": "t_struct$_PoolKey_$2613_memory_ptr",
                               "typeString": "struct PoolAddress.PoolKey memory"
                             }
                           },
-                          "id": 2578,
+                          "id": 2656,
                           "isConstant": false,
                           "isLValue": true,
                           "isPure": false,
                           "lValueRequested": false,
                           "memberName": "token0",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 2530,
-                          "src": "1421:10:25",
+                          "referencedDeclaration": 2608,
+                          "src": "1421:10:26",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
@@ -618,32 +618,32 @@
                         "operator": "<",
                         "rightExpression": {
                           "expression": {
-                            "id": 2579,
+                            "id": 2657,
                             "name": "key",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2571,
-                            "src": "1434:3:25",
+                            "referencedDeclaration": 2649,
+                            "src": "1434:3:26",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_struct$_PoolKey_$2535_memory_ptr",
+                              "typeIdentifier": "t_struct$_PoolKey_$2613_memory_ptr",
                               "typeString": "struct PoolAddress.PoolKey memory"
                             }
                           },
-                          "id": 2580,
+                          "id": 2658,
                           "isConstant": false,
                           "isLValue": true,
                           "isPure": false,
                           "lValueRequested": false,
                           "memberName": "token1",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 2532,
-                          "src": "1434:10:25",
+                          "referencedDeclaration": 2610,
+                          "src": "1434:10:26",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
                           }
                         },
-                        "src": "1421:23:25",
+                        "src": "1421:23:26",
                         "typeDescriptions": {
                           "typeIdentifier": "t_bool",
                           "typeString": "bool"
@@ -657,7 +657,7 @@
                           "typeString": "bool"
                         }
                       ],
-                      "id": 2576,
+                      "id": 2654,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -665,13 +665,13 @@
                         -18
                       ],
                       "referencedDeclaration": -18,
-                      "src": "1413:7:25",
+                      "src": "1413:7:26",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-                    "id": 2582,
+                    "id": 2660,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -679,31 +679,31 @@
                     "lValueRequested": false,
                     "names": [],
                     "nodeType": "FunctionCall",
-                    "src": "1413:32:25",
+                    "src": "1413:32:26",
                     "tryCall": false,
                     "typeDescriptions": {
                       "typeIdentifier": "t_tuple$__$",
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2583,
+                  "id": 2661,
                   "nodeType": "ExpressionStatement",
-                  "src": "1413:32:25"
+                  "src": "1413:32:26"
                 },
                 {
                   "expression": {
-                    "id": 2610,
+                    "id": 2688,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 2584,
+                      "id": 2662,
                       "name": "pool",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2574,
-                      "src": "1455:4:25",
+                      "referencedDeclaration": 2652,
+                      "src": "1455:4:26",
                       "typeDescriptions": {
                         "typeIdentifier": "t_address",
                         "typeString": "address"
@@ -721,26 +721,26 @@
                                   "arguments": [
                                     {
                                       "hexValue": "ff",
-                                      "id": 2592,
+                                      "id": 2670,
                                       "isConstant": false,
                                       "isLValue": false,
                                       "isPure": true,
                                       "kind": "hexString",
                                       "lValueRequested": false,
                                       "nodeType": "Literal",
-                                      "src": "1581:7:25",
+                                      "src": "1581:7:26",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_stringliteral_8b1a944cf13a9a1c08facb2c9e98623ef3254d2ddb48113885c3e8e97fec8db9",
                                         "typeString": "literal_string hex\"ff\""
                                       }
                                     },
                                     {
-                                      "id": 2593,
+                                      "id": 2671,
                                       "name": "factory",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 2569,
-                                      "src": "1614:7:25",
+                                      "referencedDeclaration": 2647,
+                                      "src": "1614:7:26",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_address",
                                         "typeString": "address"
@@ -752,26 +752,26 @@
                                           "arguments": [
                                             {
                                               "expression": {
-                                                "id": 2597,
+                                                "id": 2675,
                                                 "name": "key",
                                                 "nodeType": "Identifier",
                                                 "overloadedDeclarations": [],
-                                                "referencedDeclaration": 2571,
-                                                "src": "1668:3:25",
+                                                "referencedDeclaration": 2649,
+                                                "src": "1668:3:26",
                                                 "typeDescriptions": {
-                                                  "typeIdentifier": "t_struct$_PoolKey_$2535_memory_ptr",
+                                                  "typeIdentifier": "t_struct$_PoolKey_$2613_memory_ptr",
                                                   "typeString": "struct PoolAddress.PoolKey memory"
                                                 }
                                               },
-                                              "id": 2598,
+                                              "id": 2676,
                                               "isConstant": false,
                                               "isLValue": true,
                                               "isPure": false,
                                               "lValueRequested": false,
                                               "memberName": "token0",
                                               "nodeType": "MemberAccess",
-                                              "referencedDeclaration": 2530,
-                                              "src": "1668:10:25",
+                                              "referencedDeclaration": 2608,
+                                              "src": "1668:10:26",
                                               "typeDescriptions": {
                                                 "typeIdentifier": "t_address",
                                                 "typeString": "address"
@@ -779,26 +779,26 @@
                                             },
                                             {
                                               "expression": {
-                                                "id": 2599,
+                                                "id": 2677,
                                                 "name": "key",
                                                 "nodeType": "Identifier",
                                                 "overloadedDeclarations": [],
-                                                "referencedDeclaration": 2571,
-                                                "src": "1680:3:25",
+                                                "referencedDeclaration": 2649,
+                                                "src": "1680:3:26",
                                                 "typeDescriptions": {
-                                                  "typeIdentifier": "t_struct$_PoolKey_$2535_memory_ptr",
+                                                  "typeIdentifier": "t_struct$_PoolKey_$2613_memory_ptr",
                                                   "typeString": "struct PoolAddress.PoolKey memory"
                                                 }
                                               },
-                                              "id": 2600,
+                                              "id": 2678,
                                               "isConstant": false,
                                               "isLValue": true,
                                               "isPure": false,
                                               "lValueRequested": false,
                                               "memberName": "token1",
                                               "nodeType": "MemberAccess",
-                                              "referencedDeclaration": 2532,
-                                              "src": "1680:10:25",
+                                              "referencedDeclaration": 2610,
+                                              "src": "1680:10:26",
                                               "typeDescriptions": {
                                                 "typeIdentifier": "t_address",
                                                 "typeString": "address"
@@ -806,26 +806,26 @@
                                             },
                                             {
                                               "expression": {
-                                                "id": 2601,
+                                                "id": 2679,
                                                 "name": "key",
                                                 "nodeType": "Identifier",
                                                 "overloadedDeclarations": [],
-                                                "referencedDeclaration": 2571,
-                                                "src": "1692:3:25",
+                                                "referencedDeclaration": 2649,
+                                                "src": "1692:3:26",
                                                 "typeDescriptions": {
-                                                  "typeIdentifier": "t_struct$_PoolKey_$2535_memory_ptr",
+                                                  "typeIdentifier": "t_struct$_PoolKey_$2613_memory_ptr",
                                                   "typeString": "struct PoolAddress.PoolKey memory"
                                                 }
                                               },
-                                              "id": 2602,
+                                              "id": 2680,
                                               "isConstant": false,
                                               "isLValue": true,
                                               "isPure": false,
                                               "lValueRequested": false,
                                               "memberName": "fee",
                                               "nodeType": "MemberAccess",
-                                              "referencedDeclaration": 2534,
-                                              "src": "1692:7:25",
+                                              "referencedDeclaration": 2612,
+                                              "src": "1692:7:26",
                                               "typeDescriptions": {
                                                 "typeIdentifier": "t_uint24",
                                                 "typeString": "uint24"
@@ -848,31 +848,31 @@
                                               }
                                             ],
                                             "expression": {
-                                              "id": 2595,
+                                              "id": 2673,
                                               "name": "abi",
                                               "nodeType": "Identifier",
                                               "overloadedDeclarations": [],
                                               "referencedDeclaration": -1,
-                                              "src": "1657:3:25",
+                                              "src": "1657:3:26",
                                               "typeDescriptions": {
                                                 "typeIdentifier": "t_magic_abi",
                                                 "typeString": "abi"
                                               }
                                             },
-                                            "id": 2596,
+                                            "id": 2674,
                                             "isConstant": false,
                                             "isLValue": false,
                                             "isPure": true,
                                             "lValueRequested": false,
                                             "memberName": "encode",
                                             "nodeType": "MemberAccess",
-                                            "src": "1657:10:25",
+                                            "src": "1657:10:26",
                                             "typeDescriptions": {
                                               "typeIdentifier": "t_function_abiencode_pure$__$returns$_t_bytes_memory_ptr_$",
                                               "typeString": "function () pure returns (bytes memory)"
                                             }
                                           },
-                                          "id": 2603,
+                                          "id": 2681,
                                           "isConstant": false,
                                           "isLValue": false,
                                           "isPure": false,
@@ -880,7 +880,7 @@
                                           "lValueRequested": false,
                                           "names": [],
                                           "nodeType": "FunctionCall",
-                                          "src": "1657:43:25",
+                                          "src": "1657:43:26",
                                           "tryCall": false,
                                           "typeDescriptions": {
                                             "typeIdentifier": "t_bytes_memory_ptr",
@@ -895,18 +895,18 @@
                                             "typeString": "bytes memory"
                                           }
                                         ],
-                                        "id": 2594,
+                                        "id": 2672,
                                         "name": "keccak256",
                                         "nodeType": "Identifier",
                                         "overloadedDeclarations": [],
                                         "referencedDeclaration": -8,
-                                        "src": "1647:9:25",
+                                        "src": "1647:9:26",
                                         "typeDescriptions": {
                                           "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                                           "typeString": "function (bytes memory) pure returns (bytes32)"
                                         }
                                       },
-                                      "id": 2604,
+                                      "id": 2682,
                                       "isConstant": false,
                                       "isLValue": false,
                                       "isPure": false,
@@ -914,7 +914,7 @@
                                       "lValueRequested": false,
                                       "names": [],
                                       "nodeType": "FunctionCall",
-                                      "src": "1647:54:25",
+                                      "src": "1647:54:26",
                                       "tryCall": false,
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_bytes32",
@@ -922,12 +922,12 @@
                                       }
                                     },
                                     {
-                                      "id": 2605,
+                                      "id": 2683,
                                       "name": "POOL_INIT_CODE_HASH",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
-                                      "referencedDeclaration": 2528,
-                                      "src": "1727:19:25",
+                                      "referencedDeclaration": 2606,
+                                      "src": "1727:19:26",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_bytes32",
                                         "typeString": "bytes32"
@@ -954,31 +954,31 @@
                                       }
                                     ],
                                     "expression": {
-                                      "id": 2590,
+                                      "id": 2668,
                                       "name": "abi",
                                       "nodeType": "Identifier",
                                       "overloadedDeclarations": [],
                                       "referencedDeclaration": -1,
-                                      "src": "1539:3:25",
+                                      "src": "1539:3:26",
                                       "typeDescriptions": {
                                         "typeIdentifier": "t_magic_abi",
                                         "typeString": "abi"
                                       }
                                     },
-                                    "id": 2591,
+                                    "id": 2669,
                                     "isConstant": false,
                                     "isLValue": false,
                                     "isPure": true,
                                     "lValueRequested": false,
                                     "memberName": "encodePacked",
                                     "nodeType": "MemberAccess",
-                                    "src": "1539:16:25",
+                                    "src": "1539:16:26",
                                     "typeDescriptions": {
                                       "typeIdentifier": "t_function_abiencodepacked_pure$__$returns$_t_bytes_memory_ptr_$",
                                       "typeString": "function () pure returns (bytes memory)"
                                     }
                                   },
-                                  "id": 2606,
+                                  "id": 2684,
                                   "isConstant": false,
                                   "isLValue": false,
                                   "isPure": false,
@@ -986,7 +986,7 @@
                                   "lValueRequested": false,
                                   "names": [],
                                   "nodeType": "FunctionCall",
-                                  "src": "1539:229:25",
+                                  "src": "1539:229:26",
                                   "tryCall": false,
                                   "typeDescriptions": {
                                     "typeIdentifier": "t_bytes_memory_ptr",
@@ -1001,18 +1001,18 @@
                                     "typeString": "bytes memory"
                                   }
                                 ],
-                                "id": 2589,
+                                "id": 2667,
                                 "name": "keccak256",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
                                 "referencedDeclaration": -8,
-                                "src": "1508:9:25",
+                                "src": "1508:9:26",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_function_keccak256_pure$_t_bytes_memory_ptr_$returns$_t_bytes32_$",
                                   "typeString": "function (bytes memory) pure returns (bytes32)"
                                 }
                               },
-                              "id": 2607,
+                              "id": 2685,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -1020,7 +1020,7 @@
                               "lValueRequested": false,
                               "names": [],
                               "nodeType": "FunctionCall",
-                              "src": "1508:278:25",
+                              "src": "1508:278:26",
                               "tryCall": false,
                               "typeDescriptions": {
                                 "typeIdentifier": "t_bytes32",
@@ -1035,26 +1035,26 @@
                                 "typeString": "bytes32"
                               }
                             ],
-                            "id": 2588,
+                            "id": 2666,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": true,
                             "lValueRequested": false,
                             "nodeType": "ElementaryTypeNameExpression",
-                            "src": "1483:7:25",
+                            "src": "1483:7:26",
                             "typeDescriptions": {
                               "typeIdentifier": "t_type$_t_uint256_$",
                               "typeString": "type(uint256)"
                             },
                             "typeName": {
-                              "id": 2587,
+                              "id": 2665,
                               "name": "uint256",
                               "nodeType": "ElementaryTypeName",
-                              "src": "1483:7:25",
+                              "src": "1483:7:26",
                               "typeDescriptions": {}
                             }
                           },
-                          "id": 2608,
+                          "id": 2686,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1062,7 +1062,7 @@
                           "lValueRequested": false,
                           "names": [],
                           "nodeType": "FunctionCall",
-                          "src": "1483:317:25",
+                          "src": "1483:317:26",
                           "tryCall": false,
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -1077,26 +1077,26 @@
                             "typeString": "uint256"
                           }
                         ],
-                        "id": 2586,
+                        "id": 2664,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
                         "lValueRequested": false,
                         "nodeType": "ElementaryTypeNameExpression",
-                        "src": "1462:7:25",
+                        "src": "1462:7:26",
                         "typeDescriptions": {
                           "typeIdentifier": "t_type$_t_address_$",
                           "typeString": "type(address)"
                         },
                         "typeName": {
-                          "id": 2585,
+                          "id": 2663,
                           "name": "address",
                           "nodeType": "ElementaryTypeName",
-                          "src": "1462:7:25",
+                          "src": "1462:7:26",
                           "typeDescriptions": {}
                         }
                       },
-                      "id": 2609,
+                      "id": 2687,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1104,49 +1104,49 @@
                       "lValueRequested": false,
                       "names": [],
                       "nodeType": "FunctionCall",
-                      "src": "1462:348:25",
+                      "src": "1462:348:26",
                       "tryCall": false,
                       "typeDescriptions": {
                         "typeIdentifier": "t_address_payable",
                         "typeString": "address payable"
                       }
                     },
-                    "src": "1455:355:25",
+                    "src": "1455:355:26",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
-                  "id": 2611,
+                  "id": 2689,
                   "nodeType": "ExpressionStatement",
-                  "src": "1455:355:25"
+                  "src": "1455:355:26"
                 }
               ]
             },
             "documentation": {
-              "id": 2567,
+              "id": 2645,
               "nodeType": "StructuredDocumentation",
-              "src": "1064:236:25",
+              "src": "1064:236:26",
               "text": "@notice Deterministically computes the pool address given the factory and PoolKey\n @param factory The Uniswap V3 factory contract address\n @param key The PoolKey\n @return pool The contract address of the V3 pool"
             },
-            "id": 2613,
+            "id": 2691,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "computeAddress",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2572,
+              "id": 2650,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2569,
+                  "id": 2647,
                   "mutability": "mutable",
                   "name": "factory",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2613,
-                  "src": "1329:15:25",
+                  "scope": 2691,
+                  "src": "1329:15:26",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1154,10 +1154,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2568,
+                    "id": 2646,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1329:7:25",
+                    "src": "1329:7:26",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1168,46 +1168,46 @@
                 },
                 {
                   "constant": false,
-                  "id": 2571,
+                  "id": 2649,
                   "mutability": "mutable",
                   "name": "key",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2613,
-                  "src": "1346:18:25",
+                  "scope": 2691,
+                  "src": "1346:18:26",
                   "stateVariable": false,
                   "storageLocation": "memory",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_PoolKey_$2535_memory_ptr",
+                    "typeIdentifier": "t_struct$_PoolKey_$2613_memory_ptr",
                     "typeString": "struct PoolAddress.PoolKey"
                   },
                   "typeName": {
-                    "id": 2570,
+                    "id": 2648,
                     "name": "PoolKey",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 2535,
-                    "src": "1346:7:25",
+                    "referencedDeclaration": 2613,
+                    "src": "1346:7:26",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_PoolKey_$2535_storage_ptr",
+                      "typeIdentifier": "t_struct$_PoolKey_$2613_storage_ptr",
                       "typeString": "struct PoolAddress.PoolKey"
                     }
                   },
                   "visibility": "internal"
                 }
               ],
-              "src": "1328:37:25"
+              "src": "1328:37:26"
             },
             "returnParameters": {
-              "id": 2575,
+              "id": 2653,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2574,
+                  "id": 2652,
                   "mutability": "mutable",
                   "name": "pool",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2613,
-                  "src": "1389:12:25",
+                  "scope": 2691,
+                  "src": "1389:12:26",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -1215,10 +1215,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2573,
+                    "id": 2651,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1389:7:25",
+                    "src": "1389:7:26",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -1228,27 +1228,27 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1388:14:25"
+              "src": "1388:14:26"
             },
-            "scope": 2614,
-            "src": "1305:512:25",
+            "scope": 2692,
+            "src": "1305:512:26",
             "stateMutability": "pure",
             "virtual": false,
             "visibility": "internal"
           }
         ],
-        "scope": 2615,
-        "src": "167:1652:25"
+        "scope": 2693,
+        "src": "167:1652:26"
       }
     ],
-    "src": "45:1775:25"
+    "src": "45:1775:26"
   },
   "legacyAST": {
     "attributes": {
       "absolutePath": "@uniswap/v3-periphery/contracts/libraries/PoolAddress.sol",
       "exportedSymbols": {
         "PoolAddress": [
-          2614
+          2692
         ]
       },
       "license": "GPL-2.0-or-later"
@@ -1263,9 +1263,9 @@
             ".0"
           ]
         },
-        "id": 2524,
+        "id": 2602,
         "name": "PragmaDirective",
-        "src": "45:24:25"
+        "src": "45:24:26"
       },
       {
         "attributes": {
@@ -1279,26 +1279,26 @@
           "contractKind": "library",
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            2614
+            2692
           ],
           "name": "PoolAddress",
-          "scope": 2615
+          "scope": 2693
         },
         "children": [
           {
             "attributes": {
               "text": "@title Provides functions for deriving a pool address from the factory, tokens, and the fee"
             },
-            "id": 2525,
+            "id": 2603,
             "name": "StructuredDocumentation",
-            "src": "71:96:25"
+            "src": "71:96:26"
           },
           {
             "attributes": {
               "constant": true,
               "mutability": "constant",
               "name": "POOL_INIT_CODE_HASH",
-              "scope": 2614,
+              "scope": 2692,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "bytes32",
@@ -1310,9 +1310,9 @@
                   "name": "bytes32",
                   "type": "bytes32"
                 },
-                "id": 2526,
+                "id": 2604,
                 "name": "ElementaryTypeName",
-                "src": "193:7:25"
+                "src": "193:7:26"
               },
               {
                 "attributes": {
@@ -1325,20 +1325,20 @@
                   "type": "int_const 1028...(70 digits omitted)...6276",
                   "value": "0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54"
                 },
-                "id": 2527,
+                "id": 2605,
                 "name": "Literal",
-                "src": "241:66:25"
+                "src": "241:66:26"
               }
             ],
-            "id": 2528,
+            "id": 2606,
             "name": "VariableDeclaration",
-            "src": "193:114:25"
+            "src": "193:114:26"
           },
           {
             "attributes": {
               "canonicalName": "PoolAddress.PoolKey",
               "name": "PoolKey",
-              "scope": 2614,
+              "scope": 2692,
               "visibility": "public"
             },
             "children": [
@@ -1347,7 +1347,7 @@
                   "constant": false,
                   "mutability": "mutable",
                   "name": "token0",
-                  "scope": 2535,
+                  "scope": 2613,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "address",
@@ -1360,21 +1360,21 @@
                       "stateMutability": "nonpayable",
                       "type": "address"
                     },
-                    "id": 2529,
+                    "id": 2607,
                     "name": "ElementaryTypeName",
-                    "src": "387:7:25"
+                    "src": "387:7:26"
                   }
                 ],
-                "id": 2530,
+                "id": 2608,
                 "name": "VariableDeclaration",
-                "src": "387:14:25"
+                "src": "387:14:26"
               },
               {
                 "attributes": {
                   "constant": false,
                   "mutability": "mutable",
                   "name": "token1",
-                  "scope": 2535,
+                  "scope": 2613,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "address",
@@ -1387,21 +1387,21 @@
                       "stateMutability": "nonpayable",
                       "type": "address"
                     },
-                    "id": 2531,
+                    "id": 2609,
                     "name": "ElementaryTypeName",
-                    "src": "411:7:25"
+                    "src": "411:7:26"
                   }
                 ],
-                "id": 2532,
+                "id": 2610,
                 "name": "VariableDeclaration",
-                "src": "411:14:25"
+                "src": "411:14:26"
               },
               {
                 "attributes": {
                   "constant": false,
                   "mutability": "mutable",
                   "name": "fee",
-                  "scope": 2535,
+                  "scope": 2613,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "uint24",
@@ -1413,19 +1413,19 @@
                       "name": "uint24",
                       "type": "uint24"
                     },
-                    "id": 2533,
+                    "id": 2611,
                     "name": "ElementaryTypeName",
-                    "src": "435:6:25"
+                    "src": "435:6:26"
                   }
                 ],
-                "id": 2534,
+                "id": 2612,
                 "name": "VariableDeclaration",
-                "src": "435:10:25"
+                "src": "435:10:26"
               }
             ],
-            "id": 2535,
+            "id": 2613,
             "name": "StructDefinition",
-            "src": "362:90:25"
+            "src": "362:90:26"
           },
           {
             "attributes": {
@@ -1436,7 +1436,7 @@
                 null
               ],
               "name": "getPoolKey",
-              "scope": 2614,
+              "scope": 2692,
               "stateMutability": "pure",
               "virtual": false,
               "visibility": "internal"
@@ -1446,9 +1446,9 @@
                 "attributes": {
                   "text": "@notice Returns PoolKey: the ordered tokens with the matched fee levels\n @param tokenA The first token of a pool, unsorted\n @param tokenB The second token of a pool, unsorted\n @param fee The fee level of the pool\n @return Poolkey The pool details with ordered token0 and token1 assignments"
                 },
-                "id": 2536,
+                "id": 2614,
                 "name": "StructuredDocumentation",
-                "src": "458:321:25"
+                "src": "458:321:26"
               },
               {
                 "children": [
@@ -1457,7 +1457,7 @@
                       "constant": false,
                       "mutability": "mutable",
                       "name": "tokenA",
-                      "scope": 2566,
+                      "scope": 2644,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1470,21 +1470,21 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 2537,
+                        "id": 2615,
                         "name": "ElementaryTypeName",
-                        "src": "813:7:25"
+                        "src": "813:7:26"
                       }
                     ],
-                    "id": 2538,
+                    "id": 2616,
                     "name": "VariableDeclaration",
-                    "src": "813:14:25"
+                    "src": "813:14:26"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "mutability": "mutable",
                       "name": "tokenB",
-                      "scope": 2566,
+                      "scope": 2644,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1497,21 +1497,21 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 2539,
+                        "id": 2617,
                         "name": "ElementaryTypeName",
-                        "src": "837:7:25"
+                        "src": "837:7:26"
                       }
                     ],
-                    "id": 2540,
+                    "id": 2618,
                     "name": "VariableDeclaration",
-                    "src": "837:14:25"
+                    "src": "837:14:26"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "mutability": "mutable",
                       "name": "fee",
-                      "scope": 2566,
+                      "scope": 2644,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint24",
@@ -1523,19 +1523,19 @@
                           "name": "uint24",
                           "type": "uint24"
                         },
-                        "id": 2541,
+                        "id": 2619,
                         "name": "ElementaryTypeName",
-                        "src": "861:6:25"
+                        "src": "861:6:26"
                       }
                     ],
-                    "id": 2542,
+                    "id": 2620,
                     "name": "VariableDeclaration",
-                    "src": "861:10:25"
+                    "src": "861:10:26"
                   }
                 ],
-                "id": 2543,
+                "id": 2621,
                 "name": "ParameterList",
-                "src": "803:74:25"
+                "src": "803:74:26"
               },
               {
                 "children": [
@@ -1544,7 +1544,7 @@
                       "constant": false,
                       "mutability": "mutable",
                       "name": "",
-                      "scope": 2566,
+                      "scope": 2644,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "struct PoolAddress.PoolKey",
@@ -1554,22 +1554,22 @@
                       {
                         "attributes": {
                           "name": "PoolKey",
-                          "referencedDeclaration": 2535,
+                          "referencedDeclaration": 2613,
                           "type": "struct PoolAddress.PoolKey"
                         },
-                        "id": 2544,
+                        "id": 2622,
                         "name": "UserDefinedTypeName",
-                        "src": "901:7:25"
+                        "src": "901:7:26"
                       }
                     ],
-                    "id": 2545,
+                    "id": 2623,
                     "name": "VariableDeclaration",
-                    "src": "901:14:25"
+                    "src": "901:14:26"
                   }
                 ],
-                "id": 2546,
+                "id": 2624,
                 "name": "ParameterList",
-                "src": "900:16:25"
+                "src": "900:16:26"
               },
               {
                 "children": [
@@ -1595,31 +1595,31 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2538,
+                              "referencedDeclaration": 2616,
                               "type": "address",
                               "value": "tokenA"
                             },
-                            "id": 2547,
+                            "id": 2625,
                             "name": "Identifier",
-                            "src": "931:6:25"
+                            "src": "931:6:26"
                           },
                           {
                             "attributes": {
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2540,
+                              "referencedDeclaration": 2618,
                               "type": "address",
                               "value": "tokenB"
                             },
-                            "id": 2548,
+                            "id": 2626,
                             "name": "Identifier",
-                            "src": "940:6:25"
+                            "src": "940:6:26"
                           }
                         ],
-                        "id": 2549,
+                        "id": 2627,
                         "name": "BinaryOperation",
-                        "src": "931:15:25"
+                        "src": "931:15:26"
                       },
                       {
                         "children": [
@@ -1648,31 +1648,31 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2538,
+                                      "referencedDeclaration": 2616,
                                       "type": "address",
                                       "value": "tokenA"
                                     },
-                                    "id": 2550,
+                                    "id": 2628,
                                     "name": "Identifier",
-                                    "src": "949:6:25"
+                                    "src": "949:6:26"
                                   },
                                   {
                                     "attributes": {
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2540,
+                                      "referencedDeclaration": 2618,
                                       "type": "address",
                                       "value": "tokenB"
                                     },
-                                    "id": 2551,
+                                    "id": 2629,
                                     "name": "Identifier",
-                                    "src": "957:6:25"
+                                    "src": "957:6:26"
                                   }
                                 ],
-                                "id": 2552,
+                                "id": 2630,
                                 "name": "TupleExpression",
-                                "src": "948:16:25"
+                                "src": "948:16:26"
                               },
                               {
                                 "attributes": {
@@ -1689,50 +1689,50 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2540,
+                                      "referencedDeclaration": 2618,
                                       "type": "address",
                                       "value": "tokenB"
                                     },
-                                    "id": 2553,
+                                    "id": 2631,
                                     "name": "Identifier",
-                                    "src": "968:6:25"
+                                    "src": "968:6:26"
                                   },
                                   {
                                     "attributes": {
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2538,
+                                      "referencedDeclaration": 2616,
                                       "type": "address",
                                       "value": "tokenA"
                                     },
-                                    "id": 2554,
+                                    "id": 2632,
                                     "name": "Identifier",
-                                    "src": "976:6:25"
+                                    "src": "976:6:26"
                                   }
                                 ],
-                                "id": 2555,
+                                "id": 2633,
                                 "name": "TupleExpression",
-                                "src": "967:16:25"
+                                "src": "967:16:26"
                               }
                             ],
-                            "id": 2556,
+                            "id": 2634,
                             "name": "Assignment",
-                            "src": "948:35:25"
+                            "src": "948:35:26"
                           }
                         ],
-                        "id": 2557,
+                        "id": 2635,
                         "name": "ExpressionStatement",
-                        "src": "948:35:25"
+                        "src": "948:35:26"
                       }
                     ],
-                    "id": 2558,
+                    "id": 2636,
                     "name": "IfStatement",
-                    "src": "927:56:25"
+                    "src": "927:56:26"
                   },
                   {
                     "attributes": {
-                      "functionReturnParameters": 2546
+                      "functionReturnParameters": 2624
                     },
                     "children": [
                       {
@@ -1771,72 +1771,72 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2535,
+                              "referencedDeclaration": 2613,
                               "type": "type(struct PoolAddress.PoolKey storage pointer)",
                               "value": "PoolKey"
                             },
-                            "id": 2559,
+                            "id": 2637,
                             "name": "Identifier",
-                            "src": "1000:7:25"
+                            "src": "1000:7:26"
                           },
                           {
                             "attributes": {
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2538,
+                              "referencedDeclaration": 2616,
                               "type": "address",
                               "value": "tokenA"
                             },
-                            "id": 2560,
+                            "id": 2638,
                             "name": "Identifier",
-                            "src": "1017:6:25"
+                            "src": "1017:6:26"
                           },
                           {
                             "attributes": {
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2540,
+                              "referencedDeclaration": 2618,
                               "type": "address",
                               "value": "tokenB"
                             },
-                            "id": 2561,
+                            "id": 2639,
                             "name": "Identifier",
-                            "src": "1033:6:25"
+                            "src": "1033:6:26"
                           },
                           {
                             "attributes": {
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2542,
+                              "referencedDeclaration": 2620,
                               "type": "uint24",
                               "value": "fee"
                             },
-                            "id": 2562,
+                            "id": 2640,
                             "name": "Identifier",
-                            "src": "1046:3:25"
+                            "src": "1046:3:26"
                           }
                         ],
-                        "id": 2563,
+                        "id": 2641,
                         "name": "FunctionCall",
-                        "src": "1000:51:25"
+                        "src": "1000:51:26"
                       }
                     ],
-                    "id": 2564,
+                    "id": 2642,
                     "name": "Return",
-                    "src": "993:58:25"
+                    "src": "993:58:26"
                   }
                 ],
-                "id": 2565,
+                "id": 2643,
                 "name": "Block",
-                "src": "917:141:25"
+                "src": "917:141:26"
               }
             ],
-            "id": 2566,
+            "id": 2644,
             "name": "FunctionDefinition",
-            "src": "784:274:25"
+            "src": "784:274:26"
           },
           {
             "attributes": {
@@ -1847,7 +1847,7 @@
                 null
               ],
               "name": "computeAddress",
-              "scope": 2614,
+              "scope": 2692,
               "stateMutability": "pure",
               "virtual": false,
               "visibility": "internal"
@@ -1857,9 +1857,9 @@
                 "attributes": {
                   "text": "@notice Deterministically computes the pool address given the factory and PoolKey\n @param factory The Uniswap V3 factory contract address\n @param key The PoolKey\n @return pool The contract address of the V3 pool"
                 },
-                "id": 2567,
+                "id": 2645,
                 "name": "StructuredDocumentation",
-                "src": "1064:236:25"
+                "src": "1064:236:26"
               },
               {
                 "children": [
@@ -1868,7 +1868,7 @@
                       "constant": false,
                       "mutability": "mutable",
                       "name": "factory",
-                      "scope": 2613,
+                      "scope": 2691,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1881,21 +1881,21 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 2568,
+                        "id": 2646,
                         "name": "ElementaryTypeName",
-                        "src": "1329:7:25"
+                        "src": "1329:7:26"
                       }
                     ],
-                    "id": 2569,
+                    "id": 2647,
                     "name": "VariableDeclaration",
-                    "src": "1329:15:25"
+                    "src": "1329:15:26"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "mutability": "mutable",
                       "name": "key",
-                      "scope": 2613,
+                      "scope": 2691,
                       "stateVariable": false,
                       "storageLocation": "memory",
                       "type": "struct PoolAddress.PoolKey",
@@ -1905,22 +1905,22 @@
                       {
                         "attributes": {
                           "name": "PoolKey",
-                          "referencedDeclaration": 2535,
+                          "referencedDeclaration": 2613,
                           "type": "struct PoolAddress.PoolKey"
                         },
-                        "id": 2570,
+                        "id": 2648,
                         "name": "UserDefinedTypeName",
-                        "src": "1346:7:25"
+                        "src": "1346:7:26"
                       }
                     ],
-                    "id": 2571,
+                    "id": 2649,
                     "name": "VariableDeclaration",
-                    "src": "1346:18:25"
+                    "src": "1346:18:26"
                   }
                 ],
-                "id": 2572,
+                "id": 2650,
                 "name": "ParameterList",
-                "src": "1328:37:25"
+                "src": "1328:37:26"
               },
               {
                 "children": [
@@ -1929,7 +1929,7 @@
                       "constant": false,
                       "mutability": "mutable",
                       "name": "pool",
-                      "scope": 2613,
+                      "scope": 2691,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -1942,19 +1942,19 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 2573,
+                        "id": 2651,
                         "name": "ElementaryTypeName",
-                        "src": "1389:7:25"
+                        "src": "1389:7:26"
                       }
                     ],
-                    "id": 2574,
+                    "id": 2652,
                     "name": "VariableDeclaration",
-                    "src": "1389:12:25"
+                    "src": "1389:12:26"
                   }
                 ],
-                "id": 2575,
+                "id": 2653,
                 "name": "ParameterList",
-                "src": "1388:14:25"
+                "src": "1388:14:26"
               },
               {
                 "children": [
@@ -1991,9 +1991,9 @@
                               "type": "function (bool) pure",
                               "value": "require"
                             },
-                            "id": 2576,
+                            "id": 2654,
                             "name": "Identifier",
-                            "src": "1413:7:25"
+                            "src": "1413:7:26"
                           },
                           {
                             "attributes": {
@@ -2016,7 +2016,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "token0",
-                                  "referencedDeclaration": 2530,
+                                  "referencedDeclaration": 2608,
                                   "type": "address"
                                 },
                                 "children": [
@@ -2025,18 +2025,18 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2571,
+                                      "referencedDeclaration": 2649,
                                       "type": "struct PoolAddress.PoolKey memory",
                                       "value": "key"
                                     },
-                                    "id": 2577,
+                                    "id": 2655,
                                     "name": "Identifier",
-                                    "src": "1421:3:25"
+                                    "src": "1421:3:26"
                                   }
                                 ],
-                                "id": 2578,
+                                "id": 2656,
                                 "name": "MemberAccess",
-                                "src": "1421:10:25"
+                                "src": "1421:10:26"
                               },
                               {
                                 "attributes": {
@@ -2045,7 +2045,7 @@
                                   "isPure": false,
                                   "lValueRequested": false,
                                   "member_name": "token1",
-                                  "referencedDeclaration": 2532,
+                                  "referencedDeclaration": 2610,
                                   "type": "address"
                                 },
                                 "children": [
@@ -2054,33 +2054,33 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 2571,
+                                      "referencedDeclaration": 2649,
                                       "type": "struct PoolAddress.PoolKey memory",
                                       "value": "key"
                                     },
-                                    "id": 2579,
+                                    "id": 2657,
                                     "name": "Identifier",
-                                    "src": "1434:3:25"
+                                    "src": "1434:3:26"
                                   }
                                 ],
-                                "id": 2580,
+                                "id": 2658,
                                 "name": "MemberAccess",
-                                "src": "1434:10:25"
+                                "src": "1434:10:26"
                               }
                             ],
-                            "id": 2581,
+                            "id": 2659,
                             "name": "BinaryOperation",
-                            "src": "1421:23:25"
+                            "src": "1421:23:26"
                           }
                         ],
-                        "id": 2582,
+                        "id": 2660,
                         "name": "FunctionCall",
-                        "src": "1413:32:25"
+                        "src": "1413:32:26"
                       }
                     ],
-                    "id": 2583,
+                    "id": 2661,
                     "name": "ExpressionStatement",
-                    "src": "1413:32:25"
+                    "src": "1413:32:26"
                   },
                   {
                     "children": [
@@ -2099,13 +2099,13 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 2574,
+                              "referencedDeclaration": 2652,
                               "type": "address",
                               "value": "pool"
                             },
-                            "id": 2584,
+                            "id": 2662,
                             "name": "Identifier",
-                            "src": "1455:4:25"
+                            "src": "1455:4:26"
                           },
                           {
                             "attributes": {
@@ -2141,14 +2141,14 @@
                                     "attributes": {
                                       "name": "address"
                                     },
-                                    "id": 2585,
+                                    "id": 2663,
                                     "name": "ElementaryTypeName",
-                                    "src": "1462:7:25"
+                                    "src": "1462:7:26"
                                   }
                                 ],
-                                "id": 2586,
+                                "id": 2664,
                                 "name": "ElementaryTypeNameExpression",
-                                "src": "1462:7:25"
+                                "src": "1462:7:26"
                               },
                               {
                                 "attributes": {
@@ -2184,14 +2184,14 @@
                                         "attributes": {
                                           "name": "uint256"
                                         },
-                                        "id": 2587,
+                                        "id": 2665,
                                         "name": "ElementaryTypeName",
-                                        "src": "1483:7:25"
+                                        "src": "1483:7:26"
                                       }
                                     ],
-                                    "id": 2588,
+                                    "id": 2666,
                                     "name": "ElementaryTypeNameExpression",
-                                    "src": "1483:7:25"
+                                    "src": "1483:7:26"
                                   },
                                   {
                                     "attributes": {
@@ -2223,9 +2223,9 @@
                                           "type": "function (bytes memory) pure returns (bytes32)",
                                           "value": "keccak256"
                                         },
-                                        "id": 2589,
+                                        "id": 2667,
                                         "name": "Identifier",
-                                        "src": "1508:9:25"
+                                        "src": "1508:9:26"
                                       },
                                       {
                                         "attributes": {
@@ -2279,14 +2279,14 @@
                                                   "type": "abi",
                                                   "value": "abi"
                                                 },
-                                                "id": 2590,
+                                                "id": 2668,
                                                 "name": "Identifier",
-                                                "src": "1539:3:25"
+                                                "src": "1539:3:26"
                                               }
                                             ],
-                                            "id": 2591,
+                                            "id": 2669,
                                             "name": "MemberAccess",
-                                            "src": "1539:16:25"
+                                            "src": "1539:16:26"
                                           },
                                           {
                                             "attributes": {
@@ -2298,22 +2298,22 @@
                                               "token": "hexString",
                                               "type": "literal_string hex\"ff\""
                                             },
-                                            "id": 2592,
+                                            "id": 2670,
                                             "name": "Literal",
-                                            "src": "1581:7:25"
+                                            "src": "1581:7:26"
                                           },
                                           {
                                             "attributes": {
                                               "overloadedDeclarations": [
                                                 null
                                               ],
-                                              "referencedDeclaration": 2569,
+                                              "referencedDeclaration": 2647,
                                               "type": "address",
                                               "value": "factory"
                                             },
-                                            "id": 2593,
+                                            "id": 2671,
                                             "name": "Identifier",
-                                            "src": "1614:7:25"
+                                            "src": "1614:7:26"
                                           },
                                           {
                                             "attributes": {
@@ -2345,9 +2345,9 @@
                                                   "type": "function (bytes memory) pure returns (bytes32)",
                                                   "value": "keccak256"
                                                 },
-                                                "id": 2594,
+                                                "id": 2672,
                                                 "name": "Identifier",
-                                                "src": "1647:9:25"
+                                                "src": "1647:9:26"
                                               },
                                               {
                                                 "attributes": {
@@ -2397,14 +2397,14 @@
                                                           "type": "abi",
                                                           "value": "abi"
                                                         },
-                                                        "id": 2595,
+                                                        "id": 2673,
                                                         "name": "Identifier",
-                                                        "src": "1657:3:25"
+                                                        "src": "1657:3:26"
                                                       }
                                                     ],
-                                                    "id": 2596,
+                                                    "id": 2674,
                                                     "name": "MemberAccess",
-                                                    "src": "1657:10:25"
+                                                    "src": "1657:10:26"
                                                   },
                                                   {
                                                     "attributes": {
@@ -2413,7 +2413,7 @@
                                                       "isPure": false,
                                                       "lValueRequested": false,
                                                       "member_name": "token0",
-                                                      "referencedDeclaration": 2530,
+                                                      "referencedDeclaration": 2608,
                                                       "type": "address"
                                                     },
                                                     "children": [
@@ -2422,18 +2422,18 @@
                                                           "overloadedDeclarations": [
                                                             null
                                                           ],
-                                                          "referencedDeclaration": 2571,
+                                                          "referencedDeclaration": 2649,
                                                           "type": "struct PoolAddress.PoolKey memory",
                                                           "value": "key"
                                                         },
-                                                        "id": 2597,
+                                                        "id": 2675,
                                                         "name": "Identifier",
-                                                        "src": "1668:3:25"
+                                                        "src": "1668:3:26"
                                                       }
                                                     ],
-                                                    "id": 2598,
+                                                    "id": 2676,
                                                     "name": "MemberAccess",
-                                                    "src": "1668:10:25"
+                                                    "src": "1668:10:26"
                                                   },
                                                   {
                                                     "attributes": {
@@ -2442,7 +2442,7 @@
                                                       "isPure": false,
                                                       "lValueRequested": false,
                                                       "member_name": "token1",
-                                                      "referencedDeclaration": 2532,
+                                                      "referencedDeclaration": 2610,
                                                       "type": "address"
                                                     },
                                                     "children": [
@@ -2451,18 +2451,18 @@
                                                           "overloadedDeclarations": [
                                                             null
                                                           ],
-                                                          "referencedDeclaration": 2571,
+                                                          "referencedDeclaration": 2649,
                                                           "type": "struct PoolAddress.PoolKey memory",
                                                           "value": "key"
                                                         },
-                                                        "id": 2599,
+                                                        "id": 2677,
                                                         "name": "Identifier",
-                                                        "src": "1680:3:25"
+                                                        "src": "1680:3:26"
                                                       }
                                                     ],
-                                                    "id": 2600,
+                                                    "id": 2678,
                                                     "name": "MemberAccess",
-                                                    "src": "1680:10:25"
+                                                    "src": "1680:10:26"
                                                   },
                                                   {
                                                     "attributes": {
@@ -2471,7 +2471,7 @@
                                                       "isPure": false,
                                                       "lValueRequested": false,
                                                       "member_name": "fee",
-                                                      "referencedDeclaration": 2534,
+                                                      "referencedDeclaration": 2612,
                                                       "type": "uint24"
                                                     },
                                                     "children": [
@@ -2480,91 +2480,91 @@
                                                           "overloadedDeclarations": [
                                                             null
                                                           ],
-                                                          "referencedDeclaration": 2571,
+                                                          "referencedDeclaration": 2649,
                                                           "type": "struct PoolAddress.PoolKey memory",
                                                           "value": "key"
                                                         },
-                                                        "id": 2601,
+                                                        "id": 2679,
                                                         "name": "Identifier",
-                                                        "src": "1692:3:25"
+                                                        "src": "1692:3:26"
                                                       }
                                                     ],
-                                                    "id": 2602,
+                                                    "id": 2680,
                                                     "name": "MemberAccess",
-                                                    "src": "1692:7:25"
+                                                    "src": "1692:7:26"
                                                   }
                                                 ],
-                                                "id": 2603,
+                                                "id": 2681,
                                                 "name": "FunctionCall",
-                                                "src": "1657:43:25"
+                                                "src": "1657:43:26"
                                               }
                                             ],
-                                            "id": 2604,
+                                            "id": 2682,
                                             "name": "FunctionCall",
-                                            "src": "1647:54:25"
+                                            "src": "1647:54:26"
                                           },
                                           {
                                             "attributes": {
                                               "overloadedDeclarations": [
                                                 null
                                               ],
-                                              "referencedDeclaration": 2528,
+                                              "referencedDeclaration": 2606,
                                               "type": "bytes32",
                                               "value": "POOL_INIT_CODE_HASH"
                                             },
-                                            "id": 2605,
+                                            "id": 2683,
                                             "name": "Identifier",
-                                            "src": "1727:19:25"
+                                            "src": "1727:19:26"
                                           }
                                         ],
-                                        "id": 2606,
+                                        "id": 2684,
                                         "name": "FunctionCall",
-                                        "src": "1539:229:25"
+                                        "src": "1539:229:26"
                                       }
                                     ],
-                                    "id": 2607,
+                                    "id": 2685,
                                     "name": "FunctionCall",
-                                    "src": "1508:278:25"
+                                    "src": "1508:278:26"
                                   }
                                 ],
-                                "id": 2608,
+                                "id": 2686,
                                 "name": "FunctionCall",
-                                "src": "1483:317:25"
+                                "src": "1483:317:26"
                               }
                             ],
-                            "id": 2609,
+                            "id": 2687,
                             "name": "FunctionCall",
-                            "src": "1462:348:25"
+                            "src": "1462:348:26"
                           }
                         ],
-                        "id": 2610,
+                        "id": 2688,
                         "name": "Assignment",
-                        "src": "1455:355:25"
+                        "src": "1455:355:26"
                       }
                     ],
-                    "id": 2611,
+                    "id": 2689,
                     "name": "ExpressionStatement",
-                    "src": "1455:355:25"
+                    "src": "1455:355:26"
                   }
                 ],
-                "id": 2612,
+                "id": 2690,
                 "name": "Block",
-                "src": "1403:414:25"
+                "src": "1403:414:26"
               }
             ],
-            "id": 2613,
+            "id": 2691,
             "name": "FunctionDefinition",
-            "src": "1305:512:25"
+            "src": "1305:512:26"
           }
         ],
-        "id": 2614,
+        "id": 2692,
         "name": "ContractDefinition",
-        "src": "167:1652:25"
+        "src": "167:1652:26"
       }
     ],
-    "id": 2615,
+    "id": 2693,
     "name": "SourceUnit",
-    "src": "45:1775:25"
+    "src": "45:1775:26"
   },
   "compiler": {
     "name": "solc",
@@ -2572,7 +2572,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-03-27T07:34:52.059Z",
+  "updatedAt": "2023-03-27T10:21:53.585Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
