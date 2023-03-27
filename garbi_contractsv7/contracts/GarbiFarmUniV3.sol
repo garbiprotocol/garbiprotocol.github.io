@@ -241,6 +241,6 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         }
         
         tvl_ = totalShare;
-        tokenId = userInfoTokenId[msg.sender];
+        tokenId = userInfoTokenId[_user];
     } 
 }
