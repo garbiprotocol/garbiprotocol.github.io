@@ -260,7 +260,7 @@
                             </button>
                             <!-- Modal -->
                             <div class="modal fade" id="token-increase" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-dialog-centered modal-sm">
+                              <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                   <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Enable transfer your NFT-LP</h5>
@@ -268,7 +268,7 @@
                                   </div>
                                   <div class="modal-body">
                                     <div class="img">
-                                        <img src="" class="image-token" >
+                                        <img src="../assets/images/uniswap-default.png" class="image-token" >
                                     </div>
                                     <div class="description">
                                         <p>Before you can start, you'll need to enable approval to transfer your NFT-LP to the Garbi Protocol.</p>
@@ -276,7 +276,7 @@
                                   </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-primary btn-approve">Enable</button>
-                                    <button type="button" class="btn btn-primary btn-deposit">Deposit</button>
+                                    <button type="button" class="btn btn-primary btn-deposit" style="display:none">Deposit</button>
                                   </div>
                                 </div>
                               </div>
@@ -287,7 +287,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-sm-12">
                         <div class="image">
-                            <img src="" class="image-token" >
+                            <img src="../assets/images/uniswap-default.png" class="image-token">
                         </div>
                     </div>
                     <div class="col-lg-8 col-sm-12">
@@ -571,27 +571,36 @@
             let userTokenId = result.tokenId;
             if (userTokenId == 0) {  
                 GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
-                .then(function (result) {      
-                    userTokenId = result[result.length - 1];
-                    GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
-                    .then (function (result) {
-                        let UserToken2Amount = result.token0Amount / 10 ** 6;
-                        $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
-                        let UserToken1Amount = result.token1Amount / 10 ** 18;
-                        $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
-                        let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
-                        $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
-                        if (result.inPriceRange == true) {
-                            $('.notice-range').hide();
-                        }
-                        else {
-                            $('.notice-range').show();
-                        }
-                        let dataUrlString = result.tokenURI;
-                        let Base64DataUrl = dataUrlString.split(",")[1]
-                        let DataUrl = JSON.parse(atob(Base64DataUrl));
-                        $('.image-token').attr('src', DataUrl.image);
-                    });
+                .then(function (result) {
+                    if (result.length == 0) {
+                        $('.button-withdraw').addClass('button-disabled');
+                        $('.user-earn-token').text('0.0');
+                        $('.user-token-2-amount').text('0');
+                        $('.user-token-1-amount').text('0');
+                        $('.volume-liquidity').text('0.0');
+                    }
+                    if (result.length > 0) {
+                        userTokenId = result[result.length - 1];
+                        GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
+                        .then (function (result) {
+                            let UserToken1Amount = result.token1Amount / 10 ** 18;
+                            $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
+                            let UserToken2Amount = result.token0Amount / 10 ** 6;
+                            $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));              
+                            let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                            $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
+                            if (result.inPriceRange == true) {
+                                $('.notice-range').hide();
+                            }
+                            else {
+                                $('.notice-range').show();
+                            }
+                            let dataUrlString = result.tokenURI;
+                            let Base64DataUrl = dataUrlString.split(",")[1]
+                            let DataUrl = JSON.parse(atob(Base64DataUrl));
+                            $('.image-token').attr('src', DataUrl.image);
+                        });
+                    } 
                     $('.grb-farm-2 .button-deposit-nft').click(function () {
                         NonfungiblePositionManagerContract.methods.getApproved(userTokenId).call().then(function (result) {
                             if (result == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')) {
@@ -701,8 +710,14 @@
             .then(function (result) {
                 let userTokenId = result.tokenId;
                 if (userTokenId == 0) {  
-                    GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
-                    .then(function (result) {      
+                    if (result.length == 0) {
+                        $('.button-withdraw').addClass('button-disabled');
+                        $('.user-earn-token').text('0.0');
+                        $('.user-token-2-amount').text('0');
+                        $('.user-token-1-amount').text('0');
+                        $('.volume-liquidity').text('0.0');
+                    }
+                    if (result.length > 0) {
                         userTokenId = result[result.length - 1];
                         GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                         .then (function (result) {
@@ -719,7 +734,7 @@
                                 $('.notice-range').show();
                             }
                         });
-                    });
+                    } 
                 }
                 else {
                     $('.button-withdraw').removeClass('button-disabled');
