@@ -560,8 +560,8 @@
         let userWallet = coreHelper.getUserAccount();
         let GarbiFarmUniV3Contract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
         let userTokenId;
-        let wethPrice;
-        let grbPrice;
+        let wethPrice = 0 ;
+        let grbPrice = 0 ;
         $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
             wethPrice = data["ethereum"]["usd"];
             grbPrice = data["garbi-protocol"]["usd"];
