@@ -584,9 +584,9 @@
                     userTokenId = result[result.length - 1];
                     let resultNFT = await GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call();
                     let UserToken2Amount = resultNFT.token0Amount / 10 ** 6;
-                    $('.user-token-2-amount').text(UserToken2Amount);
+                    $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
                     let UserToken1Amount = resultNFT.token1Amount / 10 ** 18;
-                    $('.user-token-1-amount').text(UserToken1Amount);
+                    $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
                     let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
                     $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                     if (resultNFT.inPriceRange == true) {
@@ -598,7 +598,6 @@
                     let dataUrlString = resultNFT.tokenURI;
                     let Base64DataUrl = dataUrlString.split(",")[1]
                     let DataUrl = JSON.parse(atob(Base64DataUrl));
-                    console.log (DataUrl);
                     $('.image-token').attr('src', DataUrl.image);
                 } else {
                     let data = await getCoinGeckoData();
@@ -606,14 +605,14 @@
                     grbPrice = data["garbi-protocol"]["usd"];
                     $('.button-withdraw').removeClass('button-disabled');
                     let UserEarnToken = result.userGRBPending_ / 10 ** 18;
-                    $('.user-earn-token').text(UserEarnToken);
+                    $('.user-earn-token').text(UserEarnToken.toFixed(2));
                     let EarnVolume = UserEarnToken * grbPrice;
                     $('.earn-volume').text(EarnVolume.toFixed(2));
                     let resultNFT = await GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call();
                     let UserToken2Amount = resultNFT.token0Amount / 10 ** 6;
-                    $('.user-token-2-amount').text(UserToken2Amount);
+                    $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
                     let UserToken1Amount = resultNFT.token1Amount / 10 ** 18;
-                    $('.user-token-1-amount').text(UserToken1Amount);
+                    $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
                     let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
                     $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                     if (resultNFT.inPriceRange == true) {
@@ -757,10 +756,7 @@
             .on('error', (err, receipt) => {
                 console.log(err);
             });
-        });
-
-
-        
+        });        
     });
 </script>
 
