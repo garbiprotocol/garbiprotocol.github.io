@@ -318,10 +318,10 @@
                                     </div>
                                     <div class="col-6" style=" text-align: right;position: relative;">
                                         <div class="text-end" style="display: flex;justify-content: right;align-items:center;margin-bottom: 12px;">                                         
-                                            <span class="user-token-1-amount">0</span>
+                                            <span class="user-token-0-amount">0</span>
                                         </div>
                                         <div class="text-end" style="display: flex;justify-content: right;align-items:center;">                                         
-                                            <span class="user-token-2-amount">0</span>
+                                            <span class="user-token-1-amount">0</span>
                                         </div>
                                     </div>
                                 </div>
@@ -377,7 +377,7 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-14">
                         <div class="title">
-                            <span>Total Asset Value Secured: </span> $100,000
+                            <span>Total Asset Value Secured: $<span class="total-asset-value">0</span></span>
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-14">
@@ -421,7 +421,7 @@
                                  <div class="form-item swap__form-item current-price">
                                     <div class="">
                                         <span class="">Current price</span>
-                                        <div class="price">0.49859</div>
+                                        <div class="price">0.0</div>
                                         <span class="description"> ETH per GRB</span>
                                     </div>
                                 </div>
@@ -562,12 +562,27 @@
         let userTokenId;
         let wethPrice = 0 ;
         let grbPrice = 0 ;
+        let Token0Decimal = configHelper.getTokenDecimalByTokenName(chainId, 'grb');
+        let Token1Decimal = configHelper.getTokenDecimalByTokenName(chainId, 'weth');        
         $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
             wethPrice = data["ethereum"]["usd"];
             grbPrice = data["garbi-protocol"]["usd"];
         });
+        function convertSqrtPriceX96ToPrice(sqrtPriceX96) {
+          const price = (sqrtPriceX96**2)/ (2 ** 192);
+          return price;
+        }
         GarbiFarmUniV3Contract.methods.getData(userWallet).call()
         .then(function (result) {
+            let CurrentPriceData = result.currentPrice;
+            let CurrentPrice = convertSqrtPriceX96ToPrice(CurrentPriceData);
+            $('.current-price .price').text(CurrentPrice.toFixed(6));
+            let Token0Balance = result.totalBalance0;
+            let Token0Value = Token0Balance / 10 ** Token0Decimal;
+            let Token1Balance = result.totalBalance1;
+            let Token1Value = Token1Balance / 10 ** Token1Decimal;
+            let TotalAssetValue = Token0Value * grbPrice + Token1Value * wethPrice;
+            $('.total-asset-value').text(TotalAssetValue.toFixed(2));
             let userTokenId = result.tokenId;
             if (userTokenId == 0) {  
                 GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
@@ -575,19 +590,19 @@
                     if (result.length == 0) {
                         $('.button-withdraw').addClass('button-disabled');
                         $('.user-earn-token').text('0.0');
-                        $('.user-token-2-amount').text('0');
                         $('.user-token-1-amount').text('0');
+                        $('.user-token-0-amount').text('0');
                         $('.volume-liquidity').text('0.0');
                     }
                     if (result.length > 0) {
                         userTokenId = result[result.length - 1];
                         GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                         .then (function (result) {
-                            let UserToken1Amount = result.token1Amount / 10 ** 18;
-                            $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
-                            let UserToken2Amount = result.token0Amount / 10 ** 6;
-                            $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));              
-                            let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                            let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
+                            $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
+                            let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
+                            $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));              
+                            let VolumeLiquidity = UserToken1Amount * wethPrice + UserToken0Amount * grbPrice;
                             $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                             if (result.inPriceRange == true) {
                                 $('.notice-range').hide();
@@ -685,11 +700,11 @@
                 $('.earn-volume').text(EarnVolume.toFixed(2));
                 GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                 .then (function (result){
-                    let UserToken2Amount = result.token0Amount / 10 ** 6;
-                    $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
-                    let UserToken1Amount = result.token1Amount / 10 ** 18;
+                    let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
+                    $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
+                    let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
                     $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
-                    let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                    let VolumeLiquidity = UserToken1Amount * wethPrice + UserToken0Amount * grbPrice;
                     $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                     if (result.inPriceRange == true) {
                         $('.notice-range').hide();
@@ -708,24 +723,33 @@
         setInterval(function () {
             GarbiFarmUniV3Contract.methods.getData(userWallet).call()
             .then(function (result) {
+                let CurrentPriceData = result.currentPrice;
+                let CurrentPrice = convertSqrtPriceX96ToPrice(CurrentPriceData);
+                $('.current-price .price').text(CurrentPrice.toFixed(6));
+                let Token0Balance = result.totalBalance0;
+                let Token0Value = Token0Balance / 10 ** Token0Decimal;
+                let Token1Balance = result.totalBalance1;
+                let Token1Value = Token1Balance / 10 ** Token1Decimal;
+                let TotalAssetValue = Token0Value * grbPrice + Token1Value * wethPrice;
+                $('.total-asset-value').text(TotalAssetValue.toFixed(2));
                 let userTokenId = result.tokenId;
                 if (userTokenId == 0) {  
                     if (result.length == 0) {
                         $('.button-withdraw').addClass('button-disabled');
                         $('.user-earn-token').text('0.0');
-                        $('.user-token-2-amount').text('0');
                         $('.user-token-1-amount').text('0');
+                        $('.user-token-0-amount').text('0');
                         $('.volume-liquidity').text('0.0');
                     }
                     if (result.length > 0) {
                         userTokenId = result[result.length - 1];
                         GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                         .then (function (result) {
-                            let UserToken2Amount = result.token0Amount / 10 ** 6;
-                            $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
-                            let UserToken1Amount = result.token1Amount / 10 ** 18;
-                            $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
-                            let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                            let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
+                            $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
+                            let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
+                            $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));                         
+                            let VolumeLiquidity = UserToken1Amount * wethPrice + UserToken0Amount * grbPrice;
                             $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                             if (result.inPriceRange == true) {
                                 $('.notice-range').hide();
@@ -738,17 +762,17 @@
                 }
                 else {
                     $('.button-withdraw').removeClass('button-disabled');
-                    let UserEarnToken = result.userGRBPending_ / 10 ** 18;
+                    let UserEarnToken = result.userGRBPending_ / 10 ** Token0Decimal;
                     $('.user-earn-token').text(UserEarnToken.toFixed(2));
                     let EarnVolume = UserEarnToken * grbPrice;
                     $('.earn-volume').text(EarnVolume.toFixed(2));
                     GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                     .then (function (result){
-                        let UserToken2Amount = result.token0Amount / 10 ** 6;
-                        $('.user-token-2-amount').text(UserToken2Amount.toFixed(2));
-                        let UserToken1Amount = result.token1Amount / 10 ** 18;
-                        $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
-                        let VolumeLiquidity = UserToken2Amount * wethPrice + UserToken1Amount * grbPrice;
+                        let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
+                        $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
+                        let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
+                        $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));                        
+                        let VolumeLiquidity = UserToken1Amount * wethPrice + UserToken0Amount * grbPrice;
                         $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                         if (result.inPriceRange == true) {
                             $('.notice-range').hide();
