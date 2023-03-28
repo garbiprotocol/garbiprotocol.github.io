@@ -236,7 +236,7 @@
         <main class="page__swap grb-farm-2">
             <section class="container">
                 <div class="row">
-                    <div class="col-lg-5 order-lg-last">
+                    <div class="col-lg-5 order-lg-last" style="margin-top:8px;">
                         <article class="garbi__box-1 p-3 mb-3">
                             <p class="f-700">NFT-LP Earn</p>
 
@@ -635,8 +635,8 @@
         let userWallet = coreHelper.getUserAccount();
         let GarbiFarmUniV3Contract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
         let userTokenId;
-        let wethPrice = 0 ;
-        let grbPrice = 0 ;
+        let wethPrice = configHelper.getPriceByTokenName(chainId, 'weth') ;
+        let grbPrice = configHelper.getPriceByTokenName(chainId, 'grb') ;
         let Token0Decimal = configHelper.getTokenDecimalByTokenName(chainId, 'grb');
         let Token1Decimal = configHelper.getTokenDecimalByTokenName(chainId, 'weth');        
         $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
