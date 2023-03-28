@@ -15,7 +15,7 @@ const GEC = "0x965782738c1acca851104444bda0a03ee68355dc";
 
 const wantNFT = "0x622e4726a167799826d1e1d150b076a7725f5d81";
 const uniswapV3Pool = "0x0eb4f2f731aa14b63ac8b6ec65eaec6ca8799117";
-const pidOfMiningNFT = 20;
+const pidOfMiningNFT = 21;
 const positionManager = "0x622e4726a167799826d1e1d150b076a7725f5d81";
 const token0 = "0xd1eB8a5798E04703ec5324c99405F581BD6318b8";
 const token1 = "0xE0EcA46EA3308E8184e3b462b8A722F93A8F6F27";
