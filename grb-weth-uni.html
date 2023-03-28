@@ -774,41 +774,45 @@
                 let EarnVolume = UserEarnToken * grbPrice;
                 $('.earn-volume').text(EarnVolume.toFixed(2));
                 if (result.tokenId == 0) {
-                    $('.nft-deposited-check').hide();  
-                    if (result.length == 0) {
-                        $('.user-earn-token').text('0.0');
-                        $('.user-token-1-amount').text('0');
-                        $('.user-token-0-amount').text('0');
-                        $('.volume-liquidity').text('0.0');
-                    }
-                    if (result.length > 0) {
-                        userTokenId = result[result.length - 1];
-                        GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
-                        .then (function (result) {
-                            let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
-                            $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
-                            let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
-                            $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));                         
-                            let VolumeLiquidity = UserToken1Amount * wethPrice + UserToken0Amount * grbPrice;
-                            $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
-                            if (result.inPriceRange == true) {
-                                $('.notice-range').hide();
-                            }
-                            else {
-                                $('.notice-range').show();
-                            }
-                            let tickLower = result.tickLower;
-                            let tickUpper = result.tickUpper;
-                            let minPrice = calculatePrice(tickLower);
-                            let maxPrice = calculatePrice(tickUpper);
-                            let valueMinPrice = minPrice * wethPrice ;
-                            let valueMaxPrice = maxPrice * wethPrice ;
-                            $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
-                            $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
-                            $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
-                            $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));
-                        });
-                    } 
+                    $('.nft-deposited-check').hide();
+                    GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
+                    .then(function (result) {
+                        if (result.length == 0) {
+                            $('.user-earn-token').text('0.0');
+                            $('.user-token-1-amount').text('0');
+                            $('.user-token-0-amount').text('0');
+                            $('.volume-liquidity').text('0.0');
+                        }
+                        if (result.length > 0) {
+                            userTokenId = result[result.length - 1];
+                            GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
+                            .then (function (result) {
+                                console.log(result);
+                                let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
+                                $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
+                                let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
+                                $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));                         
+                                let VolumeLiquidity = UserToken1Amount * wethPrice + UserToken0Amount * grbPrice;
+                                $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
+                                if (result.inPriceRange == true) {
+                                    $('.notice-range').hide();
+                                }
+                                else {
+                                    $('.notice-range').show();
+                                }
+                                let tickLower = result.tickLower;
+                                let tickUpper = result.tickUpper;
+                                let minPrice = calculatePrice(tickLower);
+                                let maxPrice = calculatePrice(tickUpper);
+                                let valueMinPrice = minPrice * wethPrice ;
+                                let valueMaxPrice = maxPrice * wethPrice ;
+                                $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
+                                $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
+                                $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
+                                $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));
+                            });
+                        } 
+                    });
                 }
                 else {
                     userTokenId = result.tokenId;
