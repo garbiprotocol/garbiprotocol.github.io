@@ -272,7 +272,7 @@
                                         <div class="" style="margin-left: 10px;">
                                             <div class="percent-volume"><span>0.3%</span></div>
                                         </div>
-                                        <div class="notice-range">
+                                        <div class="notice-range" style = "display:none">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <circle cx="12" cy="12" r="10"></circle>
                                                 <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -457,7 +457,7 @@
                             <div class="d-flex align-items-center justify-content-between mb-14">
                                 <div class="title">
                                     <span>Price range of vault:</span>
-                                    <div class="notice-range">
+                                    <div class="notice-range" style="display:none">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <circle cx="12" cy="12" r="10"></circle>
                                             <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -662,7 +662,7 @@
             let TotalAssetValue = Token0Value * grbPrice + Token1Value * wethPrice;
             $('.total-asset-value').text(TotalAssetValue.toFixed(2));
             let totalMintPerDay = result.totalMintPerDay_;
-            let Apr = ((totalMintPerDay / 10 ** Token0Decimal)/ TotalAssetValue) * 100 ;
+            let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
             $('.apr').text(Apr.toFixed(2));
             let userTokenId = result.tokenId;
             if (userTokenId == 0) { 
@@ -766,7 +766,7 @@
                 let TotalAssetValue = Token0Value * grbPrice + Token1Value * wethPrice;
                 $('.total-asset-value').text(TotalAssetValue.toFixed(2));
                 let totalMintPerDay = result.totalMintPerDay_;
-                let Apr = ((totalMintPerDay / 10 ** Token0Decimal)/ TotalAssetValue) * 100 ;
+                let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
                 $('.apr').text(Apr.toFixed(2));
                 let userTokenId = result.tokenId;
                 if (userTokenId == 0) {
