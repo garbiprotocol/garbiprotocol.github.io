@@ -297,7 +297,7 @@
                                       <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                           <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Enable transfer your NFT-LP</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Deposit your NFT-LP</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                                           </div>
                                           <div class="modal-body">
@@ -305,12 +305,12 @@
                                                 <img src="../assets/images/uniswap-default.png" class="image-token" >
                                             </div>
                                             <div class="description">
-                                                <p>Before you can start, you'll need to enable approval to transfer your NFT-LP to the Garbi Protocol.</p>
+                                                <p>Initiate earnings of veGRB by depositing your Uniswap V3 NFT-LP into the Garbi Protocol.</p>
                                             </div>
                                           </div>
                                           <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary btn-approve">Enable</button>
-                                            <button type="button" class="btn btn-primary btn-deposit" style="display:none">Deposit</button>
+                                            <button type="button" class="btn btn-primary btn-approve" style="display: none; margin-bottom: 1rem">Approve</button>
+                                            <button type="button" class="btn btn-primary btn-deposit">Deposit</button>
                                           </div>
                                         </div>
                                       </div>
@@ -843,16 +843,6 @@
         }, 3000);
         $('.grb-farm-2 .button-deposit-nft').click(function () {                                                 
             $('#token-increase').modal('show');
-            NonfungiblePositionManagerContract.methods.getApproved(userTokenId).call().then(function (result) {
-                if (result == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')) {
-                    $('#token-increase .btn-approve').hide();
-                    $('#token-increase .btn-deposit').show();
-                }
-                else {
-                    $('#token-increase .btn-approve').show();
-                    $('#token-increase .btn-deposit').hide();               
-                }
-            }); 
         });
         $('#token-increase .btn-approve').click(function () {
             let userWallet = coreHelper.getUserAccount();
@@ -870,14 +860,12 @@
             })
             .on('confirmation', (confirmationNumber, receipt) => {
                 $('#token-increase .btn-approve').hide();
-                $('#token-increase .btn-deposit').show();
                 coreHelper.hidePopup('confirm-popup', 0);
                 coreHelper.showPopup('success-confirm-popup');
                 coreHelper.hidePopup('success-confirm-popup', 10000);
             })
             .on('receipt', (receipt) => {
                 $('#token-increase .btn-approve').hide();
-                $('#token-increase .btn-deposit').show();
                 coreHelper.hidePopup('confirm-popup', 0);
                 coreHelper.showPopup('success-confirm-popup');
                 coreHelper.hidePopup('success-confirm-popup', 10000);
@@ -887,32 +875,39 @@
             });
         });
         $('#token-increase .btn-deposit').click(function () {
+            NonfungiblePositionManagerContract.methods.getApproved(userTokenId).call().then(function (result) {
+                if (result == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')) {
+                    let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+                    GarbiFarmUniV3Contract.methods
+                    .deposit(userTokenId)
+                    .send({
+                        from: userWallet
+                    })
+                    .on('transactionHash', (hash) => {
+                        coreHelper.showPopup('confirm-popup');
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                    })
+                    .on('confirmation', (confirmationNumber, receipt) => {
+                        $('#token-increase').modal('hide');                     
+                        coreHelper.hidePopup('confirm-popup', 0);
+                        coreHelper.showPopup('success-confirm-popup');
+                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                    })
+                    .on('receipt', (receipt) => {
+                        $('#token-increase').modal('hide');
+                        coreHelper.hidePopup('confirm-popup', 0);
+                        coreHelper.showPopup('success-confirm-popup');
+                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                    })
+                    .on('error', (err, receipt) => {
+                        console.log(err);
+                    });
+                }
+                else {
+                    $('#token-increase .btn-approve').show();      
+                }
+            }); 
             let userWallet = coreHelper.getUserAccount();
-            let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
-            GarbiFarmUniV3Contract.methods
-            .deposit(userTokenId)
-            .send({
-                from: userWallet
-            })
-            .on('transactionHash', (hash) => {
-                coreHelper.showPopup('confirm-popup');
-                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-            })
-            .on('confirmation', (confirmationNumber, receipt) => {
-                $('#token-increase').modal('hide');                     
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('receipt', (receipt) => {
-                $('#token-increase').modal('hide');
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('error', (err, receipt) => {
-                console.log(err);
-            });
         });   
         $('.button-withdraw').click(function () {
             let userWallet = coreHelper.getUserAccount();
