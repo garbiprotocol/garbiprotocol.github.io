@@ -715,6 +715,7 @@
                 });
             }
             else {
+                userTokenId = result.tokenId;
                 $('.nft-deposited-check').show();
                 let UserEarnToken = result.userGRBPending_ / 10 ** 18;
                 $('.user-earn-token').text(UserEarnToken.toFixed(2));
@@ -805,6 +806,7 @@
                     } 
                 }
                 else {
+                    userTokenId = result.tokenId;
                     $('.nft-deposited-check').show();
                     let UserEarnToken = result.userGRBPending_ / 10 ** Token0Decimal;
                     $('.user-earn-token').text(UserEarnToken.toFixed(2));
@@ -852,7 +854,6 @@
             }); 
         });
         $('#token-increase .btn-approve').click(function () {
-            console.log(userTokenId);
             let NonfungiblePositionManagerContract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'NonfungiblePositionManager'), NonfungiblePositionManagerABI);
             NonfungiblePositionManagerContract.methods
             .approve(
