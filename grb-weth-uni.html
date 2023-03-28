@@ -710,15 +710,27 @@
                             let DataUrl = JSON.parse(atob(Base64DataUrl));
                             $('.image-token').attr('src', DataUrl.image);
                             let tickLower = result.tickLower;
+                            if (tickLower == -887220) {
+                                $('.min-price-nft .price-nft').text('0.0');
+                                $('.min-price-nft .value-nft').text('0');
+                            }
+                            else {
+                                let minPrice = calculatePrice(tickLower);
+                                let valueMinPrice = minPrice * wethPrice ;
+                                $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
+                                $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
+                            }
                             let tickUpper = result.tickUpper;
-                            let minPrice = calculatePrice(tickLower);
-                            let maxPrice = calculatePrice(tickUpper);
-                            let valueMinPrice = minPrice * wethPrice ;
-                            let valueMaxPrice = maxPrice * wethPrice ;
-                            $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
-                            $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
-                            $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
-                            $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));                     
+                            if (tickUpper == 887220) {
+                                $('.max-price-nft .price-nft').text('∞');
+                                $('.max-price-nft .value-nft').text('0');
+                            }
+                            else {
+                                let maxPrice = calculatePrice(tickUpper);                           
+                                let valueMaxPrice = maxPrice * wethPrice ;                      
+                                $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
+                                $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));
+                            }                                                                    
                         });
                     }    
                 });
@@ -795,7 +807,6 @@
                             userTokenId = result[result.length - 1];
                             GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                             .then (function (result) {
-                                console.log(result);
                                 let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
                                 $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
                                 let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
@@ -809,15 +820,27 @@
                                     $('.notice-range').show();
                                 }
                                 let tickLower = result.tickLower;
+                                if (tickLower == -887220) {
+                                    $('.min-price-nft .price-nft').text('0.0');
+                                    $('.min-price-nft .value-nft').text('0');
+                                }
+                                else {
+                                    let minPrice = calculatePrice(tickLower);
+                                    let valueMinPrice = minPrice * wethPrice ;
+                                    $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
+                                    $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
+                                }
                                 let tickUpper = result.tickUpper;
-                                let minPrice = calculatePrice(tickLower);
-                                let maxPrice = calculatePrice(tickUpper);
-                                let valueMinPrice = minPrice * wethPrice ;
-                                let valueMaxPrice = maxPrice * wethPrice ;
-                                $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
-                                $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
-                                $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
-                                $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));
+                                if (tickUpper == 887220) {
+                                    $('.max-price-nft .price-nft').text('∞');
+                                    $('.max-price-nft .value-nft').text('0');
+                                }
+                                else {
+                                    let maxPrice = calculatePrice(tickUpper);                           
+                                    let valueMaxPrice = maxPrice * wethPrice ;                      
+                                    $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
+                                    $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));
+                                }                                       
                             });
                         } 
                     });
