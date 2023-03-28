@@ -499,7 +499,7 @@
                                          <div class="form-item swap__form-item current-price">
                                             <div class="">
                                                 <span class="">Current price</span>
-                                                <div class="price">0.0</div>
+                                                <div class="price"><span class="current-grb-price">0.0</span> ($<span class="current-grb-price-usd">0.0</span>)</div>
                                                 <span class="description"> ETH per GRB</span>
                                             </div>
                                         </div>
@@ -602,7 +602,7 @@
     var dataHelper = new $.DATA();
     var garbiFarmHelper = new $.GARBI_FARM();
     var pid = 5;
-    var chainId = 421613;
+    var chainId = 42161;
     $('.alert-banner').hide();
         if (typeof window.ethereum !== 'undefined') {
           const web3 = new Web3(window.ethereum);
@@ -658,7 +658,8 @@
         .then(function (result) {
             let CurrentPriceData = result.currentPrice;
             let CurrentPrice = convertSqrtPriceX96ToPrice(CurrentPriceData);
-            $('.current-price .price').text(CurrentPrice.toFixed(6));
+            $('.current-grb-price').text(CurrentPrice.toFixed(6));
+            $('.current-grb-price-usd').text((CurrentPrice*wethPrice).toFixed(2));
             let Token0Balance = result.totalBalance0;
             let Token0Value = Token0Balance / 10 ** Token0Decimal;
             let Token1Balance = result.totalBalance1;
@@ -777,7 +778,8 @@
             .then(function (result) {
                 let CurrentPriceData = result.currentPrice;
                 let CurrentPrice = convertSqrtPriceX96ToPrice(CurrentPriceData);
-                $('.current-price .price').text(CurrentPrice.toFixed(6));
+                $('.current-grb-price').text(CurrentPrice.toFixed(6));
+                $('.current-grb-price-usd').text((CurrentPrice*wethPrice).toFixed(2));
                 let Token0Balance = result.totalBalance0;
                 let Token0Value = Token0Balance / 10 ** Token0Decimal;
                 let Token1Balance = result.totalBalance1;
@@ -818,6 +820,12 @@
                                 }
                                 else {
                                     $('.notice-range').show();
+                                }
+                                let dataUrlString = result.tokenURI;
+                                let Base64DataUrl = dataUrlString.split(",")[1]
+                                let DataUrl = JSON.parse(atob(Base64DataUrl));
+                                if($('.image-token').attr('src') !== DataUrl.image) {
+                                    $('.image-token').attr('src', DataUrl.image);
                                 }
                                 let tickLower = result.tickLower;
                                 if (tickLower == -887220) {
@@ -863,6 +871,12 @@
                         }
                         else {
                             $('.notice-range').show();
+                        }
+                        let dataUrlString = result.tokenURI;
+                        let Base64DataUrl = dataUrlString.split(",")[1]
+                        let DataUrl = JSON.parse(atob(Base64DataUrl));
+                        if($('.image-token').attr('src') !== DataUrl.image) {
+                            $('.image-token').attr('src', DataUrl.image);
                         }
                         let tickLower = result.tickLower;
                         let tickUpper = result.tickUpper;
@@ -914,7 +928,7 @@
         $('#token-increase .btn-deposit').click(function () {
             let userWallet = coreHelper.getUserAccount();
             NonfungiblePositionManagerContract.methods.getApproved(userTokenId).call().then(function (result) {
-                if (result == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')) {
+                if (result.toLowerCase() == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3').toLowerCase()) {
                     let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
                     GarbiFarmUniV3Contract.methods
                     .deposit(userTokenId)

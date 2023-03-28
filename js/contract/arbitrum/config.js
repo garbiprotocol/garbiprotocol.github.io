@@ -55,7 +55,12 @@ $.CONFIG.prototype = (function() {
             garbiRepositoryManager: {
                 contract: "0x7cc0dca4d117e2fc19a471dc75ba44e82386e8ee"
             },
-
+            NonfungiblePositionManager: {
+                contract: "0xc36442b4a4522e871399cd717abdd847ab11fe88"
+            },
+            GarbiFarmUniV3: {
+                contract: "0x0BC8050C3443aFb10F4a999b627043Dcd8FB62b9"
+            },
             garbiRepository: {
                 'dai': '0xa9d63685d81d29bf8d74c122380df98a7c0a00a2',
                 'usdc': '0x9e9c654ce87c0bb58d5df7835ac69a202a1deb9b',
@@ -447,9 +452,9 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         42161: {
-            'grb': 0.5,
-            'weth': 1550,
-            'wbtc': 22500,
+            'grb': 0.6,
+            'weth': 1700,
+            'wbtc': 26000,
             'usdc': 1,
             'usdt': 1,
             'dai': 1
