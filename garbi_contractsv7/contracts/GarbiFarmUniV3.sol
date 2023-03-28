@@ -182,11 +182,12 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
         uint256 validTokenCount = 0;
         for (uint256 i = 0; i < tokenCount; i++) {
             uint256 tokenId = positionManager.tokenOfOwnerByIndex(user, i);
-            (, , address nftToken0, address nftToken1, , , , , , , , ) = positionManager.positions(tokenId);
-
+            (, , address nftToken0, address nftToken1, , , , uint128 liquidity, , , , ) = positionManager.positions(tokenId);
             if ((nftToken0 == poolToken0 && nftToken1 == poolToken1) || (nftToken0 == poolToken1 && nftToken1 == poolToken0)) {
-                tokenIds[validTokenCount] = tokenId;
-                validTokenCount++;
+                if(liquidity > 0) {
+                    tokenIds[validTokenCount] = tokenId;
+                    validTokenCount++;
+                }
             }
         }
 
