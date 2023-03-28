@@ -754,6 +754,7 @@
 
         });
         setInterval(function () {
+            let userWallet = coreHelper.getUserAccount();
             GarbiFarmUniV3Contract.methods.getData(userWallet).call()
             .then(function (result) {
                 let CurrentPriceData = result.currentPrice;
@@ -854,6 +855,7 @@
             }); 
         });
         $('#token-increase .btn-approve').click(function () {
+            let userWallet = coreHelper.getUserAccount();
             let NonfungiblePositionManagerContract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'NonfungiblePositionManager'), NonfungiblePositionManagerABI);
             NonfungiblePositionManagerContract.methods
             .approve(
@@ -885,6 +887,7 @@
             });
         });
         $('#token-increase .btn-deposit').click(function () {
+            let userWallet = coreHelper.getUserAccount();
             let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
             GarbiFarmUniV3Contract.methods
             .deposit(userTokenId)
@@ -911,7 +914,8 @@
                 console.log(err);
             });
         });   
-        $('.button-withdraw').click(function () {              
+        $('.button-withdraw').click(function () {
+            let userWallet = coreHelper.getUserAccount();
             let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
             GarbiFarmUniV3Contract.methods.withdraw()
             .send({
@@ -938,6 +942,7 @@
             });           
         });  
         $('.harvest-button').click(function () {
+            let userWallet = coreHelper.getUserAccount();
             let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
             GarbiFarmUniV3Contract.methods
             .harvest(userWallet)
