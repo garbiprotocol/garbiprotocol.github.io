@@ -184,7 +184,7 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.WETH.LP',
-                    price: 1600,
+                    price: 1700,
                     version: 1
                 },
                 4: {
@@ -197,7 +197,7 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.WBTC.LP',
-                    price: 23000,
+                    price: 26000,
                     version: 1
                 },
                 5: {
@@ -210,7 +210,7 @@ $.CONFIG.prototype = (function() {
                     isERC20: true,
                     isActive: true,
                     label: 'GarbiFarm.GRB_ETH.LP',
-                    price: 6800,
+                    price: 8000,
                     version: 1
                 },
                 12: {
