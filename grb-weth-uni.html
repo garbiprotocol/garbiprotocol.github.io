@@ -664,6 +664,10 @@
             let totalMintPerDay = result.totalMintPerDay_;
             let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
             $('.apr').text(Apr.toFixed(2));
+            let UserEarnToken = result.userGRBPending_ / 10 ** 18;
+            $('.user-earn-token').text(UserEarnToken.toFixed(2));
+            let EarnVolume = UserEarnToken * grbPrice;
+            $('.earn-volume').text(EarnVolume.toFixed(2));
             if (result.tokenId == 0) { 
                 $('.nft-deposited-check').hide(); 
                 GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
@@ -717,10 +721,6 @@
             else {
                 userTokenId = result.tokenId;
                 $('.nft-deposited-check').show();
-                let UserEarnToken = result.userGRBPending_ / 10 ** 18;
-                $('.user-earn-token').text(UserEarnToken.toFixed(2));
-                let EarnVolume = UserEarnToken * grbPrice;
-                $('.earn-volume').text(EarnVolume.toFixed(2));
                 GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                 .then (function (result){
                     let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
@@ -769,6 +769,10 @@
                 let totalMintPerDay = result.totalMintPerDay_;
                 let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
                 $('.apr').text(Apr.toFixed(2));
+                let UserEarnToken = result.userGRBPending_ / 10 ** Token0Decimal;
+                $('.user-earn-token').text(UserEarnToken.toFixed(2));
+                let EarnVolume = UserEarnToken * grbPrice;
+                $('.earn-volume').text(EarnVolume.toFixed(2));
                 if (result.tokenId == 0) {
                     $('.nft-deposited-check').hide();  
                     if (result.length == 0) {
@@ -809,10 +813,6 @@
                 else {
                     userTokenId = result.tokenId;
                     $('.nft-deposited-check').show();
-                    let UserEarnToken = result.userGRBPending_ / 10 ** Token0Decimal;
-                    $('.user-earn-token').text(UserEarnToken.toFixed(2));
-                    let EarnVolume = UserEarnToken * grbPrice;
-                    $('.earn-volume').text(EarnVolume.toFixed(2));
                     GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                     .then (function (result){
                         let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
