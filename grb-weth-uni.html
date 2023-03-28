@@ -165,7 +165,7 @@
                         </div>
                         <div class="col-6 col-lg-2 order-lg-3">
                             <div class="d-flex align-items-center justify-content-end">
-                                <span class="wrap-user-acct">0x000</span>
+                                <span class="wrap-user-acct">0x0</span>
                                 <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
                                 <span class="dropMenu">
                                     <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
@@ -341,7 +341,8 @@
                                             <span>Your NFT-LP Liquidity</span>
                                         </div> 
                                         <div class="f-700">
-                                            <span>In Wallet</span>
+                                            <span class="status-in-wallet" style="display: none">Status: In Wallet</span>
+                                            <span class="status-in-earning" style="display: none">Status: In Earning</span>
                                         </div>                             
                                     </div>
                                     <div class="volume">$<span class="liquidity-volume">0</span></div>
@@ -672,7 +673,8 @@
             let EarnVolume = UserEarnToken * grbPrice;
             $('.earn-volume').text(EarnVolume.toFixed(2));
             if (result.tokenId == 0) { 
-                $('.nft-deposited-check').hide(); 
+                $('.nft-deposited-check').hide();
+                $('.status-in-wallet').show();
                 GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
                 .then(function (result) {
                     if (result.length == 0) {
@@ -724,6 +726,7 @@
             else {
                 userTokenId = result.tokenId;
                 $('.nft-deposited-check').show();
+                $('.status-in-earning').show();
                 GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                 .then (function (result){
                     let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
@@ -778,6 +781,8 @@
                 $('.earn-volume').text(EarnVolume.toFixed(2));
                 if (result.tokenId == 0) {
                     $('.nft-deposited-check').hide();
+                    $('.status-in-wallet').show();
+                    $('.status-in-earning').hide();
                     GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
                     .then(function (result) {
                         if (result.length == 0) {
@@ -820,6 +825,8 @@
                 else {
                     userTokenId = result.tokenId;
                     $('.nft-deposited-check').show();
+                    $('.status-in-wallet').hide();
+                    $('.status-in-earning').show();
                     GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                     .then (function (result){
                         let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
