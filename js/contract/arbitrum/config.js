@@ -455,8 +455,8 @@ $.CONFIG.prototype = (function() {
             'dai': 1
         },
         421613: {
-            'grb': 0.25,
-            'weth': 1300,
+            'grb': 0.6,
+            'weth': 1700,
             'usdc': 1,
             'usdt': 1,
             'dai': 1

@@ -634,7 +634,7 @@
         let GarbiFarmUniV3ABI = abiHelper.getGarbiFarmUniV3ABI();
         let userWallet = coreHelper.getUserAccount();
         let GarbiFarmUniV3Contract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
-        let userTokenId;
+        var userTokenId = 0;
         let wethPrice = configHelper.getPriceByTokenName(chainId, 'weth') ;
         let grbPrice = configHelper.getPriceByTokenName(chainId, 'grb') ;
         let Token0Decimal = configHelper.getTokenDecimalByTokenName(chainId, 'grb');
@@ -664,8 +664,7 @@
             let totalMintPerDay = result.totalMintPerDay_;
             let Apr = ((totalMintPerDay / 10 ** Token0Decimal)/ TotalAssetValue) * 100 ;
             $('.apr').text(Apr.toFixed(2));
-            let userTokenId = result.tokenId;
-            if (userTokenId == 0) { 
+            if (result.tokenId == 0) { 
                 $('.nft-deposited-check').hide(); 
                 GarbiFarmUniV3Contract.methods.getNFTTokensWithPair(userWallet).call()
                 .then(function (result) {
@@ -768,8 +767,7 @@
                 let totalMintPerDay = result.totalMintPerDay_;
                 let Apr = ((totalMintPerDay / 10 ** Token0Decimal)/ TotalAssetValue) * 100 ;
                 $('.apr').text(Apr.toFixed(2));
-                let userTokenId = result.tokenId;
-                if (userTokenId == 0) {
+                if (result.tokenId == 0) {
                     $('.nft-deposited-check').hide();  
                     if (result.length == 0) {
                         $('.user-earn-token').text('0.0');
@@ -854,11 +852,12 @@
             }); 
         });
         $('#token-increase .btn-approve').click(function () {
+            console.log(userTokenId);
             let NonfungiblePositionManagerContract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'NonfungiblePositionManager'), NonfungiblePositionManagerABI);
             NonfungiblePositionManagerContract.methods
             .approve(
                 configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')
-                ,userTokenId)
+                , userTokenId)
             .send({
                 from: userWallet
             })
