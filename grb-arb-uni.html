@@ -657,7 +657,7 @@
         GarbiFarmUniV3Contract.methods.getData(userWallet).call()
         .then(function (result) {
             let CurrentPriceData = result.currentPrice;
-            let CurrentPrice = 1/convertSqrtPriceX96ToPrice(CurrentPriceData);
+            let CurrentPrice = convertSqrtPriceX96ToPrice(CurrentPriceData);
             $('.current-grb-price').text(CurrentPrice.toFixed(6));
             $('.current-grb-price-usd').text((CurrentPrice*arbPrice).toFixed(2));
             let Token0Balance = result.totalBalance0;
@@ -695,10 +695,10 @@
                         GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                         .then (function (result) {
                             let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
-                            $('.user-token-1-amount').text(UserToken0Amount.toFixed(2));
+                            $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
                             let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
-                            $('.user-token-0-amount').text(UserToken1Amount.toFixed(2));              
-                            let VolumeLiquidity = UserToken0Amount * arbPrice + UserToken1Amount * grbPrice;
+                            $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));              
+                            let VolumeLiquidity = UserToken1Amount * arbPrice + UserToken0Amount * grbPrice;
                             $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                             if (result.inPriceRange == true) {
                                 $('.notice-range').hide();
@@ -717,7 +717,7 @@
                                 $('.min-price-nft .value-nft').text('0');
                             }
                             else {
-                                let minPrice = 1/calculatePrice(tickUpper);
+                                let minPrice = calculatePrice(tickLower);
                                 let valueMinPrice = minPrice * arbPrice ;
                                 $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
                                 $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
@@ -728,7 +728,7 @@
                                 $('.max-price-nft .value-nft').text('0');
                             }
                             else {
-                                let maxPrice = 1/calculatePrice(tickLower);                           
+                                let maxPrice = calculatePrice(tickUpper);                           
                                 let valueMaxPrice = maxPrice * arbPrice ;                      
                                 $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
                                 $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));
@@ -744,10 +744,10 @@
                 GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                 .then (function (result){
                     let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
-                    $('.user-token-1-amount').text(UserToken0Amount.toFixed(2));
+                    $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
                     let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
-                    $('.user-token-0-amount').text(UserToken1Amount.toFixed(2));
-                    let VolumeLiquidity = UserToken0Amount * arbPrice + UserToken1Amount * grbPrice;
+                    $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
+                    let VolumeLiquidity = UserToken1Amount * arbPrice + UserToken0Amount * grbPrice;
                     $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                     if (result.inPriceRange == true) {
                         $('.notice-range').hide();
@@ -778,14 +778,14 @@
             GarbiFarmUniV3Contract.methods.getData(userWallet).call()
             .then(function (result) {
                 let CurrentPriceData = result.currentPrice;
-                let CurrentPrice = 1/convertSqrtPriceX96ToPrice(CurrentPriceData);
+                let CurrentPrice = convertSqrtPriceX96ToPrice(CurrentPriceData);
                 $('.current-grb-price').text(CurrentPrice.toFixed(6));
                 $('.current-grb-price-usd').text((CurrentPrice*arbPrice).toFixed(2));
                 let Token0Balance = result.totalBalance0;
                 let Token0Value = Token0Balance / 10 ** Token0Decimal;
                 let Token1Balance = result.totalBalance1;
                 let Token1Value = Token1Balance / 10 ** Token1Decimal;
-                let TotalAssetValue = Token1Value * grbPrice + Token0Value * arbPrice;
+                let TotalAssetValue = Token0Value * grbPrice + Token1Value * arbPrice;
                 $('.total-asset-value').text(TotalAssetValue.toFixed(2));
                 let totalMintPerDay = result.totalMintPerDay_;
                 let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
@@ -811,10 +811,10 @@
                             GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                             .then (function (result) {
                                 let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
-                                $('.user-token-1-amount').text(UserToken0Amount.toFixed(2));
+                                $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
                                 let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
-                                $('.user-token-0-amount').text(UserToken1Amount.toFixed(2));                         
-                                let VolumeLiquidity = UserToken0Amount * arbPrice + UserToken1Amount * grbPrice;
+                                $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));                         
+                                let VolumeLiquidity = UserToken1Amount * arbPrice + UserToken0Amount * grbPrice;
                                 $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                                 if (result.inPriceRange == true) {
                                     $('.notice-range').hide();
@@ -835,7 +835,7 @@
                                     $('.min-price-nft .value-nft').text('0');
                                 }
                                 else {
-                                    let minPrice = 1/calculatePrice(tickUpper);
+                                    let minPrice = calculatePrice(tickLower);
                                     let valueMinPrice = minPrice * arbPrice ;
                                     $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
                                     $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
@@ -846,7 +846,7 @@
                                     $('.max-price-nft .value-nft').text('0');
                                 }
                                 else {
-                                    let maxPrice = 1/calculatePrice(tickLower);                           
+                                    let maxPrice = calculatePrice(tickUpper);                           
                                     let valueMaxPrice = maxPrice * arbPrice ;                      
                                     $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
                                     $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));
@@ -863,10 +863,10 @@
                     GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                     .then (function (result){
                         let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
-                        $('.user-token-1-amount').text(UserToken0Amount.toFixed(2));
+                        $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
                         let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
-                        $('.user-token-0-amount').text(UserToken1Amount.toFixed(2));                        
-                        let VolumeLiquidity = UserToken0Amount * arbPrice + UserToken1Amount * grbPrice;
+                        $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));                        
+                        let VolumeLiquidity = UserToken1Amount * arbPrice + UserToken0Amount * grbPrice;
                         $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                         if (result.inPriceRange == true) {
                             $('.notice-range').hide();
