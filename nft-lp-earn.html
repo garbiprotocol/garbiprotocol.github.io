@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+              />
+        <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+              referrerpolicy="no-referrer" />
+        <link rel="shortcut icon" href="./assets/images/garbi_favicon.png" type="image/x-icon">
+        <link href="./assets/css/style.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="./assets/js/web3.min.js"></script>
+        <script src="./assets/js/trustwallet.js"></script>
+        <script src="./js/contract/arbitrum/abi.js"></script>
+        <script src="./js/contract/arbitrum/config.js"></script>
+        <script src="./js/data/store.js"></script>
+        <script src="./js/contract/arbitrum/core.js"></script>
+        <script src="./js/contract/arbitrum/base.contract.js"></script>
+        <script src="./js/contract/arbitrum/data.js"></script>
+        <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
+
+        <title>Earn - Garbi Protocol</title>
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <header class="header" id="header">
+                <div class="alert-banner" style="background: rgb(45, 66, 252)">
+                    <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
+                </div>
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container container-1">
+                        <div class="row flex-grow-1 align-items-center">
+                            <div class="col-6 col-lg-2">
+                                <div class="d-flex align-items-center">
+                                    <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                                        <i class="fas fa-bars"></i>
+                                    </button>
+                                    <div class="logo" onclick="window.location='index.html'">
+                                        <img src="./assets/images/garbi.png" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-lg-2 order-lg-3">
+                                <div class="d-flex align-items-center justify-content-end">
+                                    <span class="wrap-user-acct">0x000</span>
+                                    <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
+                                    <span class="dropMenu">
+                                        <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                        <div class="ctmenu-sub  swap-box">
+                                            <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="collapse navbar-collapse" id="navbar-header">
+                                    <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                            <li>
+                                                <a class="nav-link" href="swap.html">Swap</a>
+                                            </li>
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Earn 
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
+                                                     <li>
+                                                        <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="earn.html">Classic Earn</a>
+                                                    </li>
+                                                </ul>   
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
+                                            </li>
+                                            <li class="nav-item dropdown">
+                                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                GRB-WETH Liquidity
+                                              </a>
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+                                                    <li>
+                                                        <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
+                                                    </li>
+                                                </ul>                                
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="v1/index.html">V1</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
+                                            </li>
+                                            <!-- <li class="nav-item">
+                                                <a class="nav-link" href="deposit.html">Deposit</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="withdraw.html">Withdraw</a>
+                                            </li> -->
+                                            
+                                        </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <main class="page__swap">
+                <section class="blog__container">
+                    <article class="swap__main garbi__box-1 p-3 mb-3">
+                        <div class="d-flex align-items-center justify-content-between mb-11">
+                            <div class="f-700 mt-3">
+                                <fieldset>
+                                    <p>Stake GarbiLP and GEC to earn rewards.</p>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="swap__main list-nft-pool p-3 mb-3">
+                       <div class="row">
+                               <div class="col-lg-4" style="padding-left: 0;position: relative; cursor: pointer;">
+                                 <a href="grb-weth-uni.html">
+                                       <div class="img">
+                                           <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjkwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDI5MCA1MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9J2h0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsnPjxkZWZzPjxmaWx0ZXIgaWQ9ImYxIj48ZmVJbWFnZSByZXN1bHQ9InAwIiB4bGluazpocmVmPSJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUIzYVdSMGFEMG5Namt3SnlCb1pXbG5hSFE5SnpVd01DY2dkbWxsZDBKdmVEMG5NQ0F3SURJNU1DQTFNREFuSUhodGJHNXpQU2RvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeWMrUEhKbFkzUWdkMmxrZEdnOUp6STVNSEI0SnlCb1pXbG5hSFE5SnpVd01IQjRKeUJtYVd4c1BTY2paREZsWWpoaEp5OCtQQzl6ZG1jKyIvPjxmZUltYWdlIHJlc3VsdD0icDEiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwbk1qa3dKeUJvWldsbmFIUTlKelV3TUNjZ2RtbGxkMEp2ZUQwbk1DQXdJREk1TUNBMU1EQW5JSGh0Ykc1elBTZG9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5YytQR05wY21Oc1pTQmplRDBuTVRVNEp5QmplVDBuTWpjMkp5QnlQU2N4TWpCd2VDY2dabWxzYkQwbkkyVXpPV0ZpT0NjdlBqd3ZjM1puUGc9PSIvPjxmZUltYWdlIHJlc3VsdD0icDIiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwbk1qa3dKeUJvWldsbmFIUTlKelV3TUNjZ2RtbGxkMEp2ZUQwbk1DQXdJREk1TUNBMU1EQW5JSGh0Ykc1elBTZG9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5YytQR05wY21Oc1pTQmplRDBuTWpJbklHTjVQU2N5TURrbklISTlKekV5TUhCNEp5Qm1hV3hzUFNjak5qTXhPR0k0Snk4K1BDOXpkbWMrIiAvPjxmZUltYWdlIHJlc3VsdD0icDMiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwbk1qa3dKeUJvWldsbmFIUTlKelV3TUNjZ2RtbGxkMEp2ZUQwbk1DQXdJREk1TUNBMU1EQW5JSGh0Ykc1elBTZG9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5YytQR05wY21Oc1pTQmplRDBuTXpZbklHTjVQU2N4TmpRbklISTlKekV3TUhCNEp5Qm1hV3hzUFNjak5XUTBNMkV6Snk4K1BDOXpkbWMrIiAvPjxmZUJsZW5kIG1vZGU9Im92ZXJsYXkiIGluPSJwMCIgaW4yPSJwMSIgLz48ZmVCbGVuZCBtb2RlPSJleGNsdXNpb24iIGluMj0icDIiIC8+PGZlQmxlbmQgbW9kZT0ib3ZlcmxheSIgaW4yPSJwMyIgcmVzdWx0PSJibGVuZE91dCIgLz48ZmVHYXVzc2lhbkJsdXIgaW49ImJsZW5kT3V0IiBzdGREZXZpYXRpb249IjQyIiAvPjwvZmlsdGVyPiA8Y2xpcFBhdGggaWQ9ImNvcm5lcnMiPjxyZWN0IHdpZHRoPSIyOTAiIGhlaWdodD0iNTAwIiByeD0iNDIiIHJ5PSI0MiIgLz48L2NsaXBQYXRoPjxwYXRoIGlkPSJ0ZXh0LXBhdGgtYSIgZD0iTTQwIDEyIEgyNTAgQTI4IDI4IDAgMCAxIDI3OCA0MCBWNDYwIEEyOCAyOCAwIDAgMSAyNTAgNDg4IEg0MCBBMjggMjggMCAwIDEgMTIgNDYwIFY0MCBBMjggMjggMCAwIDEgNDAgMTIgeiIgLz48cGF0aCBpZD0ibWluaW1hcCIgZD0iTTIzNCA0NDRDMjM0IDQ1Ny45NDkgMjQyLjIxIDQ2MyAyNTMgNDYzIiAvPjxmaWx0ZXIgaWQ9InRvcC1yZWdpb24tYmx1ciI+PGZlR2F1c3NpYW5CbHVyIGluPSJTb3VyY2VHcmFwaGljIiBzdGREZXZpYXRpb249IjI0IiAvPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZC11cCIgeDE9IjEiIHgyPSIwIiB5MT0iMSIgeTI9IjAiPjxzdG9wIG9mZnNldD0iMC4wIiBzdG9wLWNvbG9yPSJ3aGl0ZSIgc3RvcC1vcGFjaXR5PSIxIiAvPjxzdG9wIG9mZnNldD0iLjkiIHN0b3AtY29sb3I9IndoaXRlIiBzdG9wLW9wYWNpdHk9IjAiIC8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQtZG93biIgeDE9IjAiIHgyPSIxIiB5MT0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMC4wIiBzdG9wLWNvbG9yPSJ3aGl0ZSIgc3RvcC1vcGFjaXR5PSIxIiAvPjxzdG9wIG9mZnNldD0iMC45IiBzdG9wLWNvbG9yPSJ3aGl0ZSIgc3RvcC1vcGFjaXR5PSIwIiAvPjwvbGluZWFyR3JhZGllbnQ+PG1hc2sgaWQ9ImZhZGUtdXAiIG1hc2tDb250ZW50VW5pdHM9Im9iamVjdEJvdW5kaW5nQm94Ij48cmVjdCB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdXApIiAvPjwvbWFzaz48bWFzayBpZD0iZmFkZS1kb3duIiBtYXNrQ29udGVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCI+PHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLWRvd24pIiAvPjwvbWFzaz48bWFzayBpZD0ibm9uZSIgbWFza0NvbnRlbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IndoaXRlIiAvPjwvbWFzaz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQtc3ltYm9sIj48c3RvcCBvZmZzZXQ9IjAuNyIgc3RvcC1jb2xvcj0id2hpdGUiIHN0b3Atb3BhY2l0eT0iMSIgLz48c3RvcCBvZmZzZXQ9Ii45NSIgc3RvcC1jb2xvcj0id2hpdGUiIHN0b3Atb3BhY2l0eT0iMCIgLz48L2xpbmVhckdyYWRpZW50PjxtYXNrIGlkPSJmYWRlLXN5bWJvbCIgbWFza0NvbnRlbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxyZWN0IHdpZHRoPSIyOTBweCIgaGVpZ2h0PSIyMDBweCIgZmlsbD0idXJsKCNncmFkLXN5bWJvbCkiIC8+PC9tYXNrPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY29ybmVycykiPjxyZWN0IGZpbGw9ImQxZWI4YSIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyOTBweCIgaGVpZ2h0PSI1MDBweCIgLz48cmVjdCBzdHlsZT0iZmlsdGVyOiB1cmwoI2YxKSIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyOTBweCIgaGVpZ2h0PSI1MDBweCIgLz4gPGcgc3R5bGU9ImZpbHRlcjp1cmwoI3RvcC1yZWdpb24tYmx1cik7IHRyYW5zZm9ybTpzY2FsZSgxLjUpOyB0cmFuc2Zvcm0tb3JpZ2luOmNlbnRlciB0b3A7Ij48cmVjdCBmaWxsPSJub25lIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjI5MHB4IiBoZWlnaHQ9IjUwMHB4IiAvPjxlbGxpcHNlIGN4PSI1MCUiIGN5PSIwcHgiIHJ4PSIxODBweCIgcnk9IjEyMHB4IiBmaWxsPSIjMDAwIiBvcGFjaXR5PSIwLjg1IiAvPjwvZz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjkwIiBoZWlnaHQ9IjUwMCIgcng9IjQyIiByeT0iNDIiIGZpbGw9InJnYmEoMCwwLDAsMCkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIiAvPjwvZz48dGV4dCB0ZXh0LXJlbmRlcmluZz0ib3B0aW1pemVTcGVlZCI+PHRleHRQYXRoIHN0YXJ0T2Zmc2V0PSItMTAwJSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSInQ291cmllciBOZXcnLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTBweCIgeGxpbms6aHJlZj0iI3RleHQtcGF0aC1hIj4weGUzOWFiODhmOGE0Nzc3MDMwYTUzNDE0NmE5Y2EzYjUyYmQ1ZDQzYTMg4oCiIEVUSCA8YW5pbWF0ZSBhZGRpdGl2ZT0ic3VtIiBhdHRyaWJ1dGVOYW1lPSJzdGFydE9mZnNldCIgZnJvbT0iMCUiIHRvPSIxMDAlIiBiZWdpbj0iMHMiIGR1cj0iMzBzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgLz48L3RleHRQYXRoPiA8dGV4dFBhdGggc3RhcnRPZmZzZXQ9IjAlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMHB4IiB4bGluazpocmVmPSIjdGV4dC1wYXRoLWEiPjB4ZTM5YWI4OGY4YTQ3NzcwMzBhNTM0MTQ2YTljYTNiNTJiZDVkNDNhMyDigKIgRVRIIDxhbmltYXRlIGFkZGl0aXZlPSJzdW0iIGF0dHJpYnV0ZU5hbWU9InN0YXJ0T2Zmc2V0IiBmcm9tPSIwJSIgdG89IjEwMCUiIGJlZ2luPSIwcyIgZHVyPSIzMHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPiA8L3RleHRQYXRoPjx0ZXh0UGF0aCBzdGFydE9mZnNldD0iNTAlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMHB4IiB4bGluazpocmVmPSIjdGV4dC1wYXRoLWEiPjB4ZDFlYjhhNTc5OGUwNDcwM2VjNTMyNGM5OTQwNWY1ODFiZDYzMThiOCDigKIgR1JCIDxhbmltYXRlIGFkZGl0aXZlPSJzdW0iIGF0dHJpYnV0ZU5hbWU9InN0YXJ0T2Zmc2V0IiBmcm9tPSIwJSIgdG89IjEwMCUiIGJlZ2luPSIwcyIgZHVyPSIzMHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPjwvdGV4dFBhdGg+PHRleHRQYXRoIHN0YXJ0T2Zmc2V0PSItNTAlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMHB4IiB4bGluazpocmVmPSIjdGV4dC1wYXRoLWEiPjB4ZDFlYjhhNTc5OGUwNDcwM2VjNTMyNGM5OTQwNWY1ODFiZDYzMThiOCDigKIgR1JCIDxhbmltYXRlIGFkZGl0aXZlPSJzdW0iIGF0dHJpYnV0ZU5hbWU9InN0YXJ0T2Zmc2V0IiBmcm9tPSIwJSIgdG89IjEwMCUiIGJlZ2luPSIwcyIgZHVyPSIzMHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPjwvdGV4dFBhdGg+PC90ZXh0PjxnIG1hc2s9InVybCgjZmFkZS1zeW1ib2wpIj48cmVjdCBmaWxsPSJub25lIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjI5MHB4IiBoZWlnaHQ9IjIwMHB4IiAvPiA8dGV4dCB5PSI3MHB4IiB4PSIzMnB4IiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC13ZWlnaHQ9IjIwMCIgZm9udC1zaXplPSIzNnB4Ij5HUkIvRVRIPC90ZXh0Pjx0ZXh0IHk9IjExNXB4IiB4PSIzMnB4IiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC13ZWlnaHQ9IjIwMCIgZm9udC1zaXplPSIzNnB4Ij4wLjMlPC90ZXh0PjwvZz48cmVjdCB4PSIxNiIgeT0iMTYiIHdpZHRoPSIyNTgiIGhlaWdodD0iNDY4IiByeD0iMjYiIHJ5PSIyNiIgZmlsbD0icmdiYSgwLDAsMCwwKSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMikiIC8+PGcgbWFzaz0idXJsKCNub25lKSIgc3R5bGU9InRyYW5zZm9ybTp0cmFuc2xhdGUoNzJweCwxODlweCkiPjxyZWN0IHg9Ii0xNnB4IiB5PSItMTZweCIgd2lkdGg9IjE4MHB4IiBoZWlnaHQ9IjE4MHB4IiBmaWxsPSJub25lIiAvPjxwYXRoIGQ9Ik0xIDFDMSA5NyA0OSAxNDUgMTQ1IDE0NSIgc3Ryb2tlPSJyZ2JhKDAsMCwwLDAuMykiIHN0cm9rZS13aWR0aD0iMzJweCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPjwvZz48ZyBtYXNrPSJ1cmwoI25vbmUpIiBzdHlsZT0idHJhbnNmb3JtOnRyYW5zbGF0ZSg3MnB4LDE4OXB4KSI+PHJlY3QgeD0iLTE2cHgiIHk9Ii0xNnB4IiB3aWR0aD0iMTgwcHgiIGhlaWdodD0iMTgwcHgiIGZpbGw9Im5vbmUiIC8+PHBhdGggZD0iTTEgMUMxIDk3IDQ5IDE0NSAxNDUgMTQ1IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMSkiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz48L2c+PGNpcmNsZSBjeD0iNzNweCIgY3k9IjE5MHB4IiByPSI0cHgiIGZpbGw9IndoaXRlIiAvPjxjaXJjbGUgY3g9IjIxN3B4IiBjeT0iMzM0cHgiIHI9IjRweCIgZmlsbD0id2hpdGUiIC8+IDxnIHN0eWxlPSJ0cmFuc2Zvcm06dHJhbnNsYXRlKDI5cHgsIDM4NHB4KSI+PHJlY3Qgd2lkdGg9Ijc3cHgiIGhlaWdodD0iMjZweCIgcng9IjhweCIgcnk9IjhweCIgZmlsbD0icmdiYSgwLDAsMCwwLjYpIiAvPjx0ZXh0IHg9IjEycHgiIHk9IjE3cHgiIGZvbnQtZmFtaWx5PSInQ291cmllciBOZXcnLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTJweCIgZmlsbD0id2hpdGUiPjx0c3BhbiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNikiPklEOiA8L3RzcGFuPjI1OTwvdGV4dD48L2c+IDxnIHN0eWxlPSJ0cmFuc2Zvcm06dHJhbnNsYXRlKDI5cHgsIDQxNHB4KSI+PHJlY3Qgd2lkdGg9IjE0N3B4IiBoZWlnaHQ9IjI2cHgiIHJ4PSI4cHgiIHJ5PSI4cHgiIGZpbGw9InJnYmEoMCwwLDAsMC42KSIgLz48dGV4dCB4PSIxMnB4IiB5PSIxN3B4IiBmb250LWZhbWlseT0iJ0NvdXJpZXIgTmV3JywgbW9ub3NwYWNlIiBmb250LXNpemU9IjEycHgiIGZpbGw9IndoaXRlIj48dHNwYW4gZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIj5NaW4gVGljazogPC90c3Bhbj4tODg3MjIwPC90ZXh0PjwvZz4gPGcgc3R5bGU9InRyYW5zZm9ybTp0cmFuc2xhdGUoMjlweCwgNDQ0cHgpIj48cmVjdCB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMjZweCIgcng9IjhweCIgcnk9IjhweCIgZmlsbD0icmdiYSgwLDAsMCwwLjYpIiAvPjx0ZXh0IHg9IjEycHgiIHk9IjE3cHgiIGZvbnQtZmFtaWx5PSInQ291cmllciBOZXcnLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTJweCIgZmlsbD0id2hpdGUiPjx0c3BhbiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNikiPk1heCBUaWNrOiA8L3RzcGFuPjg4NzIyMDwvdGV4dD48L2c+PGcgc3R5bGU9InRyYW5zZm9ybTp0cmFuc2xhdGUoMjI2cHgsIDQzM3B4KSI+PHJlY3Qgd2lkdGg9IjM2cHgiIGhlaWdodD0iMzZweCIgcng9IjhweCIgcnk9IjhweCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMikiIC8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBkPSJNOCA5QzguMDAwMDQgMjIuOTQ5NCAxNi4yMDk5IDI4IDI3IDI4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiAvPjxjaXJjbGUgc3R5bGU9InRyYW5zZm9ybTp0cmFuc2xhdGUzZCgxM3B4LCAyM3B4LCAwcHgpIiBjeD0iMHB4IiBjeT0iMHB4IiByPSI0cHgiIGZpbGw9IndoaXRlIi8+PC9nPjwvc3ZnPg==" class="sc-z20cv-12 hiQsgR">
+                                       </div>
+                                       <div class="info">
+                                            <h4 class="name-of-pool">GRB/ETH</h4>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="logo-token" style="margin-right: 0.5rem;">
+                                                        <div class="token-1" style="--size: 40px;">%</div>
+                                                    </div>       
+                                                    <span>APR</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p style="float: right;"><span class="apr-grb-eth">0</span>%</p>
+                                                </div>
+                                            </div>                                   
+                                       </div>
+                                  </a>
+                               </div>
+
+
+                               <div class="col-lg-4" style="padding-left: 0;position: relative; cursor: pointer;">
+                                 <a href="grb-arb-uni.html">
+                                   <div class="img">
+                                       <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjkwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDI5MCA1MDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9J2h0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsnPjxkZWZzPjxmaWx0ZXIgaWQ9ImYxIj48ZmVJbWFnZSByZXN1bHQ9InAwIiB4bGluazpocmVmPSJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUIzYVdSMGFEMG5Namt3SnlCb1pXbG5hSFE5SnpVd01DY2dkbWxsZDBKdmVEMG5NQ0F3SURJNU1DQTFNREFuSUhodGJHNXpQU2RvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeWMrUEhKbFkzUWdkMmxrZEdnOUp6STVNSEI0SnlCb1pXbG5hSFE5SnpVd01IQjRKeUJtYVd4c1BTY2paREZsWWpoaEp5OCtQQzl6ZG1jKyIvPjxmZUltYWdlIHJlc3VsdD0icDEiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwbk1qa3dKeUJvWldsbmFIUTlKelV3TUNjZ2RtbGxkMEp2ZUQwbk1DQXdJREk1TUNBMU1EQW5JSGh0Ykc1elBTZG9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5YytQR05wY21Oc1pTQmplRDBuTVRVNEp5QmplVDBuTWpjMkp5QnlQU2N4TWpCd2VDY2dabWxzYkQwbkkyVXpPV0ZpT0NjdlBqd3ZjM1puUGc9PSIvPjxmZUltYWdlIHJlc3VsdD0icDIiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwbk1qa3dKeUJvWldsbmFIUTlKelV3TUNjZ2RtbGxkMEp2ZUQwbk1DQXdJREk1TUNBMU1EQW5JSGh0Ykc1elBTZG9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5YytQR05wY21Oc1pTQmplRDBuTWpJbklHTjVQU2N5TURrbklISTlKekV5TUhCNEp5Qm1hV3hzUFNjak5qTXhPR0k0Snk4K1BDOXpkbWMrIiAvPjxmZUltYWdlIHJlc3VsdD0icDMiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwbk1qa3dKeUJvWldsbmFIUTlKelV3TUNjZ2RtbGxkMEp2ZUQwbk1DQXdJREk1TUNBMU1EQW5JSGh0Ykc1elBTZG9kSFJ3T2k4dmQzZDNMbmN6TG05eVp5OHlNREF3TDNOMlp5YytQR05wY21Oc1pTQmplRDBuTXpZbklHTjVQU2N4TmpRbklISTlKekV3TUhCNEp5Qm1hV3hzUFNjak5XUTBNMkV6Snk4K1BDOXpkbWMrIiAvPjxmZUJsZW5kIG1vZGU9Im92ZXJsYXkiIGluPSJwMCIgaW4yPSJwMSIgLz48ZmVCbGVuZCBtb2RlPSJleGNsdXNpb24iIGluMj0icDIiIC8+PGZlQmxlbmQgbW9kZT0ib3ZlcmxheSIgaW4yPSJwMyIgcmVzdWx0PSJibGVuZE91dCIgLz48ZmVHYXVzc2lhbkJsdXIgaW49ImJsZW5kT3V0IiBzdGREZXZpYXRpb249IjQyIiAvPjwvZmlsdGVyPiA8Y2xpcFBhdGggaWQ9ImNvcm5lcnMiPjxyZWN0IHdpZHRoPSIyOTAiIGhlaWdodD0iNTAwIiByeD0iNDIiIHJ5PSI0MiIgLz48L2NsaXBQYXRoPjxwYXRoIGlkPSJ0ZXh0LXBhdGgtYSIgZD0iTTQwIDEyIEgyNTAgQTI4IDI4IDAgMCAxIDI3OCA0MCBWNDYwIEEyOCAyOCAwIDAgMSAyNTAgNDg4IEg0MCBBMjggMjggMCAwIDEgMTIgNDYwIFY0MCBBMjggMjggMCAwIDEgNDAgMTIgeiIgLz48cGF0aCBpZD0ibWluaW1hcCIgZD0iTTIzNCA0NDRDMjM0IDQ1Ny45NDkgMjQyLjIxIDQ2MyAyNTMgNDYzIiAvPjxmaWx0ZXIgaWQ9InRvcC1yZWdpb24tYmx1ciI+PGZlR2F1c3NpYW5CbHVyIGluPSJTb3VyY2VHcmFwaGljIiBzdGREZXZpYXRpb249IjI0IiAvPjwvZmlsdGVyPjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZC11cCIgeDE9IjEiIHgyPSIwIiB5MT0iMSIgeTI9IjAiPjxzdG9wIG9mZnNldD0iMC4wIiBzdG9wLWNvbG9yPSJ3aGl0ZSIgc3RvcC1vcGFjaXR5PSIxIiAvPjxzdG9wIG9mZnNldD0iLjkiIHN0b3AtY29sb3I9IndoaXRlIiBzdG9wLW9wYWNpdHk9IjAiIC8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQtZG93biIgeDE9IjAiIHgyPSIxIiB5MT0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMC4wIiBzdG9wLWNvbG9yPSJ3aGl0ZSIgc3RvcC1vcGFjaXR5PSIxIiAvPjxzdG9wIG9mZnNldD0iMC45IiBzdG9wLWNvbG9yPSJ3aGl0ZSIgc3RvcC1vcGFjaXR5PSIwIiAvPjwvbGluZWFyR3JhZGllbnQ+PG1hc2sgaWQ9ImZhZGUtdXAiIG1hc2tDb250ZW50VW5pdHM9Im9iamVjdEJvdW5kaW5nQm94Ij48cmVjdCB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdXApIiAvPjwvbWFzaz48bWFzayBpZD0iZmFkZS1kb3duIiBtYXNrQ29udGVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCI+PHJlY3Qgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLWRvd24pIiAvPjwvbWFzaz48bWFzayBpZD0ibm9uZSIgbWFza0NvbnRlbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IndoaXRlIiAvPjwvbWFzaz48bGluZWFyR3JhZGllbnQgaWQ9ImdyYWQtc3ltYm9sIj48c3RvcCBvZmZzZXQ9IjAuNyIgc3RvcC1jb2xvcj0id2hpdGUiIHN0b3Atb3BhY2l0eT0iMSIgLz48c3RvcCBvZmZzZXQ9Ii45NSIgc3RvcC1jb2xvcj0id2hpdGUiIHN0b3Atb3BhY2l0eT0iMCIgLz48L2xpbmVhckdyYWRpZW50PjxtYXNrIGlkPSJmYWRlLXN5bWJvbCIgbWFza0NvbnRlbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxyZWN0IHdpZHRoPSIyOTBweCIgaGVpZ2h0PSIyMDBweCIgZmlsbD0idXJsKCNncmFkLXN5bWJvbCkiIC8+PC9tYXNrPjwvZGVmcz48ZyBjbGlwLXBhdGg9InVybCgjY29ybmVycykiPjxyZWN0IGZpbGw9ImQxZWI4YSIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyOTBweCIgaGVpZ2h0PSI1MDBweCIgLz48cmVjdCBzdHlsZT0iZmlsdGVyOiB1cmwoI2YxKSIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSIyOTBweCIgaGVpZ2h0PSI1MDBweCIgLz4gPGcgc3R5bGU9ImZpbHRlcjp1cmwoI3RvcC1yZWdpb24tYmx1cik7IHRyYW5zZm9ybTpzY2FsZSgxLjUpOyB0cmFuc2Zvcm0tb3JpZ2luOmNlbnRlciB0b3A7Ij48cmVjdCBmaWxsPSJub25lIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjI5MHB4IiBoZWlnaHQ9IjUwMHB4IiAvPjxlbGxpcHNlIGN4PSI1MCUiIGN5PSIwcHgiIHJ4PSIxODBweCIgcnk9IjEyMHB4IiBmaWxsPSIjMDAwIiBvcGFjaXR5PSIwLjg1IiAvPjwvZz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMjkwIiBoZWlnaHQ9IjUwMCIgcng9IjQyIiByeT0iNDIiIGZpbGw9InJnYmEoMCwwLDAsMCkiIHN0cm9rZT0icmdiYSgyNTUsMjU1LDI1NSwwLjIpIiAvPjwvZz48dGV4dCB0ZXh0LXJlbmRlcmluZz0ib3B0aW1pemVTcGVlZCI+PHRleHRQYXRoIHN0YXJ0T2Zmc2V0PSItMTAwJSIgZmlsbD0id2hpdGUiIGZvbnQtZmFtaWx5PSInQ291cmllciBOZXcnLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTBweCIgeGxpbms6aHJlZj0iI3RleHQtcGF0aC1hIj4weGUzOWFiODhmOGE0Nzc3MDMwYTUzNDE0NmE5Y2EzYjUyYmQ1ZDQzYTMg4oCiIEVUSCA8YW5pbWF0ZSBhZGRpdGl2ZT0ic3VtIiBhdHRyaWJ1dGVOYW1lPSJzdGFydE9mZnNldCIgZnJvbT0iMCUiIHRvPSIxMDAlIiBiZWdpbj0iMHMiIGR1cj0iMzBzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgLz48L3RleHRQYXRoPiA8dGV4dFBhdGggc3RhcnRPZmZzZXQ9IjAlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMHB4IiB4bGluazpocmVmPSIjdGV4dC1wYXRoLWEiPjB4ZTM5YWI4OGY4YTQ3NzcwMzBhNTM0MTQ2YTljYTNiNTJiZDVkNDNhMyDigKIgRVRIIDxhbmltYXRlIGFkZGl0aXZlPSJzdW0iIGF0dHJpYnV0ZU5hbWU9InN0YXJ0T2Zmc2V0IiBmcm9tPSIwJSIgdG89IjEwMCUiIGJlZ2luPSIwcyIgZHVyPSIzMHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPiA8L3RleHRQYXRoPjx0ZXh0UGF0aCBzdGFydE9mZnNldD0iNTAlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMHB4IiB4bGluazpocmVmPSIjdGV4dC1wYXRoLWEiPjB4ZDFlYjhhNTc5OGUwNDcwM2VjNTMyNGM5OTQwNWY1ODFiZDYzMThiOCDigKIgR1JCIDxhbmltYXRlIGFkZGl0aXZlPSJzdW0iIGF0dHJpYnV0ZU5hbWU9InN0YXJ0T2Zmc2V0IiBmcm9tPSIwJSIgdG89IjEwMCUiIGJlZ2luPSIwcyIgZHVyPSIzMHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPjwvdGV4dFBhdGg+PHRleHRQYXRoIHN0YXJ0T2Zmc2V0PSItNTAlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMHB4IiB4bGluazpocmVmPSIjdGV4dC1wYXRoLWEiPjB4ZDFlYjhhNTc5OGUwNDcwM2VjNTMyNGM5OTQwNWY1ODFiZDYzMThiOCDigKIgR1JCIDxhbmltYXRlIGFkZGl0aXZlPSJzdW0iIGF0dHJpYnV0ZU5hbWU9InN0YXJ0T2Zmc2V0IiBmcm9tPSIwJSIgdG89IjEwMCUiIGJlZ2luPSIwcyIgZHVyPSIzMHMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPjwvdGV4dFBhdGg+PC90ZXh0PjxnIG1hc2s9InVybCgjZmFkZS1zeW1ib2wpIj48cmVjdCBmaWxsPSJub25lIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjI5MHB4IiBoZWlnaHQ9IjIwMHB4IiAvPiA8dGV4dCB5PSI3MHB4IiB4PSIzMnB4IiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC13ZWlnaHQ9IjIwMCIgZm9udC1zaXplPSIzNnB4Ij5HUkIvRVRIPC90ZXh0Pjx0ZXh0IHk9IjExNXB4IiB4PSIzMnB4IiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IidDb3VyaWVyIE5ldycsIG1vbm9zcGFjZSIgZm9udC13ZWlnaHQ9IjIwMCIgZm9udC1zaXplPSIzNnB4Ij4wLjMlPC90ZXh0PjwvZz48cmVjdCB4PSIxNiIgeT0iMTYiIHdpZHRoPSIyNTgiIGhlaWdodD0iNDY4IiByeD0iMjYiIHJ5PSIyNiIgZmlsbD0icmdiYSgwLDAsMCwwKSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMikiIC8+PGcgbWFzaz0idXJsKCNub25lKSIgc3R5bGU9InRyYW5zZm9ybTp0cmFuc2xhdGUoNzJweCwxODlweCkiPjxyZWN0IHg9Ii0xNnB4IiB5PSItMTZweCIgd2lkdGg9IjE4MHB4IiBoZWlnaHQ9IjE4MHB4IiBmaWxsPSJub25lIiAvPjxwYXRoIGQ9Ik0xIDFDMSA5NyA0OSAxNDUgMTQ1IDE0NSIgc3Ryb2tlPSJyZ2JhKDAsMCwwLDAuMykiIHN0cm9rZS13aWR0aD0iMzJweCIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPjwvZz48ZyBtYXNrPSJ1cmwoI25vbmUpIiBzdHlsZT0idHJhbnNmb3JtOnRyYW5zbGF0ZSg3MnB4LDE4OXB4KSI+PHJlY3QgeD0iLTE2cHgiIHk9Ii0xNnB4IiB3aWR0aD0iMTgwcHgiIGhlaWdodD0iMTgwcHgiIGZpbGw9Im5vbmUiIC8+PHBhdGggZD0iTTEgMUMxIDk3IDQ5IDE0NSAxNDUgMTQ1IiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMSkiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz48L2c+PGNpcmNsZSBjeD0iNzNweCIgY3k9IjE5MHB4IiByPSI0cHgiIGZpbGw9IndoaXRlIiAvPjxjaXJjbGUgY3g9IjIxN3B4IiBjeT0iMzM0cHgiIHI9IjRweCIgZmlsbD0id2hpdGUiIC8+IDxnIHN0eWxlPSJ0cmFuc2Zvcm06dHJhbnNsYXRlKDI5cHgsIDM4NHB4KSI+PHJlY3Qgd2lkdGg9Ijc3cHgiIGhlaWdodD0iMjZweCIgcng9IjhweCIgcnk9IjhweCIgZmlsbD0icmdiYSgwLDAsMCwwLjYpIiAvPjx0ZXh0IHg9IjEycHgiIHk9IjE3cHgiIGZvbnQtZmFtaWx5PSInQ291cmllciBOZXcnLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTJweCIgZmlsbD0id2hpdGUiPjx0c3BhbiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNikiPklEOiA8L3RzcGFuPjI1OTwvdGV4dD48L2c+IDxnIHN0eWxlPSJ0cmFuc2Zvcm06dHJhbnNsYXRlKDI5cHgsIDQxNHB4KSI+PHJlY3Qgd2lkdGg9IjE0N3B4IiBoZWlnaHQ9IjI2cHgiIHJ4PSI4cHgiIHJ5PSI4cHgiIGZpbGw9InJnYmEoMCwwLDAsMC42KSIgLz48dGV4dCB4PSIxMnB4IiB5PSIxN3B4IiBmb250LWZhbWlseT0iJ0NvdXJpZXIgTmV3JywgbW9ub3NwYWNlIiBmb250LXNpemU9IjEycHgiIGZpbGw9IndoaXRlIj48dHNwYW4gZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjYpIj5NaW4gVGljazogPC90c3Bhbj4tODg3MjIwPC90ZXh0PjwvZz4gPGcgc3R5bGU9InRyYW5zZm9ybTp0cmFuc2xhdGUoMjlweCwgNDQ0cHgpIj48cmVjdCB3aWR0aD0iMTQwcHgiIGhlaWdodD0iMjZweCIgcng9IjhweCIgcnk9IjhweCIgZmlsbD0icmdiYSgwLDAsMCwwLjYpIiAvPjx0ZXh0IHg9IjEycHgiIHk9IjE3cHgiIGZvbnQtZmFtaWx5PSInQ291cmllciBOZXcnLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTJweCIgZmlsbD0id2hpdGUiPjx0c3BhbiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNikiPk1heCBUaWNrOiA8L3RzcGFuPjg4NzIyMDwvdGV4dD48L2c+PGcgc3R5bGU9InRyYW5zZm9ybTp0cmFuc2xhdGUoMjI2cHgsIDQzM3B4KSI+PHJlY3Qgd2lkdGg9IjM2cHgiIGhlaWdodD0iMzZweCIgcng9IjhweCIgcnk9IjhweCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMikiIC8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBkPSJNOCA5QzguMDAwMDQgMjIuOTQ5NCAxNi4yMDk5IDI4IDI3IDI4IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiAvPjxjaXJjbGUgc3R5bGU9InRyYW5zZm9ybTp0cmFuc2xhdGUzZCgxM3B4LCAyM3B4LCAwcHgpIiBjeD0iMHB4IiBjeT0iMHB4IiByPSI0cHgiIGZpbGw9IndoaXRlIi8+PC9nPjwvc3ZnPg==" class="sc-z20cv-12 hiQsgR">
+                                   </div>
+                                   <div class="info">
+                                        <h4 class="name-of-pool">GRB/ARB</h4>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="logo-token" style="margin-right: 0.5rem;">
+                                                    <div class="token-1" style="--size: 40px;">%</div>
+                                                </div>       
+                                                <span>APR</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <p style="float: right;"><span class="apr-grb-arb">0</span>%</p>
+                                            </div>
+                                        </div>                                   
+                                   </div>
+                                </a>
+                            </div>
+                       </div>
+                    </article>
+                </section>
+            </main>
+
+            <footer class="footer">
+                <nav class="navbar navbar-expand-lg">
+                    <div class="container container-1">
+                        <div class="row flex-grow-1 align-items-center">
+                            <div class="col-lg-4">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>© 2023 Garbi Protocol</div>
+                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                                        <i class="fas fa-bars"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="collapse navbar-collapse" id="navbar-footer">
+                                    <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="risks.html" class="">Risks</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" target="_blank" href="https://garbi-protocol.gitbook.io/docs/">Docs</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" target="_blank" href="https://twitter.com/garbi_protocol/" rel="noopener noreferrer">#Twitter</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" target="_blank" href="https://t.me/garbiprotocol" rel="noopener noreferrer">@Telegram</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" target="_blank" href="whitelist.html">Early Whitelist Access</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Version 2.0.1</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </footer>
+        </div>
+        <script src="./assets/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="./assets/js/custom.js"></script>
+        <script src="./assets/js/custom.menu.js"></script>
+
+    </body>
+    <script>
+        var abiHelper = new $.ABI();
+        var coreHelper = new $.Core();
+        var configHelper = new $.CONFIG();
+        var contractBaseHelper = new $.CONTRACTBASE();
+        var storeHelper = new $.STORE();
+        var dataHelper = new $.DATA();
+        var garbiFarmHelper = new $.GARBI_FARM();
+        var chainId = 42161;
+        $('.alert-banner').hide();
+            if (typeof window.ethereum !== 'undefined') {
+              const web3 = new Web3(window.ethereum);
+              window.ethereum.enable();
+              web3.eth.getChainId()
+                .then(chainId => {
+                  if (chainId !== 42161) {
+                    $('.alert-banner').show();
+                  }
+                  else {
+                    $('.alert-banner').hide();
+                  }
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            } else {
+              console.log("Metamask not found");
+            }
+        $(document).ready(function() {
+            abiHelper.init({});
+            coreHelper.init({});
+            configHelper.init({});
+            storeHelper.init({});
+            contractBaseHelper.init({
+                "chainId": chainId
+            });
+            dataHelper.init({
+                "chainId": chainId
+            });
+            garbiFarmHelper.init({
+                "chainId": chainId,
+                "pids": []
+            })
+            coreHelper.initBTNName('btn-swap', 'Swap');
+            garbiFarmHelper.initFarmListPageInterface();
+            let userWallet = coreHelper.getUserAccount();
+            let GarbiFarmUniV3ABI = abiHelper.getGarbiFarmUniV3ABI();
+            let GarbiFarmUniV3Contract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+            let wethPrice = configHelper.getPriceByTokenName(chainId, 'weth');
+            let grbPrice = configHelper.getPriceByTokenName(chainId, 'grb');
+            let arbPrice = configHelper.getPriceByTokenName(chainId, 'arb');
+            let Token0Decimal = configHelper.getTokenDecimalByTokenName(chainId, 'grb');
+            let Token1Decimal = configHelper.getTokenDecimalByTokenName(chainId, 'weth');
+            let TokenArbDecimal = configHelper.getTokenDecimalByTokenName(chainId, 'arb');
+            $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol,ethereum,arbitrum&vs_currencies=usd", function(data) {
+                wethPrice = data["ethereum"]["usd"];
+                grbPrice = data["garbi-protocol"]["usd"];
+                arbPrice = data["arbitrum"]["usd"];
+            });
+             GarbiFarmUniV3Contract.methods.getData(userWallet).call().then(function (result) {
+                console.log (result);
+                let Token0Balance = result.totalBalance0;
+                let Token0Value = Token0Balance / 10 ** Token0Decimal;
+                let Token1Balance = result.totalBalance1;
+                let Token1Value = Token1Balance / 10 ** Token1Decimal;
+                let TotalAssetValue = Token0Value * grbPrice + Token1Value * wethPrice;
+                let totalMintPerDay = result.totalMintPerDay_;
+                let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
+                $('.apr-grb-eth').text(Apr.toFixed(2));
+             });
+        });                                       
+    </script>
+
+</html>

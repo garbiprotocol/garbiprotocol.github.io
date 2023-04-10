@@ -415,7 +415,8 @@ $.CONFIG.prototype = (function() {
             'usdc': '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8',
             'usdt': '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
             'dai': '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
-            'gec': '0x5eba4d078a28578d24aa536f70448d507e1cc78e'
+            'gec': '0x5eba4d078a28578d24aa536f70448d507e1cc78e',
+            'arb' : '0x912CE59144191C1204E64559FE8253a0e49E6548'
         },
         421613: {//arbitrum testnet
             'grb': '0xd1eb8a5798e04703ec5324c99405f581bd6318b8',
@@ -438,7 +439,8 @@ $.CONFIG.prototype = (function() {
             'usdc': 6,
             'usdt': 6,
             'dai': 18,
-            'gec': 18
+            'gec': 18,
+            'arb': 18
         },
         421613: {
             'grb': 18,
@@ -457,7 +459,8 @@ $.CONFIG.prototype = (function() {
             'wbtc': 26000,
             'usdc': 1,
             'usdt': 1,
-            'dai': 1
+            'dai': 1,
+            'arb' : 1.17
         },
         421613: {
             'grb': 0.6,
