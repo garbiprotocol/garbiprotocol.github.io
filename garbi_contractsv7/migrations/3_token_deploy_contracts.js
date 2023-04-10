@@ -6,6 +6,7 @@ const GDAI = artifacts.require("GDAI");
 const GUSDC = artifacts.require("GUSDC");
 const GUSDT = artifacts.require("GUSDT");
 const GWETH = artifacts.require("GWETH");
+const GARB = artifacts.require("GARB");
 const GarbiEquityCertificate = artifacts.require("GarbiEquityCertificate");
 
 module.exports = function(deployer) {
@@ -17,5 +18,5 @@ module.exports = function(deployer) {
 //    });
     //deployer.deploy(veGRB, "1250000000000000000000000");
     //deployer.deploy(GWETH, "1000000000000000000000000", "500000000000000000000000");
-    deployer.deploy(GarbiEquityCertificate);
+    deployer.deploy(GARB, "1000000000000000000000000", "500000000000000000000000");
 };

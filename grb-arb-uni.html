@@ -478,7 +478,7 @@
                                         <div class="form-item swap__form-item min-price">
                                             <div class="">
                                                 <span class="">Min price</span>
-                                                <div class="price">0.00001 ($0.017)</div>
+                                                <div class="price">0.01 ($0.017)</div>
                                                 <span class="description"> ARB per GRB</span>
                                             </div>
                                         </div>
@@ -490,7 +490,7 @@
                                         <div class="form-item swap__form-item max-price">
                                             <div class="">
                                                 <span class="">Max price</span>
-                                                <div class="price">0.01 ($17)</div>
+                                                <div class="price">19 ($17)</div>
                                                 <span class="description"> ARB per GRB</span>
                                             </div>
                                         </div>
@@ -656,16 +656,15 @@
         }
         GarbiFarmUniV3Contract.methods.getData(userWallet).call()
         .then(function (result) {
-            console.log(result);
             let CurrentPriceData = result.currentPrice;
-            let CurrentPrice = convertSqrtPriceX96ToPrice(CurrentPriceData);
+            let CurrentPrice = 1/convertSqrtPriceX96ToPrice(CurrentPriceData);
             $('.current-grb-price').text(CurrentPrice.toFixed(6));
             $('.current-grb-price-usd').text((CurrentPrice*arbPrice).toFixed(2));
             let Token0Balance = result.totalBalance0;
             let Token0Value = Token0Balance / 10 ** Token0Decimal;
             let Token1Balance = result.totalBalance1;
             let Token1Value = Token1Balance / 10 ** Token1Decimal;
-            let TotalAssetValue = Token0Value * grbPrice + Token1Value * arbPrice;
+            let TotalAssetValue = Token1Value * grbPrice + Token0Value * arbPrice;
             $('.total-asset-value').text(TotalAssetValue.toFixed(2));
             let totalMintPerDay = result.totalMintPerDay_;
             let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
@@ -696,10 +695,10 @@
                         GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                         .then (function (result) {
                             let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
-                            $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
+                            $('.user-token-1-amount').text(UserToken0Amount.toFixed(2));
                             let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
-                            $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));              
-                            let VolumeLiquidity = UserToken1Amount * arbPrice + UserToken0Amount * grbPrice;
+                            $('.user-token-0-amount').text(UserToken1Amount.toFixed(2));              
+                            let VolumeLiquidity = UserToken0Amount * arbPrice + UserToken1Amount * grbPrice;
                             $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                             if (result.inPriceRange == true) {
                                 $('.notice-range').hide();
@@ -712,23 +711,24 @@
                             let DataUrl = JSON.parse(atob(Base64DataUrl));
                             $('.image-token').attr('src', DataUrl.image);
                             let tickLower = result.tickLower;
+                            let tickUpper = result.tickUpper;
                             if (tickLower == -887220) {
                                 $('.min-price-nft .price-nft').text('0.0');
                                 $('.min-price-nft .value-nft').text('0');
                             }
                             else {
-                                let minPrice = calculatePrice(tickLower);
+                                let minPrice = 1/calculatePrice(tickUpper);
                                 let valueMinPrice = minPrice * arbPrice ;
                                 $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
                                 $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
                             }
-                            let tickUpper = result.tickUpper;
+                            
                             if (tickUpper == 887220) {
                                 $('.max-price-nft .price-nft').text('∞');
                                 $('.max-price-nft .value-nft').text('0');
                             }
                             else {
-                                let maxPrice = calculatePrice(tickUpper);                           
+                                let maxPrice = 1/calculatePrice(tickLower);                           
                                 let valueMaxPrice = maxPrice * arbPrice ;                      
                                 $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
                                 $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));
@@ -744,10 +744,10 @@
                 GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                 .then (function (result){
                     let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
-                    $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
+                    $('.user-token-1-amount').text(UserToken0Amount.toFixed(2));
                     let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
-                    $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));
-                    let VolumeLiquidity = UserToken1Amount * arbPrice + UserToken0Amount * grbPrice;
+                    $('.user-token-0-amount').text(UserToken1Amount.toFixed(2));
+                    let VolumeLiquidity = UserToken0Amount * arbPrice + UserToken1Amount * grbPrice;
                     $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                     if (result.inPriceRange == true) {
                         $('.notice-range').hide();
@@ -778,14 +778,14 @@
             GarbiFarmUniV3Contract.methods.getData(userWallet).call()
             .then(function (result) {
                 let CurrentPriceData = result.currentPrice;
-                let CurrentPrice = convertSqrtPriceX96ToPrice(CurrentPriceData);
+                let CurrentPrice = 1/convertSqrtPriceX96ToPrice(CurrentPriceData);
                 $('.current-grb-price').text(CurrentPrice.toFixed(6));
                 $('.current-grb-price-usd').text((CurrentPrice*arbPrice).toFixed(2));
                 let Token0Balance = result.totalBalance0;
                 let Token0Value = Token0Balance / 10 ** Token0Decimal;
                 let Token1Balance = result.totalBalance1;
                 let Token1Value = Token1Balance / 10 ** Token1Decimal;
-                let TotalAssetValue = Token0Value * grbPrice + Token1Value * arbPrice;
+                let TotalAssetValue = Token1Value * grbPrice + Token0Value * arbPrice;
                 $('.total-asset-value').text(TotalAssetValue.toFixed(2));
                 let totalMintPerDay = result.totalMintPerDay_;
                 let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
@@ -811,10 +811,10 @@
                             GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                             .then (function (result) {
                                 let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
-                                $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
+                                $('.user-token-1-amount').text(UserToken0Amount.toFixed(2));
                                 let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
-                                $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));                         
-                                let VolumeLiquidity = UserToken1Amount * arbPrice + UserToken0Amount * grbPrice;
+                                $('.user-token-0-amount').text(UserToken1Amount.toFixed(2));                         
+                                let VolumeLiquidity = UserToken0Amount * arbPrice + UserToken1Amount * grbPrice;
                                 $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                                 if (result.inPriceRange == true) {
                                     $('.notice-range').hide();
@@ -829,23 +829,24 @@
                                     $('.image-token').attr('src', DataUrl.image);
                                 }
                                 let tickLower = result.tickLower;
+                                let tickUpper = result.tickUpper;
                                 if (tickLower == -887220) {
                                     $('.min-price-nft .price-nft').text('0.0');
                                     $('.min-price-nft .value-nft').text('0');
                                 }
                                 else {
-                                    let minPrice = calculatePrice(tickLower);
+                                    let minPrice = 1/calculatePrice(tickUpper);
                                     let valueMinPrice = minPrice * arbPrice ;
                                     $('.min-price-nft .price-nft').text(minPrice.toFixed(6));
                                     $('.min-price-nft .value-nft').text(valueMinPrice.toFixed(2));
                                 }
-                                let tickUpper = result.tickUpper;
+                                
                                 if (tickUpper == 887220) {
                                     $('.max-price-nft .price-nft').text('∞');
                                     $('.max-price-nft .value-nft').text('0');
                                 }
                                 else {
-                                    let maxPrice = calculatePrice(tickUpper);                           
+                                    let maxPrice = 1/calculatePrice(tickLower);                           
                                     let valueMaxPrice = maxPrice * arbPrice ;                      
                                     $('.max-price-nft .price-nft').text(maxPrice.toFixed(6));
                                     $('.max-price-nft .value-nft').text(valueMaxPrice.toFixed(2));
@@ -862,10 +863,10 @@
                     GarbiFarmUniV3Contract.methods.getNFTTokenInfo(userTokenId).call()
                     .then (function (result){
                         let UserToken0Amount = result.token0Amount / 10 ** Token0Decimal;
-                        $('.user-token-0-amount').text(UserToken0Amount.toFixed(2));
+                        $('.user-token-1-amount').text(UserToken0Amount.toFixed(2));
                         let UserToken1Amount = result.token1Amount / 10 ** Token1Decimal;
-                        $('.user-token-1-amount').text(UserToken1Amount.toFixed(2));                        
-                        let VolumeLiquidity = UserToken1Amount * arbPrice + UserToken0Amount * grbPrice;
+                        $('.user-token-0-amount').text(UserToken1Amount.toFixed(2));                        
+                        let VolumeLiquidity = UserToken0Amount * arbPrice + UserToken1Amount * grbPrice;
                         $('.liquidity-volume').text(VolumeLiquidity.toFixed(2));
                         if (result.inPriceRange == true) {
                             $('.notice-range').hide();
@@ -901,7 +902,7 @@
             let NonfungiblePositionManagerContract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'NonfungiblePositionManager'), NonfungiblePositionManagerABI);
             NonfungiblePositionManagerContract.methods
             .approve(
-                configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3')
+                configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3ForARB')
                 , userTokenId)
             .send({
                 from: userWallet
@@ -929,8 +930,8 @@
         $('#token-increase .btn-deposit').click(function () {
             let userWallet = coreHelper.getUserAccount();
             NonfungiblePositionManagerContract.methods.getApproved(userTokenId).call().then(function (result) {
-                if (result.toLowerCase() == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3').toLowerCase()) {
-                    let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+                if (result.toLowerCase() == configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3ForARB').toLowerCase()) {
+                    let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3ForARB'), GarbiFarmUniV3ABI);
                     GarbiFarmUniV3Contract.methods
                     .deposit(userTokenId)
                     .send({
@@ -963,7 +964,7 @@
         });   
         $('.button-withdraw').click(function () {
             let userWallet = coreHelper.getUserAccount();
-            let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+            let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3ForARB'), GarbiFarmUniV3ABI);
             GarbiFarmUniV3Contract.methods.withdraw()
             .send({
                 from: userWallet
@@ -990,7 +991,7 @@
         });  
         $('.harvest-button').click(function () {
             let userWallet = coreHelper.getUserAccount();
-            let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+            let GarbiFarmUniV3Contract = contractBaseHelper.getMainContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3ForARB'), GarbiFarmUniV3ABI);
             GarbiFarmUniV3Contract.methods
             .harvest(userWallet)
             .send({

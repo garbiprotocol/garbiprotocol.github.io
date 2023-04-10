@@ -64,7 +64,6 @@ contract GarbiFarmUniV3 is IERC721Receiver, ReentrancyGuard, Ownable {
 
     function setPoolTicks(int24 newTickLower, int24 newTickUpper) public onlyOwner 
     {
-        require(newTickLower > 0, "INVALID_TICK");
         require(newTickUpper >= newTickLower, "INVALID_TICK");
         poolTickLower = newTickLower;
         poolTickUpper = newTickUpper;
