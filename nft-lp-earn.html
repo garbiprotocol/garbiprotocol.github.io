@@ -237,7 +237,7 @@
         var storeHelper = new $.STORE();
         var dataHelper = new $.DATA();
         var garbiFarmHelper = new $.GARBI_FARM();
-        var chainId = 42161;
+        var chainId = 421613;
         $('.alert-banner').hide();
             if (typeof window.ethereum !== 'undefined') {
               const web3 = new Web3(window.ethereum);
@@ -277,6 +277,7 @@
             let userWallet = coreHelper.getUserAccount();
             let GarbiFarmUniV3ABI = abiHelper.getGarbiFarmUniV3ABI();
             let GarbiFarmUniV3Contract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3'), GarbiFarmUniV3ABI);
+            let GarbiFarmUniV3ForARBContract = contractBaseHelper.getReadContract(configHelper.getContractAddressByName(chainId, 'GarbiFarmUniV3ForARB'), GarbiFarmUniV3ABI);
             let wethPrice = configHelper.getPriceByTokenName(chainId, 'weth');
             let grbPrice = configHelper.getPriceByTokenName(chainId, 'grb');
             let arbPrice = configHelper.getPriceByTokenName(chainId, 'arb');
@@ -288,8 +289,8 @@
                 grbPrice = data["garbi-protocol"]["usd"];
                 arbPrice = data["arbitrum"]["usd"];
             });
-             GarbiFarmUniV3Contract.methods.getData(userWallet).call().then(function (result) {
-                console.log (result);
+            GarbiFarmUniV3Contract.methods.getData(userWallet).call().then(function (result) {
+                console.log(result);
                 let Token0Balance = result.totalBalance0;
                 let Token0Value = Token0Balance / 10 ** Token0Decimal;
                 let Token1Balance = result.totalBalance1;
@@ -299,6 +300,38 @@
                 let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
                 $('.apr-grb-eth').text(Apr.toFixed(2));
              });
+            GarbiFarmUniV3ForARBContract.methods.getData(userWallet).call().then(function (result) {
+                let Token0Balance = result.totalBalance0;
+                let Token0Value = Token0Balance / 10 ** Token0Decimal;
+                let Token1Balance = result.totalBalance1;
+                let Token1Value = Token1Balance / 10 ** Token1Decimal;
+                let TotalAssetValue = Token0Value * grbPrice + Token1Value * arbPrice;
+                let totalMintPerDay = result.totalMintPerDay_;
+                let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
+                $('.apr-grb-arb').text(Apr.toFixed(2));
+            });
+            setInterval(function () {
+                GarbiFarmUniV3Contract.methods.getData(userWallet).call().then(function (result) {
+                    let Token0Balance = result.totalBalance0;
+                    let Token0Value = Token0Balance / 10 ** Token0Decimal;
+                    let Token1Balance = result.totalBalance1;
+                    let Token1Value = Token1Balance / 10 ** Token1Decimal;
+                    let TotalAssetValue = Token0Value * grbPrice + Token1Value * wethPrice;
+                    let totalMintPerDay = result.totalMintPerDay_;
+                    let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
+                    $('.apr-grb-eth').text(Apr.toFixed(2));
+                 });
+                GarbiFarmUniV3ForARBContract.methods.getData(userWallet).call().then(function (result) {
+                    let Token0Balance = result.totalBalance0;
+                    let Token0Value = Token0Balance / 10 ** Token0Decimal;
+                    let Token1Balance = result.totalBalance1;
+                    let Token1Value = Token1Balance / 10 ** Token1Decimal;
+                    let TotalAssetValue = Token0Value * grbPrice + Token1Value * arbPrice;
+                    let totalMintPerDay = result.totalMintPerDay_;
+                    let Apr = (((totalMintPerDay / 10 ** Token0Decimal) * 365 * grbPrice) / TotalAssetValue) * 100 ;
+                    $('.apr-grb-arb').text(Apr.toFixed(2));
+                });
+            }, 15000);
         });                                       
     </script>
 

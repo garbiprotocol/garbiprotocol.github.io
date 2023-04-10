@@ -283,6 +283,9 @@ $.CONFIG.prototype = (function() {
             GarbiFarmUniV3: {
                 contract: "0x9ef0d08F55AFaE9421057E79Bd52554CB0b611a2"
             },
+            GarbiFarmUniV3ForARB: {
+                contract: "0xC95Ef7Db6d42d9e14009Bbe580201EfAecCF5816"
+            },
             garbiRepository: {
                 'dai': '0x508C16e20C4d3730570C7b9B73e1c88538dA8a26',
                 'usdc': '0xdf52a59987dfca14a09287e101e01654f143cde1',
@@ -416,7 +419,6 @@ $.CONFIG.prototype = (function() {
             'usdt': '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
             'dai': '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
             'gec': '0x5eba4d078a28578d24aa536f70448d507e1cc78e',
-            'arb' : '0x912CE59144191C1204E64559FE8253a0e49E6548'
         },
         421613: {//arbitrum testnet
             'grb': '0xd1eb8a5798e04703ec5324c99405f581bd6318b8',
@@ -425,7 +427,8 @@ $.CONFIG.prototype = (function() {
             'usdc': '0x29680BD5F3f324001Add9229d6B44615353f554c',
             'usdt': '0x2E4e7eBfF934B6999BDc2983F17F6bd4b6A84206',
             'dai': '0x9Ce3C139316A560A57c861F558284CF31EBC8acE',
-            'gec': '0x965782738c1acca851104444bda0a03ee68355dc'
+            'gec': '0x965782738c1acca851104444bda0a03ee68355dc',
+            'arb' : '0x9a3D8d53881f33a1f190076c828cCe4C0b399476'
         }
     }
     var TOKENS_DECIMAL = {
@@ -449,7 +452,8 @@ $.CONFIG.prototype = (function() {
             'usdc': 6,
             'usdt': 6,
             'dai': 18,
-            'gec': 18
+            'gec': 18,
+            'arb': 18
         }
     };
     var PRICES = {
@@ -467,7 +471,8 @@ $.CONFIG.prototype = (function() {
             'weth': 1700,
             'usdc': 1,
             'usdt': 1,
-            'dai': 1
+            'dai': 1,
+            'arb' : 1.17
         }
     };
     return {
