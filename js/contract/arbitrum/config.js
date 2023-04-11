@@ -61,6 +61,9 @@ $.CONFIG.prototype = (function() {
             GarbiFarmUniV3: {
                 contract: "0x0BC8050C3443aFb10F4a999b627043Dcd8FB62b9"
             },
+            GarbiFarmUniV3ForARB: {
+                contract: "0x94384b670a56aca693ad4c074e34051b5667a210"
+            },
             garbiRepository: {
                 'dai': '0xa9d63685d81d29bf8d74c122380df98a7c0a00a2',
                 'usdc': '0x9e9c654ce87c0bb58d5df7835ac69a202a1deb9b',
@@ -419,6 +422,7 @@ $.CONFIG.prototype = (function() {
             'usdt': '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
             'dai': '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
             'gec': '0x5eba4d078a28578d24aa536f70448d507e1cc78e',
+            'arb' : '0x912ce59144191c1204e64559fe8253a0e49e6548'
         },
         421613: {//arbitrum testnet
             'grb': '0xd1eb8a5798e04703ec5324c99405f581bd6318b8',
@@ -464,7 +468,7 @@ $.CONFIG.prototype = (function() {
             'usdc': 1,
             'usdt': 1,
             'dai': 1,
-            'arb' : 1.17
+            'arb' : 1.25
         },
         421613: {
             'grb': 0.6,
