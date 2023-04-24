@@ -6,7 +6,7 @@ const GarbiFarmSingleWETH = artifacts.require("GarbiFarmSingleWETH");
 const GarbiFarmSingleWBTC = artifacts.require("GarbiFarmSingleWBTC");
 const GarbiFarmGEC = artifacts.require("GarbiFarmGEC");
 const GarbiStakeGRB = artifacts.require("GarbiStakeGRB");
-const GarbiFarmUniV3 = artifacts.require("GarbiFarmUniV3");
+const GarbiFarmPixilSaga = artifacts.require("GarbiFarmPixilSaga");
 
 //production
 const GarbiMining = "0x440d472c70e1b0ae98f8e3553980b0926cad928c";
@@ -72,5 +72,6 @@ module.exports = function(deployer) {
 //    deployer.deploy(GarbiStakeGRB, GarbiMining, veGRB, pidOfMiningSingleVeGRB1week, blockToUnlock1week);
 //    deployer.deploy(GarbiStakeGRB, GarbiMining, veGRB, pidOfMiningSingleVeGRB1month, blockToUnlock1month);
 //    deployer.deploy(GarbiStakeGRB, GarbiMining, veGRB, pidOfMiningSingleVeGRB1year, blockToUnlock1year);
-    deployer.deploy(GarbiFarmGEC, GarbiMining, GEC, pidOfMiningGEC);
+//    deployer.deploy(GarbiFarmGEC, GarbiMining, GEC, pidOfMiningGEC);
+      deployer.deploy(GarbiFarmPixilSaga, GarbiMining, GRB, 15);
 };

@@ -229,6 +229,19 @@ $.CONFIG.prototype = (function() {
                     price: 1,
                     version: 1
                 },
+                15: {
+                    type: 'garbi_pool',
+                    contract: '0x0b094d325fb41512a7e8000c1b3b918244dc9fa6',
+                    want: '0x5fd71280b6385157b291b9962f22153fc9e79000', // 
+                    wantDecimal: 18,
+                    pid: 15,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.PIXIL.LP',
+                    price: 1,
+                    version: 1
+                }
             },
             harvestMachine: ""
         },
