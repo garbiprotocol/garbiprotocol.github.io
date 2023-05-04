@@ -989,9 +989,12 @@
                         $('.button-buy-gec').click(function (e) {
                             let userWallet = coreHelper.getUserAccount();
                             let userSelectedAsset = $('#buy-gec-form .selectpicker').val();
+                            let userInputAsset = $('#buy-gec-form .swap__form-input').val();
+                            let userSelectedAssetDeciamal = configHelper.getTokenDecimalByTokenName(chainId, userSelectedAsset);
                             let userPayAssetContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, userSelectedAsset), erc20TokenABI);
                             userPayAssetContract.methods.allowance(userWallet, _contractsObj['garbiRepositoryManager']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let tokenUserApprove = result / 10**userSelectedAssetDeciamal;
+                                if (tokenUserApprove < userInputAsset) { //need approve
                                     $('.button-approve').hide();
                                     $('.approve-' + userSelectedAsset).show();
                                 } else {
@@ -1076,9 +1079,12 @@
                         $('.button-sell-gec').click(function (e) {
                             let userWallet = coreHelper.getUserAccount();
                             let userSelectedAsset = $('#sell-gec-form .selectpicker').val();
+                            let userInputAsset = $('#sell-gec-form .swap__form-input').val();
+                            let gecDeciamal = configHelper.getTokenDecimalByTokenName(chainId, 'gec');
                             let garbiECContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'gec'), erc20TokenABI);
                             garbiECContract.methods.allowance(userWallet, _contractsObj['garbiRepositoryManager']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let gecUserApprove = result / 10**gecDeciamal;
+                                if (gecUserApprove < userInputAsset) { //need approve
                                     $('.approve-gec').show();
                                 } else {
                                     let amountGEC = $(`input[name=amountGEC]`).val();
