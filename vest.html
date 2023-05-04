@@ -1212,8 +1212,6 @@
                                         coreHelper.hidePopup('success-confirm-popup', 10000);
                                     })
                                     .on('receipt', (receipt) => {
-                                        $('#approve_lock_vegrb').hide();
-                                        $('.approve_vegrb_message').hide();
                                         coreHelper.hidePopup('confirm-popup', 0);
                                         coreHelper.showPopup('success-confirm-popup');
                                         coreHelper.hidePopup('success-confirm-popup', 10000);
@@ -1240,7 +1238,8 @@
                             
                             let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiVestGRB']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let veGrbUserApprove = result / 10**veGRBDecimal ;
+                                if (veGrbUserApprove < _amountVeGRB) { //need approve
                                     $('#approve_lock_vegrb').show();
                                     $('.approve_vegrb_message').show();
                                 } else {
@@ -1906,7 +1905,8 @@
                             
                             let GRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Week']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let GRBUserApprove = result / 10**GRBDecimal;
+                                if (GRBUserApprove < _amountGRB) { //need approve
                                     $('#approve_lock_grb_1week').show();
                                     $('.approve_grb_1week_message').show();
                                 } else {
@@ -1961,7 +1961,8 @@
                             $('.error_grb_1month_message').hide();
                             let GRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Month']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let GRBUserApprove = result / 10**GRBDecimal;
+                                if (GRBUserApprove < _amountGRB) { //need approve
                                     $('#approve_lock_grb_1month').show();
                                     $('.approve_grb_1month_message').show();
                                 } else {
@@ -2017,7 +2018,8 @@
 
                             let GRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'grb'), _abiERC20);
                             GRBContract.methods.allowance(_user, _contractsObj['garbiStakeGRB1Year']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let GRBUserApprove = result / 10**GRBDecimal;
+                                if (GRBUserApprove < _amountGRB) { //need approve
                                     $('#approve_lock_grb_1year').show();
                                     $('.approve_grb_1year_message').show();
                                 } else {
@@ -2075,7 +2077,8 @@
                             $('.error_vegrb_1week_message').hide();
                             let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Week']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let veGrbUserApprove = result / 10**veGRBDecimal ;
+                                if (veGrbUserApprove < _amountVeGRB) { //need approve
                                     $('#approve_lock_vegrb_1week').show();
                                     $('.approve_vegrb_1week_message').show();
                                 } else {
@@ -2128,7 +2131,8 @@
                             $('.error_vegrb_1month_message').hide();
                             let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Month']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let veGrbUserApprove = result / 10**veGRBDecimal ;
+                                if (veGrbUserApprove < _amountVeGRB) { //need approve
                                     $('#approve_lock_vegrb_1month').show();
                                     $('.approve_vegrb_1month_message').show();
                                 } else {
@@ -2183,7 +2187,8 @@
 
                             let veGRBContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'vegrb'), _abiERC20);
                             veGRBContract.methods.allowance(_user, _contractsObj['garbiStakeVeGRB1Year']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let veGrbUserApprove = result / 10**veGRBDecimal ;
+                                if (veGrbUserApprove < _amountVeGRB) { //need approve
                                     $('#approve_lock_vegrb_1year').show();
                                     $('.approve_vegrb_1year_message').show();
                                 } else {
