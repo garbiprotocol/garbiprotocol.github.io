@@ -524,7 +524,7 @@
                                             <a class="nav-link" target="_blank" href="whitelist.html">Early Whitelist Access</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Version 2.0.3</a>
+                                            <a class="nav-link" href="#">Version 2.0.4</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -729,9 +729,12 @@
                             let userWallet = coreHelper.getUserAccount();
                             let userSelectedAssetPay = $('.stable-swap-pay .selectpicker').val();
                             let userSelectedAssetOut = $('.stable-swap-out .selectpicker').val();
+                            let userSelectedAssetPayDeciamal = configHelper.getTokenDecimalByTokenName(chainId, userSelectedAssetPay);
+                            let userInputAssetPay = $('.stable-swap-pay .swap__form-input').val();
                             let userPayAssetContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, userSelectedAssetPay), erc20TokenABI);
                             userPayAssetContract.methods.allowance(userWallet, _contractsObj['garbiRepositoryManager']["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let userInputValuePay = result / (10**userSelectedAssetPayDeciamal);
+                                if (userInputValuePay < userInputAssetPay) { //need approve
                                     $('.button-approve').show();
                                 } else {
                                     let amountIn = $('.stable-swap input[name=amountIn]').val();
@@ -807,7 +810,6 @@
                                         coreHelper.hidePopup('success-confirm-popup', 10000);
                                     })
                                     .on('receipt', (receipt) => {
-                                        $('.button-approve').hide();
                                         coreHelper.hidePopup('confirm-popup', 0);
                                         coreHelper.showPopup('success-confirm-popup');
                                         coreHelper.hidePopup('success-confirm-popup', 10000);
@@ -886,9 +888,12 @@
                             let userWallet = coreHelper.getUserAccount();
                             let userSelectedTokenPay = $('.token-swap-pay .selectpicker').val();
                             let userSelectedTokenOut = $('.token-swap-out .selectpicker').val();
+                            let userSelectedTokenPayDeciamal = configHelper.getTokenDecimalByTokenName(chainId, userSelectedTokenPay);
+                            let userInputTokenPay = $('.token-swap-pay .swap__form-input').val();
                             let userPayTokenContract = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, userSelectedTokenPay), erc20TokenABI);
                             userPayTokenContract.methods.allowance(userWallet, _contractsObj['garbiSwapPairs'][userSelectedTokenPay+userSelectedTokenOut]["contract"]).call().then(result => {
-                                if (result == 0) { //need approve
+                                let userInputValuePay = result / (10**userSelectedTokenPayDeciamal);
+                                if (userInputValuePay < userInputTokenPay) { //need approve
                                     $('.button-approve').show();
                                 } else {
                                     let amountIn = $('.token-swap input[name=amountIn]').val();
@@ -1011,7 +1016,6 @@
                                         coreHelper.hidePopup('success-confirm-popup', 10000);
                                     })
                                     .on('receipt', (receipt) => {
-                                        $('.button-approve').hide();
                                         coreHelper.hidePopup('confirm-popup', 0);
                                         coreHelper.showPopup('success-confirm-popup');
                                         coreHelper.hidePopup('success-confirm-popup', 10000);
