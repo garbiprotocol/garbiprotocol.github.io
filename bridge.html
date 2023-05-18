@@ -262,6 +262,7 @@
                                                 <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
                                             </div>
                                             <div class="col-7">
+
                                                 <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
                                                 <div class="text-end">
                                                     <span class="color-2 f-roboto f-14 f-400">$</span>
@@ -310,7 +311,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" class="header__btn-connect w-100 text-center button-swap">Move funds</button>
+                                <button type="button" class="header__btn-connect w-100 text-center button-move-funds">Move funds</button>
+                                <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-top: 10px;">Approve</button>
 
                             </article>
                         </div>
@@ -429,9 +431,7 @@
                     var contractBaseHelper = new $.CONTRACTBASE();
                     var storeHelper = new $.STORE();
                     var dataHelper = new $.DATA();
-                    var garbiSwapInfoHelper = new $.GARBI_SWAP_INFO();
-                    var garbiSwapHelper = new $.GARBI_SWAP();
-                    var chainId = 42161;
+                    var chainId = 421613;
                     $('.alert-banner').hide();
                     if (typeof window.ethereum !== 'undefined') {
                       const web3 = new Web3(window.ethereum);
@@ -462,7 +462,88 @@
                         dataHelper.init({
                             chainId
                         });
-                        
+                        let userWallet = coreHelper.getUserAccount();
+                        let BridgeABI = abiHelper.getBridgeABI();
+                        let CyberCreditABI = abiHelper.getCyberCreditABI();
+                        let _contractsObj = configHelper.getContracts(chainId);
+                        let contractBridgeRead = contractBaseHelper.getReadContract(_contractsObj['garbiBridge']['contract'], BridgeABI);
+                        let contractCyberCreditRead = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'cybercredit'), CyberCreditABI);
+                        function getDataHash(amount, recipient)
+                        {
+                            const data = '0x' +
+                            ethers.utils.hexZeroPad(ethers.utils.bigNumberify(expandDecimals(amount)).toHexString(), 32).substr(2) +   
+                            ethers.utils.hexZeroPad(ethers.utils.hexlify((recipient.length - 2)/2), 32).substr(2) +   
+                            recipient.substr(2);                   
+
+                            return data;
+                        }
+                        const expandDecimals = (amount, decimals = 18) => {
+                            return ethers.utils.parseUnits(String(amount), decimals);
+                        }
+                        $('.button-move-funds').click(function() {
+                            let userWallet = coreHelper.getUserAccount();
+                            let userInputAsset = $('.stable-swap-pay .swap__form-input').val();
+                            contractCyberCreditRead.methods.allowance(userWallet, '0x6DbB578ca9145229Abb109685d13FA12B8db6273').call().then(function(result){
+                                let userAllowceValue = result / (10**18);
+                                if (userAllowceValue < userInputAsset) { //need approve
+                                    $('.button-approve').show();
+                                } else {
+                                    let data = getDataHash(userInputAsset, userWallet );
+                                    let contractBridgeWrite = contractBaseHelper.getMainContract(_contractsObj['garbiBridge']['contract'], BridgeABI);
+                                    contractBridgeWrite.methods
+                                    .deposit(1,'0x0000000000000000000000a55cb2d81e01773866f300c3d1c6fd7574cfa24500',data)
+                                    .send({
+                                        from: userWallet,value:0
+                                    })
+                                    .on('transactionHash', (hash) => {
+                                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                                    })
+                                    .on('confirmation', (confirmationNumber, receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                    })
+                                    .on('receipt', (receipt) => {
+                                        coreHelper.hidePopup('confirm-popup', 0);
+                                        coreHelper.showPopup('success-confirm-popup');
+                                        coreHelper.hidePopup('success-confirm-popup', 10000);
+                                        console.log(receipt);
+                                    })
+                                    .on('error', (err, receipt) => {
+                                        console.log(err);
+                                    });
+                                }
+                            })
+                                    
+                        });
+                        $('.button-approve').click(function(){
+                            let userAssetContract = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, 'cybercredit'), CyberCreditABI);
+                            userAssetContract.methods
+                            .approve(
+                                    '0x6dbb578ca9145229abb109685d13fa12b8db6273',
+                                    coreHelper.getAmountAllow()
+                                    )
+                            .send({
+                                from: userWallet
+                            })
+                            .on('transactionHash', (hash) => {
+                                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                            })
+                            .on('confirmation', (confirmationNumber, receipt) => {
+                                $('.button-approve').hide();
+                                coreHelper.hidePopup('confirm-popup', 0);
+                                coreHelper.showPopup('success-confirm-popup');
+                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                            })
+                            .on('receipt', (receipt) => {
+                                coreHelper.hidePopup('confirm-popup', 0);
+                                coreHelper.showPopup('success-confirm-popup');
+                                coreHelper.hidePopup('success-confirm-popup', 10000);
+                            })
+                            .on('error', (err, receipt) => {
+                                console.log(err);
+                            });
+                        })
                     });
     </script>
 </html>

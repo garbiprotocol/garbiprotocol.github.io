@@ -307,6 +307,9 @@ $.CONFIG.prototype = (function() {
                 'usdc': '0xdf52a59987dfca14a09287e101e01654f143cde1',
                 'usdt': '0x02c90b0a584ead487ee5bee35f74cd0132789dd3'
             },
+            garbiBridge: {
+                contract: '0xED86Cb44d0810D3D4Da41132554770428f8e5Ad9',
+            },
             garbiSwapPairs: {
                 'wethgrb': {
                     contract: '0x1914513cc76018f399e58ccc9b87be681423a9ce',
@@ -445,7 +448,8 @@ $.CONFIG.prototype = (function() {
             'usdt': '0x2E4e7eBfF934B6999BDc2983F17F6bd4b6A84206',
             'dai': '0x9Ce3C139316A560A57c861F558284CF31EBC8acE',
             'gec': '0x965782738c1acca851104444bda0a03ee68355dc',
-            'arb' : '0x9a3D8d53881f33a1f190076c828cCe4C0b399476'
+            'arb' : '0x9a3D8d53881f33a1f190076c828cCe4C0b399476',
+            'cybercredit': '0xA55cb2d81E01773866F300C3d1c6fD7574Cfa245',
         }
     }
     var TOKENS_DECIMAL = {
@@ -460,7 +464,7 @@ $.CONFIG.prototype = (function() {
             'usdt': 6,
             'dai': 18,
             'gec': 18,
-            'arb': 18
+            'arb': 18,
         },
         421613: {
             'grb': 18,
@@ -470,7 +474,8 @@ $.CONFIG.prototype = (function() {
             'usdt': 6,
             'dai': 18,
             'gec': 18,
-            'arb': 18
+            'arb': 18,
+            'cybercredit':18,
         }
     };
     var PRICES = {
@@ -481,7 +486,7 @@ $.CONFIG.prototype = (function() {
             'usdc': 1,
             'usdt': 1,
             'dai': 1,
-            'arb' : 1.25
+            'arb' : 1.25,
         },
         421613: {
             'grb': 0.6,
@@ -489,7 +494,7 @@ $.CONFIG.prototype = (function() {
             'usdc': 1,
             'usdt': 1,
             'dai': 1,
-            'arb' : 1.17
+            'arb' : 1.17,
         }
     };
     return {
