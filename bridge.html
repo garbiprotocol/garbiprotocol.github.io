@@ -494,7 +494,10 @@
                 chainId,
             });
             garbiBridge.LoadData();
-
+            setInterval(function () {
+                let userInputAsset = $('.stable-swap-pay .swap__form-input').val();
+                $('.stable-swap-out .swap__form-input').val(userInputAsset);
+            }, 1000);        
             $('.button-move-funds').click(function() 
             {
                 garbiBridge.Bridge();
