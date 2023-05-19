@@ -26,6 +26,8 @@
         <script src="./js/contract/arbitrum/data.js"></script>
         <script src="./js/contract/arbitrum/garbi-swap-info.contract.js"></script>
         <script src="./js/contract/arbitrum/garbi-swap.contract.js"></script>
+        <script src="./js/garbiBridge/garbi-bridge-abi.js"></script>
+        <script src="./js/garbiBridge/garbi-bridge-config.js"></script>
 
         <title>Bridge - Garbi Protocol</title>
 
@@ -248,23 +250,20 @@
                                 <div class="swap__form pb-1 stable-swap-pay">
                                     <div class="swap__form-item mb-1">
                                         <div class="row">
-                                            <div class="col-12 d-flex align-items-center justify-content-between">
+                                            <div class="col-12">
                                                 <select class="selectpicker swap__form-select mb-1" name="from">
                                                     <option
-                                                        value="usdt"
+                                                        value="ArbitrumGoerli"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
                                                         >Arbitrum One</option>
                                                     <option
-                                                        value="usdc"
+                                                        value="ArbitrumNova"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
                                                         >Arbitrum Nova</option>
                                                 </select>
-                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
-                                            </div>
-                                            <div class="col-12 d-flex align-items-center justify-content-between">
                                                 <select class="selectpicker swap__form-select mb-1" name="to">
                                                     <option
-                                                        value="usdc"
+                                                        value="cyberCredit"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>CyberCredit</div>"
                                                         >CyberCredit</option>
                                                     <option
@@ -272,7 +271,16 @@
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
                                                         >veGRB</option>
                                                 </select>
-                                                <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-5 d-flex align-items-center">
+                                                         <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
+                                                    </div>
+                                                    <div class="col-7">
+                                                         <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -281,31 +289,39 @@
 
                                     <div class="swap__form-item stable-swap-out">
                                         <div class="row">
-                                            <div class="col-12 d-flex align-items-center justify-content-between">
+                                            <div class="col-12">
                                                 <select class="selectpicker swap__form-select mb-1" name="to">
                                                     <option
-                                                        value="usdc"
+                                                        value=""
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
                                                         >Arbitrum Nova</option>
                                                     <option
-                                                        value="usdt"
+                                                        value=""
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
                                                         >Arbitrum One</option>
                                                 </select>
-                                                <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
-                                            </div>
-                                            <div class="col-12 d-flex align-items-center justify-content-between">
                                                 <select class="selectpicker swap__form-select mb-1" name="to">
                                                     <option
-                                                        value="usdc"
+                                                        value=""
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>CyberCredit</div>"
                                                         >CyberCredit</option>
                                                     <option
-                                                        value="usdt"
+                                                        value=""
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
                                                         >veGRB</option>
                                                 </select>
-                                                <input class="swap__form-input" placeholder="0.0" name="amountOut" readonly/>
+                                                
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-5 d-flex align-items-center">
+                                                         <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
+                                                    </div>
+                                                    <div class="col-7">
+                                                         <input class="swap__form-input" placeholder="0.0" name="amountOut" readonly/>
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -433,128 +449,56 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="./assets/js/custom.js"></script>
         <script src="./assets/js/custom.menu.js"></script>
+        <script src="./js/garbiBridge/garbi-bridge-core.js"></script>
 
     </body>
     <script>
-                    var abiHelper = new $.ABI();
-                    var coreHelper = new $.Core();
-                    var configHelper = new $.CONFIG();
-                    var contractBaseHelper = new $.CONTRACTBASE();
-                    var storeHelper = new $.STORE();
-                    var dataHelper = new $.DATA();
-                    var chainId = 421613;
-                    $('.alert-banner').hide();
-                    if (typeof window.ethereum !== 'undefined') {
-                      const web3 = new Web3(window.ethereum);
-                      window.ethereum.enable();
-                      web3.eth.getChainId()
-                        .then(chainId => {
-                          if (chainId !== 42161) {
-                            $('.alert-banner').show();
-                          }
-                          else {
-                            $('.alert-banner').hide();
-                          }
-                        })
-                        .catch(error => {
-                          console.error(error);
-                        });
-                    } else {
-                      console.log("Metamask not found");
-                    }
-                    $(document).ready(function () {
-                        abiHelper.init({});
-                        coreHelper.init({});
-                        configHelper.init({});
-                        storeHelper.init({});
-                        contractBaseHelper.init({
-                            chainId
-                        });
-                        dataHelper.init({
-                            chainId
-                        });
-                        let userWallet = coreHelper.getUserAccount();
-                        let BridgeABI = abiHelper.getBridgeABI();
-                        let CyberCreditABI = abiHelper.getCyberCreditABI();
-                        let _contractsObj = configHelper.getContracts(chainId);
-                        let contractBridgeRead = contractBaseHelper.getReadContract(_contractsObj['garbiBridge']['contract'], BridgeABI);
-                        let contractCyberCreditRead = contractBaseHelper.getReadContract(configHelper.getTokenByTokenName(chainId, 'cybercredit'), CyberCreditABI);
-                        function getDataHash(amount, recipient)
-                        {
-                            const data = '0x' +
-                            ethers.utils.hexZeroPad(ethers.utils.bigNumberify(expandDecimals(amount)).toHexString(), 32).substr(2) +   
-                            ethers.utils.hexZeroPad(ethers.utils.hexlify((recipient.length - 2)/2), 32).substr(2) +   
-                            recipient.substr(2);                   
+        var garbiBridgeAbi = new $.GARBI_BRIDGE_ABI();
+        var coreHelper = new $.Core();
+        var configHelper = new $.CONFIG();
+        var contractBaseHelper = new $.CONTRACTBASE();
+        var garbiBridgeConfig = new $.GARBI_BRIDGE_CONFIG();
+        var garbiBridge = new $.GARBI_BRIDGE();
+        var chainId = 421613;
+        $('.alert-banner').hide();
+        if (typeof window.ethereum !== 'undefined') {
+            const web3 = new Web3(window.ethereum);
+            window.ethereum.enable();
+            web3.eth.getChainId()
+            .then(chainId => {
+                if (chainId !== 42161) {
+                $('.alert-banner').show();
+                }
+                else {
+                $('.alert-banner').hide();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        } else {
+            console.log("Metamask not found");
+        }
+        $(document).ready(function () {
+            garbiBridgeAbi.init({});
+            coreHelper.init({});
+            configHelper.init({});
 
-                            return data;
-                        }
-                        const expandDecimals = (amount, decimals = 18) => {
-                            return ethers.utils.parseUnits(String(amount), decimals);
-                        }
-                        $('.button-move-funds').click(function() {
-                            let userWallet = coreHelper.getUserAccount();
-                            let userInputAsset = $('.stable-swap-pay .swap__form-input').val();
-                            contractCyberCreditRead.methods.allowance(userWallet, '0x6DbB578ca9145229Abb109685d13FA12B8db6273').call().then(function(result){
-                                let userAllowceValue = result / (10**18);
-                                if (userAllowceValue < userInputAsset) { //need approve
-                                    $('.button-approve').show();
-                                } else {
-                                    let data = getDataHash(userInputAsset, userWallet );
-                                    let contractBridgeWrite = contractBaseHelper.getMainContract(_contractsObj['garbiBridge']['contract'], BridgeABI);
-                                    contractBridgeWrite.methods
-                                    .deposit(1,'0x0000000000000000000000a55cb2d81e01773866f300c3d1c6fd7574cfa24500',data)
-                                    .send({
-                                        from: userWallet,value:0
-                                    })
-                                    .on('transactionHash', (hash) => {
-                                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-                                    })
-                                    .on('confirmation', (confirmationNumber, receipt) => {
-                                        coreHelper.hidePopup('confirm-popup', 0);
-                                        coreHelper.showPopup('success-confirm-popup');
-                                        coreHelper.hidePopup('success-confirm-popup', 10000);
-                                    })
-                                    .on('receipt', (receipt) => {
-                                        coreHelper.hidePopup('confirm-popup', 0);
-                                        coreHelper.showPopup('success-confirm-popup');
-                                        coreHelper.hidePopup('success-confirm-popup', 10000);
-                                        console.log(receipt);
-                                    })
-                                    .on('error', (err, receipt) => {
-                                        console.log(err);
-                                    });
-                                }
-                            })
-                                    
-                        });
-                        $('.button-approve').click(function(){
-                            let userAssetContract = contractBaseHelper.getMainContract(configHelper.getTokenByTokenName(chainId, 'cybercredit'), CyberCreditABI);
-                            userAssetContract.methods
-                            .approve(
-                                    '0x6dbb578ca9145229abb109685d13fa12b8db6273',
-                                    coreHelper.getAmountAllow()
-                                    )
-                            .send({
-                                from: userWallet
-                            })
-                            .on('transactionHash', (hash) => {
-                                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-                            })
-                            .on('confirmation', (confirmationNumber, receipt) => {
-                                $('.button-approve').hide();
-                                coreHelper.hidePopup('confirm-popup', 0);
-                                coreHelper.showPopup('success-confirm-popup');
-                                coreHelper.hidePopup('success-confirm-popup', 10000);
-                            })
-                            .on('receipt', (receipt) => {
-                                coreHelper.hidePopup('confirm-popup', 0);
-                                coreHelper.showPopup('success-confirm-popup');
-                                coreHelper.hidePopup('success-confirm-popup', 10000);
-                            })
-                            .on('error', (err, receipt) => {
-                                console.log(err);
-                            });
-                        })
-                    });
+            contractBaseHelper.init({
+                chainId
+            });
+
+            // bridge
+            garbiBridgeConfig.init({});
+            garbiBridge.init({
+                chainId,
+            });
+            garbiBridge.LoadData();
+
+            $('.button-move-funds').click(function() 
+            {
+                garbiBridge.Bridge();
+            })
+        });
     </script>
 </html>

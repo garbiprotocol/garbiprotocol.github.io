@@ -1,22 +1,26 @@
 $.CONTRACTBASE = function() {
 };
 $.CONTRACTBASE.prototype = (function() {
-	var setting = {
+        var setting = {
                 chainId: 42161
         };
         var _readContracts = {};
-	return {
-		init: function(options) {
-			if (typeof options === "undefined" || options.length < 1) {
-				return false;
-			}
-			setting = $.extend({}, setting, options);
-		},
+        return {
+                init: function(options) {
+                        if (typeof options === "undefined" || options.length < 1) {
+                                return false;
+                        }
+                        setting = $.extend({}, setting, options);
+                },
                 getWeb3ToReadData(_chainId = null) {
                         _chainId = _chainId ? _chainId : setting.chainId;
                         let bscRpcEndPoint = 'https://arb-mainnet.g.alchemy.com/v2/eAgGBBNJUIxmvqkKrNl2-nhRB6Q_UJk-';
-                        if (_chainId != 42161) {
+                        if (_chainId == 421613) {
                                 bscRpcEndPoint = 'https://arb-goerli.g.alchemy.com/v2/EjDT3kxi1iFQMt16rz9BvNb7fTRnjc28';
+                        }
+                        if(_chainId == 42170)
+                        {
+                                bscRpcEndPoint = 'https://nova.arbitrum.io/rpc';
                         }
                         return new Web3(bscRpcEndPoint);
                 },
@@ -29,12 +33,12 @@ $.CONTRACTBASE.prototype = (function() {
                         return _readContracts[_addr];
                 },
                 getMainContract(_addr, _abi) {
-			let _provider = this.getProvider();
-			let _web3 = new Web3(_provider);
+                        let _provider = this.getProvider();
+                        let _web3 = new Web3(_provider);
                         return new _web3.eth.Contract(_abi, _addr);
                 },
-		getProvider() {
-			return window.ethereum;
-		}
-	};
+                getProvider() {
+                        return window.ethereum;
+                }
+        };
 }(jQuery));
