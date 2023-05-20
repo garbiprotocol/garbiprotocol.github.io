@@ -203,7 +203,7 @@ $.GARBI_BRIDGE.prototype = (function()
 
         GetNameNetworkDeposit()
         {
-            return $('select[name=from]').val();
+            return $('select[name=network-from]').val();
         },
 
         GetNameTokenBridge()

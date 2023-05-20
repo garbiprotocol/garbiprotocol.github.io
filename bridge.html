@@ -251,7 +251,7 @@
                                     <div class="swap__form-item mb-1">
                                         <div class="row">
                                             <div class="col-12">
-                                                <select class="selectpicker swap__form-select mb-1" name="from">
+                                                <select class="selectpicker swap__form-select mb-1" name="network-from">
                                                     <option
                                                         value="ArbitrumGoerli"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
@@ -261,13 +261,13 @@
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
                                                         >Arbitrum Nova</option>
                                                 </select>
-                                                <select class="selectpicker swap__form-select mb-1" name="to">
+                                                <select class="selectpicker swap__form-select mb-1" name="token-from">
                                                     <option
                                                         value="cyberCredit"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>CyberCredit</div>"
                                                         >CyberCredit</option>
                                                     <option
-                                                        value="usdt"
+                                                        value="veGRB"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
                                                         >veGRB</option>
                                                 </select>
@@ -290,29 +290,22 @@
                                     <div class="swap__form-item stable-swap-out">
                                         <div class="row">
                                             <div class="col-12">
-                                                <select class="selectpicker swap__form-select mb-1" name="to">
+                                                <select class=" selectpicker swap__form-select mb-1" name="network-to">
                                                     <option
-                                                        value=""
+                                                        value="toNova"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
                                                         >Arbitrum Nova</option>
                                                     <option
-                                                        value=""
+                                                        value="toOne"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
                                                         >Arbitrum One</option>
                                                 </select>
-                                                <select class="selectpicker swap__form-select mb-1" name="to">
-                                                    <option
-                                                        value=""
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>CyberCredit</div>"
-                                                        >CyberCredit</option>
-                                                    <option
-                                                        value=""
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
-                                                        >veGRB</option>
-                                                </select>
-                                                
+                                                <div class="token mb-1">
+                                                    <div id="cyber-credit" class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>CyberCredit</div>
+                                                    <div id="veGRB" class='swap__form-item-select' style="display: none;"><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>
+                                                </div>                               
                                             </div>
-                                            <div class="col-12">
+                                            <div class="col-12 ">
                                                 <div class="row">
                                                     <div class="col-5 d-flex align-items-center">
                                                          <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
@@ -493,7 +486,21 @@
             garbiBridge.init({
                 chainId,
             });
-            garbiBridge.LoadData();
+            garbiBridge.LoadData();           
+            $('select[name="token-from"]').change(function() {
+                let selectedValue = $('select[name="token-from"]').val();
+                if (selectedValue === 'cyberCredit') {          
+                    $('#cyber-credit').show();
+                    $('#veGRB').hide();
+                } else if (selectedValue === 'veGRB') { 
+                    $('#veGRB').show();
+                    $('#cyber-credit').hide();             
+                }
+            });
+            $('#bridge-form .selectpicker').change(function () {
+                $('.stable-swap-pay .user-from-bal').text("Loading");
+                $('.stable-swap-out .user-to-bal').text("Loading");
+            });
             setInterval(function () {
                 let userInputAsset = $('.stable-swap-pay .swap__form-input').val();
                 $('.stable-swap-out .swap__form-input').val(userInputAsset);
