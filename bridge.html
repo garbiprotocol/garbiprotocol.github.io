@@ -446,12 +446,15 @@
 
     </body>
     <script>
+        var abiHelper = new $.ABI();
         var garbiBridgeAbi = new $.GARBI_BRIDGE_ABI();
         var coreHelper = new $.Core();
         var configHelper = new $.CONFIG();
         var contractBaseHelper = new $.CONTRACTBASE();
+        var storeHelper = new $.STORE();
         var garbiBridgeConfig = new $.GARBI_BRIDGE_CONFIG();
         var garbiBridge = new $.GARBI_BRIDGE();
+        var dataHelper = new $.DATA();
         var chainId = 421613;
         $('.alert-banner').hide();
         if (typeof window.ethereum !== 'undefined') {
@@ -473,35 +476,48 @@
             console.log("Metamask not found");
         }
         $(document).ready(function () {
+            abiHelper.init({});
             garbiBridgeAbi.init({});
             coreHelper.init({});
             configHelper.init({});
-
+            storeHelper.init({});
             contractBaseHelper.init({
                 chainId
             });
-
+            dataHelper.init({
+                chainId
+            });
             // bridge
             garbiBridgeConfig.init({});
             garbiBridge.init({
                 chainId,
             });
-            garbiBridge.LoadData();           
-            $('select[name="token-from"]').change(function() {
-                let selectedValue = $('select[name="token-from"]').val();
-                if (selectedValue === 'cyberCredit') {          
+            garbiBridge.LoadData();        
+            let userAssetBalances = storeHelper.getValue('balanceOf');
+            let userSelectedTokenFrom = $('select[name="token-from"]').val();
+            let userSelectedTokenTo = $('select[name="token-from"]').val();
+            $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenFrom).toLowerCase()]);
+            $('select[name="token-from"]').change(function() {              
+                let userSelectedTokenFrom = $('select[name="token-from"]').val();
+                let userSelectedTokenTo = $('select[name="token-from"]').val();
+                if (userSelectedTokenFrom === 'cyberCredit') {          
                     $('#cyber-credit').show();
                     $('#veGRB').hide();
-                } else if (selectedValue === 'veGRB') { 
+                } else if (userSelectedTokenFrom === 'veGRB') { 
                     $('#veGRB').show();
                     $('#cyber-credit').hide();             
                 }
+                
             });
-            $('#bridge-form .selectpicker').change(function () {
-                $('.stable-swap-pay .user-from-bal').text("Loading");
-                $('.stable-swap-out .user-to-bal').text("Loading");
+            $('.stable-swap-pay .user-from-bal').click(function() {
+                let userBalance = parseFloat($(this).text());
+                $('.stable-swap input[name=amountIn]').val(userBalance);
             });
             setInterval(function () {
+                let userAssetBalances = storeHelper.getValue('balanceOf');
+                let userSelectedTokenFrom = $('select[name="token-from"]').val();
+                let userSelectedTokenTo = $('select[name="token-from"]').val();
+                $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenFrom).toLowerCase()]);
                 let userInputAsset = $('.stable-swap-pay .swap__form-input').val();
                 $('.stable-swap-out .swap__form-input').val(userInputAsset);
             }, 1000);        

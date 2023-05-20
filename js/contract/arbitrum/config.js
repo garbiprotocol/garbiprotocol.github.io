@@ -441,8 +441,6 @@ $.CONFIG.prototype = (function() {
             'arb' : '0x912ce59144191c1204e64559fe8253a0e49e6548'
         },
         421613: {//arbitrum testnet
-            'grb': '0xd1eb8a5798e04703ec5324c99405f581bd6318b8',
-            'vegrb': '0xcf7d3a1ff5188a0d398cf8181b8bdc051204f8da',
             'weth': '0xE0EcA46EA3308E8184e3b462b8A722F93A8F6F27',
             'usdc': '0x29680BD5F3f324001Add9229d6B44615353f554c',
             'usdt': '0x2E4e7eBfF934B6999BDc2983F17F6bd4b6A84206',
@@ -450,6 +448,11 @@ $.CONFIG.prototype = (function() {
             'gec': '0x965782738c1acca851104444bda0a03ee68355dc',
             'arb' : '0x9a3D8d53881f33a1f190076c828cCe4C0b399476',
             'cybercredit': '0xA55cb2d81E01773866F300C3d1c6fD7574Cfa245',
+            'vegrb': '0xD912cca034056115900F87C2DB8eF1a6B1a89143',
+            'grb': '0x570A6cFA0e11f0Db8594E6a74B9106d5F21151C0',
+        },
+        42170: {//arbitrum nova
+            'cybercredit': "0x3C2A3AfDbA1f64A83Cfe9350769D401Fd22ef74D",
         }
     }
     var TOKENS_DECIMAL = {
