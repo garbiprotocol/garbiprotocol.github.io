@@ -518,12 +518,11 @@
         async function run () {
             let userAssetBalances = storeHelper.getValue('balanceOf');
             let userSelectedTokenFrom = garbiBridge.GetNameTokenBridge();
-            let networkRecieve = garbiBridge.GetNetworkRecieve();
+            let networkRecieve = $('select[name=network-to]').val();
             let selectNetwork = $('select[name=network-from]').val();
             let user = garbiBridge.GetWalletAddress();
             let tokenDeposit = garbiBridge.GetNameTokenBridge();
-            let curBalanceRecieve = await garbiBridge.GetBalance(selectNetwork, tokenDeposit, user);
-            console.log(curBalanceRecieve);
+            let curBalanceRecieve = await garbiBridge.GetBalance(networkRecieve, tokenDeposit, user);
             $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenFrom).toLowerCase()]);
             $('select[name="token-from"]').change(function() {        
                 if (userSelectedTokenFrom === 'cyberCredit') {          
@@ -542,8 +541,7 @@
                 let userSelectedTokenFrom = garbiBridge.GetNameTokenBridge();
                 let userInputAsset = garbiBridge.GetAmountInputBridge();
                 $('.stable-swap-out .swap__form-input').val(userInputAsset);
-                let newBalanceRecive = await garbiBridge.GetBalance(selectNetwork, tokenDeposit, user);
-                console.log(newBalanceRecive);
+                let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, tokenDeposit, user);
                 if (newBalanceRecive != curBalanceRecieve) {
                     $('#token-bridge .bridge-success').show();
                     $('#token-bridge .wait-bridge').hide();
