@@ -334,8 +334,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" class="header__btn-connect w-100 text-center button-move-funds">Move funds</button>
                                 <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-top: 10px;">Approve</button>
+                                <button type="button" class="header__btn-connect w-100 text-center button-move-funds">Move funds</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="token-bridge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                   <div class="modal-dialog modal-dialog-centered">
@@ -512,19 +512,31 @@
             garbiBridge.init({
                 chainId,
             });
-            garbiBridge.LoadData();
             run();       
         });
         async function run () {
-            let userAssetBalances = storeHelper.getValue('balanceOf');
-            let userSelectedTokenFrom = garbiBridge.GetNameTokenBridge();
+            let userAddr = coreHelper.getUserAccount();
             let networkRecieve = $('select[name=network-to]').val();
             let selectNetwork = $('select[name=network-from]').val();
-            let user = garbiBridge.GetWalletAddress();
-            let tokenDeposit = garbiBridge.GetNameTokenBridge();
-            let curBalanceRecieve = await garbiBridge.GetBalance(networkRecieve, tokenDeposit, user);
-            $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenFrom).toLowerCase()]);
-            $('select[name="token-from"]').change(function() {        
+            let selectToken = $('select[name=token-from]').val();
+            let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork , selectToken , userAddr);
+            let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
+            
+            garbiBridge.SwichNetworkDeposit(selectNetwork);
+            $('.stable-swap-pay .user-from-bal').text(userSelectNetworkBalance/1e18);
+            $('.stable-swap-pay .user-to-bal').text(userNetworkRecieveBalance/1e18);
+
+            $('select[name=network-from]').change(async function() {
+                let selectNetwork = $('select[name=network-from]').val();
+                garbiBridge.SwichNetworkDeposit(selectNetwork);
+            });
+            $('select[name=network-to]').change(async function() {
+                let networkRecieve = $('select[name=network-to]').val();
+                let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
+                $('.stable-swap-pay .user-to-bal').text(userNetworkRecieveBalance/1e18);
+            });
+
+            $('select[name="token-from"]').change(async function() {        
                 if (userSelectedTokenFrom === 'cyberCredit') {          
                     $('#cyber-credit').show();
                     $('#veGRB').hide();
@@ -533,24 +545,63 @@
                     $('#cyber-credit').hide();             
                 }           
             });
+
             $('.stable-swap-pay .user-from-bal').click(function() {
                 let userBalance = parseFloat($(this).text());
                 $('.stable-swap input[name=amountIn]').val(userBalance);
             });
+
+
             setInterval(async function () {
-                let userSelectedTokenFrom = garbiBridge.GetNameTokenBridge();
-                let userInputAsset = garbiBridge.GetAmountInputBridge();
-                $('.stable-swap-out .swap__form-input').val(userInputAsset);
-                let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, tokenDeposit, user);
-                if (newBalanceRecive != curBalanceRecieve) {
+                let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
+                let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork , selectToken , userAddr);
+                if (userInputValue > userSelectNetworkBalance/1e18) {
+                    $('.button-move-funds').addClass("disable");
+                }
+                else {
+                    $('.button-move-funds').removeClass("disable");
+                }
+                $('.stable-swap-out .swap__form-input').val(userInputValue);
+            },1000);
+            setInterval(async function () {
+                let selectNetwork = $('select[name=network-from]').val();
+                let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork , selectToken , userAddr);
+                $('.stable-swap-pay .user-from-bal').text(userSelectNetworkBalance/1e18);
+                let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
+
+                if (newBalanceRecive != userNetworkRecieveBalance) {
                     $('#token-bridge .bridge-success').show();
                     $('#token-bridge .wait-bridge').hide();
                 }
-            }, 1000);        
-            $('.button-move-funds').click(function() 
+                else {
+                    $('#token-bridge .bridge-success').hide();
+                    $('#token-bridge .wait-bridge').show();
+                }
+            }, 3000);   
+
+            $('.button-move-funds').click(async function() 
             {
-                garbiBridge.Bridge();
+                let userAddr = coreHelper.getUserAccount();
+                let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
+                let selectNetwork = $('select[name=network-from]').val();
+                let networkRecieve = $('select[name=network-to]').val();
+                let selectToken = $('select[name=token-from]').val();
+                let checkAllowanceToken = await garbiBridge.GetAllowanceOfTokenDepositToERC20Handle(selectNetwork, selectToken);
+
+                if (userInputValue > checkAllowanceToken/1e18) {
+                    $('.button-approve').show()
+                }
+                else {
+                    garbiBridge.Bridge(selectNetwork, networkRecieve, selectToken, userInputValue);
+                }
             })
+            $('.button-approve').click(async function() {
+                let userAddr = coreHelper.getUserAccount();
+                let selectNetwork = $('select[name=network-from]').val();
+                let selectToken = $('select[name=token-from]').val();
+
+                garbiBridge.ApproveTokenDepositToERC20Handle(selectNetwork, selectToken);
+            });
         }
     </script>
 </html>

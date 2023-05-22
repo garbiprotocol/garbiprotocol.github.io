@@ -76,11 +76,11 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
         },
     };
 
-    const bridgePair = 
+    const bridgeToNetwork = 
     {
         ArbitrumOne:
         {
-            destinationDomainID: "",
+            domainID: "",
             resourceID: 
             {
                 cyberCredit: "",
@@ -91,7 +91,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
 
         ArbitrumGoerli:
         {
-            destinationDomainID: "2",
+            domainID: "1",
             resourceID: 
             {
                 cyberCredit: "0x0000000000000000000000a55cb2d81e01773866f300c3d1c6fd7574cfa24500",
@@ -102,7 +102,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
 
         ArbitrumNova:
         {
-            destinationDomainID: "1",
+            domainID: "2",
             resourceID: 
             {
                 cyberCredit: "0x0000000000000000000000a55cb2d81e01773866f300c3d1c6fd7574cfa24500",
@@ -145,9 +145,9 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
             return token[chainName][tokenName];
         },
 
-        GetBridgePairByNetworkName(chainName)
+        GetBridgeToNetworkByNetworkName(chainName)
         {
-            return bridgePair[chainName];
+            return bridgeToNetwork[chainName];
         }
         
     }

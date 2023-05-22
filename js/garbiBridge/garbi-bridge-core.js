@@ -14,53 +14,18 @@ $.GARBI_BRIDGE.prototype = (function()
             setting = $.extend({}, setting, options);
         },
 
-        LoadData()
-        {
-            let self = this;
-            try 
-            {
-                self.SwichNetworkDeposit();
-                self,this.GetBalanceToken();
-                return self.ReloadData();
-            }
-            catch (e) 
-            {
-                return self.ReloadData();
-            }
-        },
-
-        ReloadData()
-        {
-            let self = this;
-            setTimeout(function() {
-                self.LoadData();
-            }, 3000);
-        },
-
-        async Bridge()
+        async Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge)
         {
             let self = this;
             let user = self.GetWalletAddress();
-            let selectNetwork = self.GetNameNetworkDeposit();
-            let selectToken = self.GetNameTokenBridge();
             
-            let amountInputBridge = self.GetAmountInputBridge();
-            if(amountInputBridge == '') return;
-
-            let allowanceToErc20Handle = await self.GetAllowanceOfERC20Handle(selectNetwork, selectToken);
-            
-            if(allowanceToErc20Handle/1e18 < amountInputBridge)
-            {
-                self.ApproveTokenDepositToERC20Handle(selectNetwork, selectToken);
-            }
-
-            let bridgePair = garbiBridgeConfig.GetBridgePairByNetworkName(selectNetwork);
-            let destinationDomainID = bridgePair.destinationDomainID;
-            let resourceID = bridgePair.resourceID[selectToken];
+            let bridgeToNetwork = garbiBridgeConfig.GetBridgeToNetworkByNetworkName(networkRecieve);
+            let destinationDomainID = bridgeToNetwork.domainID;
+            let resourceID = bridgeToNetwork.resourceID[tokenDeposit];
 
             let dataDeposit = self.ConvertDataDepositToBytes(amountInputBridge, user);
             
-            let contractConfig = garbiBridgeConfig.GetContractAddressByNetworkName(selectNetwork);
+            let contractConfig = garbiBridgeConfig.GetContractAddressByNetworkName(networkDeposit);
             let brideContractAddress = contractConfig.bridgeContract;
             let bridgeAbi = garbiBridgeAbi.GetBridgeContractABI();
 
@@ -90,23 +55,7 @@ $.GARBI_BRIDGE.prototype = (function()
             });
         },
 
-        async GetBalanceToken()
-        {
-            let self = this;
-            let user = self.GetWalletAddress();
-            let selectNetwork = self.GetNameNetworkDeposit();
-            let networkRecieve = self.GetNetworkRecieve();
-
-            let tokenDeposit = self.GetNameTokenBridge();
-
-            let balanceTokenDeposit = await self.GetBalance(selectNetwork, tokenDeposit, user);
-            let balanceTokenRecieve = await self.GetBalance(networkRecieve, tokenDeposit, user);
-
-            $('.stable-swap-pay .user-from-bal').text((balanceTokenDeposit/1e18));
-            $('.stable-swap-pay .user-to-bal').text((balanceTokenRecieve/1e18));
-        },
-
-        async GetAllowanceOfERC20Handle(chainName, tokenName)
+        async GetAllowanceOfTokenDepositToERC20Handle(chainName, tokenName)
         {
             let self = this;
             let user = self.GetWalletAddress();
@@ -124,10 +73,9 @@ $.GARBI_BRIDGE.prototype = (function()
             self.ApproveERC20(chainName, tokenName, user, erc20HandleAddress);
         },
 
-        async SwichNetworkDeposit()
+        async SwichNetworkDeposit(selectNetwork)
         {   
             let self = this;
-            let selectNetwork = self.GetNameNetworkDeposit();
             let networkDeposit = garbiBridgeConfig.GetNetworkByNetworkName(selectNetwork);
 
             let checkNetwork = await self.IsValidNode(networkDeposit.chainId);
@@ -221,6 +169,7 @@ $.GARBI_BRIDGE.prototype = (function()
                 coreHelper.hidePopup('success-confirm-popup', 10000);
             })
             .on('receipt', (receipt) => {
+                $('.button-approve').hide();
                 coreHelper.hidePopup('confirm-popup', 0);
                 coreHelper.showPopup('success-confirm-popup');
                 coreHelper.hidePopup('success-confirm-popup', 10000);
@@ -228,26 +177,6 @@ $.GARBI_BRIDGE.prototype = (function()
             .on('error', (err, receipt) => {
                 console.log(err);
             });
-        },
-
-        GetNameNetworkDeposit()
-        {
-            return $('select[name=network-from]').val();
-        },
-
-        GetNetworkRecieve()
-        {
-            return $('select[name=network-to]').val();
-        },
-
-        GetNameTokenBridge()
-        {
-            return "cyberCredit"; // get token option in UI;
-        },
-
-        GetAmountInputBridge()
-        {
-            return $('input[name=amountIn]').val();
         },
 
         ConvertDataDepositToBytes(amount, recipient)
