@@ -247,6 +247,9 @@
                     <div class="row">
                         <div class="col-lg-6 col-sm-12">
                             <article class="swap__main garbi__box-1 p-3 mb-3 stable-swap" id="bridge-form">
+                                <div class="d-flex align-items-center justify-content-between mb-14">
+                                    <div class="f-700">Bridge</div>
+                                </div>
                                 <div class="swap__form pb-1 stable-swap-pay">
                                     <div class="swap__form-item mb-1">
                                         <div class="row">
@@ -333,6 +336,23 @@
                                 </div>
                                 <button type="button" class="header__btn-connect w-100 text-center button-move-funds">Move funds</button>
                                 <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-top: 10px;">Approve</button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="token-bridge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Bridge</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <div class="description">
+                                            <p class="wait-bridge">Your tokens are being transferred to a new network. Please wait for the conversion to complete.</p>
+                                            <p class="bridge-success" style="display:none;">Bridge Success</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
 
                             </article>
                         </div>
@@ -492,9 +512,18 @@
             garbiBridge.init({
                 chainId,
             });
-            garbiBridge.LoadData();        
+            garbiBridge.LoadData();
+            run();       
+        });
+        async function run () {
             let userAssetBalances = storeHelper.getValue('balanceOf');
             let userSelectedTokenFrom = garbiBridge.GetNameTokenBridge();
+            let networkRecieve = garbiBridge.GetNetworkRecieve();
+            let selectNetwork = $('select[name=network-from]').val();
+            let user = garbiBridge.GetWalletAddress();
+            let tokenDeposit = garbiBridge.GetNameTokenBridge();
+            let curBalanceRecieve = await garbiBridge.GetBalance(selectNetwork, tokenDeposit, user);
+            console.log(curBalanceRecieve);
             $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenFrom).toLowerCase()]);
             $('select[name="token-from"]').change(function() {        
                 if (userSelectedTokenFrom === 'cyberCredit') {          
@@ -509,15 +538,21 @@
                 let userBalance = parseFloat($(this).text());
                 $('.stable-swap input[name=amountIn]').val(userBalance);
             });
-            setInterval(function () {
+            setInterval(async function () {
                 let userSelectedTokenFrom = garbiBridge.GetNameTokenBridge();
                 let userInputAsset = garbiBridge.GetAmountInputBridge();
                 $('.stable-swap-out .swap__form-input').val(userInputAsset);
+                let newBalanceRecive = await garbiBridge.GetBalance(selectNetwork, tokenDeposit, user);
+                console.log(newBalanceRecive);
+                if (newBalanceRecive != curBalanceRecieve) {
+                    $('#token-bridge .bridge-success').show();
+                    $('#token-bridge .wait-bridge').hide();
+                }
             }, 1000);        
             $('.button-move-funds').click(function() 
             {
                 garbiBridge.Bridge();
             })
-        });
+        }
     </script>
 </html>

@@ -78,6 +78,7 @@ $.GARBI_BRIDGE.prototype = (function()
                 coreHelper.hidePopup('success-confirm-popup', 10000);
             })
             .on('receipt', (receipt) => {
+                $('#token-bridge').modal('show');
                 coreHelper.hidePopup('confirm-popup', 0);
                 coreHelper.showPopup('success-confirm-popup');
                 coreHelper.hidePopup('success-confirm-popup', 10000);
