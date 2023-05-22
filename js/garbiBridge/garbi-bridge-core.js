@@ -20,6 +20,7 @@ $.GARBI_BRIDGE.prototype = (function()
             try 
             {
                 self.SwichNetworkDeposit();
+                self,this.GetBalanceToken();
                 return self.ReloadData();
             }
             catch (e) 
@@ -33,7 +34,7 @@ $.GARBI_BRIDGE.prototype = (function()
             let self = this;
             setTimeout(function() {
                 self.LoadData();
-            }, 5000);
+            }, 3000);
         },
 
         async Bridge()
@@ -86,6 +87,22 @@ $.GARBI_BRIDGE.prototype = (function()
             .on('error', (err, receipt) => {
                 console.log(err);
             });
+        },
+
+        async GetBalanceToken()
+        {
+            let self = this;
+            let user = self.GetWalletAddress();
+            let selectNetwork = self.GetNameNetworkDeposit();
+            let networkRecieve = self.GetNetworkRecieve();
+
+            let tokenDeposit = self.GetNameTokenBridge();
+
+            let balanceTokenDeposit = await self.GetBalance(selectNetwork, tokenDeposit, user);
+            let balanceTokenRecieve = await self.GetBalance(networkRecieve, tokenDeposit, user);
+
+            $('.stable-swap-pay .user-from-bal').text((balanceTokenDeposit/1e18));
+            $('.stable-swap-pay .user-to-bal').text((balanceTokenRecieve/1e18));
         },
 
         async GetAllowanceOfERC20Handle(chainName, tokenName)
@@ -163,11 +180,22 @@ $.GARBI_BRIDGE.prototype = (function()
             let self = this;
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
             let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();
-            let chainId = await self.GetChainId();
+            let chainId = await self.GetChainIdToMain();
             let contract = contractBaseHelper.getReadContract(tokenAddress, tokenAbi, chainId);
 
             let result = await contract.methods.allowance(owner, spender).call();
 
+            return result;
+        },
+
+        async GetBalance(chainName, tokenName, user)
+        {
+            let chainId = garbiBridgeConfig.GetChainIdByNetworkNameToRead(chainName);
+            let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
+            let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();
+            let contract = contractBaseHelper.getReadContract(tokenAddress, tokenAbi, chainId);
+
+            let result = await contract.methods.balanceOf(user).call();
             return result;
         },
 
@@ -177,7 +205,7 @@ $.GARBI_BRIDGE.prototype = (function()
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
             let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();
             let amountDefault = coreHelper.getAmountAllow();
-            let chainId = await self.GetChainId();
+            let chainId = await self.GetChainIdToMain();
 
             let contract = contractBaseHelper.getMainContract(tokenAddress, tokenAbi, chainId);
             contract.methods.approve(spender, amountDefault)
@@ -206,9 +234,14 @@ $.GARBI_BRIDGE.prototype = (function()
             return $('select[name=network-from]').val();
         },
 
+        GetNetworkRecieve()
+        {
+            return $('select[name=network-to]').val();
+        },
+
         GetNameTokenBridge()
         {
-            return "cyberCredit"; // get token option in UI; 
+            return "cyberCredit"; // get token option in UI;
         },
 
         GetAmountInputBridge()
@@ -241,7 +274,7 @@ $.GARBI_BRIDGE.prototype = (function()
         async IsValidNode(chainIdNetworkDeposit)
         {
             let self = this;
-            let chainIdActive = await self.GetChainId();
+            let chainIdActive = await self.GetChainIdToMain();
             if(chainIdActive != chainIdNetworkDeposit) 
             {
                 return false;
@@ -249,7 +282,7 @@ $.GARBI_BRIDGE.prototype = (function()
             return true;
         },
 
-        async GetChainId()
+        async GetChainIdToMain()
         {
             let chainId = await web3.currentProvider.request({ method: 'eth_chainId'});
 

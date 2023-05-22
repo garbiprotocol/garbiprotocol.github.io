@@ -125,6 +125,11 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
             return network[chainName];
         },
 
+        GetChainIdByNetworkNameToRead(chainName)
+        {
+            return network[chainName].chainId;
+        },
+
         GetContractAddressByNetworkName(chainName)
         {
             return contract[chainName];

@@ -292,11 +292,11 @@
                                             <div class="col-12">
                                                 <select class=" selectpicker swap__form-select mb-1" name="network-to">
                                                     <option
-                                                        value="toNova"
+                                                        value="ArbitrumNova"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
                                                         >Arbitrum Nova</option>
                                                     <option
-                                                        value="toOne"
+                                                        value="ArbitrumGoerli"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
                                                         >Arbitrum One</option>
                                                 </select>
@@ -494,31 +494,24 @@
             });
             garbiBridge.LoadData();        
             let userAssetBalances = storeHelper.getValue('balanceOf');
-            let userSelectedTokenFrom = $('select[name="token-from"]').val();
-            let userSelectedTokenTo = $('select[name="token-from"]').val();
+            let userSelectedTokenFrom = garbiBridge.GetNameTokenBridge();
             $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenFrom).toLowerCase()]);
-            $('select[name="token-from"]').change(function() {              
-                let userSelectedTokenFrom = $('select[name="token-from"]').val();
-                let userSelectedTokenTo = $('select[name="token-from"]').val();
+            $('select[name="token-from"]').change(function() {        
                 if (userSelectedTokenFrom === 'cyberCredit') {          
                     $('#cyber-credit').show();
                     $('#veGRB').hide();
                 } else if (userSelectedTokenFrom === 'veGRB') { 
                     $('#veGRB').show();
                     $('#cyber-credit').hide();             
-                }
-                
+                }           
             });
             $('.stable-swap-pay .user-from-bal').click(function() {
                 let userBalance = parseFloat($(this).text());
                 $('.stable-swap input[name=amountIn]').val(userBalance);
             });
             setInterval(function () {
-                let userAssetBalances = storeHelper.getValue('balanceOf');
-                let userSelectedTokenFrom = $('select[name="token-from"]').val();
-                let userSelectedTokenTo = $('select[name="token-from"]').val();
-                $('.stable-swap-pay .user-from-bal').text(userAssetBalances[configHelper.getTokenByTokenName(chainId, userSelectedTokenFrom).toLowerCase()]);
-                let userInputAsset = $('.stable-swap-pay .swap__form-input').val();
+                let userSelectedTokenFrom = garbiBridge.GetNameTokenBridge();
+                let userInputAsset = garbiBridge.GetAmountInputBridge();
                 $('.stable-swap-out .swap__form-input').val(userInputAsset);
             }, 1000);        
             $('.button-move-funds').click(function() 
