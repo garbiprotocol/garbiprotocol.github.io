@@ -30,7 +30,7 @@ $.GARBI_BRIDGE.prototype = (function() {
 
             let brideContractAction = contractBaseHelper.getMainContract(brideContractAddress, bridgeAbi);
 
-
+            console.log({resourceID, destinationDomainID, dataDeposit});
             brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
                 .send({ from: user, value: 0 })
                 .on('transactionHash', (hash) => {

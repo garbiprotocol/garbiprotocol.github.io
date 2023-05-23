@@ -94,7 +94,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
             domainID: "1",
             resourceID: 
             {
-                cyberCredit: "0x0000000000000000000000a55cb2d81e01773866f300c3d1c6fd7574cfa24500",
+                cyberCredit: "0x000000000000000000000085cf9e2fe7eea7f362cfa940cc4bfbb4d05e1d0800",
                 vegrb: "",
                 grb: ""
             }
@@ -105,7 +105,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
             domainID: "2",
             resourceID: 
             {
-                cyberCredit: "0x0000000000000000000000a55cb2d81e01773866f300c3d1c6fd7574cfa24500",
+                cyberCredit: "0x000000000000000000000085cf9e2fe7eea7f362cfa940cc4bfbb4d05e1d0800",
                 vegrb: "",
                 grb: ""
             }

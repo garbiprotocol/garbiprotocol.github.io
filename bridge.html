@@ -565,6 +565,7 @@
 
 
             setInterval(async function () {
+                let selectNetwork = $('select[name=network-from]').val();
                 let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
                 let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork , selectToken , userAddr);
                 if (userInputValue > userSelectNetworkBalance/1e18) {
@@ -574,6 +575,7 @@
                     $('.button-move-funds').removeClass("disable");
                 }
                 $('.stable-swap-out .swap__form-input').val(userInputValue);
+                garbiBridge.SwichNetworkDeposit(selectNetwork);
             },1000);
             setInterval(async function () {
                 let selectNetwork = $('select[name=network-from]').val();
