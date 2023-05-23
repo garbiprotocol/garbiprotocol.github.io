@@ -36,8 +36,8 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
     {
         ArbitrumOne:
         {
-            bridgeContract: "",
-            erc20Handle: "",
+            bridgeContract: "0xaab127696990703c922ad4ccdd5838799e6ba265",
+            erc20Handle: "0x56ad41b541d1921e099c54ebf936987723b6cb5f",
         },
 
         ArbitrumGoerli:
@@ -80,10 +80,10 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
     {
         ArbitrumOne:
         {
-            domainID: "",
+            domainID: "3",
             resourceID: 
             {
-                cyberCredit: "",
+                cyberCredit: "0x000000000000000000000085cf9e2fe7eea7f362cfa940cc4bfbb4d05e1d0800",
                 vegrb: "",
                 grb: ""
             }

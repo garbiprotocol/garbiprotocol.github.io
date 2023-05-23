@@ -19,7 +19,7 @@ $.GARBI_BRIDGE.prototype = (function()
             let self = this;
             let user = self.GetWalletAddress();
             
-            let bridgeToNetwork = garbiBridgeConfig.GetBridgeToNetworkByNetworkName(networkRecieve);
+            let bridgeToNetwork = garbiBridgeConfig.GetBridgeToNetworkByNetworkName(networkDeposit);
             let destinationDomainID = bridgeToNetwork.domainID;
             let resourceID = bridgeToNetwork.resourceID[tokenDeposit];
 
@@ -30,6 +30,7 @@ $.GARBI_BRIDGE.prototype = (function()
             let bridgeAbi = garbiBridgeAbi.GetBridgeContractABI();
 
             let brideContractAction = contractBaseHelper.getMainContract(brideContractAddress, bridgeAbi);
+
 
             brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
             .send({from: user, value: 0})
