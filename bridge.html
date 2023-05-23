@@ -303,9 +303,17 @@
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
                                                         >Arbitrum One</option>
                                                 </select>
-                                                <div class="token mb-1">
-                                                    <div id="cyber-credit" class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>CyberCredit</div>
-                                                    <div id="veGRB" class='swap__form-item-select' style="display: none;"><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>
+                                                <div class="token">
+                                                    <select class="selectpicker swap__form-select mb-1" name="token-to" disabled>
+                                                        <option
+                                                            value="cyberCredit"
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>CyberCredit</div>"
+                                                            >CyberCredit</option>
+                                                        <option
+                                                            value="veGRB"
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
+                                                            >veGRB</option>
+                                                    </select>
                                                 </div>                               
                                             </div>
                                             <div class="col-12 ">
@@ -329,7 +337,7 @@
                                         </div>
                                         <div class="position-card__row__balance">
                                             <p class="body body--link ">
-                                                <span class="" style=""><span class="swap-fee">0</span>%</span>
+                                                <span class="" style=""><span class="swap-fee">1 </span>GRB</span>
                                             </p>
                                         </div>
                                     </div>
@@ -354,6 +362,15 @@
                                   </div>
                                 </div>
 
+                            </article>
+                            <article class="garbi__box-1 p-3 mb-3">
+                                <p class="f-700">Asset Pool</p>
+                                <div class="select-network-info">
+                                    <span class="select-chain">Loading</span>: <span class="value-pool"></span> <span class="token-select"></span>                                   
+                                </div>
+                                <div class="recieve-network-info">
+                                    <span class="recieve-chain">Loading</span>: <span class="value-pool"></span> <span class="token-select"></span>
+                                </div>
                             </article>
                         </div>
                          <div class="col-lg-6 col-sm-12">
@@ -536,14 +553,9 @@
                 $('.stable-swap-pay .user-to-bal').text(userNetworkRecieveBalance/1e18);
             });
 
-            $('select[name="token-from"]').change(async function() {        
-                if (userSelectedTokenFrom === 'cyberCredit') {          
-                    $('#cyber-credit').show();
-                    $('#veGRB').hide();
-                } else if (userSelectedTokenFrom === 'veGRB') { 
-                    $('#veGRB').show();
-                    $('#cyber-credit').hide();             
-                }           
+            $('select[name="token-from"]').on('change',async function() {    
+                let selectToken = $('select[name=token-from]').val();
+                $('select[name=token-to]').val(selectToken).selectpicker('refresh');                          
             });
 
             $('.stable-swap-pay .user-from-bal').click(function() {
@@ -565,8 +577,18 @@
             },1000);
             setInterval(async function () {
                 let selectNetwork = $('select[name=network-from]').val();
+                let selectToken = $('select[name=token-from]').val();
+                let networkRecieve = $('select[name=network-to]').val();
+                let selectNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(selectNetwork).chainName;
+                let recieveNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(networkRecieve).chainName;
+                let selectNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork);
+                let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
+                let selectTokenPool = await garbiBridge.GetBalance(selectNetwork , selectToken , selectNetworkerc20HandleAddress);
+                let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve , selectToken , recieveNetworkerc20HandleAddress);
                 let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork , selectToken , userAddr);
+                let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
                 $('.stable-swap-pay .user-from-bal').text(userSelectNetworkBalance/1e18);
+                $('.stable-swap-pay .user-to-bal').text(userNetworkRecieveBalance/1e18);
                 let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
 
                 if (newBalanceRecive != userNetworkRecieveBalance) {
@@ -577,6 +599,11 @@
                     $('#token-bridge .bridge-success').hide();
                     $('#token-bridge .wait-bridge').show();
                 }
+                $('.select-chain').text(selectNetworkName);
+                $('.recieve-chain').text(recieveNetworkName);
+                $('.token-select').text(selectToken);
+                $('.select-network-info .value-pool').text(selectTokenPool/1e18);
+                $('.recieve-network-info .value-pool').text(recieveTokenPool/1e18);
             }, 3000);   
 
             $('.button-move-funds').click(async function() 
@@ -601,6 +628,14 @@
                 let selectToken = $('select[name=token-from]').val();
 
                 garbiBridge.ApproveTokenDepositToERC20Handle(selectNetwork, selectToken);
+            });
+            $('.stable-swap-pay .btn-reverse-pair').click(function() {
+                $('.stable-swap-pay .user-from-bal').text("Loading");
+                $('.stable-swap-out .user-to-bal').text("Loading");
+                let from = $('select[name=network-from]').val();
+                let to = $('select[name=network-to]').val();
+                $('select[name=network-from]').selectpicker('val', to);
+                $('select[name=network-to]').selectpicker('val', from);
             });
         }
     </script>

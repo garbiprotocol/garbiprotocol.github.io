@@ -6,7 +6,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
         ArbitrumOne: 
         {
             chainId : 42161,
-            chainName : "Arbitrum One Mainet",
+            chainName : "Arbitrum One",
             currencySymbol: "ETH",
             rpcList: ['https://arb1.arbitrum.io/rpc'],
             blockExplorerUrls: ['https://arbiscan.io']
@@ -16,7 +16,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
         ArbitrumGoerli:
         {
             chainId : 421613,
-            chainName : "Arbitrum Goerli Testnet",
+            chainName : "Arbitrum Goerli",
             currencySymbol: "ETH",
             rpcList: ['https://goerli-rollup.arbitrum.io/rpc'],
             blockExplorerUrls: ['https://goerli.arbiscan.io/'],
@@ -25,7 +25,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function()
         ArbitrumNova:
         {
             chainId : 42170,
-            chainName : "Arbitrum Nova Mainet",
+            chainName : "Arbitrum Nova",
             currencySymbol: "ETH",
             rpcList: ['https://nova.arbitrum.io/rpc'],
             blockExplorerUrls: ['https://nova.arbiscan.io'],
