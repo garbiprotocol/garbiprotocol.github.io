@@ -267,8 +267,8 @@
                                                 <select class="selectpicker swap__form-select mb-1" name="token-from">
                                                     <option
                                                         value="cyberCredit"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>CyberCredit</div>"
-                                                        >CyberCredit</option>
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>Cyber Credit</div>"
+                                                        >Cyber Credit</option>
                                                     <option
                                                         value="veGRB"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
@@ -307,8 +307,8 @@
                                                     <select class="selectpicker swap__form-select mb-1" name="token-to" disabled>
                                                         <option
                                                             value="cyberCredit"
-                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>CyberCredit</div>"
-                                                            >CyberCredit</option>
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>Cyber Credit</div>"
+                                                            >Cyber Credit</option>
                                                         <option
                                                             value="veGRB"
                                                             data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
@@ -540,8 +540,8 @@
             let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
             
             garbiBridge.SwichNetworkDeposit(selectNetwork);
-            $('.stable-swap-pay .user-from-bal').text(userSelectNetworkBalance/1e18);
-            $('.stable-swap-pay .user-to-bal').text(userNetworkRecieveBalance/1e18);
+            $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance/1e18).toFixed(4));
+            $('.stable-swap-pay .user-to-bal').text((userNetworkRecieveBalance/1e18).toFixed(4));
 
             $('select[name=network-from]').change(async function() {
                 let selectNetwork = $('select[name=network-from]').val();
@@ -587,8 +587,8 @@
                 let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve , selectToken , recieveNetworkerc20HandleAddress);
                 let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork , selectToken , userAddr);
                 let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
-                $('.stable-swap-pay .user-from-bal').text(userSelectNetworkBalance/1e18);
-                $('.stable-swap-pay .user-to-bal').text(userNetworkRecieveBalance/1e18);
+                $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance/1e18).toFixed(4));
+                $('.stable-swap-pay .user-to-bal').text((userNetworkRecieveBalance/1e18).toFixed(4));
                 let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
 
                 if (newBalanceRecive != userNetworkRecieveBalance) {
@@ -602,8 +602,8 @@
                 $('.select-chain').text(selectNetworkName);
                 $('.recieve-chain').text(recieveNetworkName);
                 $('.token-select').text(selectToken);
-                $('.select-network-info .value-pool').text(selectTokenPool/1e18);
-                $('.recieve-network-info .value-pool').text(recieveTokenPool/1e18);
+                $('.select-network-info .value-pool').text((selectTokenPool/1e18).toFixed(4));
+                $('.recieve-network-info .value-pool').text((recieveTokenPool/1e18).toFixed(4));
             }, 3000);   
 
             $('.button-move-funds').click(async function() 
