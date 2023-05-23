@@ -256,7 +256,7 @@
                                             <div class="col-12">
                                                 <select class="selectpicker swap__form-select mb-1" name="network-from">
                                                     <option
-                                                        value="ArbitrumOne"
+                                                        value="ArbitrumGoerli"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
                                                         >Arbitrum One</option>
                                                     <option
@@ -299,7 +299,7 @@
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
                                                         >Arbitrum Nova</option>
                                                     <option
-                                                        value="ArbitrumOne"
+                                                        value="ArbitrumGoerli"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
                                                         >Arbitrum One</option>
                                                 </select>
@@ -343,7 +343,7 @@
                                     </div>
                                 </div>
                                 <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-top: 10px;">Approve</button>
-                                <button type="button" class="header__btn-connect w-100 text-center button-move-funds">Move funds</button>
+                                <button type="button" class="header__btn-connect w-100 text-center button-move-funds">Move funds to <span class="recieve-chain"></span></button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="token-bridge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                   <div class="modal-dialog modal-dialog-centered">
@@ -354,8 +354,8 @@
                                       </div>
                                       <div class="modal-body">
                                         <div class="description">
-                                            <p class="wait-bridge">Your tokens are being transferred to a new network. Please wait for the conversion to complete.</p>
-                                            <p class="bridge-success" style="display:none;">Bridge Success</p>
+                                            <p class="wait-bridge">Transferring <span class="value-move"></span> <span class="token-select"></span> to <span class="recieve-chain"></span> (pending...).</p>
+                                            <p class="bridge-success" style="display:none;">Transferring <span class="value-move"> </span> <span class="token-select"></span> to <span class="recieve-chain"></span> (success ✅).</p>
                                         </div>
                                       </div>
                                     </div>
@@ -377,17 +377,11 @@
                              <article class="garbi__box-1 p-3 mb-3">
                                 <p class="f-700">What is Bridge?</p>
 
-                                <!-- <p>GarbiSwap is an AMM (like Uniswap) focused on stablecoin trading, so it is lower risk and nearly no impermanent loss.</p>
+                                <p>In technology or finance, a bridge connects separate systems or networks, serving as an intermediary that enables the exchange of information, data, or assets between them.</p>
 
-                                <p>With GarbiSwap, Liquidity Providers will not earn only from trading fees, and the protocol is also supplied to Lending protocol or other DeFi pools to create more interest.</p>
+                                <p>In blockchain and cryptocurrency, a bridge is a platform or protocol that enables the transfer of digital assets (like tokens) between different blockchain networks. These bridges are essential for establishing interoperability among blockchains with varying protocols, allowing assets to move seamlessly across networks.</p>
 
-                                <p>The GarbiSwap Contract will move the liquidity around to do both works (trading and farming).</p>
-
-                                <p>What is Transaction Fee Mining?</p>
-
-                                <p>When you use Garbiswap to trade the assets, you'll automatically begin getting veGRB from our Cashback Treasury.</p>
-
-                                <p>Interested in providing liquidity on GarbiSwap? Purchase GEC tokens <a href="equity-cert-exchange.html" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;"><b> here</b></a>.</p> -->
+                                <p>Bridges utilize smart contracts or similar mechanisms to hold assets on one blockchain and mint equivalent assets on the target blockchain, ensuring balance. They enhance liquidity, enable cross-chain DApps, and expand usability of blockchain assets.</p>
 
                             </article>
 
@@ -538,6 +532,7 @@
             let selectToken = $('select[name=token-from]').val();
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork , selectToken , userAddr);
             let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
+
             
             garbiBridge.SwichNetworkDeposit(selectNetwork);
             $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance/1e18).toFixed(4));
@@ -567,6 +562,7 @@
             setInterval(async function () {
                 let selectNetwork = $('select[name=network-from]').val();
                 let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
+                let selectToken = $('select[name=token-from]').val();
                 let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork , selectToken , userAddr);
                 if (userInputValue > userSelectNetworkBalance/1e18) {
                     $('.button-move-funds').addClass("disable");
@@ -575,12 +571,15 @@
                     $('.button-move-funds').removeClass("disable");
                 }
                 $('.stable-swap-out .swap__form-input').val(userInputValue);
+                $('.value-move').text(userInputValue);
+                $('.token-select').text(selectToken);
                 garbiBridge.SwichNetworkDeposit(selectNetwork);
             },1000);
             setInterval(async function () {
                 let selectNetwork = $('select[name=network-from]').val();
                 let selectToken = $('select[name=token-from]').val();
                 let networkRecieve = $('select[name=network-to]').val();
+                let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
                 let selectNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(selectNetwork).chainName;
                 let recieveNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(networkRecieve).chainName;
                 let selectNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork);
@@ -588,19 +587,17 @@
                 let selectTokenPool = await garbiBridge.GetBalance(selectNetwork , selectToken , selectNetworkerc20HandleAddress);
                 let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve , selectToken , recieveNetworkerc20HandleAddress);
                 let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork , selectToken , userAddr);
-                let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
-                $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance/1e18).toFixed(4));
-                $('.stable-swap-pay .user-to-bal').text((userNetworkRecieveBalance/1e18).toFixed(4));
                 let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve , selectToken , userAddr);
 
-                if (newBalanceRecive != userNetworkRecieveBalance) {
+                if (newBalanceRecive == userNetworkRecieveBalance) {
                     $('#token-bridge .bridge-success').show();
                     $('#token-bridge .wait-bridge').hide();
+                    userNetworkRecieveBalance = newBalanceRecive;
                 }
-                else {
-                    $('#token-bridge .bridge-success').hide();
-                    $('#token-bridge .wait-bridge').show();
-                }
+                
+                $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance/1e18).toFixed(4));
+                $('.stable-swap-pay .user-to-bal').text((newBalanceRecive/1e18).toFixed(4));
+
                 $('.select-chain').text(selectNetworkName);
                 $('.recieve-chain').text(recieveNetworkName);
                 $('.token-select').text(selectToken);

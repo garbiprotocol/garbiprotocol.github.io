@@ -30,7 +30,6 @@ $.GARBI_BRIDGE.prototype = (function() {
 
             let brideContractAction = contractBaseHelper.getMainContract(brideContractAddress, bridgeAbi);
 
-            console.log({resourceID, destinationDomainID, dataDeposit});
             brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
                 .send({ from: user, value: 0 })
                 .on('transactionHash', (hash) => {
@@ -44,6 +43,10 @@ $.GARBI_BRIDGE.prototype = (function() {
                 })
                 .on('receipt', (receipt) => {
                     $('#token-bridge').modal('show');
+                    $('#token-bridge .bridge-success').hide();
+                    $('#token-bridge .wait-bridge').show();
+                    console.log(newBalanceRecive);
+                    console.log(userNetworkRecieveBalance);
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
