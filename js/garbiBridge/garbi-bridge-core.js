@@ -31,7 +31,7 @@ $.GARBI_BRIDGE.prototype = (function() {
             let brideContractAction = contractBaseHelper.getMainContract(brideContractAddress, bridgeAbi);
 
             brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
-                .send({ from: user, value: 0 })
+                .send({ from: user})
                 .on('transactionHash', (hash) => {
                     coreHelper.showPopup('confirm-popup');
                     $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
