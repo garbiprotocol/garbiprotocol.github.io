@@ -33,8 +33,9 @@ $.GARBI_BRIDGE.prototype = (function() {
             brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
                 .send({ from: user})
                 .on('transactionHash', (hash) => {
+                    let blockExplorerUrl = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(chainName);
                     coreHelper.showPopup('confirm-popup');
-                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                    $('.transaction-hash').attr("href", blockExplorerUrl + hash);
                 })
                 .on('confirmation', (confirmationNumber, receipt) => {
                     coreHelper.hidePopup('confirm-popup', 0);
