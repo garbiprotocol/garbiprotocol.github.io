@@ -6,7 +6,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             chainName: "Arbitrum One",
             currencySymbol: "ETH",
             rpcList: ['https://arb1.arbitrum.io/rpc'],
-            blockExplorerUrls: ['https://arbiscan.io']
+            blockExplorerUrls: ['https://arbiscan.io/tx/']
 
         },
 
@@ -15,7 +15,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             chainName: "Arbitrum Goerli",
             currencySymbol: "ETH",
             rpcList: ['https://goerli-rollup.arbitrum.io/rpc'],
-            blockExplorerUrls: ['https://goerli.arbiscan.io/'],
+            blockExplorerUrls: ['https://goerli.arbiscan.io/tx/'],
         },
 
         ArbitrumNova: {
@@ -23,7 +23,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             chainName: "Arbitrum Nova",
             currencySymbol: "ETH",
             rpcList: ['https://nova.arbitrum.io/rpc'],
-            blockExplorerUrls: ['https://nova.arbiscan.io'],
+            blockExplorerUrls: ['https://nova.arbiscan.io/tx/'],
         }
     };
 
@@ -125,6 +125,10 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
 
         GetBridgeToNetworkByNetworkName(chainName) {
             return bridgeToNetwork[chainName];
+        },
+
+        GetblockExplorerUrlsNetworkName(chainName) {
+            return network[chainName].blockExplorerUrls;
         }
 
     }

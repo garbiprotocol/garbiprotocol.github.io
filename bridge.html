@@ -246,7 +246,7 @@
             <section class="container">
                 <div class="row">
                     <div class="col-lg-6 col-sm-12">
-                        <article class="swap__main garbi__box-1 p-3 mb-3 stable-swap" id="bridge-form">
+                        <article class="swap__main garbi__box-1 p-3 mb-4 stable-swap" id="bridge-form">
                             <div class="d-flex align-items-center justify-content-between mb-14">
                                 <div class="f-700">Bridge</div>
                             </div>
@@ -356,8 +356,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="header__btn-connect w-100 text-center button-approve-grb" style="display:none;margin-bottom: 10px;">Approve GRB</button>
-                            <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-bottom: 10px;">Approve</button>
+                            <button type="button" class="header__btn-connect w-100 text-center button-approve-grb" style="display:none;margin-bottom: 10px;">Approve GRB for fees</button>
+                            <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-bottom: 10px;">Approve <span class="token-select"> to Bridge</button>
                             <button type="button" class="header__btn-connect w-100 text-center button-move-funds">Move funds to <span class="recieve-chain"></span></button>
                             <!-- Modal -->
                             <div class="modal fade" id="token-bridge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -628,9 +628,10 @@
             let selectToken = $('select[name=token-from]').val();
             let checkAllowanceToken = await garbiBridge.GetAllowanceOfTokenDepositToERC20Handle(selectNetwork, selectToken);
             let checkAllowanceGRB = await garbiBridge.GetAllowanceOfGRBToBridgeContract(selectNetwork, 'grb');
+            
 
             if (checkAllowanceGRB/1e18 < 3) {
-               $('.button-approve-grb').show();
+                $('.button-approve-grb').show();
             } 
             else {
                 if (userInputValue > checkAllowanceToken / 1e18) {
@@ -653,7 +654,7 @@
             let userAddr = coreHelper.getUserAccount();
             let selectNetwork = $('select[name=network-from]').val();
 
-            garbiBridge.ApproveGRBToBridgeContract(selectNetwork, 'grb');
+            garbiBridge.ApproveGRBToBridgeContract(selectNetwork);
         });
 
         $('.stable-swap-pay .btn-reverse-pair').click(function() {

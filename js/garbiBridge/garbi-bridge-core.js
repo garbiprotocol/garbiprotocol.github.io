@@ -74,20 +74,20 @@ $.GARBI_BRIDGE.prototype = (function() {
             self.ApproveERC20(chainName, tokenName, user, erc20HandleAddress);
         },
 
-        async GetAllowanceOfGRBToBridgeContract(chainName, tokenName) {
+        async GetAllowanceOfGRBToBridgeContract(chainName) {
             let self = this;
             let user = self.GetWalletAddress();
             let bridgeContract = garbiBridgeConfig.GetBridgeContractAddressByNetworkName(chainName);
-            let result = await self.GetAllowance(chainName, tokenName, user, bridgeContract);
+            let result = await self.GetAllowance(chainName, 'grb', user, bridgeContract);
             return result;
         },
 
-        async ApproveGRBToBridgeContract(chainName, tokenName) {
+        async ApproveGRBToBridgeContract(chainName) {
             let self = this;
             let user = self.GetWalletAddress();
             let bridgeContract = garbiBridgeConfig.GetBridgeContractAddressByNetworkName(chainName);
 
-            self.ApproveGRB(chainName, tokenName, user, bridgeContract);
+            self.ApproveERC20(chainName, 'grb', user, bridgeContract);
         },
 
         async SwichNetworkDeposit(selectNetwork) {
@@ -165,8 +165,9 @@ $.GARBI_BRIDGE.prototype = (function() {
             contract.methods.approve(spender, amountDefault)
                 .send({ from: owner })
                 .on('transactionHash', (hash) => {
+                    let blockExplorerUrl = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(chainName);
                     coreHelper.showPopup('confirm-popup');
-                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                    $('.transaction-hash').attr("href", blockExplorerUrl + hash);
                 })
                 .on('confirmation', (confirmationNumber, receipt) => {
                     coreHelper.hidePopup('confirm-popup', 0);
@@ -175,36 +176,6 @@ $.GARBI_BRIDGE.prototype = (function() {
                 })
                 .on('receipt', (receipt) => {
                     $('.button-approve').hide();
-                    coreHelper.hidePopup('confirm-popup', 0);
-                    coreHelper.showPopup('success-confirm-popup');
-                    coreHelper.hidePopup('success-confirm-popup', 10000);
-                })
-                .on('error', (err, receipt) => {
-                    console.log(err);
-                });
-        },
-
-        async ApproveGRB(chainName, tokenName, owner, spender) {
-            let self = this;
-            let grbAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, 'grb');
-            let grbAbi = garbiBridgeAbi.GetGRBTokenABI();
-            let amountDefault = coreHelper.getAmountAllow();
-            let chainId = await self.GetChainIdToMain();
-
-            let contract = contractBaseHelper.getMainContract(grbAddress, grbAbi, chainId);
-            contract.methods.approve(spender, amountDefault)
-                .send({ from: owner })
-                .on('transactionHash', (hash) => {
-                    coreHelper.showPopup('confirm-popup');
-                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-                })
-                .on('confirmation', (confirmationNumber, receipt) => {
-                    coreHelper.hidePopup('confirm-popup', 0);
-                    coreHelper.showPopup('success-confirm-popup');
-                    coreHelper.hidePopup('success-confirm-popup', 10000);
-                })
-                .on('receipt', (receipt) => {
-                    $('.button-approve-grb').hide();
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
