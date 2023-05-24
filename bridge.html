@@ -351,12 +351,13 @@
                                     </div>
                                     <div class="position-card__row__balance">
                                         <p class="body body--link ">
-                                            <span class="" style=""><span class="swap-fee">1 </span>GRB</span>
+                                            <span class="" style=""><span class="swap-fee">3 </span>GRB</span>
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-top: 10px;">Approve</button>
+                            <button type="button" class="header__btn-connect w-100 text-center button-approve-grb" style="display:none;margin-bottom: 10px;">Approve GRB</button>
+                            <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-bottom: 10px;">Approve</button>
                             <button type="button" class="header__btn-connect w-100 text-center button-move-funds">Move funds to <span class="recieve-chain"></span></button>
                             <!-- Modal -->
                             <div class="modal fade" id="token-bridge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -626,12 +627,19 @@
             let networkRecieve = $('select[name=network-to]').val();
             let selectToken = $('select[name=token-from]').val();
             let checkAllowanceToken = await garbiBridge.GetAllowanceOfTokenDepositToERC20Handle(selectNetwork, selectToken);
+            let checkAllowanceGRB = await garbiBridge.GetAllowanceOfGRBToBridgeContract(selectNetwork, 'grb');
 
-            if (userInputValue > checkAllowanceToken / 1e18) {
-                $('.button-approve').show()
-            } else {
-                garbiBridge.Bridge(selectNetwork, networkRecieve, selectToken, userInputValue);
+            if (checkAllowanceGRB/1e18 < 3) {
+               $('.button-approve-grb').show();
+            } 
+            else {
+                if (userInputValue > checkAllowanceToken / 1e18) {
+                    $('.button-approve').show()
+                } else {
+                    garbiBridge.Bridge(selectNetwork, networkRecieve, selectToken, userInputValue);
+                }
             }
+            
         })
         $('.button-approve').click(async function() {
             let userAddr = coreHelper.getUserAccount();
@@ -640,6 +648,14 @@
 
             garbiBridge.ApproveTokenDepositToERC20Handle(selectNetwork, selectToken);
         });
+
+        $('.button-approve-grb').click(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            let selectNetwork = $('select[name=network-from]').val();
+
+            garbiBridge.ApproveGRBToBridgeContract(selectNetwork, 'grb');
+        });
+
         $('.stable-swap-pay .btn-reverse-pair').click(function() {
             $('.stable-swap-pay .user-from-bal').text("Loading");
             $('.stable-swap-out .user-to-bal').text("Loading");

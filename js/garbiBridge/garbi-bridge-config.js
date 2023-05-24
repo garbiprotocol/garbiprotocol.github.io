@@ -115,6 +115,10 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             return contract[chainName].erc20Handle;
         },
 
+        GetBridgeContractAddressByNetworkName(chainName) {
+            return contract[chainName].bridgeContract;
+        },
+
         GetTokenAddressByNetworkName(chainName, tokenName) {
             return token[chainName][tokenName];
         },
