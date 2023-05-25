@@ -575,15 +575,27 @@
 
         setInterval(async function() {
             let selectNetwork = $('select[name=network-from]').val();
+            let networkRecieve = $('select[name=network-to]').val();
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
             let selectToken = $('select[name=token-from]').val();
             let selectTokenName = await garbiBridgeConfig.GetTokenNameByNetworkName(selectNetwork, selectToken);
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
+            let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
+            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkerc20HandleAddress);
+            
             if (userInputValue > userSelectNetworkBalance / 1e18) {
                 $('.button-move-funds').addClass("disable");
             } else {
                 $('.button-move-funds').removeClass("disable");
             }
+
+            if (userInputValue > recieveTokenPool/1e18) {
+                $('.button-move-funds').addClass("disable");
+            }
+            else {
+                $('.button-move-funds').removeClass("disable");
+            }
+
             $('.stable-swap-out .swap__form-input').val(userInputValue);
             $('.value-move').text(userInputValue);
             $('.token-select').text(selectTokenName);
