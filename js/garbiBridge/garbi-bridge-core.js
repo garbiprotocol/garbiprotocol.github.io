@@ -177,6 +177,7 @@ $.GARBI_BRIDGE.prototype = (function() {
                 })
                 .on('receipt', (receipt) => {
                     $('.button-approve').hide();
+                    $('.button-approve-grb').hide();
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
