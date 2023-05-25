@@ -616,7 +616,8 @@
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
 
-            if (newBalanceRecive == userNetworkRecieveBalance) {
+
+            if (newBalanceRecive != userNetworkRecieveBalance) {
                 $('#token-bridge .bridge-success').show();
                 $('#token-bridge .wait-bridge').hide();
                 userNetworkRecieveBalance = newBalanceRecive;
