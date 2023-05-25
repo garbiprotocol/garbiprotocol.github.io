@@ -46,20 +46,74 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
 
     const token = {
         ArbitrumOne: {
-            cyberCredit: "0x85Cf9E2fE7eEA7F362cfA940Cc4bfBb4D05e1D08",
-            vegrb: "0x14C302dca44528A2B00B932AfdF01E9d48100B7b",
-            grb: "0x5Fd71280b6385157b291b9962f22153FC9E79000",
+            cyberCredit: 
+            {
+                address: "0x85Cf9E2fE7eEA7F362cfA940Cc4bfBb4D05e1D08",
+                name: "Cyber Credit",
+                tokenDecimal: 18,
+                tokenSymbol: "CC",
+            },
+            vegrb: 
+            {
+                address: "0x14C302dca44528A2B00B932AfdF01E9d48100B7b",
+                name: "veGRB",
+                tokenDecimal: 18,
+                tokenSymbol: "veGRB",
+            },
+            grb: 
+            {
+                address: "0x5Fd71280b6385157b291b9962f22153FC9E79000",
+                name: "GarbiProtocol",
+                tokenDecimal: 18,
+                tokenSymbol: "GRB",
+            },
         },
 
         ArbitrumGoerli: {
-            cyberCredit: "0xA55cb2d81E01773866F300C3d1c6fD7574Cfa245",
-            vegrb: "0xD912cca034056115900F87C2DB8eF1a6B1a89143",
-            grb: "0xd1eB8a5798E04703ec5324c99405F581BD6318b8",
+            cyberCredit: 
+            {
+                address: "0xA55cb2d81E01773866F300C3d1c6fD7574Cfa245",
+                name: "Cyber Credit",
+                tokenDecimal: 18,
+                tokenSymbol: "CC",
+            },
+            vegrb: 
+            {
+                address: "0xD912cca034056115900F87C2DB8eF1a6B1a89143",
+                name: "veGRB",
+                tokenDecimal: 18,
+                tokenSymbol: "veGRB",
+            },
+            grb: 
+            {
+                address: "0xd1eB8a5798E04703ec5324c99405F581BD6318b8",
+                name: "Garbi Protocol",
+                tokenDecimal: 18,
+                tokenSymbol: "GRB",
+            },
         },
         ArbitrumNova: {
-            cyberCredit: "0x3C2A3AfDbA1f64A83Cfe9350769D401Fd22ef74D",
-            vegrb: "",
-            grb: "0x90F72cC2BDFaf3aB5AC61a7f7b6759E25B844F1A",
+            cyberCredit: 
+            {
+                address: "0x3C2A3AfDbA1f64A83Cfe9350769D401Fd22ef74D",
+                name: "Cyber Credit",
+                tokenDecimal: 18,
+                tokenSymbol: "CC",
+            },
+            vegrb: 
+            {
+                address: "",
+                name: "veGRB",
+                tokenDecimal: 18,
+                tokenSymbol: "veGRB",
+            },
+            grb: 
+            {
+                address: "0x90F72cC2BDFaf3aB5AC61a7f7b6759E25B844F1A",
+                name: "GarbiProtocol",
+                tokenDecimal: 18,
+                tokenSymbol: "GRB",
+            },
         },
     };
 
@@ -120,7 +174,11 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
         },
 
         GetTokenAddressByNetworkName(chainName, tokenName) {
-            return token[chainName][tokenName];
+            return token[chainName][tokenName].address;
+        },
+
+        GetTokenNameByNetworkName(chainName, tokenName) {
+            return token[chainName][tokenName].name;
         },
 
         GetBridgeToNetworkByNetworkName(chainName) {

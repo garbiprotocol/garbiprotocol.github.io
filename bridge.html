@@ -381,10 +381,10 @@
                         <article class="garbi__box-1 p-3 mb-3">
                             <p class="f-700">Asset Pool</p>
                             <div class="select-network-info">
-                                <span class="select-chain">Loading</span>: <span class="value-pool"></span> <span class="token-select"></span>
+                                <span class="select-chain">Arbitrum One</span>: <span class="value-pool">Loading</span>
                             </div>
                             <div class="recieve-network-info">
-                                <span class="recieve-chain">Loading</span>: <span class="value-pool"></span> <span class="token-select"></span>
+                                <span class="recieve-chain">Arbitrum Nova</span>: <span class="value-pool">Loading</span>
                             </div>
                         </article>
                     </div>
@@ -549,7 +549,6 @@
         let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
         let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
 
-
         garbiBridge.SwichNetworkDeposit(selectNetwork);
         $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance / 1e18).toFixed(4));
         $('.stable-swap-pay .user-to-bal').text((userNetworkRecieveBalance / 1e18).toFixed(4));
@@ -574,11 +573,11 @@
             $('.stable-swap input[name=amountIn]').val(userBalance);
         });
 
-
         setInterval(async function() {
             let selectNetwork = $('select[name=network-from]').val();
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
             let selectToken = $('select[name=token-from]').val();
+            let selectTokenName = await garbiBridgeConfig.GetTokenNameByNetworkName(selectNetwork, selectToken);
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             if (userInputValue > userSelectNetworkBalance / 1e18) {
                 $('.button-move-funds').addClass("disable");
@@ -587,12 +586,13 @@
             }
             $('.stable-swap-out .swap__form-input').val(userInputValue);
             $('.value-move').text(userInputValue);
-            $('.token-select').text(selectToken);
+            $('.token-select').text(selectTokenName);
             garbiBridge.SwichNetworkDeposit(selectNetwork);
         }, 1000);
         setInterval(async function() {
             let selectNetwork = $('select[name=network-from]').val();
             let selectToken = $('select[name=token-from]').val();
+            let selectTokenName = await garbiBridgeConfig.GetTokenNameByNetworkName(selectNetwork, selectToken);
             let networkRecieve = $('select[name=network-to]').val();
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
             let selectNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(selectNetwork).chainName;
@@ -615,9 +615,8 @@
 
             $('.select-chain').text(selectNetworkName);
             $('.recieve-chain').text(recieveNetworkName);
-            $('.token-select').text(selectToken);
-            $('.select-network-info .value-pool').text((selectTokenPool / 1e18).toFixed(4));
-            $('.recieve-network-info .value-pool').text((recieveTokenPool / 1e18).toFixed(4));
+            $('.select-network-info .value-pool').text((selectTokenPool / 1e18).toFixed(4) + " " + selectTokenName);
+            $('.recieve-network-info .value-pool').text((recieveTokenPool / 1e18).toFixed(4) + " " + selectTokenName);
         }, 3000);
 
         $('.button-move-funds').click(async function() {
