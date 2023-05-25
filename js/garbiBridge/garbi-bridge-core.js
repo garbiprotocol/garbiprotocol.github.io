@@ -31,7 +31,7 @@ $.GARBI_BRIDGE.prototype = (function() {
             let brideContractAction = contractBaseHelper.getMainContract(brideContractAddress, bridgeAbi);
 
             brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
-                .send({ from: user})
+                .send({ from: user, value: 0 })
                 .on('transactionHash', (hash) => {
                     let blockExplorerUrl = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(chainName);
                     coreHelper.showPopup('confirm-popup');
