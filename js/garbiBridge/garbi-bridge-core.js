@@ -49,8 +49,6 @@ $.GARBI_BRIDGE.prototype = (function() {
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
-
-                    console.log(receipt);
                 })
                 .on('error', (err, receipt) => {
                     console.log(err);
