@@ -46,8 +46,6 @@ $.GARBI_BRIDGE.prototype = (function() {
                     $('#token-bridge').modal('show');
                     $('#token-bridge .bridge-success').hide();
                     $('#token-bridge .wait-bridge').show();
-                    console.log(newBalanceRecive);
-                    console.log(userNetworkRecieveBalance);
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
