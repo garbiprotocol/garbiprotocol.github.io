@@ -582,17 +582,16 @@
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
             let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkerc20HandleAddress);
-            
+
             if (userInputValue > userSelectNetworkBalance / 1e18) {
                 $('.button-move-funds').addClass("disable");
             } else {
                 $('.button-move-funds').removeClass("disable");
             }
 
-            if (userInputValue > recieveTokenPool/1e18) {
+            if (userInputValue > recieveTokenPool / 1e18) {
                 $('.button-move-funds').addClass("disable");
-            }
-            else {
+            } else {
                 $('.button-move-funds').removeClass("disable");
             }
 
@@ -640,19 +639,18 @@
             let selectToken = $('select[name=token-from]').val();
             let checkAllowanceToken = await garbiBridge.GetAllowanceOfTokenDepositToERC20Handle(selectNetwork, selectToken);
             let checkAllowanceGRB = await garbiBridge.GetAllowanceOfGRBToBridgeContract(selectNetwork, 'grb');
-            
 
-            if (checkAllowanceGRB/1e18 < 3) {
+
+            if (checkAllowanceGRB / 1e18 < 3) {
                 $('.button-approve-grb').show();
-            } 
-            else {
+            } else {
                 if (userInputValue > checkAllowanceToken / 1e18) {
                     $('.button-approve').show()
                 } else {
                     garbiBridge.Bridge(selectNetwork, networkRecieve, selectToken, userInputValue);
                 }
             }
-            
+
         })
         $('.button-approve').click(async function() {
             let userAddr = coreHelper.getUserAccount();
