@@ -33,7 +33,7 @@ $.GARBI_BRIDGE.prototype = (function() {
             brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
                 .send({ from: user, value: 0 })
                 .on('transactionHash', (hash) => {
-                    let blockExplorerUrl = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(chainName);
+                    let blockExplorerUrl = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(networkDeposit);
                     coreHelper.showPopup('confirm-popup');
                     $('.transaction-hash').attr("href", blockExplorerUrl + hash);
                 })
