@@ -624,10 +624,12 @@
             let selectNetwork = $('select[name=network-from]').val();
             let selectToken = $('select[name=token-from]').val();
             let selectTokenName = await garbiBridgeConfig.GetTokenNameByNetworkName(selectNetwork, selectToken);
+
             let networkRecieve = $('select[name=network-to]').val();
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
             let selectNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(selectNetwork).chainName;
             let recieveNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(networkRecieve).chainName;
+
             let selectNetworkHandleAddress = (BRIDGR_ETH == false) ?
                 garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork) :
                 garbiBridgeConfig.GetEETHandleAddressByNetworkName(selectNetwork);
@@ -638,6 +640,7 @@
 
             let selectTokenPool = await garbiBridge.GetBalance(selectNetwork, selectToken, selectNetworkHandleAddress);
             let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkHandleAddress);
+
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
 
@@ -653,16 +656,21 @@
 
             $('.select-chain').text(selectNetworkName);
             $('.recieve-chain').text(recieveNetworkName);
+
             $('.select-network-info .value-pool').text((selectTokenPool / 1e18).toFixed(4) + " " + selectTokenName);
             $('.recieve-network-info .value-pool').text((recieveTokenPool / 1e18).toFixed(4) + " " + selectTokenName);
         }, 3000);
 
         $('.button-move-funds').click(async function() {
             let userAddr = coreHelper.getUserAccount();
+
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
+
             let selectNetwork = $('select[name=network-from]').val();
             let networkRecieve = $('select[name=network-to]').val();
+
             let selectToken = $('select[name=token-from]').val();
+
             let checkAllowanceGRB = await garbiBridge.GetAllowanceOfGRBToBridgeContract(selectNetwork, 'grb');
 
             if (checkAllowanceGRB / 1e18 < 3) {
