@@ -12,7 +12,18 @@ $.GARBI_BRIDGE.prototype = (function() {
             setting = $.extend({}, setting, options);
         },
 
-        async Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge) {
+        async BridgeERC20(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge) {
+            let self = this;
+            await self.Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge, 0);
+        },
+
+        async BridgeETH(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge) {
+            let self = this;
+            let valueETH = coreHelper.toBN(amountInputBridge, 18);
+            await self.Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge, valueETH);
+        },
+
+        async Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge, valueETH) {
             let self = this;
             let user = self.GetWalletAddress();
 
@@ -31,7 +42,7 @@ $.GARBI_BRIDGE.prototype = (function() {
             let brideContractAction = contractBaseHelper.getMainContract(brideContractAddress, bridgeAbi);
 
             brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
-                .send({ from: user, value: 0 })
+                .send({ from: user, value: valueETH })
                 .on('transactionHash', (hash) => {
                     let blockExplorerUrl = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(networkDeposit);
                     coreHelper.showPopup('confirm-popup');
@@ -129,6 +140,15 @@ $.GARBI_BRIDGE.prototype = (function() {
             }
         },
 
+        async GetBalanceETH(chainName, user) {
+            let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
+            let rpc = network.rpcList[0];
+            let _web3 = new Web3(new Web3.providers.HttpProvider(rpc));
+            let balanceETH = await _web3.eth.getBalance(user);
+
+            return balanceETH;
+        },
+
         async GetAllowance(chainName, tokenName, owner, spender) {
             let self = this;
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
@@ -142,6 +162,10 @@ $.GARBI_BRIDGE.prototype = (function() {
         },
 
         async GetBalance(chainName, tokenName, user) {
+            let self = this;
+            if (tokenName == "eth") {
+                return await self.GetBalanceETH(chainName, user);
+            }
             let chainId = garbiBridgeConfig.GetChainIdByNetworkNameToRead(chainName);
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
             let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();

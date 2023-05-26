@@ -275,11 +275,18 @@
                                                     <option
                                                         value="cyberCredit"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>Cyber Credit</div>"
-                                                        >Cyber Credit</option>
+                                                        >Cyber Credit
+                                                    </option>
                                                     <option
                                                         value="veGRB"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
-                                                        >veGRB</option>
+                                                        >veGRB
+                                                    </option>
+                                                    <option
+                                                        value="eth"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth_logo.png' /></span>ETH</div>"
+                                                        >ETH
+                                                    </option>
                                                 </select>
                                         </div>
                                         <div class="col-12">
@@ -301,32 +308,39 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <select class=" selectpicker swap__form-select mb-1" name="network-to">
-                                                    <option
-                                                        value="ArbitrumNova"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
-                                                        >Arbitrum Nova
-                                                    </option>
-                                                    <option
-                                                        value="ArbitrumGoerli"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum Goerli</div>"
-                                                        >ArbitrumGoerli
-                                                    </option>
-                                                    <option
-                                                        value="ArbitrumOne"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
-                                                        >Arbitrum One
-                                                    </option>
-                                                </select>
+                                                <option
+                                                    value="ArbitrumNova"
+                                                    data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
+                                                    >Arbitrum Nova
+                                                </option>
+                                                <option
+                                                    value="ArbitrumGoerli"
+                                                    data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum Goerli</div>"
+                                                    >ArbitrumGoerli
+                                                </option>
+                                                <option
+                                                    value="ArbitrumOne"
+                                                    data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
+                                                    >Arbitrum One
+                                                </option>
+                                            </select>
                                             <div class="token">
                                                 <select class="selectpicker swap__form-select mb-1" name="token-to" disabled>
                                                         <option
                                                             value="cyberCredit"
                                                             data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>Cyber Credit</div>"
-                                                            >Cyber Credit</option>
+                                                            >Cyber Credit
+                                                        </option>
                                                         <option
                                                             value="veGRB"
                                                             data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
-                                                            >veGRB</option>
+                                                            >veGRB
+                                                        </option>
+                                                        <option
+                                                            value="eth"
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth_logo.png' /></span>ETH</div>"
+                                                            >ETH
+                                                        </option>
                                                     </select>
                                             </div>
                                         </div>
@@ -542,6 +556,7 @@
         run();
     });
     async function run() {
+        var BRIDGR_ETH = false;
         let userAddr = coreHelper.getUserAccount();
         let networkRecieve = $('select[name=network-to]').val();
         let selectNetwork = $('select[name=network-from]').val();
@@ -565,6 +580,7 @@
 
         $('select[name="token-from"]').on('change', async function() {
             let selectToken = $('select[name=token-from]').val();
+            BRIDGR_ETH = (selectToken != "eth") ? false : true;
             $('select[name=token-to]').val(selectToken).selectpicker('refresh');
         });
 
@@ -580,8 +596,12 @@
             let selectToken = $('select[name=token-from]').val();
             let selectTokenName = await garbiBridgeConfig.GetTokenNameByNetworkName(selectNetwork, selectToken);
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
-            let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
-            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkerc20HandleAddress);
+
+            let recieveNetworkHandleAddress = (BRIDGR_ETH == false) ?
+                garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve) :
+                garbiBridgeConfig.GetEETHandleAddressByNetworkName(networkRecieve);
+
+            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkHandleAddress);
 
             if (userInputValue > userSelectNetworkBalance / 1e18) {
                 $('.button-move-funds').addClass("disable");
@@ -608,10 +628,16 @@
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
             let selectNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(selectNetwork).chainName;
             let recieveNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(networkRecieve).chainName;
-            let selectNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork);
-            let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
-            let selectTokenPool = await garbiBridge.GetBalance(selectNetwork, selectToken, selectNetworkerc20HandleAddress);
-            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkerc20HandleAddress);
+            let selectNetworkHandleAddress = (BRIDGR_ETH == false) ?
+                garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork) :
+                garbiBridgeConfig.GetEETHandleAddressByNetworkName(selectNetwork);
+
+            let recieveNetworkHandleAddress = (BRIDGR_ETH == false) ?
+                garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve) :
+                garbiBridgeConfig.GetEETHandleAddressByNetworkName(networkRecieve);
+
+            let selectTokenPool = await garbiBridge.GetBalance(selectNetwork, selectToken, selectNetworkHandleAddress);
+            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkHandleAddress);
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
 
@@ -637,19 +663,33 @@
             let selectNetwork = $('select[name=network-from]').val();
             let networkRecieve = $('select[name=network-to]').val();
             let selectToken = $('select[name=token-from]').val();
-            let checkAllowanceToken = await garbiBridge.GetAllowanceOfTokenDepositToERC20Handle(selectNetwork, selectToken);
             let checkAllowanceGRB = await garbiBridge.GetAllowanceOfGRBToBridgeContract(selectNetwork, 'grb');
-
 
             if (checkAllowanceGRB / 1e18 < 3) {
                 $('.button-approve-grb').show();
-            } else {
-                if (userInputValue > checkAllowanceToken / 1e18) {
-                    $('.button-approve').show()
-                } else {
-                    garbiBridge.Bridge(selectNetwork, networkRecieve, selectToken, userInputValue);
-                }
+                return;
             }
+
+            if (BRIDGR_ETH == false) {
+                let checkAllowanceToken = await garbiBridge.GetAllowanceOfTokenDepositToERC20Handle(selectNetwork, selectToken);
+                if (userInputValue > checkAllowanceToken / 1e18) {
+                    $('.button-approve').show();
+                    return;
+                }
+                garbiBridge.BridgeERC20(selectNetwork, networkRecieve, selectToken, userInputValue);
+            } else {
+                garbiBridge.BridgeETH(selectNetwork, networkRecieve, selectToken, userInputValue);
+            }
+
+            // if (checkAllowanceGRB / 1e18 < 3) {
+            //     $('.button-approve-grb').show();
+            // } else {
+            //     if (userInputValue > checkAllowanceToken / 1e18) {
+            //         $('.button-approve').show()
+            //     } else {
+            //         garbiBridge.Bridge(selectNetwork, networkRecieve, selectToken, userInputValue);
+            //     }
+            // }
 
         })
         $('.button-approve').click(async function() {
