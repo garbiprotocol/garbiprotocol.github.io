@@ -100,6 +100,11 @@
             font-size: inherit;
             font-family: inherit
         }
+
+        .dropdown-menu {
+            max-height: 147px!important;
+            min-height: 147px!important;
+        }
     </style>
     <style id="svelte-7rn0pv-style">
         div.svelte-7rn0pv {
@@ -257,12 +262,12 @@
                                             <select class="selectpicker swap__form-select mb-1" name="network-from">
                                                     <option
                                                         value="ArbitrumGoerli"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum Goerli</div>"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arbitrum-logo.png' /></span>Arbitrum Goerli</div>"
                                                         >Arbitrum Goerli
                                                     </option>
                                                     <option
                                                         value="ArbitrumOne"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arbitrum-logo.png' /></span>Arbitrum One</div>"
                                                         >Arbitrum One
                                                     </option>
                                                     <option
@@ -277,9 +282,17 @@
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>Cyber Credit</div>"
                                                         >Cyber Credit</option>
                                                     <option
-                                                        value="veGRB"
+                                                        value="vegrb"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
                                                         >veGRB</option>
+                                                    <option
+                                                        value="grb"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
+                                                        >GRB</option>
+                                                    <option
+                                                        value="ETH"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth.png' /></span>ETH</div>"
+                                                        >ETH</option>
                                                 </select>
                                         </div>
                                         <div class="col-12">
@@ -308,12 +321,12 @@
                                                     </option>
                                                     <option
                                                         value="ArbitrumGoerli"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum Goerli</div>"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arbitrum-logo.png' /></span>Arbitrum Goerli</div>"
                                                         >ArbitrumGoerli
                                                     </option>
                                                     <option
                                                         value="ArbitrumOne"
-                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arb.png' /></span>Arbitrum One</div>"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arbitrum-logo.png' /></span>Arbitrum One</div>"
                                                         >Arbitrum One
                                                     </option>
                                                 </select>
@@ -327,6 +340,14 @@
                                                             value="veGRB"
                                                             data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
                                                             >veGRB</option>
+                                                        <option
+                                                            value="grb"
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
+                                                            >GRB</option>
+                                                        <option
+                                                            value="ETH"
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth.png' /></span>ETH</div>"
+                                                            >ETH</option>
                                                     </select>
                                             </div>
                                         </div>
@@ -347,11 +368,11 @@
                             <div class="d-flex align-items-center justify-content-between ">
                                 <div class="fees-area">
                                     <div class="position-card__row__info">
-                                        <p class="body">Fees</p>
+                                        <p class="body">Your GRB balance: <span class="grb-balance">Loading</span></p>
                                     </div>
                                     <div class="position-card__row__balance">
                                         <p class="body body--link ">
-                                            <span class="" style=""><span class="swap-fee">3 </span>GRB</span>
+                                            <span class="" style="">Fees:<span class="swap-fee"> 3</span> GRB</span>
                                         </p>
                                     </div>
                                 </div>
@@ -574,6 +595,7 @@
         });
 
         setInterval(async function() {
+            let userAddr = coreHelper.getUserAccount();
             let selectNetwork = $('select[name=network-from]').val();
             let networkRecieve = $('select[name=network-to]').val();
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
@@ -582,25 +604,34 @@
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
             let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkerc20HandleAddress);
+            let userSelectNetworkGRBBalance = await garbiBridge.GetBalance(selectNetwork, 'grb', userAddr);
+            console.log(userSelectNetworkGRBBalance);
 
-            if (userInputValue > userSelectNetworkBalance / 1e18) {
+            if (userSelectNetworkGRBBalance/1e18 < 3) {
                 $('.button-move-funds').addClass("disable");
             } else {
-                $('.button-move-funds').removeClass("disable");
-            }
+                if (userInputValue > recieveTokenPool / 1e18) {
+                    $('.button-move-funds').addClass("disable");
+                } else {
+                    $('.button-move-funds').removeClass("disable");
+                }
 
-            if (userInputValue > recieveTokenPool / 1e18) {
-                $('.button-move-funds').addClass("disable");
-            } else {
-                $('.button-move-funds').removeClass("disable");
+                if (userInputValue > userSelectNetworkBalance / 1e18) {
+                    $('.button-move-funds').addClass("disable");
+                } else {
+                    $('.button-move-funds').removeClass("disable");
+                }
             }
+            
 
             $('.stable-swap-out .swap__form-input').val(userInputValue);
             $('.value-move').text(userInputValue);
             $('.token-select').text(selectTokenName);
+            $('.grb-balance').text((userSelectNetworkGRBBalance/1e18).toFixed(4));
             garbiBridge.SwichNetworkDeposit(selectNetwork);
         }, 1000);
         setInterval(async function() {
+            let userAddr = coreHelper.getUserAccount();
             let selectNetwork = $('select[name=network-from]').val();
             let selectToken = $('select[name=token-from]').val();
             let selectTokenName = await garbiBridgeConfig.GetTokenNameByNetworkName(selectNetwork, selectToken);
@@ -614,7 +645,7 @@
             let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkerc20HandleAddress);
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
-
+        
 
             if (newBalanceRecive != userNetworkRecieveBalance) {
                 $('#token-bridge .bridge-success').show();
