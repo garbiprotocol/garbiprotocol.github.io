@@ -282,14 +282,14 @@
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>Cyber Credit</div>"
                                                         >Cyber Credit
                                                     </option>
-                                                    <option
+                                                    <!-- <option
                                                         value="vegrb"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
                                                         >veGRB</option>
                                                     <option
                                                         value="grb"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
-                                                        >GRB</option>
+                                                        >GRB</option> -->
                                                     <option
                                                         value="eth"
                                                         data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth.png' /></span>ETH</div>"
@@ -339,14 +339,14 @@
                                                             data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>Cyber Credit</div>"
                                                             >Cyber Credit
                                                         </option>
-                                                        <option
-                                                            value="veGRB"
+                                                        <!-- <option
+                                                            value="vegrb"
                                                             data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
                                                             >veGRB</option>
                                                         <option
                                                             value="grb"
                                                             data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
-                                                            >GRB</option>
+                                                            >GRB</option> -->
                                                         <option
                                                             value="eth"
                                                             data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth.png' /></span>ETH</div>"
@@ -616,7 +616,6 @@
                 garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve) :
                 garbiBridgeConfig.GetEETHandleAddressByNetworkName(networkRecieve);
 
-            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkHandleAddress);
 
             if (userSelectNetworkGRBBalance/1e18 < 3) {
                 $('.button-move-funds').addClass("disable");
@@ -711,15 +710,6 @@
                 garbiBridge.BridgeETH(selectNetwork, networkRecieve, selectToken, userInputValue);
             }
 
-            // if (checkAllowanceGRB / 1e18 < 3) {
-            //     $('.button-approve-grb').show();
-            // } else {
-            //     if (userInputValue > checkAllowanceToken / 1e18) {
-            //         $('.button-approve').show()
-            //     } else {
-            //         garbiBridge.Bridge(selectNetwork, networkRecieve, selectToken, userInputValue);
-            //     }
-            // }
 
         })
         $('.button-approve').click(async function() {
