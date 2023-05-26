@@ -36,10 +36,10 @@ $.GARBI_BRIDGE.prototype = (function() {
             let dataDeposit = self.ConvertDataDepositToBytes(amountInputBridge, user);
 
             let contractConfig = garbiBridgeConfig.GetContractAddressByNetworkName(networkDeposit);
-            let brideContractAddress = contractConfig.bridgeContract;
+            let bridgeContractAddress = contractConfig.bridgeContract;
             let bridgeAbi = garbiBridgeAbi.GetBridgeContractABI();
 
-            let brideContractAction = contractBaseHelper.getMainContract(brideContractAddress, bridgeAbi);
+            let brideContractAction = contractBaseHelper.getMainContract(bridgeContractAddress, bridgeAbi);
 
             brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
                 .send({ from: user, value: valueETH })
@@ -60,6 +60,9 @@ $.GARBI_BRIDGE.prototype = (function() {
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
+
+                    // let depositNonce = receipt.events.Deposit.returnValues.depositNonce;
+                    // self.SyncEvent(networkRecieve, depositNonce);
                 })
                 .on('error', (err, receipt) => {
                     console.log(err);
@@ -206,6 +209,54 @@ $.GARBI_BRIDGE.prototype = (function() {
                     console.log(err);
                 });
         },
+
+        async SyncEvent(chainName, depositNonce, fromBlock = null) {
+            let eventName = "ProposalVote";
+            let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
+            let rpc = network.rpcList[0];
+            let _web3 = new Web3(new Web3.providers.HttpProvider(rpc));
+            fromBlock = (fromBlock == null) ? await _web3.eth.getBlockNumber() : fromBlock;
+            let latestBlock = await _web3.eth.getBlockNumber();
+
+            let bridgeAbi = garbiBridgeAbi.GetBridgeContractABI();
+            let contractConfig = garbiBridgeConfig.GetContractAddressByNetworkName(chainName);
+            let bridgeContractAddress = contractConfig.bridgeContract;
+            let bridgeContract = new _web3.eth.Contract(bridgeAbi, bridgeContractAddress);
+
+            let data = {};
+
+            let event = await bridgeContract.getPastEvents(eventName, {
+                fromBlock: fromBlock,
+                toBlock: latestBlock,
+            });
+            if (event.length > 0) {
+                for (let index = 0; index < event.length; index++) {
+                    const element = event[index];
+                    if (depositNonce == element.returnValues.depositNonce) {
+                        data[index] = {};
+                        data.dataHash = element.returnValues.dataHash;
+                        data.originDomainID = element.returnValues.originDomainID;
+
+                        data[index].address = element.address;
+                        data[index].transactionHash = element.transactionHash;
+                        data[index].status = element.returnValues.status;
+
+                        let proposal = await bridgeContract.methods.
+                        getProposal(data.originDomainID, depositNonce, data.dataHash).call();
+                        data.yesVotesTotal = proposal._yesVotesTotal;
+                    }
+                }
+            }
+
+            if (!data.dataHash || data.yesVotesTotal < 1) {
+                setTimeout(() => {
+                    this.SyncEvent(chainName, depositNonce, latestBlock);
+                }, 6000);
+            } else {
+                console.log(data);
+            }
+        },
+
 
         ConvertDataDepositToBytes(amount, recipient) {
             let self = this;

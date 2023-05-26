@@ -100,8 +100,13 @@
             font-size: inherit;
             font-family: inherit
         }
+<<<<<<< HEAD
 
         /*.dropdown-menu {
+=======
+        
+        .dropdown-menu {
+>>>>>>> 704e680 (update)
             max-height: 147px!important;
             min-height: 147px!important;
         }*/
@@ -617,7 +622,7 @@
                 garbiBridgeConfig.GetEETHandleAddressByNetworkName(networkRecieve);
 
 
-            if (userSelectNetworkGRBBalance/1e18 < 3) {
+            if (userSelectNetworkGRBBalance / 1e18 < 3) {
                 $('.button-move-funds').addClass("disable");
             } else {
                 if (userInputValue > recieveTokenPool / 1e18) {
@@ -632,12 +637,12 @@
                     $('.button-move-funds').removeClass("disable");
                 }
             }
-            
+
 
             $('.stable-swap-out .swap__form-input').val(userInputValue);
             $('.value-move').text(userInputValue);
             $('.token-select').text(selectTokenName);
-            $('.grb-balance').text((userSelectNetworkGRBBalance/1e18).toFixed(4));
+            $('.grb-balance').text((userSelectNetworkGRBBalance / 1e18).toFixed(4));
             garbiBridge.SwichNetworkDeposit(selectNetwork);
         }, 1000);
         setInterval(async function() {
@@ -664,7 +669,7 @@
 
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
-        
+
 
             if (newBalanceRecive != userNetworkRecieveBalance) {
                 $('#token-bridge .bridge-success').show();
@@ -683,6 +688,7 @@
         }, 3000);
 
         $('.button-move-funds').click(async function() {
+
             let userAddr = coreHelper.getUserAccount();
 
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
@@ -735,6 +741,7 @@
             $('select[name=network-from]').selectpicker('val', to);
             $('select[name=network-to]').selectpicker('val', from);
         });
+
     }
 </script>
 
