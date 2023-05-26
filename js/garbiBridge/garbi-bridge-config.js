@@ -27,20 +27,45 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
         }
     };
 
+    // test with erc20
+    // const contract = {
+    //     ArbitrumOne: {
+    //         bridgeContract: "0xaab127696990703c922ad4ccdd5838799e6ba265",
+    //         erc20Handle: "0x56ad41b541d1921e099c54ebf936987723b6cb5f",
+    //         ethHandle: "",
+    //     },
+
+    //     ArbitrumGoerli: {
+    //         bridgeContract: "0x86fddc8cf4e768b2534ed33841a0ad298cf9e9f0",
+    //         erc20Handle: "0xd54d619470905440842bc87d6031694764381e1e",
+    //         ethHandle: "",
+
+    //     },
+    //     ArbitrumNova: {
+    //         bridgeContract: "0xa1aa773bd288a269d83db99e43d8bad6d8c9d2a0",
+    //         erc20Handle: "0x07be47ca378a96a1ecadea815f5b5f3604fdbd69",
+    //         ethHandle: "",
+    //     },
+    // };
+
+    // test with eth
     const contract = {
         ArbitrumOne: {
-            bridgeContract: "0xaab127696990703c922ad4ccdd5838799e6ba265",
-            erc20Handle: "0x56ad41b541d1921e099c54ebf936987723b6cb5f",
+            bridgeContract: "",
+            erc20Handle: "",
+            ethHandle: "",
         },
 
         ArbitrumGoerli: {
-            bridgeContract: "0x86fddc8cf4e768b2534ed33841a0ad298cf9e9f0",
-            erc20Handle: "0xd54d619470905440842bc87d6031694764381e1e",
+            bridgeContract: "0x07fcf5f82706beafd7a57a73eed64d23e157c21c",
+            erc20Handle: "0xd54d619470905440842bc87d6031694764381e1e", // fake
+            ethHandle: "0xaff8569b4e2aa48557a87c139aff5b7316d557c6",
 
         },
         ArbitrumNova: {
-            bridgeContract: "0xa1aa773bd288a269d83db99e43d8bad6d8c9d2a0",
-            erc20Handle: "0x07be47ca378a96a1ecadea815f5b5f3604fdbd69",
+            bridgeContract: "0x1fa630ba932b618083010c48545e89574e213c9c",
+            erc20Handle: "0x07be47ca378a96a1ecadea815f5b5f3604fdbd69", // fake
+            ethHandle: "0x4b11029574004e4bc421df6fa13e83810d0c6147",
         },
     };
 
@@ -64,6 +89,12 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
                 tokenDecimal: 18,
                 tokenSymbol: "GRB",
             },
+            eth: {
+                address: "0x0000000000000000000000000000000000000000",
+                name: "Ethereum",
+                tokenDecimal: 18,
+                tokenSymbol: "ETH",
+            },
         },
 
         ArbitrumGoerli: {
@@ -85,6 +116,12 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
                 tokenDecimal: 18,
                 tokenSymbol: "GRB",
             },
+            eth: {
+                address: "0x0000000000000000000000000000000000000000",
+                name: "Ethereum",
+                tokenDecimal: 18,
+                tokenSymbol: "ETH",
+            },
         },
         ArbitrumNova: {
             cyberCredit: {
@@ -105,6 +142,12 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
                 tokenDecimal: 18,
                 tokenSymbol: "GRB",
             },
+            eth: {
+                address: "0x0000000000000000000000000000000000000000",
+                name: "Ethereum",
+                tokenDecimal: 18,
+                tokenSymbol: "ETH",
+            },
         },
     };
 
@@ -114,7 +157,8 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             resourceID: {
                 cyberCredit: "0x000000000000000000000085cf9e2fe7eea7f362cfa940cc4bfbb4d05e1d0800",
                 vegrb: "",
-                grb: ""
+                grb: "",
+                eth: "",
             }
         },
 
@@ -123,7 +167,8 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             resourceID: {
                 cyberCredit: "0x0000000000000000000000a55cb2d81e01773866f300c3d1c6fd7574cfa24500",
                 vegrb: "",
-                grb: ""
+                grb: "",
+                eth: "0x000000000000000000000082af49447d8a07e3bd95bd0d56f35241523fbab100"
             }
         },
 
@@ -132,7 +177,8 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             resourceID: {
                 cyberCredit: "0x0000000000000000000000a55cb2d81e01773866f300c3d1c6fd7574cfa24500",
                 vegrb: "",
-                grb: ""
+                grb: "",
+                eth: "0x000000000000000000000082af49447d8a07e3bd95bd0d56f35241523fbab100",
             }
         },
     }
@@ -158,6 +204,10 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
 
         GetERC20HandleAddressByNetworkName(chainName) {
             return contract[chainName].erc20Handle;
+        },
+
+        GetEETHandleAddressByNetworkName(chainName) {
+            return contract[chainName].ethHandle;
         },
 
         GetBridgeContractAddressByNetworkName(chainName) {
