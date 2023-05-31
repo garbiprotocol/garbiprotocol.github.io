@@ -247,13 +247,14 @@ $.GARBI_BRIDGE.prototype = (function() {
                     }
                 }
             }
+            let totalYesVotesConfig = garbiBridgeConfig.GetTotalYesVoted();
+            if (!data.yesVotesTotal || data.yesVotesTotal < totalYesVotesConfig) {
 
-            if (!data.dataHash || data.yesVotesTotal < 1) {
+                console.log(data);
+
                 setTimeout(() => {
                     this.SyncEvent(chainName, depositNonce, latestBlock);
                 }, 6000);
-            } else {
-                console.log(data);
             }
         },
 

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <title>Document</title>
+</head>
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 100px;
+    }
+    
+    .line {
+        margin-bottom: 50px;
+        margin-left: 50px;
+        display: flex;
+    }
+    
+    .cube {
+        width: 50px;
+        height: 50px;
+        transform-style: preserve-3d;
+        transform: rotateX(45deg) rotateY(45deg);
+        animation: rotate 8s infinite linear;
+    }
+    
+    .cube-center {
+        width: 50px;
+        height: 50px;
+        transform-style: preserve-3d;
+        transform: rotateX(45deg) rotateY(45deg);
+        animation: rotate 8s infinite linear;
+    }
+    
+    .face {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border: 2px solid white;
+        background-color: blue;
+        transition: border-color 0.5s ease-in-out;
+    }
+    
+    .front {
+        transform: translateZ(25px);
+    }
+    
+    .back {
+        transform: translateZ(-25px) rotateY(180deg);
+    }
+    
+    .right {
+        transform: translateX(25px) rotateY(90deg);
+    }
+    
+    .left {
+        transform: translateX(-25px) rotateY(-90deg);
+    }
+    
+    .top {
+        transform: translateY(-25px) rotateX(90deg);
+    }
+    
+    .bottom {
+        transform: translateY(25px) rotateX(-90deg);
+    }
+    
+    @keyframes rotate {
+        0% {
+            transform: rotateX(0) rotateY(0);
+        }
+        100% {
+            transform: rotateX(360deg) rotateY(360deg);
+        }
+    }
+    
+    .line-connector-0 {
+        width: 150px;
+        /* Adjust the length as needed */
+        height: 2px;
+        background-color: blue;
+        margin-top: 25px;
+    }
+    
+    .line-connector-1 {
+        width: 225px;
+        /* Adjust the length as needed */
+        height: 2px;
+        background-color: blue;
+        position: absolute;
+        margin-left: 125px;
+        margin-top: 25px;
+        transform: translate(-50%, -50%) rotate(25deg);
+        transform-origin: top left;
+    }
+    
+    .line-connector-1::before {
+        content: "";
+        width: 150px;
+        height: 2px;
+        /* border-top: 2px dashed white; */
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    
+    .line-connector-2 {
+        width: 225px;
+        /* Adjust the length as needed */
+        height: 2px;
+        background-color: blue;
+        position: absolute;
+        margin-left: -105px;
+        margin-top: 125px;
+        transform: translate(50%, 50%) rotate(-25deg);
+        transform-origin: top left;
+    }
+    
+    .line-connector-2::before {
+        content: "";
+        width: 150px;
+        height: 2px;
+        /* border-top: 2px dashed white; */
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="line">
+            <div class="line-connector-1"></div>
+            <div class="cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
+        </div>
+        <div class="line">
+            <div class="cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
+            <div class="line-connector-0"></div>
+            <div class="line-connector-2"></div>
+            <div class="cube-center">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
+            <div class="line-connector-0"></div>
+            <div>
+                <img src="./assets/images/wallet.svg" style="width: 50px; height: 50px;">
+            </div>
+        </div>
+        <div class="line">
+            <div class="cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face right"></div>
+                <div class="face left"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
