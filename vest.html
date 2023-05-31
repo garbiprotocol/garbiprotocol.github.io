@@ -166,20 +166,23 @@
                                 <div class="d-flex align-items-center justify-content-end">
                                     <span class="wrap-user-acct">0x000</span>
                                     <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
-                                    <span class="dropMenu">
+                                    <!-- <span class="dropMenu">
                                         <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
                                         <div class="ctmenu-sub  swap-box">
                                             <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
                                         </div>
-                                    </span>
+                                    </span> -->
                                 </div>
                             </div>
                             <div class="col-lg-8">
                                 <div class="collapse navbar-collapse" id="navbar-header">
                                     <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
-                                            <li>
+                                            <li class="nav-item">
                                                 <a class="nav-link" href="swap.html">Swap</a>
                                             </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="bridge.html">Bridge</a>
+                                            </li> 
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Earn 
@@ -212,22 +215,7 @@
                                                     </li>
                                                 </ul>                                
                                             </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="v1/index.html">V1</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="bridge.html">Bridge</a>
-                                            </li>
-                                            <!-- <li class="nav-item">
-                                                <a class="nav-link" href="deposit.html">Deposit</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="withdraw.html">Withdraw</a>
-                                            </li> -->
-                                            
+                                                                             
                                         </ul>
                                 </div>
                             </div>
@@ -293,7 +281,7 @@
                                                         <span class="error_lock_vegrb_message" style="font-style: italic; display: none"></span>
                                                         <button style="border-radius: 6px; margin-right: 10px;display: none" id="approve_lock_vegrb" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Approve veGRB</button>
                                                         <button style="border-radius: 6px; margin-right: 10px" id="lock_vegrb_button" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Lock veGRB</button>
-                                                        <button style="border-radius: 6px;" id="claim_grb_button" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Claim GRB</button>
+                                                        <button style="border-radius: 6px;" id="claim_grb_button" type="button" class="header__btn-connect btn-claim text-center mb-4 mb-md-0">Claim GRB</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -393,7 +381,7 @@
                                                         <button style="border-radius: 6px; margin-right: 10px;display: none" id="approve_lock_grb_1week" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Approve</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="lock_grb_1week_button" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Stake</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="unstake_grb_1week" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Unstake</button>
-                                                        <button style="border-radius: 6px;" id="claim_vegrb_1week_button" type="button" class="header__btn-connect text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
+                                                        <button style="border-radius: 6px;" id="claim_vegrb_1week_button" type="button" class="header__btn-connect btn-claim text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -473,7 +461,7 @@
                                                         <button style="border-radius: 6px; margin-right: 10px;display: none" id="approve_lock_grb_1month" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Approve</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="lock_grb_1month_button" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Stake</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="unstake_grb_1month" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Unstake</button>
-                                                        <button style="border-radius: 6px;" id="claim_vegrb_1month_button" type="button" class="header__btn-connect text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
+                                                        <button style="border-radius: 6px;" id="claim_vegrb_1month_button" type="button" class="header__btn-connect btn-claim text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -553,7 +541,7 @@
                                                         <button style="border-radius: 6px; margin-right: 10px;display: none" id="approve_lock_grb_1year" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Approve</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="lock_grb_1year_button" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Stake</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="unstake_grb_1year" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Unstake</button>
-                                                        <button style="border-radius: 6px;" id="claim_vegrb_1year_button" type="button" class="header__btn-connect text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
+                                                        <button style="border-radius: 6px;" id="claim_vegrb_1year_button" type="button" class="header__btn-connect btn-claim text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -633,7 +621,7 @@
                                                         <button style="border-radius: 6px; margin-right: 10px;display: none" id="approve_lock_vegrb_1week" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Approve</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="lock_vegrb_1week_button" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Stake</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="unstake_vegrb_1week" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Unstake</button>
-                                                        <button style="border-radius: 6px;" id="claim_vegrb_vegrbvault_1week_button" type="button" class="header__btn-connect text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
+                                                        <button style="border-radius: 6px;" id="claim_vegrb_vegrbvault_1week_button" type="button" class="header__btn-connect btn-claim text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -713,7 +701,7 @@
                                                         <button style="border-radius: 6px; margin-right: 10px;display: none" id="approve_lock_vegrb_1month" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Approve</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="lock_vegrb_1month_button" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Stake</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="unstake_vegrb_1month" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Unstake</button>
-                                                        <button style="border-radius: 6px;" id="claim_vegrb_vegrbvault_1month_button" type="button" class="header__btn-connect text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
+                                                        <button style="border-radius: 6px;" id="claim_vegrb_vegrbvault_1month_button" type="button" class="header__btn-connect btn-claim text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -793,7 +781,7 @@
                                                         <button style="border-radius: 6px; margin-right: 10px;display: none" id="approve_lock_vegrb_1year" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Approve</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="lock_vegrb_1year_button" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Stake</button>
                                                         <button style="border-radius: 6px; margin-right: 10px;" id="unstake_vegrb_1year" type="button" class="header__btn-connect text-center mb-4 mb-md-0">Unstake</button>
-                                                        <button style="border-radius: 6px;" id="claim_vegrb_vegrbvault_1year_button" type="button" class="header__btn-connect text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
+                                                        <button style="border-radius: 6px;" id="claim_vegrb_vegrbvault_1year_button" type="button" class="header__btn-connect btn-claim text-center mt-3 mb-4 mb-md-0">Retrieve veGRB Earnings</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -837,10 +825,13 @@
                                             <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="whitelist.html">Early Whitelist Access</a>
+                                            <a class="nav-link" href="v1/index.html">V1</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Version 2.0.4</a>
+                                            <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Version 2.0.5</a>
                                         </li>
                                     </ul>
                                 </div>
