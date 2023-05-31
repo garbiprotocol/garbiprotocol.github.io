@@ -181,6 +181,11 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
                 eth: "0x000000000000000000000082af49447d8a07e3bd95bd0d56f35241523fbab100",
             }
         },
+    };
+
+    const relayerVotes = {
+        relayers: ["0"],
+        totalYesVotes: 2,
     }
 
     return {
@@ -235,6 +240,10 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             let rpcList = network.rpcList;
             console.log(rpcList[0]);
             return rpcList[0];
+        },
+
+        GetTotalYesVoted() {
+            return relayerVotes.totalYesVotes;
         }
 
     }
