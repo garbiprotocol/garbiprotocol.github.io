@@ -575,33 +575,36 @@
                   }
                   return null;
                 }
+                function readDappradarAPI() {
+                    const options = {
+                        method: 'GET',
+                        headers: {
+                                'X-BLOBR-KEY': 'vNK1VSqH2hcd8gIWnNbqArKR61XcntQt'
+                            },
+                        };
+                        fetch('https://api.dappradar.com/4tsxo4vuhotaojtl/dapps/24697?range=30d', options)
+                          .then(response => response.json())
+                          .then(response => {
+                            setCookie("myData", response, 7);
 
+                                const myData = getCookie("myData");
+                                const data = JSON.parse(myData);
+                                let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
+                                let numTransactions = data.results.metrics.transactions;
+                                let numUaw = data.results.metrics.uaw;
+                                let numAsset = coreHelper.formatBalance(147000, 2);
+                                $('#total-trade-vol').text(numVolume);
+                                $('#total-trading-vol').text(numTransactions);
+                                $('.user-active-wallet').text(numUaw);
+                                $('.total-asset-value').text(numAsset);
+                            })
+                        .catch(err => console.error(err));
+                }
                 let myData = getCookie("myData");
                 if (myData) {
                     const data = JSON.parse(myData);
-                    let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
-                    let numTransactions = data.results.metrics.transactions;
-                    let numUaw = data.results.metrics.uaw;
-                    let numAsset = coreHelper.formatBalance(147000, 2);
-                    $('#total-trade-vol').text(numVolume);
-                    $('#total-trading-vol').text(numTransactions);
-                    $('.user-active-wallet').text(numUaw);
-                    $('.total-asset-value').text(numAsset);
-                }
-                if (myData == null) {
-                  const options = {
-                  method: 'GET',
-                  headers: {
-                        'X-BLOBR-KEY': 'vNK1VSqH2hcd8gIWnNbqArKR61XcntQt'
-                      },
-                    };
-                    fetch('https://api.dappradar.com/4tsxo4vuhotaojtl/dapps/24697?range=30d', options)
-                      .then(response => response.json())
-                      .then(response => {
-                        setCookie("myData", response, 7);
-
-                        const myData = getCookie("myData");
-                        const data = JSON.parse(myData);
+                    let checkCookie = data.success;
+                    if (checkCookie == true) {
                         let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
                         let numTransactions = data.results.metrics.transactions;
                         let numUaw = data.results.metrics.uaw;
@@ -610,10 +613,14 @@
                         $('#total-trading-vol').text(numTransactions);
                         $('.user-active-wallet').text(numUaw);
                         $('.total-asset-value').text(numAsset);
-                    })
-                    .catch(err => console.error(err));
-                };
-
+                    }
+                    else {
+                        readDappradarAPI();
+                    }
+                }
+                if (myData == null) {
+                    readDappradarAPI();            
+                }
             });
     </script>
 
