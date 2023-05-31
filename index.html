@@ -589,6 +589,14 @@
 
                                 const myData = getCookie("myData");
                                 const data = JSON.parse(myData);
+                                let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
+                                let numTransactions = data.results.metrics.transactions;
+                                let numUaw = data.results.metrics.uaw;
+                                let numAsset = coreHelper.formatBalance(147000, 2);
+                                $('#total-trade-vol').text(numVolume);
+                                $('#total-trading-vol').text(numTransactions);
+                                $('.user-active-wallet').text(numUaw);
+                                $('.total-asset-value').text(numAsset);
                             })
                         .catch(err => console.error(err));
                 }
@@ -607,25 +615,11 @@
                         $('.total-asset-value').text(numAsset);
                     }
                     else {
-                        let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
-                        let numTransactions = readdappradarAPI(data.results.metrics.transactions);
-                        let numUaw = readdappradarAPI(data.results.metrics.uaw);
-                        let numAsset = coreHelper.formatBalance(147000, 2);
-                        $('#total-trade-vol').text(numVolume);
-                        $('#total-trading-vol').text(numTransactions);
-                        $('.user-active-wallet').text(numUaw);
-                        $('.total-asset-value').text(numAsset);
+                        readDappradarAPI();
                     }
                 }
                 if (myData == null) {
-                    let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
-                    let numTransactions = readdappradarAPI(data.results.metrics.transactions);
-                    let numUaw = readdappradarAPI(data.results.metrics.uaw);
-                    let numAsset = coreHelper.formatBalance(147000, 2);
-                    $('#total-trade-vol').text(numVolume);
-                    $('#total-trading-vol').text(numTransactions);
-                    $('.user-active-wallet').text(numUaw);
-                    $('.total-asset-value').text(numAsset);
+                    readDappradarAPI();            
                 }
             });
     </script>
