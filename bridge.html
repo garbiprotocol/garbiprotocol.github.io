@@ -158,16 +158,16 @@
             align-items:center;
             margin-top: 10px;
         }
-        
+        .voting {
+            display:flex;
+            align-items:center;
+        }
         .line {
-            margin-bottom: 50px;
+            margin: 0px 20px 35px 40px;
             display: flex;
         }
         .line:last-child {
             margin-bottom:0;
-        }
-        .line:first-child {
-            margin-top:15px;
         }
         .cube {
             width: 50px;
@@ -190,7 +190,7 @@
             width: 50px;
             height: 50px;
             border: 2px solid white;
-            background-color: blue;
+            background-color: #DEE1E2;
             transition: border-color 0.5s ease-in-out;
         }
         
@@ -276,11 +276,11 @@
             position: absolute;
             top: 0;
             left: 0;
-        }
-        
+        }    
         .status {
-            margin-top: 70px;
-            margin-left: -50px;
+            margin-top: 70px; 
+            margin-left: -72px;
+            text-align: center;
         }
     </style>
 </head>
@@ -523,34 +523,43 @@
                                 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h5 class="modal-title" id="exampleModalCenterTitle">Bridge Status Overview</h5>                           
-                                            
+                                            <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa-solid fa-arrow-left"></i></span></button>
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">Bridge Status Overview</h5>                                   
                                         </div>
                                         <div class="modal-body">
                                             <div class="infor">
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="time">
-                                                            <p>Timestamp <span class="day">2023-06-01</span><span class="timestampPopupBridge">11:18:40</span></p>                            
+                                                            <p>Timestamp:</p>
+                                                            <div class="time-detail">
+                                                                <span class="day">2023-06-01</span>
+                                                                <span class="timestampPopupBridge">11:18:40</span>
+                                                            </div>                            
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="value">
-                                                            <p>value <span class="amountInputBridge">0.01</span> <span class="tokenDeposit">ETH</span></p>
+                                                            <p>Value:</p>
+                                                            <div class="detail">
+                                                                <span class="amountInputBridge">0.01</span>
+                                                                <span class="tokenDeposit">ETH</span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>  
                                             </div>
                                             <div class="status-transaction">
                                                 <div class="container-modal">
-                                                    <div >
-                                                        <img src="./assets/images/wallet.svg" style="width: 50px; height: 50px;">
+                                                    <div class="network-select">
+                                                        <img src="./assets/images/abitrum-wallet.png" style="width: 50px; height: 50px;">
+                                                        <p class="name-select-network">Arbitrum One</p>
                                                     </div>
-                                                    <div class="voting"> 
+                                                    <div class="voting">
+                                                        <img src="./assets/images/arrow.png" alt="">
                                                         <div class="status-voting">
                                                             <div class="line">
-                                                                <div class="line-connector-1"></div>
+                                                                
                                                                 <div class="cube">
                                                                     <div class="face front"></div>
                                                                     <div class="face back"></div>
@@ -560,7 +569,8 @@
                                                                     <div class="face bottom"></div>
                                                                 </div>
                                                                 <div class="status transaction-hash-relayer-0">
-                                                                    <span class="textStatus"></span>
+                                                                    <span class="name">Relayer#1</span><br>
+                                                                    <span class="textStatus">Awaiting Vote</span>
                                                                 </div>
                                                             </div>
                                                             <div class="line">
@@ -573,20 +583,9 @@
                                                                     <div class="face bottom"></div>
                                                                 </div>
                                                                 <div class="status transaction-hash-relayer-1">
-                                                                    <span class="textStatus"></span>
+                                                                    <span class="name">Relayer#2</span><br>
+                                                                    <span class="textStatus">Awaiting Vote</span>
                                                                 </div>
-
-                                                                <div class="line-connector-0"></div>
-                                                                <div class="line-connector-2"></div>
-                                                                <div class="cube-center">
-                                                                    <div class="face front"></div>
-                                                                    <div class="face back"></div>
-                                                                    <div class="face right"></div>
-                                                                    <div class="face left"></div>
-                                                                    <div class="face top"></div>
-                                                                    <div class="face bottom"></div>
-                                                                </div>
-                                                                <div class="line-connector-0"></div>
                                                             </div>
                                                             <div class="line">
                                                                 <div class="cube">
@@ -598,15 +597,32 @@
                                                                     <div class="face bottom"></div>
                                                                 </div>
                                                                 <div class="status transaction-hash-relayer-2">
-                                                                    <span class="textStatus"></span>
-                                                                    <a href="" class="transactionHash"></a>
+                                                                    <span class="name">Relayer#3</span><br>
+                                                                    <span class="textStatus">Awaiting Vote</span>
+                                                                    <!-- <a href="" class="transactionHash"></a> -->
                                                                 </div>
                                                             </div>
-                                                        </div>                                            
+                                                        </div>
+                                                        <img src="./assets/images/arrow-2.png" alt="">
+                                                        <div class="line">
+                                                            <div class="cube" >
+                                                                <div class="face front"></div>
+                                                                <div class="face back"></div>
+                                                                <div class="face right"></div>
+                                                                <div class="face left"></div>
+                                                                <div class="face top"></div>
+                                                                <div class="face bottom"></div>
+                                                            </div>
+                                                            <div class="status transaction-hash-relayer-1">
+                                                                <span class="name">Bridge Proposal</span><br>
+                                                                <span class="textStatus">Awaiting Vote</span>
+                                                            </div>        
+                                                        </div>                                                                               
                                                     </div>                                                 
-                                                    
-                                                    <div>
-                                                        <img src="./assets/images/wallet.svg" style="width: 50px; height: 50px;">
+                                                    <img src="./assets/images/arrow-3.png" alt="">
+                                                    <div class = "network-receive">
+                                                        <img src="./assets/images/nova-wallet.png" style="width: 50px; height: 50px;">
+                                                        <p class="name-receive-network">Arbitrum Nova</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -635,13 +651,13 @@
                         <article class="garbi__box-1 p-3 mb-3">
                             <p class="f-700">What is Bridge?</p>
 
-                            <p>In technology or finance, a bridge connects separate systems or networks, serving as an intermediary that enables the exchange of information, data, or assets between them.</p>
+                            <p>Welcome to the Garbi Stable Bridge - where blockchain interoperability meets stable, predictable transaction costs. Our platform harnesses the power of an advanced voting algorithm, facilitating seamless asset transfer between diverse blockchain networks, all with a fixed fee model.</p>
 
-                            <p>In blockchain and cryptocurrency, a bridge is a platform or protocol that enables the transfer of digital assets (like tokens) between different blockchain networks. These bridges are essential for establishing interoperability
-                                among blockchains with varying protocols, allowing assets to move seamlessly across networks.</p>
+                            <p>Garbi Stable Bridge presents a unique blend of democratization, community decision-making, and cost predictability. Our bridge requests are validated through a transparent voting mechanism, making the process trustworthy and verifiable.</p>
 
-                            <p>Bridges utilize smart contracts or similar mechanisms to hold assets on one blockchain and mint equivalent assets on the target blockchain, ensuring balance. They enhance liquidity, enable cross-chain DApps, and expand usability
-                                of blockchain assets.</p>
+                            <p>We aim to break the blockchain silos by enabling smooth transactions across different networks, with the added benefit of a fixed fee, no matter the size or frequency of your transactions. With us, you can bid farewell to fluctuating transaction costs.</p>
+
+                            <p>Step into the world of Garbi Stable Bridge and be part of our mission to connect the blockchain world under a single, predictable fee structure. Experience the next level of decentralization and control, tailored to your financial predictability.</p>
 
                         </article>
 
@@ -795,7 +811,7 @@
         let selectToken = $('select[name=token-from]').val();
         let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
         let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
-        $('#modal-bridge-popup').modal('show');
+        // $('#modal-bridge-popup').modal('show');
 
         garbiBridge.SwichNetworkDeposit(selectNetwork);
         $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance / 1e18).toFixed(4));
