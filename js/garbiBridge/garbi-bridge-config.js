@@ -186,6 +186,7 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
     const relayerVotes = {
         relayers: ["0"],
         totalYesVotes: 2,
+        totalYesVotesUI: 3,
     }
 
     return {
@@ -242,8 +243,12 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             return rpcList[0];
         },
 
-        GetTotalYesVoted() {
+        GetTotalYesVotes() {
             return relayerVotes.totalYesVotes;
+        },
+
+        GetTotalYesVotesUI() {
+            return relayerVotes.totalYesVotesUI;
         }
 
     }

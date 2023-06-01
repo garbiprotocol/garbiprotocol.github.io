@@ -10,14 +10,16 @@
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
         referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
     <title>Document</title>
 </head>
 
 <style>
-    .container {
+    .container-modal {
         display: flex;
         flex-direction: column;
-        margin-top: 100px;
+        margin-top: 10px;
     }
     
     .line {
@@ -93,14 +95,14 @@
     }
     
     .line-connector-1 {
-        width: 225px;
+        width: 150px;
         /* Adjust the length as needed */
         height: 2px;
         background-color: blue;
         position: absolute;
-        margin-left: 125px;
+        margin-left: 150px;
         margin-top: 25px;
-        transform: translate(-50%, -50%) rotate(25deg);
+        transform: translate(-50%, -50%) rotate(45deg);
         transform-origin: top left;
     }
     
@@ -115,14 +117,14 @@
     }
     
     .line-connector-2 {
-        width: 225px;
+        width: 150px;
         /* Adjust the length as needed */
         height: 2px;
         background-color: blue;
         position: absolute;
-        margin-left: -105px;
-        margin-top: 125px;
-        transform: translate(50%, 50%) rotate(-25deg);
+        margin-left: -4px;
+        margin-top: 175px;
+        transform: translate(50%, 50%) rotate(-45deg);
         transform-origin: top left;
     }
     
@@ -135,57 +137,104 @@
         top: 0;
         left: 0;
     }
+    
+    .arrow {
+        width: 200px;
+        height: 30px;
+        border-top: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        border-right: 100px solid black;
+        transform: skewX(-30deg);
+    }
+    
+    .status {
+        margin-top: 70px;
+        margin-left: -50px;
+    }
 </style>
 
 <body>
-    <div class="container">
-        <div class="line">
-            <div class="line-connector-1"></div>
-            <div class="cube">
-                <div class="face front"></div>
-                <div class="face back"></div>
-                <div class="face right"></div>
-                <div class="face left"></div>
-                <div class="face top"></div>
-                <div class="face bottom"></div>
-            </div>
-        </div>
-        <div class="line">
-            <div class="cube">
-                <div class="face front"></div>
-                <div class="face back"></div>
-                <div class="face right"></div>
-                <div class="face left"></div>
-                <div class="face top"></div>
-                <div class="face bottom"></div>
-            </div>
-            <div class="line-connector-0"></div>
-            <div class="line-connector-2"></div>
-            <div class="cube-center">
-                <div class="face front"></div>
-                <div class="face back"></div>
-                <div class="face right"></div>
-                <div class="face left"></div>
-                <div class="face top"></div>
-                <div class="face bottom"></div>
-            </div>
-            <div class="line-connector-0"></div>
-            <div>
-                <img src="./assets/images/wallet.svg" style="width: 50px; height: 50px;">
-            </div>
-        </div>
-        <div class="line">
-            <div class="cube">
-                <div class="face front"></div>
-                <div class="face back"></div>
-                <div class="face right"></div>
-                <div class="face left"></div>
-                <div class="face top"></div>
-                <div class="face bottom"></div>
+
+
+    <h1>Bootstrap Modal Example</h1>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+        Lauch modal
+      </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-modal">
+                        <div class="line">
+                            <div class="line-connector-1"></div>
+                            <div class="cube">
+                                <div class="face front"></div>
+                                <div class="face back"></div>
+                                <div class="face right"></div>
+                                <div class="face left"></div>
+                                <div class="face top"></div>
+                                <div class="face bottom"></div>
+                            </div>
+                            <div class="status">pending</div>
+                        </div>
+                        <div class="line">
+                            <div class="cube">
+                                <div class="face front"></div>
+                                <div class="face back"></div>
+                                <div class="face right"></div>
+                                <div class="face left"></div>
+                                <div class="face top"></div>
+                                <div class="face bottom"></div>
+                            </div>
+                            <div class="status">pending</div>
+
+                            <div class="line-connector-0"></div>
+                            <div class="line-connector-2"></div>
+                            <div class="cube-center" style="margin-left: 50px;">
+                                <div class="face front"></div>
+                                <div class="face back"></div>
+                                <div class="face right"></div>
+                                <div class="face left"></div>
+                                <div class="face top"></div>
+                                <div class="face bottom"></div>
+                            </div>
+                            <div class="line-connector-0"></div>
+                            <div>
+                                <img src="./assets/images/wallet.svg" style="width: 50px; height: 50px;">
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="cube">
+                                <div class="face front"></div>
+                                <div class="face back"></div>
+                                <div class="face right"></div>
+                                <div class="face left"></div>
+                                <div class="face top"></div>
+                                <div class="face bottom"></div>
+                            </div>
+                            <div class="status">pending</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p>Total vote: <span class="totalVoted">2/3</span></p>
+                </div>
             </div>
         </div>
     </div>
 
+    <div class="arrow"></div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
