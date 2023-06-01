@@ -54,15 +54,13 @@ $.GARBI_BRIDGE.prototype = (function() {
                     coreHelper.hidePopup('success-confirm-popup', 10000);
                 })
                 .on('receipt', (receipt) => {
-                    $('#token-bridge').modal('show');
-                    $('#token-bridge .bridge-success').hide();
-                    $('#token-bridge .wait-bridge').show();
+                    $('#modal-bridge-popup').modal('show');
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
 
-                    // let depositNonce = receipt.events.Deposit.returnValues.depositNonce;
-                    // self.SyncEvent(networkRecieve, depositNonce);
+                    let depositNonce = receipt.events.Deposit.returnValues.depositNonce;
+                    self.SyncEvent(networkRecieve, depositNonce);
                 })
                 .on('error', (err, receipt) => {
                     console.log(err);
@@ -210,7 +208,7 @@ $.GARBI_BRIDGE.prototype = (function() {
                 });
         },
 
-        async SyncEvent(chainName, depositNonce, fromBlock = null) {
+        async SyncEvent(chainName, depositNonce, fromBlock = null, tokenDeposit, amountInputBridge) {
             let eventName = "ProposalVote";
             let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
             let rpc = network.rpcList[0];
@@ -247,14 +245,34 @@ $.GARBI_BRIDGE.prototype = (function() {
                     }
                 }
             }
-            let totalYesVotesConfig = garbiBridgeConfig.GetTotalYesVoted();
-            if (!data.yesVotesTotal || data.yesVotesTotal < totalYesVotesConfig) {
-
-                console.log(data);
-
+            let totalYesVotesConfigContract = garbiBridgeConfig.GetTotalYesVotes();
+            let totalYesVotesConfigUI = garbiBridgeConfig.GetTotalYesVotesUI();
+            if (Object.keys(data).length == 0) {
                 setTimeout(() => {
-                    this.SyncEvent(chainName, depositNonce, latestBlock);
-                }, 6000);
+                    this.SyncEvent(chainName, depositNonce, latestBlock, tokenDeposit, amountInputBridge);
+                }, 3000);
+            } else {
+                if (data.yesVotesTotal < totalYesVotesConfigContract) {
+                    setTimeout(() => {
+                        this.SyncEvent(chainName, depositNonce, latestBlock, tokenDeposit, amountInputBridge);
+                    }, 3000);
+                }
+
+                // handle transaction hash
+
+                // handle total vote UI
+                let timestampPopupBridge = Math.floor(Date.now() / 1000);
+                $('#modal-bridge-popup .timestampPopupBridge').text(timestampPopupBridge);
+
+                $('#modal-bridge-popup .amountInputBridge').text(amountInputBridge.toString());
+
+                $('#modal-bridge-popup .tokenDeposit').text(tokenDeposit.toString());
+
+                let textYesTotalVotes = (data.yesVotesTotal == totalYesVotesConfigContract) ?
+                    totalYesVotesConfigUI :
+                    data.yesVotesTotal;
+                $('#modal-bridge-popup .totalVoted').text(textYesTotalVotes);
+                $('#modal-bridge-popup .totalYesVotesConfig').text(data.totalYesVotesConfigUI);
             }
         },
 
