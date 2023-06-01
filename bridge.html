@@ -101,7 +101,6 @@
             font-family: inherit
         }
         
-        
         */
     </style>
     <style id="svelte-7rn0pv-style">
@@ -317,46 +316,46 @@
                         <div class="col-lg-8">
                             <div class="collapse navbar-collapse" id="navbar-header">
                                 <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="swap.html">Swap</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="bridge.html">Bridge</a>
-                                        </li> 
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="bridge.html">Bridge</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Earn 
                                             </a>
-                                            <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
-                                                 <li>
-                                                    <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="earn.html">Classic Earn</a>
-                                                </li>
-                                            </ul>   
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="earn.html">Classic Earn</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             GRB-WETH Liquidity
                                           </a>
-                                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                                                <li>
-                                                    <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
-                                                </li>
-                                            </ul>                                
-                                        </li>
-                                                                         
-                                    </ul>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -538,7 +537,9 @@
                                                         <div class="face top"></div>
                                                         <div class="face bottom"></div>
                                                     </div>
-                                                    <div class="status transaction-hash-relayer-0">pending</div>
+                                                    <div class="status transaction-hash-relayer-0">
+                                                        <span class="textStatus"></span>
+                                                    </div>
                                                 </div>
                                                 <div class="line">
                                                     <div class="cube">
@@ -549,7 +550,9 @@
                                                         <div class="face top"></div>
                                                         <div class="face bottom"></div>
                                                     </div>
-                                                    <div class="status transaction-hash-relayer-1">pending</div>
+                                                    <div class="status transaction-hash-relayer-1">
+                                                        <span class="textStatus"></span>
+                                                    </div>
 
                                                     <div class="line-connector-0"></div>
                                                     <div class="line-connector-2"></div>
@@ -575,7 +578,10 @@
                                                         <div class="face top"></div>
                                                         <div class="face bottom"></div>
                                                     </div>
-                                                    <div class="status transaction-hash-relayer-2">pending</div>
+                                                    <div class="status transaction-hash-relayer-2">
+                                                        <span class="textStatus"></span>
+                                                        <a href="" class="transactionHash"></a>
+                                                    </div>
 
                                                 </div>
                                             </div>
@@ -898,9 +904,37 @@
                 }
                 garbiBridge.BridgeERC20(selectNetwork, networkRecieve, selectToken, userInputValue);
             } else {
-                garbiBridge.BridgeETH(selectNetwork, networkRecieve, selectToken, userInputValue);
-            }
+                let receipt = await garbiBridge.BridgeETH(selectNetwork, networkRecieve, selectToken, userInputValue);
+                if (receipt.status == true) {
+                    let depositNonce = receipt.events.Deposit.returnValues.depositNonce;
 
+                    SyncEvent(networkRecieve, depositNonce);
+
+                    async function SyncEvent(chainName, depositNonce, fromBlock = null) {
+                        let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
+                        let rpc = network.rpcList[0];
+                        let _web3 = new Web3(new Web3.providers.HttpProvider(rpc));
+                        let latestBlock = await _web3.eth.getBlockNumber();
+
+                        let dataEvent = await garbiBridge.SyncEvent(chainName, depositNonce, fromBlock)
+
+                        let totalYesVotesConfigContract = garbiBridgeConfig.GetTotalYesVotes();
+
+                        if (Object.keys(dataEvent).length == 0) {
+                            setTimeout(() => {
+                                SyncEvent(chainName, depositNonce, latestBlock);
+                            }, 3000);
+                        } else {
+                            if (dataEvent.yesVotesTotal < totalYesVotesConfigContract) {
+                                setTimeout(() => {
+                                    SyncEvent(chainName, depositNonce, latestBlock);
+                                }, 3000);
+                            }
+                            // do something with data ...
+                        }
+                    }
+                }
+            }
 
         })
         $('.button-approve').click(async function() {
@@ -928,7 +962,7 @@
         });
 
         // $('#modal-bridge-popup').modal('show');
-    }
+    };
 </script>
 
 </html>

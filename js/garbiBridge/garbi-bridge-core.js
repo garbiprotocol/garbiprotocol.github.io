@@ -14,13 +14,13 @@ $.GARBI_BRIDGE.prototype = (function() {
 
         async BridgeERC20(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge) {
             let self = this;
-            await self.Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge, 0);
+            return await self.Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge, 0);
         },
 
         async BridgeETH(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge) {
             let self = this;
             let valueETH = coreHelper.toBN(amountInputBridge, 18);
-            await self.Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge, valueETH);
+            return await self.Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge, valueETH);
         },
 
         async Bridge(networkDeposit, networkRecieve, tokenDeposit, amountInputBridge, valueETH) {
@@ -41,7 +41,7 @@ $.GARBI_BRIDGE.prototype = (function() {
 
             let brideContractAction = contractBaseHelper.getMainContract(bridgeContractAddress, bridgeAbi);
 
-            brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
+            return await brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
                 .send({ from: user, value: valueETH })
                 .on('transactionHash', (hash) => {
                     let blockExplorerUrl = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(networkDeposit);
@@ -55,12 +55,13 @@ $.GARBI_BRIDGE.prototype = (function() {
                 })
                 .on('receipt', (receipt) => {
                     $('#modal-bridge-popup').modal('show');
+                    document.querySelector('.transaction-hash-relayer-0 .textStatus').innerHTML = "Pending";
+                    document.querySelector('.transaction-hash-relayer-1 .textStatus').innerHTML = "Pending";
+                    document.querySelector('.transaction-hash-relayer-2 .textStatus').innerHTML = "Pending";
+
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
-
-                    let depositNonce = receipt.events.Deposit.returnValues.depositNonce;
-                    self.SyncEvent(networkRecieve, depositNonce);
                 })
                 .on('error', (err, receipt) => {
                     console.log(err);
@@ -208,7 +209,8 @@ $.GARBI_BRIDGE.prototype = (function() {
                 });
         },
 
-        async SyncEvent(chainName, depositNonce, fromBlock = null, tokenDeposit, amountInputBridge) {
+        async SyncEvent(chainName, depositNonce, fromBlock = null) {
+            console.log("SyncEvent");
             let eventName = "ProposalVote";
             let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
             let rpc = network.rpcList[0];
@@ -231,11 +233,11 @@ $.GARBI_BRIDGE.prototype = (function() {
                 for (let index = 0; index < event.length; index++) {
                     const element = event[index];
                     if (depositNonce == element.returnValues.depositNonce) {
+                        console.log({ element });
                         data[index] = {};
                         data.dataHash = element.returnValues.dataHash;
                         data.originDomainID = element.returnValues.originDomainID;
 
-                        data[index].address = element.address;
                         data[index].transactionHash = element.transactionHash;
                         data[index].status = element.returnValues.status;
 
@@ -245,35 +247,8 @@ $.GARBI_BRIDGE.prototype = (function() {
                     }
                 }
             }
-            let totalYesVotesConfigContract = garbiBridgeConfig.GetTotalYesVotes();
-            let totalYesVotesConfigUI = garbiBridgeConfig.GetTotalYesVotesUI();
-            if (Object.keys(data).length == 0) {
-                setTimeout(() => {
-                    this.SyncEvent(chainName, depositNonce, latestBlock, tokenDeposit, amountInputBridge);
-                }, 3000);
-            } else {
-                if (data.yesVotesTotal < totalYesVotesConfigContract) {
-                    setTimeout(() => {
-                        this.SyncEvent(chainName, depositNonce, latestBlock, tokenDeposit, amountInputBridge);
-                    }, 3000);
-                }
-
-                // handle transaction hash
-
-                // handle total vote UI
-                let timestampPopupBridge = Math.floor(Date.now() / 1000);
-                $('#modal-bridge-popup .timestampPopupBridge').text(timestampPopupBridge);
-
-                $('#modal-bridge-popup .amountInputBridge').text(amountInputBridge.toString());
-
-                $('#modal-bridge-popup .tokenDeposit').text(tokenDeposit.toString());
-
-                let textYesTotalVotes = (data.yesVotesTotal == totalYesVotesConfigContract) ?
-                    totalYesVotesConfigUI :
-                    data.yesVotesTotal;
-                $('#modal-bridge-popup .totalVoted').text(textYesTotalVotes);
-                $('#modal-bridge-popup .totalYesVotesConfig').text(data.totalYesVotesConfigUI);
-            }
+            console.log(data);
+            return data;
         },
 
 
