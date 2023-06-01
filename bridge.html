@@ -155,16 +155,20 @@
     <style>
         .container-modal {
             display: flex;
-            flex-direction: column;
+            align-items:center;
             margin-top: 10px;
         }
         
         .line {
             margin-bottom: 50px;
-            margin-left: 50px;
             display: flex;
         }
-        
+        .line:last-child {
+            margin-bottom:0;
+        }
+        .line:first-child {
+            margin-top:15px;
+        }
         .cube {
             width: 50px;
             height: 50px;
@@ -233,7 +237,6 @@
         
         .line-connector-1 {
             width: 225px;
-            /* Adjust the length as needed */
             height: 2px;
             background-color: blue;
             position: absolute;
@@ -517,80 +520,102 @@
                                 </div>
                             </div> -->
                             <div class="modal fade" id="modal-bridge-popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-                                            <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
+                                            <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">Bridge Status Overview</h5>                           
+                                            
                                         </div>
                                         <div class="modal-body">
-                                            <div class="container-modal">
-                                                <div class="line">
-                                                    <div class="line-connector-1"></div>
-                                                    <div class="cube">
-                                                        <div class="face front"></div>
-                                                        <div class="face back"></div>
-                                                        <div class="face right"></div>
-                                                        <div class="face left"></div>
-                                                        <div class="face top"></div>
-                                                        <div class="face bottom"></div>
+                                            <div class="infor">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="time">
+                                                            <p>Timestamp <span class="day">2023-06-01</span><span class="timestampPopupBridge">11:18:40</span></p>                            
+                                                        </div>
                                                     </div>
-                                                    <div class="status transaction-hash-relayer-0">
-                                                        <span class="textStatus"></span>
+                                                    <div class="col-lg-6">
+                                                        <div class="value">
+                                                            <p>value <span class="amountInputBridge">0.01</span> <span class="tokenDeposit">ETH</span></p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="line">
-                                                    <div class="cube">
-                                                        <div class="face front"></div>
-                                                        <div class="face back"></div>
-                                                        <div class="face right"></div>
-                                                        <div class="face left"></div>
-                                                        <div class="face top"></div>
-                                                        <div class="face bottom"></div>
+                                                </div>  
+                                            </div>
+                                            <div class="status-transaction">
+                                                <div class="container-modal">
+                                                    <div >
+                                                        <img src="./assets/images/wallet.svg" style="width: 50px; height: 50px;">
                                                     </div>
-                                                    <div class="status transaction-hash-relayer-1">
-                                                        <span class="textStatus"></span>
-                                                    </div>
+                                                    <div class="voting"> 
+                                                        <div class="status-voting">
+                                                            <div class="line">
+                                                                <div class="line-connector-1"></div>
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status transaction-hash-relayer-0">
+                                                                    <span class="textStatus"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status transaction-hash-relayer-1">
+                                                                    <span class="textStatus"></span>
+                                                                </div>
 
-                                                    <div class="line-connector-0"></div>
-                                                    <div class="line-connector-2"></div>
-                                                    <div class="cube-center">
-                                                        <div class="face front"></div>
-                                                        <div class="face back"></div>
-                                                        <div class="face right"></div>
-                                                        <div class="face left"></div>
-                                                        <div class="face top"></div>
-                                                        <div class="face bottom"></div>
-                                                    </div>
-                                                    <div class="line-connector-0"></div>
+                                                                <div class="line-connector-0"></div>
+                                                                <div class="line-connector-2"></div>
+                                                                <div class="cube-center">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="line-connector-0"></div>
+                                                            </div>
+                                                            <div class="line">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status transaction-hash-relayer-2">
+                                                                    <span class="textStatus"></span>
+                                                                    <a href="" class="transactionHash"></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>                                            
+                                                    </div>                                                 
+                                                    
                                                     <div>
                                                         <img src="./assets/images/wallet.svg" style="width: 50px; height: 50px;">
                                                     </div>
                                                 </div>
-                                                <div class="line">
-                                                    <div class="cube">
-                                                        <div class="face front"></div>
-                                                        <div class="face back"></div>
-                                                        <div class="face right"></div>
-                                                        <div class="face left"></div>
-                                                        <div class="face top"></div>
-                                                        <div class="face bottom"></div>
-                                                    </div>
-                                                    <div class="status transaction-hash-relayer-2">
-                                                        <span class="textStatus"></span>
-                                                        <a href="" class="transactionHash"></a>
-                                                    </div>
-
-                                                </div>
                                             </div>
                                         </div>
-                                        <div class="modal-body">
+                                        <!-- <div class="modal-body">
                                             <p>Timestamp <span class="timestampPopupBridge"></span></p>
                                             <p>value <span class="amountInputBridge"></span> <span class="tokenDeposit"></span></p>
                                             <p>Total vote: <span class="totalVoted">2</span>/<span class="totalYesVotesConfig">3</span></p>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -770,6 +795,7 @@
         let selectToken = $('select[name=token-from]').val();
         let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
         let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
+        $('#modal-bridge-popup').modal('show');
 
         garbiBridge.SwichNetworkDeposit(selectNetwork);
         $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance / 1e18).toFixed(4));
