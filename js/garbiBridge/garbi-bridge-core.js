@@ -54,10 +54,20 @@ $.GARBI_BRIDGE.prototype = (function() {
                     coreHelper.hidePopup('success-confirm-popup', 10000);
                 })
                 .on('receipt', (receipt) => {
+                    let currentTime = new Date();
+                    let year = currentTime.getFullYear();
+                    let month = currentTime.getMonth() + 1;
+                    let day = currentTime.getDate();
+                    let hours = currentTime.getHours();
+                    let minutes = currentTime.getMinutes();
+                    let seconds = currentTime.getSeconds();
+
+                    $('.time-detail .day').text(year + '-' + month + '-' + day);
+                    $('.time-detail .timestampPopupBridge').text(hours + ':' + minutes + ':' + seconds);
                     $('#modal-bridge-popup').modal('show');
-                    document.querySelector('.transaction-hash-relayer-0 .textStatus').innerHTML = "Pending";
-                    document.querySelector('.transaction-hash-relayer-1 .textStatus').innerHTML = "Pending";
-                    document.querySelector('.transaction-hash-relayer-2 .textStatus').innerHTML = "Pending";
+                    // document.querySelector('.transaction-hash-relayer-0 .textStatus').innerHTML = "Pending";
+                    // document.querySelector('.transaction-hash-relayer-1 .textStatus').innerHTML = "Pending";
+                    // document.querySelector('.transaction-hash-relayer-2 .textStatus').innerHTML = "Pending";
 
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');

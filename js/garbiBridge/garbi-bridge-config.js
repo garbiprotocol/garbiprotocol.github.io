@@ -228,6 +228,10 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             return token[chainName][tokenName].name;
         },
 
+        GetTokenSymbolByNetworkName(chainName, tokenName) {
+            return token[chainName][tokenName].tokenSymbol;
+        },
+
         GetBridgeToNetworkByNetworkName(chainName) {
             return bridgeToNetwork[chainName];
         },

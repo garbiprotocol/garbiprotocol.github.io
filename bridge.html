@@ -163,7 +163,7 @@
             align-items:center;
         }
         .line {
-            margin: 0px 20px 35px 40px;
+            margin: 0px 40px 35px 60px;
             display: flex;
         }
         .line:last-child {
@@ -281,6 +281,9 @@
             margin-top: 70px; 
             margin-left: -72px;
             text-align: center;
+        }
+        .status span.name {
+            font-weight: bold;
         }
     </style>
 </head>
@@ -533,8 +536,8 @@
                                                         <div class="time">
                                                             <p>Timestamp:</p>
                                                             <div class="time-detail">
-                                                                <span class="day">2023-06-01</span>
-                                                                <span class="timestampPopupBridge">11:18:40</span>
+                                                                <span class="day"></span>
+                                                                <span class="timestampPopupBridge"></span>
                                                             </div>                            
                                                         </div>
                                                     </div>
@@ -542,8 +545,8 @@
                                                         <div class="value">
                                                             <p>Value:</p>
                                                             <div class="detail">
-                                                                <span class="amountInputBridge">0.01</span>
-                                                                <span class="tokenDeposit">ETH</span>
+                                                                <span class="amountInputBridge"><span class="value-move"> </span> </span>
+                                                                <span class="tokenDeposit"><span class="token-select-symbol"></span></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -570,7 +573,7 @@
                                                                 </div>
                                                                 <div class="status transaction-hash-relayer-0">
                                                                     <span class="name">Relayer#1</span><br>
-                                                                    <span class="textStatus">Awaiting Vote</span>
+                                                                    <span class="textStatus"><i class="fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
                                                                 </div>
                                                             </div>
                                                             <div class="line">
@@ -584,7 +587,7 @@
                                                                 </div>
                                                                 <div class="status transaction-hash-relayer-1">
                                                                     <span class="name">Relayer#2</span><br>
-                                                                    <span class="textStatus">Awaiting Vote</span>
+                                                                    <span class="textStatus"><i class="fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
                                                                 </div>
                                                             </div>
                                                             <div class="line">
@@ -598,7 +601,7 @@
                                                                 </div>
                                                                 <div class="status transaction-hash-relayer-2">
                                                                     <span class="name">Relayer#3</span><br>
-                                                                    <span class="textStatus">Awaiting Vote</span>
+                                                                    <span class="textStatus"><i class="fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
                                                                     <!-- <a href="" class="transactionHash"></a> -->
                                                                 </div>
                                                             </div>
@@ -615,7 +618,7 @@
                                                             </div>
                                                             <div class="status transaction-hash-relayer-1">
                                                                 <span class="name">Bridge Proposal</span><br>
-                                                                <span class="textStatus">Awaiting Vote</span>
+                                                                <span class="textStatus"><i class="fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
                                                             </div>        
                                                         </div>                                                                               
                                                     </div>                                                 
@@ -811,7 +814,7 @@
         let selectToken = $('select[name=token-from]').val();
         let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
         let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
-        // $('#modal-bridge-popup').modal('show');
+        $('#modal-bridge-popup').modal('show');
 
         garbiBridge.SwichNetworkDeposit(selectNetwork);
         $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance / 1e18).toFixed(4));
@@ -845,6 +848,7 @@
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
             let selectToken = $('select[name=token-from]').val();
             let selectTokenName = await garbiBridgeConfig.GetTokenNameByNetworkName(selectNetwork, selectToken);
+            let selectTokenSymbol = await garbiBridgeConfig.GetTokenSymbolByNetworkName(selectNetwork, selectToken);
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
             let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkerc20HandleAddress);
@@ -875,6 +879,7 @@
             $('.stable-swap-out .swap__form-input').val(userInputValue);
             $('.value-move').text(userInputValue);
             $('.token-select').text(selectTokenName);
+            $('.token-select-symbol').text(selectTokenSymbol);
             $('.grb-balance').text((userSelectNetworkGRBBalance / 1e18).toFixed(4));
             garbiBridge.SwichNetworkDeposit(selectNetwork);
         }, 1000);
