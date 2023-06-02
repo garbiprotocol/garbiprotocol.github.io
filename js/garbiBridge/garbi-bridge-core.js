@@ -54,17 +54,7 @@ $.GARBI_BRIDGE.prototype = (function() {
                     coreHelper.hidePopup('success-confirm-popup', 10000);
                 })
                 .on('receipt', (receipt) => {
-                    let currentTime = new Date();
-                    let year = currentTime.getFullYear();
-                    let month = currentTime.getMonth() + 1;
-                    let day = currentTime.getDate();
-                    let hours = currentTime.getHours();
-                    let minutes = currentTime.getMinutes();
-                    let seconds = currentTime.getSeconds();
-
-                    $('.time-detail .day').text(year + '-' + month + '-' + day);
-                    $('.time-detail .timestampPopupBridge').text(hours + ':' + minutes + ':' + seconds);
-                    $('#modal-bridge-popup').modal('show');
+                    
                     // document.querySelector('.transaction-hash-relayer-0 .textStatus').innerHTML = "Pending";
                     // document.querySelector('.transaction-hash-relayer-1 .textStatus').innerHTML = "Pending";
                     // document.querySelector('.transaction-hash-relayer-2 .textStatus').innerHTML = "Pending";
@@ -242,17 +232,16 @@ $.GARBI_BRIDGE.prototype = (function() {
                 for (let index = 0; index < event.length; index++) {
                     const element = event[index];
                     if (depositNonce == element.returnValues.depositNonce) {
-                        console.log({ element });
                         data[index] = {};
-                        data.dataHash = element.returnValues.dataHash;
-                        data.originDomainID = element.returnValues.originDomainID;
+                        data[index].dataHash = element.returnValues.dataHash;
+                        data[index].originDomainID = element.returnValues.originDomainID;
 
                         data[index].transactionHash = element.transactionHash;
                         data[index].status = element.returnValues.status;
 
                         let proposal = await bridgeContract.methods.
-                        getProposal(data.originDomainID, depositNonce, data.dataHash).call();
-                        data.yesVotesTotal = proposal._yesVotesTotal;
+                        getProposal(data[index].originDomainID, depositNonce, data[index].dataHash).call();
+                        data[index].yesVotesTotal = proposal._yesVotesTotal;
                     }
                 }
             }

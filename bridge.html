@@ -284,12 +284,34 @@
         
         .status {
             margin-top: 70px;
-            margin-left: -72px;
+            margin-left: -86px;
             text-align: center;
         }
         .status span.name {
             font-weight: bold;
         }
+        .status span.success-status {
+            color:#099105;
+        }
+        .status span.success-status a {
+            color:#099105;
+        }
+        #relayer-bridge .status {
+            margin-left: -80px!important;
+        }
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+
+        .spin-animation {
+          animation: spin 2s linear infinite;
+        }
+
     </style>
 </head>
 
@@ -539,10 +561,9 @@
                                                 <div class="row">
                                                     <div class="col-lg-6">
                                                         <div class="time">
-                                                            <p>Timestamp:</p>
+                                                            <p>Estimated time</p>
                                                             <div class="time-detail">
-                                                                <span class="day"></span>
-                                                                <span class="timestampPopupBridge"></span>
+                                                                <span class="estimated-time"></span>
                                                             </div>                            
                                                         </div>
                                                     </div>
@@ -560,13 +581,14 @@
                                             <div class="status-transaction">
                                                 <div class="container-modal">
                                                     <div class="network-select">
-                                                        <img src="./assets/images/abitrum-wallet.png" style="width: 50px; height: 50px;">
-                                                        <p class="name-select-network">Arbitrum One</p>
+                                                        <img src="" style="width: 50px; height: 50px;">
+                                                        <p class="name-select-network"><span class="select-chain"></span></p>
+                                                        <a href="" target="_blank" class="transaction-hash">Tx: <span class="hash-deponsit"></span></a>
                                                     </div>
                                                     <div class="voting">
                                                         <img src="./assets/images/arrow.png" alt="">
                                                         <div class="status-voting">
-                                                            <div class="line">
+                                                            <div class="line" id="transaction-hash-relayer-0">
 
                                                                 <div class="cube">
                                                                     <div class="face front"></div>
@@ -576,12 +598,13 @@
                                                                     <div class="face top"></div>
                                                                     <div class="face bottom"></div>
                                                                 </div>
-                                                                <div class="status transaction-hash-relayer-0">
+                                                                <div class="status" >
                                                                     <span class="name">Relayer#1</span><br>
-                                                                    <span class="textStatus"><i class="fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate fa-spin"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="line">
+                                                            <div class="line" id="transaction-hash-relayer-1">
                                                                 <div class="cube">
                                                                     <div class="face front"></div>
                                                                     <div class="face back"></div>
@@ -590,12 +613,13 @@
                                                                     <div class="face top"></div>
                                                                     <div class="face bottom"></div>
                                                                 </div>
-                                                                <div class="status transaction-hash-relayer-1">
+                                                                <div class="status" >
                                                                     <span class="name">Relayer#2</span><br>
-                                                                    <span class="textStatus"><i class="fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</a></span>
                                                                 </div>
                                                             </div>
-                                                            <div class="line">
+                                                            <div class="line" id="transaction-hash-relayer-2">
                                                                 <div class="cube">
                                                                     <div class="face front"></div>
                                                                     <div class="face back"></div>
@@ -604,15 +628,15 @@
                                                                     <div class="face top"></div>
                                                                     <div class="face bottom"></div>
                                                                 </div>
-                                                                <div class="status transaction-hash-relayer-2">
+                                                                <div class="status" >
                                                                     <span class="name">Relayer#3</span><br>
-                                                                    <span class="textStatus"><i class="fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
-                                                                    <!-- <a href="" class="transactionHash"></a> -->
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <img src="./assets/images/arrow-2.png" alt="">
-                                                        <div class="line">
+                                                        <div class="line" id="relayer-bridge">
                                                             <div class="cube">
                                                                 <div class="face front"></div>
                                                                 <div class="face back"></div>
@@ -621,16 +645,18 @@
                                                                 <div class="face top"></div>
                                                                 <div class="face bottom"></div>
                                                             </div>
-                                                            <div class="status transaction-hash-relayer-1">
+                                                            <div class="status">
                                                                 <span class="name">Bridge Proposal</span><br>
-                                                                <span class="textStatus"><i class="fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                <span class="success-status" style="display:none;"><a href="#" class="transaction-bridge-hash"><i class="fa-regular fa-circle-check"></i> Executed</a></span>
                                                             </div>        
                                                         </div>                                                                               
                                                     </div>                                                 
                                                     <img src="./assets/images/arrow-3.png" alt="">
                                                     <div class="network-receive">
-                                                        <img src="./assets/images/nova-wallet.png" style="width: 50px; height: 50px;">
-                                                        <p class="name-receive-network">Arbitrum Nova</p>
+                                                        <img src="" style="width: 50px; height: 50px;">
+                                                        <p class="name-receive-network"><span class="recieve-chain"></span></p>
+                                                        <a href="" target="_blank" class="transaction-bridge">Tx: <span class="hash-bridge"></span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -825,7 +851,11 @@
         let selectToken = $('select[name=token-from]').val();
         let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
         let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
-        $('#modal-bridge-popup').modal('show');
+        // let transactionHashRelayer = ["transaction-hash-relayer-0", "transaction-hash-relayer-1", "transaction-hash-relayer-2"];
+        // let randomTansactionHashRelayer = Math.floor(Math.random() * transactionHashRelayer.length);
+        // let randomRelayer = transactionHashRelayer[randomTansactionHashRelayer];
+
+        // $('#' + randomRelayer + ' .textStatus').hide();
 
         garbiBridge.SwichNetworkDeposit(selectNetwork);
         $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance / 1e18).toFixed(4));
@@ -886,7 +916,18 @@
                 }
             }
 
-
+            if (selectNetwork == "ArbitrumNova") {
+                $('.network-select img').attr('src', './assets/images/nova-wallet.png');
+            }
+            if (selectNetwork == "ArbitrumGoerli") {
+                $('.network-select img').attr('src', './assets/images/arbitrum-wallet.png');
+            }
+            if (networkRecieve == "ArbitrumNova") {
+                $('.network-receive img').attr('src', './assets/images/nova-wallet.png');
+            }
+            if (networkRecieve == "ArbitrumGoerli") {
+                $('.network-receive img').attr('src', './assets/images/arbitrum-wallet.png');
+            }
             $('.stable-swap-out .swap__form-input').val(userInputValue);
             $('.value-move').text(userInputValue);
             $('.token-select').text(selectTokenName);
@@ -937,7 +978,7 @@
         }, 3000);
 
         $('.button-move-funds').click(async function() {
-
+            
             let userAddr = coreHelper.getUserAccount();
 
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
@@ -964,6 +1005,11 @@
             } else {
                 let receipt = await garbiBridge.BridgeETH(selectNetwork, networkRecieve, selectToken, userInputValue);
                 if (receipt.status == true) {
+                    $('#modal-bridge-popup').modal('show');
+                    let estimatedTime = garbiBridgeConfig.GetEstimateTimeBridgeSuccess(selectNetwork , networkRecieve)
+                    $('.estimated-time').text(estimatedTime /60 + " minutes");
+                    $('.transaction-bridge').hide();
+                    $('.hash-deponsit').text(`${receipt.transactionHash.slice(0,5)}...${receipt.transactionHash.slice(-5)}`);
                     let depositNonce = receipt.events.Deposit.returnValues.depositNonce;
 
                     SyncEvent(networkRecieve, depositNonce);
@@ -983,12 +1029,52 @@
                                 SyncEvent(chainName, depositNonce, latestBlock);
                             }, 3000);
                         } else {
-                            if (dataEvent.yesVotesTotal < totalYesVotesConfigContract) {
+                            if (dataEvent[0].yesVotesTotal < totalYesVotesConfigContract) {
                                 setTimeout(() => {
                                     SyncEvent(chainName, depositNonce, latestBlock);
                                 }, 3000);
                             }
                             // do something with data ...
+                            let transactionHashRelayer = ["transaction-hash-relayer-0", "transaction-hash-relayer-1", "transaction-hash-relayer-2"];
+                            let blockExplorerUrlBridge = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(chainName);
+                            switch (dataEvent[0].yesVotesTotal) {
+                                case '1' :
+                                    let randomTansactionHashRelayer = Math.floor(Math.random() * transactionHashRelayer.length);
+                                    let randomRelayer = transactionHashRelayer[randomTansactionHashRelayer];
+
+                                    $('#' + randomRelayer + ' .textStatus').hide();
+                                    $('#' + randomRelayer + ' .success-status').show();
+                                    $('#' + randomRelayer + ' .status').css({
+                                        "margin-left" : "-61px",
+                                    });
+                                    $('#' + randomRelayer + ' .face').css({
+                                        "background-color" : "#12B4DA",
+                                     });
+                                    
+                                    break;
+                                case '2' :
+                                    $('.textStatus').hide();
+                                    $('.success-status').show();
+                                    $('.transaction-bridge').show();
+
+
+                                    $('.status').css({
+                                        "margin-left" : "-61px",
+                                    })
+                                    $('.face').css({
+                                        "background-color" : "#12B4DA",
+                                    });
+                                    let transactionHashReceipt = dataEvent[Object.keys(dataEvent).length - 1].transactionHash;
+
+                                    $('.transaction-bridge').attr("href", blockExplorerUrlBridge + transactionHashReceipt);
+                                    $('.hash-bridge').text(`${transactionHashReceipt.slice(0,5)}...${transactionHashReceipt.slice(-5)}`)
+                                    $('.network-receive img').css({
+                                        "filter" : "none",
+                                        "opacity" : "1",
+                                    });
+                                    
+                                    break;
+                            }
                         }
                     }
                 }
