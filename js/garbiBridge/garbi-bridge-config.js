@@ -189,6 +189,22 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
         totalYesVotesUI: 3,
     }
 
+    // units: seconds
+    const estimateTimeBridgeSuccess = {
+        ArbitrumGoerli: {
+            ArbitrumOne: 120,
+            ArbitrumNova: 60,
+        },
+        ArbitrumNova: {
+            ArbitrumOne: 120,
+            ArbitrumGoerli: 120,
+        },
+        ArbitrumOne: {
+            ArbitrumGoerli: 120,
+            ArbitrumNova: 60,
+        }
+    }
+
     return {
         init: function(options) {
             if (typeof options === "undefined" || options.length < 1) {
@@ -249,6 +265,10 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
 
         GetTotalYesVotesUI() {
             return relayerVotes.totalYesVotesUI;
+        },
+
+        GetEstimateTimeBridgeSuccess(chainNameFrom, chainNameTo) {
+            return estimateTimeBridgeSuccess[chainNameFrom][chainNameTo];
         }
 
     }

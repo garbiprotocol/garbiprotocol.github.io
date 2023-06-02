@@ -54,11 +54,6 @@ $.GARBI_BRIDGE.prototype = (function() {
                     coreHelper.hidePopup('success-confirm-popup', 10000);
                 })
                 .on('receipt', (receipt) => {
-                    $('#modal-bridge-popup').modal('show');
-                    document.querySelector('.transaction-hash-relayer-0 .textStatus').innerHTML = "Pending";
-                    document.querySelector('.transaction-hash-relayer-1 .textStatus').innerHTML = "Pending";
-                    document.querySelector('.transaction-hash-relayer-2 .textStatus').innerHTML = "Pending";
-
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
@@ -210,7 +205,6 @@ $.GARBI_BRIDGE.prototype = (function() {
         },
 
         async SyncEvent(chainName, depositNonce, fromBlock = null) {
-            console.log("SyncEvent");
             let eventName = "ProposalVote";
             let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
             let rpc = network.rpcList[0];
@@ -247,7 +241,6 @@ $.GARBI_BRIDGE.prototype = (function() {
                     }
                 }
             }
-            console.log(data);
             return data;
         },
 
