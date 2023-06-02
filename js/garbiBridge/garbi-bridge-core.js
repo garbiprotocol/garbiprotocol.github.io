@@ -220,7 +220,6 @@ $.GARBI_BRIDGE.prototype = (function() {
         },
 
         async SyncEvent(chainName, depositNonce, fromBlock = null) {
-            console.log("SyncEvent");
             let eventName = "ProposalVote";
             let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
             let rpc = network.rpcList[0];
@@ -257,7 +256,6 @@ $.GARBI_BRIDGE.prototype = (function() {
                     }
                 }
             }
-            console.log(data);
             return data;
         },
 
