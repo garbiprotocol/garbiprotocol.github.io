@@ -578,7 +578,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="status-transaction">
+                                            <div class="status-transaction pc-view">
                                                 <div class="container-modal">
                                                     <div class="network-select">
                                                         <img src="" style="width: 50px; height: 50px;">
@@ -660,6 +660,84 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="status-transaction mobile-view" style="display:none">
+                                                <div class="container-modal">
+                                                    <div class="network-select">
+                                                        <p class="name-select-network"><span class="title">Step 1:</span> Transfer funds to Arbitrum One <span class="select-chain"></span> (<a href="" target="_blank" class="transaction-hash">Tx: <span class="hash-deponsit"></span></a>)</p>
+                                                        
+                                                    </div>
+                                                    <div class="voting">
+                                                        <p class="step-status-voting"><span class="title">Step 2:</span> The relayers are currently voting</p>
+                                                        <div class="status-voting">                                                           
+                                                            <div class="line" id="transaction-hash-relayer-0">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status" >
+                                                                    <span class="name">Relayer#1</span><br>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate fa-spin"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line" id="transaction-hash-relayer-1">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status" >
+                                                                    <span class="name">Relayer#2</span><br>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</a></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line" id="transaction-hash-relayer-2">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status" >
+                                                                    <span class="name">Relayer#3</span><br>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="step-relayer-bridge"><span class="title">Step 3:</span> The Bridge Proposal is currently being executed</p>
+                                                        <div class="line" id="relayer-bridge">
+                                                            <div class="cube">
+                                                                <div class="face front"></div>
+                                                                <div class="face back"></div>
+                                                                <div class="face right"></div>
+                                                                <div class="face left"></div>
+                                                                <div class="face top"></div>
+                                                                <div class="face bottom"></div>
+                                                            </div>
+                                                            <div class="status">
+                                                                <span class="name">Bridge Proposal</span><br>
+                                                                <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                <span class="success-status" style="display:none;"><a href="#" class="transaction-bridge-hash"><i class="fa-regular fa-circle-check"></i> Executed</a></span>
+                                                            </div>        
+                                                        </div>                                                                               
+                                                    </div>                                                 
+                                                    <div class="network-receive">
+                                                        <p class="name-receive-network"><span class="title">Step 4:</span> Transfer funds to <span class="recieve-chain"></span> (<a href="" target="_blank" class="transaction-bridge">Tx: <span class="hash-bridge"></span></a>)</p>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div> 
                                         </div>
                                         <!-- <div class="modal-body">
                                             <p>Timestamp <span class="timestampPopupBridge"></span></p>
@@ -1010,6 +1088,10 @@
                     $('.estimated-time').text(estimatedTime /60 + " minutes");
                     $('.transaction-bridge').hide();
                     $('.hash-deponsit').text(`${receipt.transactionHash.slice(0,5)}...${receipt.transactionHash.slice(-5)}`);
+                    $('.name-select-network').css({
+                        "opacity" : "1",
+                    });
+
                     let depositNonce = receipt.events.Deposit.returnValues.depositNonce;
 
                     SyncEvent(networkRecieve, depositNonce);
@@ -1050,7 +1132,9 @@
                                     $('#' + randomRelayer + ' .face').css({
                                         "background-color" : "#12B4DA",
                                      });
-                                    
+                                    $('.step-status-voting').css({
+                                        "opacity" : "1",
+                                    });
                                     break;
                                 case '2' :
                                     $('.textStatus').hide();
@@ -1072,7 +1156,12 @@
                                         "filter" : "none",
                                         "opacity" : "1",
                                     });
-                                    
+                                    $('.step-relayer-bridge').css({
+                                        "opacity" : "1",
+                                    });
+                                    $('.name-receive-network').css({
+                                        "opacity" : "1",
+                                    });
                                     break;
                             }
                         }
