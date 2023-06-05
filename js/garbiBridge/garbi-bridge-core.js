@@ -54,7 +54,7 @@ $.GARBI_BRIDGE.prototype = (function() {
                     coreHelper.hidePopup('success-confirm-popup', 10000);
                 })
                 .on('receipt', (receipt) => {
-                    
+
                     // document.querySelector('.transaction-hash-relayer-0 .textStatus').innerHTML = "Pending";
                     // document.querySelector('.transaction-hash-relayer-1 .textStatus').innerHTML = "Pending";
                     // document.querySelector('.transaction-hash-relayer-2 .textStatus').innerHTML = "Pending";
@@ -208,46 +208,6 @@ $.GARBI_BRIDGE.prototype = (function() {
                     console.log(err);
                 });
         },
-
-        async SyncEvent(chainName, depositNonce, fromBlock = null) {
-            let eventName = "ProposalVote";
-            let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
-            let rpc = network.rpcList[0];
-            let _web3 = new Web3(new Web3.providers.HttpProvider(rpc));
-            fromBlock = (fromBlock == null) ? await _web3.eth.getBlockNumber() : fromBlock;
-            let latestBlock = await _web3.eth.getBlockNumber();
-
-            let bridgeAbi = garbiBridgeAbi.GetBridgeContractABI();
-            let contractConfig = garbiBridgeConfig.GetContractAddressByNetworkName(chainName);
-            let bridgeContractAddress = contractConfig.bridgeContract;
-            let bridgeContract = new _web3.eth.Contract(bridgeAbi, bridgeContractAddress);
-
-            let data = {};
-
-            let event = await bridgeContract.getPastEvents(eventName, {
-                fromBlock: fromBlock,
-                toBlock: latestBlock,
-            });
-            if (event.length > 0) {
-                for (let index = 0; index < event.length; index++) {
-                    const element = event[index];
-                    if (depositNonce == element.returnValues.depositNonce) {
-                        data[index] = {};
-                        data[index].dataHash = element.returnValues.dataHash;
-                        data[index].originDomainID = element.returnValues.originDomainID;
-
-                        data[index].transactionHash = element.transactionHash;
-                        data[index].status = element.returnValues.status;
-
-                        let proposal = await bridgeContract.methods.
-                        getProposal(data[index].originDomainID, depositNonce, data[index].dataHash).call();
-                        data[index].yesVotesTotal = proposal._yesVotesTotal;
-                    }
-                }
-            }
-            return data;
-        },
-
 
         ConvertDataDepositToBytes(amount, recipient) {
             let self = this;
