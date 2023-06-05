@@ -1,5 +1,3 @@
-
-
 const GarbiswapTradeDAIUSDC = artifacts.require("GarbiswapTradeDAIUSDC");
 const GarbiswapTradeUSDTUSDC = artifacts.require("GarbiswapTradeUSDTUSDC");
 const GarbiswapTradeGRBWETH = artifacts.require("GarbiswapTradeGRBWETH");
@@ -17,37 +15,37 @@ const GarbiOracle = "0x686e28c4ee8c4c03770404506e0027bf5ed31ab6";
 const veGRB = "0x14c302dca44528a2b00b932afdf01e9d48100b7b";
 
 module.exports = function(deployer) {
-//    deployer.deploy(GarbiswapTradeDAIUSDC, 
-//                    USDC, 
-//                    DAI,
-//                    GarbiTimeLock,
-//                    GarbiswapFeeMachine,
-//                    GarbiswapWhitelist,
-//                    GarbiOracle,
-//                    "Garbiswap sLP Token",
-//                    "GarbiSLP"
-//                    );
-//    deployer.deploy(GarbiswapTradeUSDTUSDC, 
-//                    USDC, 
-//                    USDT,
-//                    GarbiTimeLock,
-//                    GarbiswapFeeMachine,
-//                    GarbiswapWhitelist,
-//                    GarbiOracle,
-//                    "Garbiswap sLP Token",
-//                    "GarbiSLP"
-//                    );
-    deployer.deploy(GarbiswapTradeGRBWETH, 
-                    WETH, 
-                    GRB,
-                    GarbiTimeLock,
-                    GarbiswapFeeMachine,
-                    GarbiswapWhitelist,
-                    "Garbiswap GLP Token",
-                    "GarbiLP"
-                    );
-//    deployer.deploy(GarbiswapTradeMachine, 
-//                    veGRB, 
-//                    GarbiswapWhitelist
-//                    );
+    //    deployer.deploy(GarbiswapTradeDAIUSDC, 
+    //                    USDC, 
+    //                    DAI,
+    //                    GarbiTimeLock,
+    //                    GarbiswapFeeMachine,
+    //                    GarbiswapWhitelist,
+    //                    GarbiOracle,
+    //                    "Garbiswap sLP Token",
+    //                    "GarbiSLP"
+    //                    );
+    //    deployer.deploy(GarbiswapTradeUSDTUSDC, 
+    //                    USDC, 
+    //                    USDT,
+    //                    GarbiTimeLock,
+    //                    GarbiswapFeeMachine,
+    //                    GarbiswapWhitelist,
+    //                    GarbiOracle,
+    //                    "Garbiswap sLP Token",
+    //                    "GarbiSLP"
+    //                    );
+    // deployer.deploy(GarbiswapTradeGRBWETH, 
+    //                 WETH, 
+    //                 GRB,
+    //                 GarbiTimeLock,
+    //                 GarbiswapFeeMachine,
+    //                 GarbiswapWhitelist,
+    //                 "Garbiswap GLP Token",
+    //                 "GarbiLP"
+    //                 );
+    //    deployer.deploy(GarbiswapTradeMachine, 
+    //                    veGRB, 
+    //                    GarbiswapWhitelist
+    //                    );
 };

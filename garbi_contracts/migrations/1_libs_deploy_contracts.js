@@ -1,4 +1,3 @@
-
 const GarbiswapWhitelist = artifacts.require("GarbiswapWhitelist");
 const GarbiTimeLock = artifacts.require("GarbiTimeLock");
 const GarbiswapFeeMachine = artifacts.require("GarbiswapFeeMachine");
@@ -45,36 +44,36 @@ const USDC = "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8";
 const startBlock = 1;
 
 module.exports = function(deployer) {
-//    deployer.deploy(GarbiTimeLock).then(function(){
-//        return  deployer.deploy(GarbiswapFeeMachine, 
-//                        veGRB, 
-//                        performanceMachineContract, 
-//                        performanceMachineContract, 
-//                        GarbiTimeLock.address
-//                ).then(function() {
-//                    //return deployer.deploy(GarbiTreasury, GRB, GarbiTimeLock.address);
-//                });
-//    });
-//    deployer.deploy(GarbiMining, 
-//                    veGRB, 
-//                    startBlock
-//                    );
-//    deployer.deploy(GarbiPerformanceFund);
-//    deployer.deploy(GarbiPlatformFund);
-//    deployer.deploy(GarbiswapWhitelist);
-//      deployer.deploy(GarbiOracle);
-//    deployer.deploy(GarbiVestGRB,
-//                    GRB,
-//                    veGRB, 
-//                    GarbiswapWhitelistAddress,
-//                    GarbiTimeLockAddress,
-//                    );
-//      deployer.deploy(GarbiRepositoryManager, garbiECContract, GarbiswapWhitelistAddress);
-//      deployer.deploy(GarbiRepository, DAI, garbiOracleContract, repositoryManagerContract);
-//      deployer.deploy(GarbiRepository, USDC, garbiOracleContract, repositoryManagerContract);
-//      deployer.deploy(GarbiRepository, USDT, garbiOracleContract, repositoryManagerContract);
-////       deployer.deploy(BalanceInfo);
-//       deployer.deploy(GECExchangeInfo);
-        deployer.deploy(GarbiTimeLockController, 1, ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], "0x632414bbF1C1DE108Aec3Ff3B716ace89e582063");
-        deployer.deploy(TestTimeLockController);
+    //    deployer.deploy(GarbiTimeLock).then(function(){
+    //        return  deployer.deploy(GarbiswapFeeMachine, 
+    //                        veGRB, 
+    //                        performanceMachineContract, 
+    //                        performanceMachineContract, 
+    //                        GarbiTimeLock.address
+    //                ).then(function() {
+    //                    //return deployer.deploy(GarbiTreasury, GRB, GarbiTimeLock.address);
+    //                });
+    //    });
+    //    deployer.deploy(GarbiMining, 
+    //                    veGRB, 
+    //                    startBlock
+    //                    );
+    //    deployer.deploy(GarbiPerformanceFund);
+    //    deployer.deploy(GarbiPlatformFund);
+    //    deployer.deploy(GarbiswapWhitelist);
+    //      deployer.deploy(GarbiOracle);
+    //    deployer.deploy(GarbiVestGRB,
+    //                    GRB,
+    //                    veGRB, 
+    //                    GarbiswapWhitelistAddress,
+    //                    GarbiTimeLockAddress,
+    //                    );
+    //      deployer.deploy(GarbiRepositoryManager, garbiECContract, GarbiswapWhitelistAddress);
+    //      deployer.deploy(GarbiRepository, DAI, garbiOracleContract, repositoryManagerContract);
+    //      deployer.deploy(GarbiRepository, USDC, garbiOracleContract, repositoryManagerContract);
+    //      deployer.deploy(GarbiRepository, USDT, garbiOracleContract, repositoryManagerContract);
+    ////       deployer.deploy(BalanceInfo);
+    //       deployer.deploy(GECExchangeInfo);
+    // deployer.deploy(GarbiTimeLockController, 1, ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], "0x632414bbF1C1DE108Aec3Ff3B716ace89e582063");
+    // deployer.deploy(TestTimeLockController);
 };
