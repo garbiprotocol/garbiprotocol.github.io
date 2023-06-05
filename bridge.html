@@ -563,7 +563,7 @@
                                                         <div class="time">
                                                             <p>Estimated time</p>
                                                             <div class="time-detail">
-                                                                <span class="estimated-time"></span>
+                                                                ~<span class="estimated-time"></span>
                                                             </div>                            
                                                         </div>
                                                     </div>
@@ -1091,6 +1091,27 @@
                     $('.name-select-network').css({
                         "opacity" : "1",
                     });
+                    $('.network-receive img').css({
+                        "filter" : "grayscale(100%)",
+                        "opacity" : "0.5",
+                    });
+                    $('.step-status-voting').css({
+                        "opacity" : "0.5",
+                    });
+                    $('.step-relayer-bridge').css({
+                        "opacity" : "0.5",
+                    });
+                    $('.name-receive-network').css({
+                        "opacity" : "0.5",
+                    });
+                    $('.face').css({
+                        "background-color" : "#DEE1E2",
+                    });
+                    $('.textStatus').show();
+                    $('.success-status').hide();
+                    $('.status').css({
+                        "margin-left" : "-86px",
+                    });
 
                     let depositNonce = receipt.events.Deposit.returnValues.depositNonce;
 
@@ -1141,7 +1162,9 @@
                                     $('.success-status').show();
                                     $('.transaction-bridge').show();
 
-
+                                    $('.step-status-voting').css({
+                                        "opacity" : "1",
+                                    });
                                     $('.status').css({
                                         "margin-left" : "-61px",
                                     })
