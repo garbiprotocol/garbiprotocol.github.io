@@ -15,7 +15,7 @@ module.exports = function(deployer) {
     //    deployer.deploy(GRB, "1250000000000000000000000", "500000000000000000000000").then(function() {
     //        return deployer.deploy(GRBProxy, GRB.address);
     //    });
-    //deployer.deploy(veGRB, "1250000000000000000000000");
+    // deployer.deploy(veGRB, "1250000000000000000000000");
     //deployer.deploy(GWETH, "1000000000000000000000000", "500000000000000000000000");
     //    deployer.deploy(GarbiEquityCertificate);
     //   deployer.deploy(GARB, "1000000000000000000000000", "500000000000000000000000");
