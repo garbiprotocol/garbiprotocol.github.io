@@ -54,18 +54,26 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             bridgeContract: "",
             erc20Handle: "",
             ethHandle: "",
+            farm: {
+                weth: ""
+            }
         },
 
         ArbitrumGoerli: {
             bridgeContract: "0x07fcf5f82706beafd7a57a73eed64d23e157c21c",
             erc20Handle: "0xd54d619470905440842bc87d6031694764381e1e", // fake
             ethHandle: "0xaff8569b4e2aa48557a87c139aff5b7316d557c6",
-
+            farm: {
+                weth: "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C",
+            }
         },
         ArbitrumNova: {
             bridgeContract: "0x1fa630ba932b618083010c48545e89574e213c9c",
             erc20Handle: "0x07be47ca378a96a1ecadea815f5b5f3604fdbd69", // fake
             ethHandle: "0x4b11029574004e4bc421df6fa13e83810d0c6147",
+            farm: {
+                weth: "0xb5DCD8cE4E2f390A263cf9EA90E8048c3F5e3D44",
+            }
         },
     };
 
@@ -95,6 +103,12 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
                 tokenDecimal: 18,
                 tokenSymbol: "ETH",
             },
+            weth: {
+                address: "",
+                name: "WETH",
+                tokenDecimal: 18,
+                tokenSymbol: "WETH",
+            }
         },
 
         ArbitrumGoerli: {
@@ -122,6 +136,12 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
                 tokenDecimal: 18,
                 tokenSymbol: "ETH",
             },
+            weth: {
+                address: "0xe39ab88f8a4777030a534146a9ca3b52bd5d43a3",
+                name: "WETH",
+                tokenDecimal: 18,
+                tokenSymbol: "WETH",
+            }
         },
         ArbitrumNova: {
             cyberCredit: {
@@ -147,6 +167,12 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
                 name: "Ethereum",
                 tokenDecimal: 18,
                 tokenSymbol: "ETH",
+            },
+            weth: {
+                address: "0x722E8BdD2ce80A4422E880164f2079488e115365",
+                name: "WETH",
+                tokenDecimal: 18,
+                tokenSymbol: "WETH",
             },
         },
     };
@@ -273,6 +299,11 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
 
         GetEstimateTimeBridgeSuccess(chainNameFrom, chainNameTo) {
             return estimateTimeBridgeSuccess[chainNameFrom][chainNameTo];
+        },
+
+        GetFarmContractOfNetworkByPoolName(chainName, tokenName) {
+            let contract = this.GetContractAddressByNetworkName(chainName);
+            return contract.farm[tokenName];
         }
 
     }

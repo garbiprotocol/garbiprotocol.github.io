@@ -96,8 +96,7 @@ $.CONFIG.prototype = (function() {
                         info: {
                             pairs: '0x61b21b9b052d0bb2fae1e15c67e42deb9bf9639a'
                         },
-                        pairs: [
-                            {
+                        pairs: [{
                                 contract: '0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874',
                                 tradeFee: 0.002,
                                 performanceFee: 0.5,
@@ -337,8 +336,7 @@ $.CONFIG.prototype = (function() {
                         info: {
                             pairs: '0x870eE86395736F6C149F94551E995b8d60b276f9'
                         },
-                        pairs: [
-                             {
+                        pairs: [{
                                 contract: '0x1914513cc76018f399e58ccc9b87be681423a9ce',
                                 tradeFee: 0.001,
                                 performanceFee: 0.5,
@@ -421,6 +419,19 @@ $.CONFIG.prototype = (function() {
                     label: 'GarbiFarm.GEC.LP',
                     price: 1,
                     version: 1
+                },
+                25: {
+                    type: 'garbi_pool',
+                    contract: '0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C',
+                    want: '0xe39ab88f8a4777030a534146a9ca3b52bd5d43a3', // 
+                    wantDecimal: 18,
+                    pid: 25,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.WETH.Bridge.Pool',
+                    price: 1807,
+                    version: 1
                 }
             },
             harvestMachine: ""
@@ -438,20 +449,20 @@ $.CONFIG.prototype = (function() {
             'usdt': '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
             'dai': '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1',
             'gec': '0x5eba4d078a28578d24aa536f70448d507e1cc78e',
-            'arb' : '0x912ce59144191c1204e64559fe8253a0e49e6548'
+            'arb': '0x912ce59144191c1204e64559fe8253a0e49e6548'
         },
-        421613: {//arbitrum testnet
-            'weth': '0xE0EcA46EA3308E8184e3b462b8A722F93A8F6F27',
+        421613: { //arbitrum testnet
+            'weth': '0xe39ab88f8a4777030a534146a9ca3b52bd5d43a3',
             'usdc': '0x29680BD5F3f324001Add9229d6B44615353f554c',
             'usdt': '0x2E4e7eBfF934B6999BDc2983F17F6bd4b6A84206',
             'dai': '0x9Ce3C139316A560A57c861F558284CF31EBC8acE',
             'gec': '0x965782738c1acca851104444bda0a03ee68355dc',
-            'arb' : '0x9a3D8d53881f33a1f190076c828cCe4C0b399476',
+            'arb': '0x9a3D8d53881f33a1f190076c828cCe4C0b399476',
             'cybercredit': '0xA55cb2d81E01773866F300C3d1c6fD7574Cfa245',
             'vegrb': '0xD912cca034056115900F87C2DB8eF1a6B1a89143',
             'grb': '0x570A6cFA0e11f0Db8594E6a74B9106d5F21151C0',
         },
-        42170: {//arbitrum nova
+        42170: { //arbitrum nova
             'cybercredit': "0x3C2A3AfDbA1f64A83Cfe9350769D401Fd22ef74D",
         }
     }
@@ -478,7 +489,7 @@ $.CONFIG.prototype = (function() {
             'dai': 18,
             'gec': 18,
             'arb': 18,
-            'cybercredit':18,
+            'cybercredit': 18,
         }
     };
     var PRICES = {
@@ -489,7 +500,7 @@ $.CONFIG.prototype = (function() {
             'usdc': 1,
             'usdt': 1,
             'dai': 1,
-            'arb' : 1.25,
+            'arb': 1.25,
         },
         421613: {
             'grb': 0.6,
@@ -497,7 +508,7 @@ $.CONFIG.prototype = (function() {
             'usdc': 1,
             'usdt': 1,
             'dai': 1,
-            'arb' : 1.17,
+            'arb': 1.17,
         }
     };
     return {
@@ -579,6 +590,10 @@ $.CONFIG.prototype = (function() {
         },
         getContractAddressByName(_chainId = 421613, name) {
             return CONTRACTS[_chainId][name].contract;
+        },
+
+        getFarmContractByPid(_chainId, _pid) {
+            return CONTRACTS[_chainId].farms[_pid];
         }
     };
 }(jQuery));
