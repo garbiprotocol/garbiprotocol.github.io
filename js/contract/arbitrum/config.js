@@ -421,7 +421,7 @@ $.CONFIG.prototype = (function() {
                     version: 1
                 },
                 25: {
-                    type: 'garbi_pool',
+                    type: 'garbi_bridge_pool',
                     contract: '0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C',
                     want: '0xe39ab88f8a4777030a534146a9ca3b52bd5d43a3', // 
                     wantDecimal: 18,
@@ -436,6 +436,23 @@ $.CONFIG.prototype = (function() {
             },
             harvestMachine: ""
         },
+        42170: { // nova
+            farms: {
+                0: {
+                    type: 'garbi_bridge_pool',
+                    contract: '0xb5DCD8cE4E2f390A263cf9EA90E8048c3F5e3D44',
+                    want: '0x722E8BdD2ce80A4422E880164f2079488e115365', // 
+                    wantDecimal: 18,
+                    pid: 25,
+                    isActive: true,
+                    isERC20: true,
+                    isActive: true,
+                    label: 'GarbiFarm.WETH.Bridge.Pool',
+                    price: 1807,
+                    version: 1
+                }
+            }
+        }
     };
     var TOKENS = {
         42161: { //mainnet arbitrum one
@@ -464,6 +481,7 @@ $.CONFIG.prototype = (function() {
         },
         42170: { //arbitrum nova
             'cybercredit': "0x3C2A3AfDbA1f64A83Cfe9350769D401Fd22ef74D",
+            'weth': '0x722E8BdD2ce80A4422E880164f2079488e115365',
         }
     }
     var TOKENS_DECIMAL = {
@@ -494,8 +512,8 @@ $.CONFIG.prototype = (function() {
     };
     var PRICES = {
         42161: {
-            'grb': 0.6,
-            'weth': 1700,
+            'grb': 0.3,
+            'weth': 1807,
             'wbtc': 26000,
             'usdc': 1,
             'usdt': 1,
@@ -503,12 +521,15 @@ $.CONFIG.prototype = (function() {
             'arb': 1.25,
         },
         421613: {
-            'grb': 0.6,
-            'weth': 1700,
+            'grb': 0.3,
+            'weth': 1807,
             'usdc': 1,
             'usdt': 1,
             'dai': 1,
             'arb': 1.17,
+        },
+        42170: {
+            'grb': 0.3,
         }
     };
     return {
