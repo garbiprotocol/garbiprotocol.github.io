@@ -282,7 +282,7 @@ $.GARBI_FARM.prototype = (function() {
             let _userFarmInfoByPoolContract = _userFarmInfoObj[_pool.contract];
             if (_userFarmInfoByPoolContract) {
                 $(`.apy`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["apy"], 2) }%`);
-                $(`.tvl`).html(`$${ coreHelper.formatBalance(_userFarmInfoByPoolContract["tvl"], 2) }`);
+                $(`.tvl`).html(`${ coreHelper.formatBalance(_userFarmInfoByPoolContract["tvl"], 2) }`);
                 $(`.u-share`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["userWantShare"], 6) }`);
                 $(`.u-want-bal`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["userWantBal"], 6) }`);
                 $(`.u-pending-grb`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["userGRBPending"], 6) }`);

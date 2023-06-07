@@ -29,33 +29,33 @@ $.GARBI_FARM_V2.prototype = (function() {
 
         },
 
-        async test() {
-            let user = "0x47b24C4Fea7FB4fc55b6102181E9c0EB8223b9f4";
+        // async test() {
+        //     let user = "0x47b24C4Fea7FB4fc55b6102181E9c0EB8223b9f4";
 
-            // let resultApproveWantToFarmContract = this.ApproveWantToFarmContract(user);
-            // console.log(resultApproveWantToFarmContract);
+        //     // let resultApproveWantToFarmContract = this.ApproveWantToFarmContract(user);
+        //     // console.log(resultApproveWantToFarmContract);
 
-            // let resultGetAllowanceWantToFarmContract = await this.GetAllowanceWantToFarmContract(user);
-            // console.log(resultGetAllowanceWantToFarmContract);
+        //     // let resultGetAllowanceWantToFarmContract = await this.GetAllowanceWantToFarmContract(user);
+        //     // console.log(resultGetAllowanceWantToFarmContract);
 
-            // let resultAllowanceERC20 = await this.GetAllowanceERC20("weth", user, "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C");
-            // console.log(resultAllowanceERC20);
+        //     // let resultAllowanceERC20 = await this.GetAllowanceERC20("weth", user, "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C");
+        //     // console.log(resultAllowanceERC20);
 
-            // let resultApproveERC20 = await this.ApproveERC20("weth", user, "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C");
-            // console.log(resultApproveERC20);
+        //     // let resultApproveERC20 = await this.ApproveERC20("weth", user, "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C");
+        //     // console.log(resultApproveERC20);
 
-            let dataUser = await this.GetDataUser(user);
-            console.log(dataUser);
+        //     let dataUser = await this.GetDataUser(user);
+        //     console.log(dataUser);
 
-            // let resultDeposit = await this.Deposit(user, "1000000000000");
-            // console.log(resultDeposit);
+        //     // let resultDeposit = await this.Deposit(user, "1000000000000");
+        //     // console.log(resultDeposit);
 
-            // let resultHarvest = await this.Harvest(user);
-            // console.log(resultHarvest);
+        //     // let resultHarvest = await this.Harvest(user);
+        //     // console.log(resultHarvest);
 
-            // let resultWithdraw = await this.Withdraw(user, "975000000000");
-            // console.log(resultWithdraw);
-        },
+        //     // let resultWithdraw = await this.Withdraw(user, "975000000000");
+        //     // console.log(resultWithdraw);
+        // },
 
         async updateGRBPrice() {
             let self = this;
@@ -106,7 +106,6 @@ $.GARBI_FARM_V2.prototype = (function() {
                 data["grbRewardAPY"] = data["totalMintPerDay"] * GRBPrice * 36500 / (data["tvl"]);
             }
             data["apy"] = data["grbRewardAPY"];
-
             return data;
         },
 
@@ -117,12 +116,49 @@ $.GARBI_FARM_V2.prototype = (function() {
 
         async Harvest(user, chainId, pid) {
             let contractAction = await this.GetContractFarmActionToMain(chainId, pid);
-            return await contractAction.methods.harvest(user).send({ from: user });
+            return await contractAction.methods.harvest(user).send({ from: user })
+            .on('transactionHash', (hash) => {
+                coreHelper.showPopup('confirm-popup');
+                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+            })
+            .on('confirmation', (confirmationNumber, receipt) => {
+                
+                coreHelper.hidePopup('confirm-popup', 0);
+                coreHelper.showPopup('success-confirm-popup');
+                coreHelper.hidePopup('success-confirm-popup', 10000);
+            })
+            .on('receipt', (receipt) => {
+
+                coreHelper.hidePopup('confirm-popup', 0);
+                coreHelper.showPopup('success-confirm-popup');
+                coreHelper.hidePopup('success-confirm-popup', 10000);
+            })
+            .on('error', (err, receipt) => {
+                console.log(err);
+            });
         },
 
         async Withdraw(user, amount, chainId, pid) {
             let contractAction = await this.GetContractFarmActionToMain(chainId, pid);
-            return await contractAction.methods.withdraw(amount).send({ from: user });
+            return await contractAction.methods.withdraw(amount).send({ from: user })
+            .on('transactionHash', (hash) => {
+                coreHelper.showPopup('confirm-popup');
+                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+            })
+            .on('confirmation', (confirmationNumber, receipt) => {
+                
+                coreHelper.hidePopup('confirm-popup', 0);
+                coreHelper.showPopup('success-confirm-popup');
+                coreHelper.hidePopup('success-confirm-popup', 10000);
+            })
+            .on('receipt', (receipt) => {
+                coreHelper.hidePopup('confirm-popup', 0);
+                coreHelper.showPopup('success-confirm-popup');
+                coreHelper.hidePopup('success-confirm-popup', 10000);
+            })
+            .on('error', (err, receipt) => {
+                console.log(err);
+            });
         },
 
         async GetAllowanceERC20(tokenName, owner, spender, chainId) {
@@ -138,7 +174,26 @@ $.GARBI_FARM_V2.prototype = (function() {
 
             let contractAction = await this.GetTokenActionToMain(tokenName, chainId);
 
-            return await contractAction.methods.approve(spender, amountDefault).send({ from: owner });
+            return await contractAction.methods.approve(spender, amountDefault).send({ from: owner })
+            .on('transactionHash', (hash) => {
+                coreHelper.showPopup('confirm-popup');
+                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+            })
+            .on('confirmation', (confirmationNumber, receipt) => {
+                
+                coreHelper.hidePopup('confirm-popup', 0);
+                coreHelper.showPopup('success-confirm-popup');
+                coreHelper.hidePopup('success-confirm-popup', 10000);
+            })
+            .on('receipt', (receipt) => {
+                $('.btn-approve').hide();
+                coreHelper.hidePopup('confirm-popup', 0);
+                coreHelper.showPopup('success-confirm-popup');
+                coreHelper.hidePopup('success-confirm-popup', 10000);
+            })
+            .on('error', (err, receipt) => {
+                console.log(err);
+            });
         },
 
         async GetContractFarmActionToReadData(chainId, pid) {
