@@ -30,21 +30,29 @@ $.GARBI_FARM_V2.prototype = (function() {
         },
 
         async test() {
-            // let user = "0x47b24C4Fea7FB4fc55b6102181E9c0EB8223b9f4";
+            let user = "0x47b24C4Fea7FB4fc55b6102181E9c0EB8223b9f4";
+
             // let resultApproveWantToFarmContract = this.ApproveWantToFarmContract(user);
             // console.log(resultApproveWantToFarmContract);
+
             // let resultGetAllowanceWantToFarmContract = await this.GetAllowanceWantToFarmContract(user);
             // console.log(resultGetAllowanceWantToFarmContract);
+
             // let resultAllowanceERC20 = await this.GetAllowanceERC20("weth", user, "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C");
             // console.log(resultAllowanceERC20);
+
             // let resultApproveERC20 = await this.ApproveERC20("weth", user, "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C");
             // console.log(resultApproveERC20);
-            // let dataUser = await this.GetDataUser(user);
-            // console.log(dataUser);
+
+            let dataUser = await this.GetDataUser(user);
+            console.log(dataUser);
+
             // let resultDeposit = await this.Deposit(user, "1000000000000");
             // console.log(resultDeposit);
+
             // let resultHarvest = await this.Harvest(user);
             // console.log(resultHarvest);
+
             // let resultWithdraw = await this.Withdraw(user, "975000000000");
             // console.log(resultWithdraw);
         },
