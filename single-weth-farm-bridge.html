@@ -391,8 +391,8 @@
     var contractBaseHelper = new $.CONTRACTBASE();
     var garbiFarm = new $.GARBI_FARM_V2();
 
-    var chainId = 42170;
-    var pid = 0;
+    var chainId = 421613;
+    var pid = 25;
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
@@ -455,7 +455,7 @@
             if (checkAllowce / wantDecimal < userInputVal) {
                 $('.btn-approve').show();
             } else {
-                garbiFarm.Deposit(userAddr, userInputVal * wantDecimal);
+                garbiFarm.Deposit(userAddr, coreHelper.toBN(userInputVal, wantDecimal));
             }
         });
         $('.btn-approve').click(async function() {
