@@ -443,7 +443,7 @@ $.CONFIG.prototype = (function() {
                     contract: '0xb5DCD8cE4E2f390A263cf9EA90E8048c3F5e3D44',
                     want: '0x722E8BdD2ce80A4422E880164f2079488e115365', // 
                     wantDecimal: 18,
-                    pid: 25,
+                    pid: 0,
                     isActive: true,
                     isERC20: true,
                     isActive: true,
@@ -615,6 +615,19 @@ $.CONFIG.prototype = (function() {
 
         getFarmContractByPid(_chainId, _pid) {
             return CONTRACTS[_chainId].farms[_pid];
+        },
+
+        getAllPidOfFarmContractByType(_type, _chainId) {
+            let data = [];
+            let pids = CONTRACTS[_chainId].farms;
+            let lengthPids = Object.keys(pids).length;
+            for (let i = 0; i < lengthPids; i++) {
+                let valuePid = Object.values(pids)[i];
+                if (valuePid.type == _type) {
+                    data.push(valuePid.pid);
+                }
+            }
+            console.log(data);
         }
     };
 }(jQuery));
