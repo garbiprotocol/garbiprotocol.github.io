@@ -624,7 +624,7 @@ $.CONFIG.prototype = (function() {
             for (let i = 0; i < lengthPids; i++) {
                 let valuePid = Object.values(pids)[i];
                 if (valuePid.type == _type) {
-                    data.push(valuePid.pid);
+                    data.push(valuePid);
                 }
             }
             console.log(data);
