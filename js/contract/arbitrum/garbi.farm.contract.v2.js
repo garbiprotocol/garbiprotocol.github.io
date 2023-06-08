@@ -117,48 +117,48 @@ $.GARBI_FARM_V2.prototype = (function() {
         async Harvest(user, chainId, pid) {
             let contractAction = await this.GetContractFarmActionToMain(chainId, pid);
             return await contractAction.methods.harvest(user).send({ from: user })
-            .on('transactionHash', (hash) => {
-                coreHelper.showPopup('confirm-popup');
-                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-            })
-            .on('confirmation', (confirmationNumber, receipt) => {
-                
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('receipt', (receipt) => {
+                .on('transactionHash', (hash) => {
+                    coreHelper.showPopup('confirm-popup');
+                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                })
+                .on('confirmation', (confirmationNumber, receipt) => {
 
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('error', (err, receipt) => {
-                console.log(err);
-            });
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('receipt', (receipt) => {
+
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('error', (err, receipt) => {
+                    console.log(err);
+                });
         },
 
         async Withdraw(user, amount, chainId, pid) {
             let contractAction = await this.GetContractFarmActionToMain(chainId, pid);
             return await contractAction.methods.withdraw(amount).send({ from: user })
-            .on('transactionHash', (hash) => {
-                coreHelper.showPopup('confirm-popup');
-                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-            })
-            .on('confirmation', (confirmationNumber, receipt) => {
-                
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('receipt', (receipt) => {
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('error', (err, receipt) => {
-                console.log(err);
-            });
+                .on('transactionHash', (hash) => {
+                    coreHelper.showPopup('confirm-popup');
+                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                })
+                .on('confirmation', (confirmationNumber, receipt) => {
+
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('receipt', (receipt) => {
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('error', (err, receipt) => {
+                    console.log(err);
+                });
         },
 
         async GetAllowanceERC20(tokenName, owner, spender, chainId) {
@@ -175,25 +175,25 @@ $.GARBI_FARM_V2.prototype = (function() {
             let contractAction = await this.GetTokenActionToMain(tokenName, chainId);
 
             return await contractAction.methods.approve(spender, amountDefault).send({ from: owner })
-            .on('transactionHash', (hash) => {
-                coreHelper.showPopup('confirm-popup');
-                $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-            })
-            .on('confirmation', (confirmationNumber, receipt) => {
-                
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('receipt', (receipt) => {
-                $('.btn-approve').hide();
-                coreHelper.hidePopup('confirm-popup', 0);
-                coreHelper.showPopup('success-confirm-popup');
-                coreHelper.hidePopup('success-confirm-popup', 10000);
-            })
-            .on('error', (err, receipt) => {
-                console.log(err);
-            });
+                .on('transactionHash', (hash) => {
+                    coreHelper.showPopup('confirm-popup');
+                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                })
+                .on('confirmation', (confirmationNumber, receipt) => {
+
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('receipt', (receipt) => {
+                    $('.btn-approve').hide();
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('error', (err, receipt) => {
+                    console.log(err);
+                });
         },
 
         async GetContractFarmActionToReadData(chainId, pid) {
