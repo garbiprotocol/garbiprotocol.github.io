@@ -628,6 +628,7 @@ $.CONFIG.prototype = (function() {
                 }
             }
             console.log(data);
+            return data;
         }
     };
 }(jQuery));
