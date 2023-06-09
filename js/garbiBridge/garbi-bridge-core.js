@@ -54,11 +54,6 @@ $.GARBI_BRIDGE.prototype = (function() {
                     coreHelper.hidePopup('success-confirm-popup', 10000);
                 })
                 .on('receipt', (receipt) => {
-
-                    // document.querySelector('.transaction-hash-relayer-0 .textStatus').innerHTML = "Pending";
-                    // document.querySelector('.transaction-hash-relayer-1 .textStatus').innerHTML = "Pending";
-                    // document.querySelector('.transaction-hash-relayer-2 .textStatus').innerHTML = "Pending";
-
                     coreHelper.hidePopup('confirm-popup', 0);
                     coreHelper.showPopup('success-confirm-popup');
                     coreHelper.hidePopup('success-confirm-popup', 10000);
@@ -100,41 +95,6 @@ $.GARBI_BRIDGE.prototype = (function() {
             self.ApproveERC20(chainName, 'grb', user, bridgeContract);
         },
 
-        async SwichNetworkDeposit(selectNetwork) {
-            let self = this;
-            let networkDeposit = garbiBridgeConfig.GetNetworkByNetworkName(selectNetwork);
-
-            let checkNetwork = await self.IsValidNode(networkDeposit.chainId);
-            if (checkNetwork == false) {
-                let provider = window.ethereum;
-                let chainIdToHex = self.ConvertChainIdToHex(networkDeposit.chainId);
-
-                let networkChain = [{
-                    "chainId": chainIdToHex,
-                    "chainName": networkDeposit.chainName,
-                    "nativeCurrency": {
-                        "name": 'ETH',
-                        "symbol": 'ETH',
-                        "decimals": 18
-                    },
-                    "rpcUrls": networkDeposit.rpcList,
-                    "blockExplorerUrls": networkDeposit.blockExplorerUrls,
-                }];
-
-                try {
-                    await provider.request({
-                        "method": 'wallet_addEthereumChain',
-                        "params": networkChain,
-                    });
-                } catch (error) {
-                    await web3.currentProvider.request({
-                        method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: chainId }],
-                    });
-                }
-            }
-        },
-
         GetWalletAddress() {
             let self = this;
             if (self.CheckConnected() == true) {
@@ -143,8 +103,8 @@ $.GARBI_BRIDGE.prototype = (function() {
         },
 
         async GetBalanceETH(chainName, user) {
-            let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
-            let rpc = network.rpcList[0];
+            let _network = network.GetNetworkByNetworkName(chainName);
+            let rpc = _network.rpcList[0];
             let _web3 = new Web3(new Web3.providers.HttpProvider(rpc));
             let balanceETH = await _web3.eth.getBalance(user);
 
@@ -152,14 +112,12 @@ $.GARBI_BRIDGE.prototype = (function() {
         },
 
         async GetAllowance(chainName, tokenName, owner, spender) {
-            let self = this;
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
             let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();
-            let chainId = await self.GetChainIdToMain();
+            let chainId = await network.GetChainIdToMain();
             let contract = contractBaseHelper.getReadContract(tokenAddress, tokenAbi, chainId);
 
             let result = await contract.methods.allowance(owner, spender).call();
-
             return result;
         },
 
@@ -168,7 +126,7 @@ $.GARBI_BRIDGE.prototype = (function() {
             if (tokenName == "eth") {
                 return await self.GetBalanceETH(chainName, user);
             }
-            let chainId = garbiBridgeConfig.GetChainIdByNetworkNameToRead(chainName);
+            let chainId = network.GetChainIdByNetworkNameToRead(chainName);
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
             let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();
             let contract = contractBaseHelper.getReadContract(tokenAddress, tokenAbi, chainId);
@@ -178,11 +136,10 @@ $.GARBI_BRIDGE.prototype = (function() {
         },
 
         async ApproveERC20(chainName, tokenName, owner, spender) {
-            let self = this;
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
             let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();
             let amountDefault = coreHelper.getAmountAllow();
-            let chainId = await self.GetChainIdToMain();
+            let chainId = await network.GetChainIdToMain();
 
             let contract = contractBaseHelper.getMainContract(tokenAddress, tokenAbi, chainId);
             contract.methods.approve(spender, amountDefault)
@@ -217,7 +174,6 @@ $.GARBI_BRIDGE.prototype = (function() {
                 recipient.substr(2);
 
             return data;
-
         },
 
         ExpandDecimals(amount, decimals = 18) {
@@ -227,29 +183,6 @@ $.GARBI_BRIDGE.prototype = (function() {
         CheckConnected() {
             return web3.currentProvider.selectedAddress !== null ? true : false;
         },
-
-        async IsValidNode(chainIdNetworkDeposit) {
-            let self = this;
-            let chainIdActive = await self.GetChainIdToMain();
-            if (chainIdActive != chainIdNetworkDeposit) {
-                return false;
-            }
-            return true;
-        },
-
-        async GetChainIdToMain() {
-            let chainId = await web3.currentProvider.request({ method: 'eth_chainId' });
-
-            if (`${chainId.charAt(0)}${chainId.charAt(1)}` == '0x') {
-                return parseInt(chainId.slice(2), 16);
-            } else {
-                return parseInt(chainId, 16);
-            }
-        },
-
-        ConvertChainIdToHex(chainId) {
-            return `0x${parseInt(chainId, 10).toString(16)}`;
-        }
 
     }
 }(jQuery));

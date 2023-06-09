@@ -22,6 +22,7 @@
     <script src="./js/contract/arbitrum/abi.js"></script>
     <script src="./js/contract/arbitrum/config.js"></script>
     <script src="./js/garbiBridge/garbi-bridge-config.js"></script>
+    <script src="./js/contract/arbitrum/network.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.v2.js"></script>
 
     <title>Single WETH Vault - Garbi Protocol</title>
@@ -390,6 +391,7 @@
     var configHelper = new $.CONFIG();
     var contractBaseHelper = new $.CONTRACTBASE();
     var garbiFarm = new $.GARBI_FARM_V2();
+    var network = new $.GARBI_NETWORK();
 
     var chainId = 42170;
     var pid = 0;
@@ -416,6 +418,10 @@
         $(`.apy`).html(`${ coreHelper.numberWithCommas(userData.apy, 2) }%`);
         $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
 
+        let curChainId =await network.GetChainIdToMain();
+        if (curChainId != chainId) {
+            network.SwichNetworkByChainId(chainId);
+        }
         setInterval(async function() {
             let userAddr = coreHelper.getUserAccount();
             let userData = await garbiFarm.GetDataUser(userAddr);
