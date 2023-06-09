@@ -23,6 +23,8 @@
     <script src="./js/contract/arbitrum/core.js"></script>
     <script src="./js/contract/arbitrum/base.contract.js"></script>
     <script src="./js/contract/arbitrum/data.js"></script>
+    <script src="./js/contract/arbitrum/network.js"></script>
+    <script src="./js/contract/arbitrum/base.erc20.token.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.v2.js"></script>
 
@@ -398,7 +400,9 @@
     var coreHelper = new $.Core();
     var configHelper = new $.CONFIG();
     var contractBaseHelper = new $.CONTRACTBASE();
+    var erc20Helper = new $.BASE_ERC20_TOKEN();
     var garbiFarm = new $.GARBI_FARM_V2();
+    var networkHelper = new $.GARBI_NETWORK();
 
     var chainId = 42161;
     var pid = 5;
@@ -409,9 +413,18 @@
         contractBaseHelper.init({
             chainId: chainId
         });
+        let erc20Abi = abiHelper.getERC20ABI();
+        let tokenAddress = configHelper.getFarmContractByPid(chainId, pid).want;
+        erc20Helper.init({
+            chainId: chainId,
+            tokenAddress: tokenAddress,
+            tokenAbi: erc20Abi,
+        })
+
         garbiFarm.init({
             chainId: chainId,
             pid: pid,
+            tokenAction: erc20Helper,
         });
         run();
     });
