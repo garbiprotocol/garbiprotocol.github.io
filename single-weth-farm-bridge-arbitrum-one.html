@@ -23,6 +23,7 @@
     <script src="./js/contract/arbitrum/config.js"></script>
     <script src="./js/garbiBridge/garbi-bridge-config.js"></script>
     <script src="./js/contract/arbitrum/network.js"></script>
+    <script src="./js/contract/arbitrum/base.erc20.token.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.v2.js"></script>
 
     <title>Single WETH Vault - Garbi Protocol</title>
@@ -261,11 +262,11 @@
                             </ul>
                         </article>
                         <article class="garbi__box-1 mb-3 mt-3 p-3">
-                                <p class="f-700">Vault's stats</p>
-                                <div>Apr: <span class="apy">-</span></div>
-                                <div>Total: <span class="tvl">-</span></div>
-                                <div>Platform Fee: 2.5%</div>
-                                <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
+                            <p class="f-700">Vault's stats</p>
+                            <div>Apr: <span class="apy">-</span></div>
+                            <div>Total: <span class="tvl">-</span></div>
+                            <div>Platform Fee: 2.5%</div>
+                            <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
                         </article>
                     </div>
                     <div class="col-lg-5">
@@ -396,6 +397,7 @@
     var coreHelper = new $.Core();
     var configHelper = new $.CONFIG();
     var contractBaseHelper = new $.CONTRACTBASE();
+    var erc20Helper = new $.BASE_ERC20_TOKEN();
     var garbiFarm = new $.GARBI_FARM_V2();
     var network = new $.GARBI_NETWORK();
 
@@ -408,9 +410,18 @@
         contractBaseHelper.init({
             chainId: chainId
         });
+        let erc20Abi = abiHelper.getERC20ABI();
+        let tokenAddress = configHelper.getFarmContractByPid(chainId, pid).want;
+        erc20Helper.init({
+            chainId: chainId,
+            tokenAddress: tokenAddress,
+            tokenAbi: erc20Abi,
+        })
+
         garbiFarm.init({
             chainId: chainId,
             pid: pid,
+            tokenAction: erc20Helper,
         });
         run();
     });
@@ -425,7 +436,7 @@
         $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
 
 
-        let curChainId =await network.GetChainIdToMain();
+        let curChainId = await network.GetChainIdToMain();
         if (curChainId != chainId) {
             network.SwichNetworkByChainId(chainId);
         }
