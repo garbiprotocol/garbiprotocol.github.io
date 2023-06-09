@@ -14,9 +14,11 @@ $.GARBI_FARM_V2.prototype = (function() {
     var setting = {
         chainId: null,
         pid: null,
+        tokenAction: null,
     }
     var GRBPrice = 0;
     var GRB_TOKEN_DECIMAL = 18;
+    var tokenAction;
 
     return {
         init: function(options) {
@@ -24,38 +26,18 @@ $.GARBI_FARM_V2.prototype = (function() {
                 return false;
             }
             setting = $.extend({}, setting, options);
+
+            tokenAction = setting.tokenAction;
+
             GRBPrice = configHelper.getPriceByTokenName(setting.chainId, 'grb');
             this.updateGRBPrice();
 
         },
 
-        // async test() {
-        //     let user = "0x47b24C4Fea7FB4fc55b6102181E9c0EB8223b9f4";
-
-        //     // let resultApproveWantToFarmContract = this.ApproveWantToFarmContract(user);
-        //     // console.log(resultApproveWantToFarmContract);
-
-        //     // let resultGetAllowanceWantToFarmContract = await this.GetAllowanceWantToFarmContract(user);
-        //     // console.log(resultGetAllowanceWantToFarmContract);
-
-        //     // let resultAllowanceERC20 = await this.GetAllowanceERC20("weth", user, "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C");
-        //     // console.log(resultAllowanceERC20);
-
-        //     // let resultApproveERC20 = await this.ApproveERC20("weth", user, "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C");
-        //     // console.log(resultApproveERC20);
-
-        //     let dataUser = await this.GetDataUser(user);
-        //     console.log(dataUser);
-
-        //     // let resultDeposit = await this.Deposit(user, "1000000000000");
-        //     // console.log(resultDeposit);
-
-        //     // let resultHarvest = await this.Harvest(user);
-        //     // console.log(resultHarvest);
-
-        //     // let resultWithdraw = await this.Withdraw(user, "975000000000");
-        //     // console.log(resultWithdraw);
-        // },
+        async test() {
+            let user = "0x47b24C4Fea7FB4fc55b6102181E9c0EB8223b9f4";
+            await this.ApproveWantToFarmContract(user);
+        },
 
         async updateGRBPrice() {
             let self = this;
@@ -73,8 +55,7 @@ $.GARBI_FARM_V2.prototype = (function() {
             pid = this.VerifyPid(pid);
 
             let contractConfig = await this.ValidateContractFarmByPid(chainId, pid, `Pid ${pid}} not configured in chainId[${chainId}].farms`);
-            let tokenNameOfWant = configHelper.getTokenNameByAddress(chainId, contractConfig.want);
-            return await this.GetAllowanceERC20(tokenNameOfWant, user, contractConfig.contract);
+            return await tokenAction.allowance(user, contractConfig.contract);
         },
 
         async ApproveWantToFarmContract(user, chainId, pid) {
@@ -82,8 +63,9 @@ $.GARBI_FARM_V2.prototype = (function() {
             pid = this.VerifyPid(pid);
 
             let contractConfig = await this.ValidateContractFarmByPid(chainId, pid, `Pid ${pid}} not configured in chainId[${chainId}].farms`);
-            let tokenNameOfWant = configHelper.getTokenNameByAddress(chainId, contractConfig.want);
-            return await this.ApproveERC20(tokenNameOfWant, user, contractConfig.contract);
+            let amountDefault = coreHelper.getAmountAllow();
+
+            return await tokenAction.approve(user, contractConfig.contract, amountDefault);
         },
 
         async GetDataUser(user, chainId, pid) {
@@ -161,41 +143,6 @@ $.GARBI_FARM_V2.prototype = (function() {
                 });
         },
 
-        async GetAllowanceERC20(tokenName, owner, spender, chainId) {
-            let contractAction = await this.GetTokenActionToReadData(tokenName, chainId);
-
-            let result = await contractAction.methods.allowance(owner, spender).call();
-
-            return result;
-        },
-
-        async ApproveERC20(tokenName, owner, spender, chainId) {
-            let amountDefault = coreHelper.getAmountAllow();
-
-            let contractAction = await this.GetTokenActionToMain(tokenName, chainId);
-
-            return await contractAction.methods.approve(spender, amountDefault).send({ from: owner })
-                .on('transactionHash', (hash) => {
-                    coreHelper.showPopup('confirm-popup');
-                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-                })
-                .on('confirmation', (confirmationNumber, receipt) => {
-
-                    coreHelper.hidePopup('confirm-popup', 0);
-                    coreHelper.showPopup('success-confirm-popup');
-                    coreHelper.hidePopup('success-confirm-popup', 10000);
-                })
-                .on('receipt', (receipt) => {
-                    $('.btn-approve').hide();
-                    coreHelper.hidePopup('confirm-popup', 0);
-                    coreHelper.showPopup('success-confirm-popup');
-                    coreHelper.hidePopup('success-confirm-popup', 10000);
-                })
-                .on('error', (err, receipt) => {
-                    console.log(err);
-                });
-        },
-
         async GetContractFarmActionToReadData(chainId, pid) {
 
             chainId = this.VerifyChainId(chainId);
@@ -230,26 +177,6 @@ $.GARBI_FARM_V2.prototype = (function() {
             data.wantDecimal = contractConfig.wantDecimal;
             data.price = contractConfig.price;
             return data;
-        },
-
-        async GetTokenActionToReadData(tokenName, chainId) {
-            chainId = this.VerifyChainId(chainId);
-
-            let tokenAddress = this.ValidateTokenAddressByTokenName(tokenName, chainId, `Token ${tokenName} not configured in chainId[${chainId}]`);
-            let tokenAbi = abiHelper.getERC20ABI();
-
-            let contractAction = contractBaseHelper.getReadContract(tokenAddress, tokenAbi, chainId);
-            return contractAction;
-        },
-
-        async GetTokenActionToMain(tokenName, chainId) {
-            chainId = this.VerifyChainId(chainId);
-
-            let tokenAddress = this.ValidateTokenAddressByTokenName(tokenName, chainId, `Token ${tokenName} not configured in chainId[${chainId}]`);
-            let tokenAbi = abiHelper.getERC20ABI();
-
-            let contractAction = contractBaseHelper.getMainContract(tokenAddress, tokenAbi);
-            return contractAction;
         },
 
         VerifyChainId(chainId) {
