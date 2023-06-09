@@ -28,6 +28,7 @@
     <script src="./js/contract/arbitrum/garbi-swap.contract.js"></script>
     <script src="./js/garbiBridge/garbi-bridge-abi.js"></script>
     <script src="./js/garbiBridge/garbi-bridge-config.js"></script>
+    <script src="./js/contract/arbitrum/network.js"></script>
 
     <title>Bridge - Garbi Protocol</title>
 
@@ -322,86 +323,86 @@
 <body>
     <div class="wrapper">
         <header class="header" id="header">
-                <div class="alert-banner" style="background: rgb(45, 66, 252)">
-                    <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
-                </div>
-                <nav class="navbar navbar-expand-lg">
-                    <div class="container container-1">
-                        <div class="row flex-grow-1 align-items-center">
-                            <div class="col-6 col-lg-2">
-                                <div class="d-flex align-items-center">
-                                    <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+            <div class="alert-banner" style="background: rgb(45, 66, 252)">
+                <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
+            </div>
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
                                         <i class="fas fa-bars"></i>
                                     </button>
-                                    <div class="logo" onclick="window.location='index.html'">
-                                        <img src="./assets/images/garbi.png" />
-                                    </div>
+                                <div class="logo" onclick="window.location='index.html'">
+                                    <img src="./assets/images/garbi.png" />
                                 </div>
                             </div>
-                            <div class="col-6 col-lg-2 order-lg-3">
-                                <div class="d-flex align-items-center justify-content-end">
-                                    <span class="wrap-user-acct">0x000</span>
-                                    <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
-                                    <!-- <span class="dropMenu">
+                        </div>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
+                                <!-- <span class="dropMenu">
                                         <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
                                         <div class="ctmenu-sub  swap-box">
                                             <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
                                         </div>
                                     </span> -->
-                                </div>
                             </div>
-                            <div class="col-lg-8">
-                                <div class="collapse navbar-collapse" id="navbar-header">
-                                    <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="swap.html">Swap</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="bridge.html">Bridge</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="bridge.html">Bridge</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Earn 
                                                 </a>
-                                            <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
-                                                <li>
-                                                    <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="earn.html">Classic Earn</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="earn.html">Classic Earn</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 GRB-WETH Liquidity
                                               </a>
-                                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                                                <li>
-                                                    <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
-                                                </li>
-                                            </ul>
-                                        </li>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
+                                            </li>
+                                        </ul>
+                                    </li>
 
-                                    </ul>
-                                </div>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                </nav>
-            </header>
+                </div>
+            </nav>
+        </header>
         <main class="page__swap">
             <section class="container">
                 <div class="row">
@@ -890,6 +891,7 @@
     var garbiBridgeConfig = new $.GARBI_BRIDGE_CONFIG();
     var garbiBridge = new $.GARBI_BRIDGE();
     var dataHelper = new $.DATA();
+    var network = new $.GARBI_NETWORK();
     var chainId = 421613;
     $('.alert-banner').hide();
     if (typeof window.ethereum !== 'undefined') {
@@ -936,19 +938,13 @@
         let selectToken = $('select[name=token-from]').val();
         let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
         let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
-        // let transactionHashRelayer = ["transaction-hash-relayer-0", "transaction-hash-relayer-1", "transaction-hash-relayer-2"];
-        // let randomTansactionHashRelayer = Math.floor(Math.random() * transactionHashRelayer.length);
-        // let randomRelayer = transactionHashRelayer[randomTansactionHashRelayer];
 
-        // $('#' + randomRelayer + ' .textStatus').hide();
-
-        garbiBridge.SwichNetworkDeposit(selectNetwork);
         $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance / 1e18).toFixed(4));
         $('.stable-swap-pay .user-to-bal').text((userNetworkRecieveBalance / 1e18).toFixed(4));
 
         $('select[name=network-from]').change(async function() {
             let selectNetwork = $('select[name=network-from]').val();
-            garbiBridge.SwichNetworkDeposit(selectNetwork);
+            network.SwichNetworkByChainName(selectNetwork);
         });
         $('select[name=network-to]').change(async function() {
             let networkRecieve = $('select[name=network-to]').val();
@@ -1018,7 +1014,7 @@
             $('.token-select').text(selectTokenName);
             $('.token-select-symbol').text(selectTokenSymbol);
             $('.grb-balance').text((userSelectNetworkGRBBalance / 1e18).toFixed(4));
-            garbiBridge.SwichNetworkDeposit(selectNetwork);
+            network.SwichNetworkByChainName(selectNetwork);
         }, 1000);
         setInterval(async function() {
             let userAddr = coreHelper.getUserAccount();
@@ -1028,8 +1024,8 @@
 
             let networkRecieve = $('select[name=network-to]').val();
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
-            let selectNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(selectNetwork).chainName;
-            let recieveNetworkName = await garbiBridgeConfig.GetNetworkByNetworkName(networkRecieve).chainName;
+            let selectNetworkName = await network.GetNetworkByNetworkName(selectNetwork).chainName;
+            let recieveNetworkName = await network.GetNetworkByNetworkName(networkRecieve).chainName;
 
             let selectNetworkHandleAddress = (BRIDGE_ETH == false) ?
                 garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork) :
@@ -1044,13 +1040,6 @@
 
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
-
-
-            if (newBalanceRecive != userNetworkRecieveBalance) {
-                $('#token-bridge .bridge-success').show();
-                $('#token-bridge .wait-bridge').hide();
-                userNetworkRecieveBalance = newBalanceRecive;
-            }
 
             $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance / 1e18).toFixed(4));
             $('.stable-swap-pay .user-to-bal').text((newBalanceRecive / 1e18).toFixed(4));
@@ -1126,7 +1115,7 @@
 
                     async function SyncEvent(chainName, depositNonce, fromBlock = null) {
                         let eventName = "ProposalVote";
-                        let network = garbiBridgeConfig.GetNetworkByNetworkName(chainName);
+                        let network = network.GetNetworkByNetworkName(chainName);
                         let rpc = network.rpcList[0];
                         let _web3 = new Web3(new Web3.providers.HttpProvider(rpc));
                         fromBlock = (fromBlock == null) ? await _web3.eth.getBlockNumber() : fromBlock;

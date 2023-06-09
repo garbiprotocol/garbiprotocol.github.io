@@ -1,31 +1,5 @@
 $.GARBI_BRIDGE_CONFIG = function() {};
 $.GARBI_BRIDGE_CONFIG.prototype = (function() {
-    const network = {
-        ArbitrumOne: {
-            chainId: 42161,
-            chainName: "Arbitrum One",
-            currencySymbol: "ETH",
-            rpcList: ['https://arb1.arbitrum.io/rpc'],
-            blockExplorerUrls: ['https://arbiscan.io/tx/']
-
-        },
-
-        ArbitrumGoerli: {
-            chainId: 421613,
-            chainName: "Arbitrum Goerli",
-            currencySymbol: "ETH",
-            rpcList: ['https://goerli-rollup.arbitrum.io/rpc'],
-            blockExplorerUrls: ['https://goerli.arbiscan.io/tx/'],
-        },
-
-        ArbitrumNova: {
-            chainId: 42170,
-            chainName: "Arbitrum Nova",
-            currencySymbol: "ETH",
-            rpcList: ['https://nova.arbitrum.io/rpc'],
-            blockExplorerUrls: ['https://nova.arbiscan.io/tx/'],
-        }
-    };
 
     // test with erc20
     // const contract = {
@@ -236,14 +210,6 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             if (typeof options === "undefined" || options.length < 1) {
                 return false;
             }
-        },
-
-        GetNetworkByNetworkName(chainName) {
-            return network[chainName];
-        },
-
-        GetChainIdByNetworkNameToRead(chainName) {
-            return network[chainName].chainId;
         },
 
         GetContractAddressByNetworkName(chainName) {
