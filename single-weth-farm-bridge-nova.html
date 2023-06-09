@@ -471,7 +471,7 @@
             let userWantWithdraw = $('input[name=withdraw_amt]').val();
             let data = await garbiFarm.GetTokenWantOfFarmContractByPid();
             let wantDecimal = data.wantDecimal;
-            garbiFarm.Withdraw(userAddr, userWantWithdraw * wantDecimal);
+            garbiFarm.Withdraw(userAddr, coreHelper.toBN(userInputVal, wantDecimal));
         });
     }
 </script>

@@ -23,7 +23,8 @@
         <script src="./js/contract/arbitrum/core.js"></script>
         <script src="./js/contract/arbitrum/base.contract.js"></script>
         <script src="./js/contract/arbitrum/data.js"></script>
-        <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
+        <!-- <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script> -->
+        <script src="./js/contract/arbitrum/garbi.farm.contract.v2.js"></script>
 
         <title>Earn - Garbi Protocol</title>
     </head>
@@ -155,8 +156,8 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="f-14 text-end" id="apr-5">Loading</td>
-                                                            <td class="f-14 text-end" id="tvl-5">Loading</td>
+                                                            <td class="f-14 text-end" id="apr-5"><span class="chain-42161-apr-5">Loading</span></td>
+                                                            <td class="f-14 text-end" id="tvl-5"><span class="chain-42161-tvl-5">Loading</span></td>
                                                         </tr>
                                                         <tr onclick="window.location='gec-farm.html'">
                                                             <td>
@@ -175,8 +176,8 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="f-14 text-end" id="apr-12">Loading</td>
-                                                            <td class="f-14 text-end" id="tvl-12">Loading</td>
+                                                            <td class="f-14 text-end" id="apr-12"><span class="chain-42161-apr-12">Loading</span></td>
+                                                            <td class="f-14 text-end" id="tvl-12"><span class="chain-42161-tvl-12">Loading</span></td>
                                                         </tr>
                                                         <tr onclick="window.open('https://pixilsaga.com', '_blank')">
                                                             <td>
@@ -195,8 +196,8 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="f-14 text-end" id="apr-15">Loading</td>
-                                                            <td class="f-14 text-end" id="tvl-15">Loading</td>
+                                                            <td class="f-14 text-end" id="apr-15"><span class="chain-42161-apr-15">Loading</span></td>
+                                                            <td class="f-14 text-end" id="tvl-15"><span class="chain-42161-tvl-15">Loading</span></td>
                                                         </tr>
                                                         <tr onclick="window.location='single-weth-farm.html'">
                                                             <td>
@@ -215,8 +216,8 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="f-14 text-end" id="apr-3">Loading</td>
-                                                            <td class="f-14 text-end" id="tvl-3">Loading</td>
+                                                            <td class="f-14 text-end" id="apr-3"><span class="chain-42161-apr-3">Loading</span></td>
+                                                            <td class="f-14 text-end" id="tvl-3"><span class="chain-42161-tvl-3">Loading</span></td>
                                                         </tr>
                                                         <tr onclick="window.location='single-wbtc-farm.html'">
                                                             <td>
@@ -235,8 +236,8 @@
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td class="f-14 text-end" id="apr-4">Loading</td>
-                                                            <td class="f-14 text-end" id="tvl-4">Loading</td>
+                                                            <td class="f-14 text-end" id="apr-4"><span class="chain-42161-apr-4">Loading</span></td>
+                                                            <td class="f-14 text-end" id="tvl-4"><span class="chain-42161-tvl-4">Loading</span></td>
                                                         </tr>
                                                     </tbody>
 
@@ -306,50 +307,46 @@
     </body>
     <script>
         var abiHelper = new $.ABI();
-        var coreHelper = new $.Core();
-        var configHelper = new $.CONFIG();
-        var contractBaseHelper = new $.CONTRACTBASE();
-        var storeHelper = new $.STORE();
-        var dataHelper = new $.DATA();
-        var garbiFarmHelper = new $.GARBI_FARM();
-        var chainId = 42161;
-        $('.alert-banner').hide();
-            if (typeof window.ethereum !== 'undefined') {
-              const web3 = new Web3(window.ethereum);
-              window.ethereum.enable();
-              web3.eth.getChainId()
-                .then(chainId => {
-                  if (chainId !== 42161) {
-                    $('.alert-banner').show();
-                  }
-                  else {
-                    $('.alert-banner').hide();
-                  }
-                })
-                .catch(error => {
-                  console.error(error);
-                });
-            } else {
-              console.log("Metamask not found");
+    var coreHelper = new $.Core();
+    var configHelper = new $.CONFIG();
+    var contractBaseHelper = new $.CONTRACTBASE();
+    var garbiFarm = new $.GARBI_FARM_V2();
+
+    var typeOfFarmContract = "garbi_pool";
+    var chainId0 = 42161; // main net
+    var chainId1 = 42170; // nova
+    var pid = 25;
+    $(document).ready(function() {
+        abiHelper.init({});
+        coreHelper.init({});
+        configHelper.init({});
+        contractBaseHelper.init({
+            chainId: chainId0
+        });
+        garbiFarm.init({
+            chainId: chainId0,
+            pid: pid,
+        });
+        run();
+    });
+
+    async function run() {
+        let userAddr = coreHelper.getUserAccount();
+
+        initData(chainId0);
+        initData(chainId1);
+
+        async function initData(chainId) {
+            let poolsOfChainId = configHelper.getAllPidOfFarmContractByType(typeOfFarmContract, chainId);
+            let lengthPoolsOfChainId = poolsOfChainId.length;
+            for (let pid = 0; pid < lengthPoolsOfChainId; pid++) {
+                let userData = await garbiFarm.GetDataUser(userAddr, chainId, poolsOfChainId[pid]);
+                $(".chain-" + chainId + "-apr-" + poolsOfChainId[pid]).text(`${coreHelper.numberWithCommas(userData.apy, 2)} %`);
+                $(".chain-" + chainId + "-tvl-" + poolsOfChainId[pid]).text(`$ ${coreHelper.formatBalance(userData.tvl, 2)}`);
             }
-        $(document).ready(function() {
-            abiHelper.init({});
-            coreHelper.init({});
-            configHelper.init({});
-            storeHelper.init({});
-            contractBaseHelper.init({
-                "chainId": chainId
-            });
-            dataHelper.init({
-                "chainId": chainId
-            });
-            garbiFarmHelper.init({
-                "chainId": chainId,
-                "pids": []
-            })
-            coreHelper.initBTNName('btn-swap', 'Swap');
-            garbiFarmHelper.initFarmListPageInterface();
-        });                                       
+        }
+
+    }
     </script>
 
 </html>

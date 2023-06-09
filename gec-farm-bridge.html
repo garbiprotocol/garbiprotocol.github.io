@@ -23,9 +23,10 @@
     <script src="./js/contract/arbitrum/core.js"></script>
     <script src="./js/contract/arbitrum/base.contract.js"></script>
     <script src="./js/contract/arbitrum/data.js"></script>
+    <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.v2.js"></script>
 
-    <title>Single WBTC Vault - Garbi Protocol</title>
+    <title>GEC Vault - Garbi Protocol</title>
     <style id="svelte-166mr51-style">
         ul.svelte-166mr51 {
             display: flex;
@@ -231,20 +232,20 @@
         <main class="page__swap page-earn">
             <section class="container">
                 <div class="row">
-                    <div class="col-lg-7">
-                         <article class="swap__main garbi__box-1 p-3 mb-3">
+                    <div class="col-lg-6">
+                        <article class="swap__main garbi__box-1 p-3 mb-3">
                             <div class="d-flex align-items-center justify-content-between mb-14">
                                 <div class="f-700">
-                                    <span>Single WBTC Vault</span>
+                                    <span>GEC Vault</span>
                                 </div>
                             </div>
 
                             <ul>
                                 <li style="list-style-type: none; margin-left: -30px;">
-                                    <p> Stake WBTC to earn veGRB.</p>
-                                    <label for="currency_0" style="display: block;">
+                                    <p> Stake GEC to earn veGRB.</p>
+                                    <label for="currency_0" style="display:block;">
                                         <span class="currency-laybal"> 
-                                            <span class="token-name"><img src="./assets/images/btc_logo.png" style="margin-left: 0;" class="token-icon">  WBTC</span>
+                                            <span class="token-name"><img src="./assets/images/gec-logo.png" style="margin-left: 0;" class="token-icon">GEC</span>
                                             <button class="maxBalanceCoin max-want-bal">Balance: <span class="u-want-bal">Loading</span></button>
                                         </span>
                                     </label>
@@ -253,22 +254,20 @@
                                     </div>
                                 </li>
                                 <li style="list-style-type: none; margin-left: -30px;">
-                                    <button type="button" class="header__btn-connect text-center mt-3  btn-approve" style="display:none">Approve</button>
+                                    <button type="button" class="header__btn-connect text-center mt-3  btn-approve" style="display: none">Approve GEC</button>
                                     <button type="button" class="header__btn-connect text-center mt-3 btn-farm btn-deposit">Deposit</button>
 
                                 </li>
                             </ul>
                         </article>
-                        <article class="garbi__box-1 mb-3 mt-3 p-3">
+                        <article class="garbi__box-1 p-3 mb-3 mt-3">
                             <p class="f-700">Vault's stats</p>
 
                             <div>Apr: <span class="apy">-</span></div>
                             <div>Total: <span class="tvl">-</span></div>
-                            <div>Platform Fee: 2.5%</div>
-                            <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
                         </article>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
                         <article class="swap__main garbi__box-1 p-3 mb-3">
                             <div class="d-flex align-items-center justify-content-between mb-14">
                                 <div class="f-700">
@@ -277,17 +276,17 @@
                             </div>
                             <ul>
                                 <li style="list-style-type: none; margin-left: -30px;" class="mt-3">
-                                    <p>Staked: <span class="u-share">Loading</span></p>
+                                    <p style="margin-bottom: 0;">Staked: <span class="u-share">Loading</span></p>
                                     <p>Earned:
                                         <span class="u-pending-grb">Loading</span>
                                         <span>veGRB <button type="button" class="header__btn-connect mt-3 text-center btn-harvest">Harvest</button></span>
 
                                     </p>
-                                    <label for="currency_0">
+                                    <label for="currency_0" style="display:block;">
                                         <span class="currency-laybal"> 
-                                            <img src="./assets/images/btc_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">WBTC</span>
-                                            <button class="maxBalanceCoin max-share">Max: </button>
-                                            <span class="u-share">Loading</span>
+                                            <span class="token-name"><img src="./assets/images/gec-logo.png" style="margin-left: 0;" class="token-icon"> GEC</span>
+                                            <button class="maxBalanceCoin max-share">Balance: <span class="u-share">Loading</span> </button>
+                                            
                                         </span>
                                     </label>
                                     <div class="addLp__form_input mb-2">
@@ -296,15 +295,13 @@
                                 </li>
                             </ul>
                             <div>
-                                <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw btn-claim">Withdraw your WBTC</button>
+                                <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw btn-claim">Withdraw your GEC</button>
                             </div>
-                            
                         </article>
                     </div>
                 </div>
-               
                 
-
+                
             </section>
         </main>
 
@@ -403,7 +400,7 @@
     var garbiFarm = new $.GARBI_FARM_V2();
 
     var chainId = 42161;
-    var pid = 4;
+    var pid = 12;
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
@@ -453,7 +450,6 @@
         });
         $(`.max-share`).on("click", () => {
             let userMaxShare = $('.currency-laybal .u-share').text();
-            console.log(userMaxShare);
             $('input[name=withdraw_amt]').val(userMaxShare);
         });
 
