@@ -399,7 +399,7 @@
     var contractBaseHelper = new $.CONTRACTBASE();
     var erc20Helper = new $.BASE_ERC20_TOKEN();
     var garbiFarm = new $.GARBI_FARM_V2();
-    var network = new $.GARBI_NETWORK();
+    var networkHelper = new $.GARBI_NETWORK();
 
     var chainId = 42170;
     var pid = 0;
@@ -436,9 +436,9 @@
         $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
 
 
-        let curChainId = await network.GetChainIdToMain();
+        let curChainId = await networkHelper.GetChainIdToMain();
         if (curChainId != chainId) {
-            network.SwichNetworkByChainId(chainId);
+            networkHelper.SwichNetworkByChainId(chainId);
         }
         setInterval(async function() {
             let userAddr = coreHelper.getUserAccount();

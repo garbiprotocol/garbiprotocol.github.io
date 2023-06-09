@@ -44,7 +44,7 @@ $.GARBI_BRIDGE.prototype = (function() {
             return await brideContractAction.methods.deposit(destinationDomainID, resourceID, dataDeposit)
                 .send({ from: user, value: valueETH })
                 .on('transactionHash', (hash) => {
-                    let blockExplorerUrl = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(networkDeposit);
+                    let blockExplorerUrl = networkHelper.GetblockExplorerUrlsNetworkName(networkDeposit);
                     coreHelper.showPopup('confirm-popup');
                     $('.transaction-hash').attr("href", blockExplorerUrl + hash);
                 })
@@ -103,7 +103,7 @@ $.GARBI_BRIDGE.prototype = (function() {
         },
 
         async GetBalanceETH(chainName, user) {
-            let _network = network.GetNetworkByNetworkName(chainName);
+            let _network = networkHelper.GetNetworkByNetworkName(chainName);
             let rpc = _network.rpcList[0];
             let _web3 = new Web3(new Web3.providers.HttpProvider(rpc));
             let balanceETH = await _web3.eth.getBalance(user);
@@ -114,7 +114,7 @@ $.GARBI_BRIDGE.prototype = (function() {
         async GetAllowance(chainName, tokenName, owner, spender) {
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
             let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();
-            let chainId = await network.GetChainIdToMain();
+            let chainId = await networkHelper.GetChainIdToMain();
             let contract = contractBaseHelper.getReadContract(tokenAddress, tokenAbi, chainId);
 
             let result = await contract.methods.allowance(owner, spender).call();
@@ -126,7 +126,7 @@ $.GARBI_BRIDGE.prototype = (function() {
             if (tokenName == "eth") {
                 return await self.GetBalanceETH(chainName, user);
             }
-            let chainId = network.GetChainIdByNetworkNameToRead(chainName);
+            let chainId = networkHelper.GetChainIdByNetworkNameToRead(chainName);
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
             let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();
             let contract = contractBaseHelper.getReadContract(tokenAddress, tokenAbi, chainId);
@@ -139,13 +139,13 @@ $.GARBI_BRIDGE.prototype = (function() {
             let tokenAddress = garbiBridgeConfig.GetTokenAddressByNetworkName(chainName, tokenName);
             let tokenAbi = garbiBridgeAbi.GetERC20BaseABI();
             let amountDefault = coreHelper.getAmountAllow();
-            let chainId = await network.GetChainIdToMain();
+            let chainId = await networkHelper.GetChainIdToMain();
 
             let contract = contractBaseHelper.getMainContract(tokenAddress, tokenAbi, chainId);
             contract.methods.approve(spender, amountDefault)
                 .send({ from: owner })
                 .on('transactionHash', (hash) => {
-                    let blockExplorerUrl = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(chainName);
+                    let blockExplorerUrl = networkHelper.GetblockExplorerUrlsNetworkName(chainName);
                     coreHelper.showPopup('confirm-popup');
                     $('.transaction-hash').attr("href", blockExplorerUrl + hash);
                 })

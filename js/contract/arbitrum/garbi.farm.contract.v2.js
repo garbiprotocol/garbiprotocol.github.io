@@ -36,7 +36,8 @@ $.GARBI_FARM_V2.prototype = (function() {
 
         async test() {
             let user = "0x47b24C4Fea7FB4fc55b6102181E9c0EB8223b9f4";
-            await this.ApproveWantToFarmContract(user);
+            this.ApproveWantToFarmContract(user);
+
         },
 
         async updateGRBPrice() {
@@ -62,10 +63,29 @@ $.GARBI_FARM_V2.prototype = (function() {
             chainId = this.VerifyChainId(chainId);
             pid = this.VerifyPid(pid);
 
-            let contractConfig = await this.ValidateContractFarmByPid(chainId, pid, `Pid ${pid}} not configured in chainId[${chainId}].farms`);
+            let contractConfig = this.ValidateContractFarmByPid(chainId, pid, `Pid ${pid}} not configured in chainId[${chainId}].farms`);
             let amountDefault = coreHelper.getAmountAllow();
-
-            return await tokenAction.approve(user, contractConfig.contract, amountDefault);
+            let tokenActionToMain = await tokenAction.GetTokenActionToMain();
+            return await tokenActionToMain.methods.approve(contractConfig.contract, amountDefault)
+                .send({ from: user })
+                .on('transactionHash', (hash) => {
+                    coreHelper.showPopup('confirm-popup');
+                    let blockExplorerUrl = networkHelper.GetblockExplorerUrlsNetworkId(setting.chainId);
+                    $('.transaction-hash').attr("href", blockExplorerUrl + hash);
+                })
+                .on('confirmation', (confirmationNumber, receipt) => {
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('receipt', (receipt) => {
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('error', (err, receipt) => {
+                    console.log(err);
+                });
         },
 
         async GetDataUser(user, chainId, pid) {
@@ -93,7 +113,27 @@ $.GARBI_FARM_V2.prototype = (function() {
 
         async Deposit(user, amount, chainId, pid) {
             let contractAction = await this.GetContractFarmActionToMain(chainId, pid);
-            return await contractAction.methods.deposit(amount).send({ from: user });
+            return await contractAction.methods.deposit(amount).send({ from: user })
+                .on('transactionHash', (hash) => {
+                    coreHelper.showPopup('confirm-popup');
+                    let blockExplorerUrl = networkHelper.GetblockExplorerUrlsNetworkId(setting.chainId);
+                    $('.transaction-hash').attr("href", blockExplorerUrl + hash);
+                })
+                .on('confirmation', (confirmationNumber, receipt) => {
+
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('receipt', (receipt) => {
+
+                    coreHelper.hidePopup('confirm-popup', 0);
+                    coreHelper.showPopup('success-confirm-popup');
+                    coreHelper.hidePopup('success-confirm-popup', 10000);
+                })
+                .on('error', (err, receipt) => {
+                    console.log(err);
+                });;
         },
 
         async Harvest(user, chainId, pid) {
@@ -101,7 +141,8 @@ $.GARBI_FARM_V2.prototype = (function() {
             return await contractAction.methods.harvest(user).send({ from: user })
                 .on('transactionHash', (hash) => {
                     coreHelper.showPopup('confirm-popup');
-                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                    let blockExplorerUrl = networkHelper.GetblockExplorerUrlsNetworkId(setting.chainId);
+                    $('.transaction-hash').attr("href", blockExplorerUrl + hash);
                 })
                 .on('confirmation', (confirmationNumber, receipt) => {
 
@@ -125,7 +166,8 @@ $.GARBI_FARM_V2.prototype = (function() {
             return await contractAction.methods.withdraw(amount).send({ from: user })
                 .on('transactionHash', (hash) => {
                     coreHelper.showPopup('confirm-popup');
-                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
+                    let blockExplorerUrl = networkHelper.GetblockExplorerUrlsNetworkId(setting.chainId);
+                    $('.transaction-hash').attr("href", blockExplorerUrl + hash);
                 })
                 .on('confirmation', (confirmationNumber, receipt) => {
 

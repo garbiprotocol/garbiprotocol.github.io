@@ -244,10 +244,6 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
             return bridgeToNetwork[chainName];
         },
 
-        GetblockExplorerUrlsNetworkName(chainName) {
-            return network[chainName].blockExplorerUrls;
-        },
-
         GetUrlRpcByNetworkName(chainName) {
             let network = this.GetNetworkByNetworkName(chainName);
             let rpcList = network.rpcList;

@@ -54,7 +54,8 @@ $.BASE_ERC20_TOKEN.prototype = (function() {
         async approve(caller, spender, amount) {
             let contractAction = await this.GetTokenActionToMain();
 
-            return await contractAction.methods.approve(spender, amount).send({ from: caller });
+            return contractAction.methods.approve(spender, amount).send({ from: caller });
+
         },
 
         async transfer(caller, to, amount) {

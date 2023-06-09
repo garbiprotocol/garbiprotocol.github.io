@@ -1,601 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
-              />
-        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
-              referrerpolicy="no-referrer" />
-        <link href="../assets/css/style.css" rel="stylesheet">
-        <link rel="shortcut icon" href="../assets/images/garbi_favicon.png" type="image/x-icon">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="../assets/js/web3.min.js"></script>
-        <script src="../assets/js/trustwallet.js"></script>
-        <script src="../js/contract/arbitrum/abi.js"></script>
-        <script src="../js/contract/arbitrum/config.js"></script>
-        <script src="../js/data/store.js"></script>
-        <script src="../js/contract/arbitrum/core.js"></script>
-        <script src="../js/contract/arbitrum/base.contract.js"></script>
-        <script src="../js/contract/arbitrum/protoco.liquidity.launch.js"></script>
-        <script src="../js/contract/arbitrum/data.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../assets/images/garbi_favicon.png" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="../assets/js/web3.min.js"></script>
+    <script src="../assets/js/trustwallet.js"></script>
+    <script src="../js/contract/arbitrum/abi.js"></script>
+    <script src="../js/contract/arbitrum/config.js"></script>
+    <script src="../js/data/store.js"></script>
+    <script src="../js/contract/arbitrum/core.js"></script>
+    <script src="../js/contract/arbitrum/base.contract.js"></script>
+    <script src="../js/contract/arbitrum/protoco.liquidity.launch.js"></script>
+    <script src="../js/contract/arbitrum/data.js"></script>
 
-        <title>Garbi Protocol</title>
-        <style id="svelte-166mr51-style">
+    <title>Garbi Protocol</title>
+    <style id="svelte-166mr51-style">
+        ul.svelte-166mr51 {
+            display: flex;
+            flex-flow: column nowrap;
+            position: fixed;
+            font-size: 16px;
+            padding: 0 0.75em;
+            margin: 0;
+            list-style-type: none;
+            width: 20em;
+            bottom: 0;
+            right: 0;
+            font-family: 'Helvetica Neue';
+            max-height: 100vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            color: #4a4a4a;
+            background: transparent;
+            scrollbar-width: none;
+            box-sizing: border-box;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99999999
+        }
+        
+        @media only screen and (max-width: 450px) {
             ul.svelte-166mr51 {
-                display: flex;
-                flex-flow: column nowrap;
-                position: fixed;
-                font-size: 16px;
-                padding: 0 0.75em;
-                margin: 0;
-                list-style-type: none;
-                width: 20em;
-                bottom: 0;
-                right: 0;
-                font-family: 'Helvetica Neue';
-                max-height: 100vh;
-                overflow-y: scroll;
-                overflow-x: hidden;
-                color: #4a4a4a;
-                background: transparent;
-                scrollbar-width: none;
-                box-sizing: border-box;
-                height: 100vh;
-                pointer-events: none;
-                z-index: 99999999
+                width: 100%
             }
+        }
+        
+        .bn-notify-custom.bn-notify-dark-mode {
+            background: #283944;
+            color: #ffffff;
+            background: rgba(40, 57, 68, 0.9)
+        }
+        
+        .bn-notify-clickable:hover {
+            cursor: pointer
+        }
+        
+        .svelte-166mr51::-webkit-scrollbar {
+            display: none
+        }
+        
+        li.svelte-166mr51 {
+            position: relative;
+            display: flex;
+            padding: 0.75em;
+            font-size: 0.889em;
+            font-family: inherit;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            color: inherit;
+            transition: background 300ms ease-in-out, color 300ms ease-in-out;
+            pointer-events: all;
+            background: #ffffff;
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.9)
+        }
+        
+        div.svelte-166mr51 {
+            position: absolute;
+            top: 0.75em;
+            right: 0.75em;
+            font-size: inherit;
+            font-family: inherit
+        }
+    </style>
+    <style id="svelte-7rn0pv-style">
+        div.svelte-7rn0pv {
+            height: 100%;
+            font-size: inherit;
+            font-family: inherit;
+            width: 1.5em
+        }
+    </style>
+    <style id="svelte-5f7pqk-style">
+        div.svelte-5f7pqk {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            font-size: inherit;
+            font-family: inherit;
+            margin-left: 0.75em;
+            width: 90%
+        }
+        
+        p.svelte-5f7pqk {
+            display: flex;
+            align-items: center;
+            margin: 0.5em 0 0 0;
+            opacity: 0.7;
+            font-size: 0.889em;
+            line-height: 1.15;
+            font-family: inherit
+        }
+        
+        span.svelte-5f7pqk {
+            font-family: inherit;
+            display: flex;
+            align-items: center
+        }
+    </style>
+    <style id="svelte-12gqi36-style">
+        p.svelte-12gqi36 {
+            margin: 0;
+            font-family: inherit;
+            font-size: inherit
+        }
+    </style>
+    <style id="svelte-1ociadw-style">
+        svg.svelte-1ociadw {
+            margin: 0 0.25em 0 0.5em
+        }
+    </style>
+</head>
 
-            @media only screen and (max-width: 450px) {
-                ul.svelte-166mr51 {
-                    width: 100%
-                }
-            }
-
-            .bn-notify-custom.bn-notify-dark-mode {
-                background: #283944;
-                color: #ffffff;
-                background: rgba(40, 57, 68, 0.9)
-            }
-
-            .bn-notify-clickable:hover {
-                cursor: pointer
-            }
-
-            .svelte-166mr51::-webkit-scrollbar {
-                display: none
-            }
-
-            li.svelte-166mr51 {
-                position: relative;
-                display: flex;
-                padding: 0.75em;
-                font-size: 0.889em;
-                font-family: inherit;
-                border-radius: 10px;
-                background: #ffffff;
-                box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-                color: inherit;
-                transition: background 300ms ease-in-out, color 300ms ease-in-out;
-                pointer-events: all;
-                background: #ffffff;
-                backdrop-filter: blur(5px);
-                background: rgba(255, 255, 255, 0.9)
-            }
-
-            div.svelte-166mr51 {
-                position: absolute;
-                top: 0.75em;
-                right: 0.75em;
-                font-size: inherit;
-                font-family: inherit
-            }
-        </style>
-        <style id="svelte-7rn0pv-style">
-            div.svelte-7rn0pv {
-                height: 100%;
-                font-size: inherit;
-                font-family: inherit;
-                width: 1.5em
-            }
-        </style>
-        <style id="svelte-5f7pqk-style">
-            div.svelte-5f7pqk {
-                display: flex;
-                flex-flow: column nowrap;
-                justify-content: center;
-                font-size: inherit;
-                font-family: inherit;
-                margin-left: 0.75em;
-                width: 90%
-            }
-
-            p.svelte-5f7pqk {
-                display: flex;
-                align-items: center;
-                margin: 0.5em 0 0 0;
-                opacity: 0.7;
-                font-size: 0.889em;
-                line-height: 1.15;
-                font-family: inherit
-            }
-
-            span.svelte-5f7pqk {
-                font-family: inherit;
-                display: flex;
-                align-items: center
-            }
-        </style>
-        <style id="svelte-12gqi36-style">
-            p.svelte-12gqi36 {
-                margin: 0;
-                font-family: inherit;
-                font-size: inherit
-            }
-        </style>
-        <style id="svelte-1ociadw-style">
-            svg.svelte-1ociadw {
-                margin: 0 0.25em 0 0.5em
-            }
-        </style>
-    </head>
-
-    <body>
-        <div class="wrapper">
-            <header class="header" id="header">
-                <div class="alert-banner" style="background: rgb(45, 66, 252)">
-                    <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
-                </div>
-                <nav class="navbar navbar-expand-lg">
-                    <div class="container container-1">
-                        <div class="row flex-grow-1 align-items-center">
-                            <div class="col-6 col-lg-2">
-                                <div class="d-flex align-items-center">
-                                    <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <div class="alert-banner" style="background: rgb(45, 66, 252)">
+                <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
+            </div>
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
                                         <i class="fas fa-bars"></i>
                                     </button>
-                                    <div class="logo" onclick="window.location = 'index.html'">
-                                        <img src="../assets/images/garbi.png" />
-                                    </div>
+                                <div class="logo" onclick="window.location = 'index.html'">
+                                    <img src="../assets/images/garbi.png" />
                                 </div>
                             </div>
-                            <div class="col-6 col-lg-2 order-lg-3">
-                                <div class="d-flex align-items-center justify-content-end">
-                                    <a href="/swap.html" class="header__btn-connect">Launch App</a>
-                                </div>
+                        </div>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <a href="/swap.html" class="header__btn-connect">Launch App</a>
                             </div>
-                            <div class="col-lg-8">
-                                <div class="collapse navbar-collapse" id="navbar-header">
-                                    <ul class="navbar-nav menu-header ms-auto mx-auto mb-2 mb-lg-0 align-items-lg-center">
-                                        <li>
-                                            <a class="nav-link" href="swap.html">Swap</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="bridge.html">Bridge</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header ms-auto mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <li>
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="bridge.html">Bridge</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Earn 
                                             </a>
-                                            <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
-                                                <li>
-                                                    <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="earn.html">Classic Earn</a>
-                                                </li>                               
-                                            </ul>   
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="earn.html">Classic Earn</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             GRB-WETH Liquidity
                                           </a>
-                                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                                                <li>
-                                                    <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
-                                                </li>
-                                            </ul>                                
-                                        </li>
-                                    </ul>
-                                </div>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                </nav>
-            </header>
-            <main class="page__home" style="min-height: calc(100vh - 73px);">
-                <article class="home__banner d-flex align-items-end">
-                    <div class="container container-2">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="img">
-                                    <img src="../assets/images/home-img-1.png" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-10" style="font-family: 'Courier Prime', monospace;">
-                                <h1 class="home__banner-title">Garbi <br> <span>The truly DeFi protocol</span></h1>
-                                <div class="home__title-medium">Experience the seamless integration of trading, reward harvesting, and asset cultivation all within a single decentralized platform</div>
+                </div>
+            </nav>
+        </header>
+        <main class="page__home" style="min-height: calc(100vh - 73px);">
+            <article class="home__banner d-flex align-items-end">
+                <div class="container container-2">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="img">
+                                <img src="../assets/images/home-img-1.png" alt="">
                             </div>
                         </div>
+                        <div class="col-lg-10" style="font-family: 'Courier Prime', monospace;">
+                            <h1 class="home__banner-title">Garbi <br> <span>The truly DeFi protocol</span></h1>
+                            <div class="home__title-medium">Experience the seamless integration of trading, reward harvesting, and asset cultivation all within a single decentralized platform</div>
+                        </div>
                     </div>
-                </article>
+                </div>
+            </article>
 
-                <article class="home__analytics section" id="home__analytics">
-                    <div class="container container-2">
-                        <header class="home__title-normal mb-5 d-flex align-items-center">
-                            Protocol Information 
-                            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
+            <article class="home__analytics section" id="home__analytics">
+                <div class="container container-2">
+                    <header class="home__title-normal mb-5 d-flex align-items-center">
+                        Protocol Information
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
                                     fill:none;
                                 }</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"></path><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>
-                        </header>
-                        <div class="row">
-                            <div class="protocol-info">
-                            
-                                <div class="col-md-6 col-lg-2 text-center mb-3 mb-lg-0" style="margin-right: 25px;">
-                                    <div class="title">
-                                        $<span id="total-trade-vol">Loading</span>
-                                    </div>
-                                    <div class="description">Transactions Volumes</div>
+                    </header>
+                    <div class="row">
+                        <div class="protocol-info">
+
+                            <div class="col-md-6 col-lg-2 text-center mb-3 mb-lg-0" style="margin-right: 25px;">
+                                <div class="title">
+                                    $<span id="total-trade-vol">Loading</span>
                                 </div>
-                                <div class="col-md-6 col-lg-2 text-center mb-3" style="margin-right: 25px;">
-                                    <div class="title">
-                                        <span id="total-trading-vol">Loading</span>
-                                    </div>
-                                    <div class="description">Transactions</div>
+                                <div class="description">Transactions Volumes</div>
+                            </div>
+                            <div class="col-md-6 col-lg-2 text-center mb-3" style="margin-right: 25px;">
+                                <div class="title">
+                                    <span id="total-trading-vol">Loading</span>
                                 </div>
-                                <div class="col-md-6 col-lg-2 text-center mb-3" style="margin-right: 25px;">
-                                    <div class="title ">
-                                        <span class="user-active-wallet">Loading</span>
-                                    </div>
-                                    <div class="description">Users</div>
+                                <div class="description">Transactions</div>
+                            </div>
+                            <div class="col-md-6 col-lg-2 text-center mb-3" style="margin-right: 25px;">
+                                <div class="title ">
+                                    <span class="user-active-wallet">Loading</span>
                                 </div>
-                                <div class="col-md-6 col-lg-3 text-center mb-3">
-                                    <div class="title">
-                                        $<span class="total-asset-value">Loading</span>
+                                <div class="description">Users</div>
+                            </div>
+                            <div class="col-md-6 col-lg-3 text-center mb-3">
+                                <div class="title">
+                                    $<span class="total-asset-value">Loading</span>
+                                </div>
+                                <div class="description">Total Asset Value Secured</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article class="home__governance section" id="home__governance">
+                <div class="container container-2">
+                    <header class="home__title-normal mb-5 d-flex align-items-center">
+                        Governance
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
+                                    fill:none;
+                                }</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"></path><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>
+                    </header>
+                    <div class="row garbi__row-1 align-items-stretch">
+                        <div class="col-lg-5 garbi__col-1 mb-3 mb-lg-0">
+                            <div class="garbi__box-governance-left height-100 p-relative">
+                                <img src="../assets/images/blog-thumb-3.png" class="img-cover">
+                            </div>
+                        </div>
+                        <div class="col-lg-7 garbi__col-1 d-flex align-items-center">
+                            <div class="p-relative z-index-5">
+                                <div class="home__title-large mb-3" style="color: #12B4DA;">Embodying the community's vision.</div>
+                                <div class="f-18 mb-3" style="">The Garbi Protocol is governed by a decentralized assembly of GRB token holders who propose and cast votes on modifications to the protocol through a democratic process.</div>
+                                <div><a target="_blank" href="https://garbi-protocol.gitbook.io/docs/product/governance" class="garbi__button">Read More</a></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="height-100">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <a href="https://t.me/garbiprotocol" target="_blank">
+                                            <div class="garbi__box garbi__box-governance mb-4">
+                                                <div class="home__title-normal mb-5">Telegram Community ↗</div>
+                                                <div>Participate by proposing improvements and discussing the future of the Garbi protocol with the Garbi collective.</div>
+                                            </div>
+                                        </a>
                                     </div>
-                                    <div class="description">Total Asset Value Secured</div>
+                                    <div class="col-lg-4">
+                                        <a href="https://twitter.com/garbi_protocol/" target="_blank">
+                                            <div class="garbi__box garbi__box-governance mb-4">
+                                                <div class="home__title-normal mb-5">Twitter ↗</div>
+                                                <div>Stay informed with the most recent news from our Twitter.</div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <a href="https://github.com/garbiprotocol" target="_blank">
+                                            <div class="garbi__box garbi__box-governance">
+                                                <div class="home__title-normal mb-5">Github ↗</div>
+                                                <div>For inquiries, suggestions, or problems, join our community at our Github repository.</div>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </article>
-                <article class="home__governance section" id="home__governance">
-                    <div class="container container-2">
-                        <header class="home__title-normal mb-5 d-flex align-items-center">
-                            Governance
-                            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
+                </div>
+            </article>
+            <article class="home__banner section d-flex align-items-end">
+                <div class="container container-2">
+                    <header class="home__title-normal mb-5 d-flex align-items-center">
+                        Price Feed
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
                                     fill:none;
                                 }</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"></path><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>
-                        </header>
-                        <div class="row garbi__row-1 align-items-stretch">
-                            <div class="col-lg-5 garbi__col-1 mb-3 mb-lg-0">
-                                <div class="garbi__box-governance-left height-100 p-relative">
-                                    <img src="../assets/images/blog-thumb-3.png" class="img-cover">
-                                </div>
-                            </div>
-                            <div class="col-lg-7 garbi__col-1 d-flex align-items-center">
-                                <div class="p-relative z-index-5">
-                                    <div class="home__title-large mb-3" style="color: #12B4DA;">Embodying the community's vision.</div>
-                                    <div class="f-18 mb-3" style="">The Garbi Protocol is governed by a decentralized assembly of GRB token holders who propose and cast votes on modifications to the protocol through a democratic process.</div>
-                                    <div><a target="_blank" href="https://garbi-protocol.gitbook.io/docs/product/governance" class="garbi__button">Read More</a></div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="height-100">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <a href="https://t.me/garbiprotocol" target="_blank">
-                                                <div class="garbi__box garbi__box-governance mb-4">
-                                                    <div class="home__title-normal mb-5">Telegram Community ↗</div>
-                                                    <div>Participate by proposing improvements and discussing the future of the Garbi protocol with the Garbi collective.</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <a href="https://twitter.com/garbi_protocol/" target="_blank">
-                                                <div class="garbi__box garbi__box-governance mb-4">
-                                                    <div class="home__title-normal mb-5">Twitter ↗</div>
-                                                    <div>Stay informed with the most recent news from our Twitter.</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <a href="https://github.com/garbiprotocol" target="_blank">
-                                                <div class="garbi__box garbi__box-governance">
-                                                    <div class="home__title-normal mb-5">Github ↗</div>
-                                                    <div>For inquiries, suggestions, or problems, join our community at our Github repository.</div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>             
-                                </div>
-                            </div>
-                        </div>
+                    </header>
+                    <div class="text-center subtitle mb-5">
+                        <strong>Garbi Protocol</strong> integrates Chainlink's oracle to ensure secure and reliable data feeds. Our GarbiSwap offers the best rates thanks to this integration.
                     </div>
-                </article>
-                <article class="home__banner section d-flex align-items-end">
-                    <div class="container container-2">
-                        <header class="home__title-normal mb-5 d-flex align-items-center">
-                            Price Feed
-                            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
-                                    fill:none;
-                                }</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"></path><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>
-                        </header>
-                        <div class="text-center subtitle mb-5">
-                            <strong>Garbi Protocol</strong> integrates Chainlink's oracle to ensure secure and reliable data feeds. Our GarbiSwap offers the best rates thanks to this integration.
-                        </div>
-                        <div class="text-center img-logo" style="display: flex;align-items: center;justify-content: center;">
-                            <img src="../assets/images/garbi-logo.png" class="img-responsive">
-                            <div class="divider-center"></div>
-                            <img src="../assets/images/chanlink-logo.png" class="img-responsive">
-                        </div>
+                    <div class="text-center img-logo" style="display: flex;align-items: center;justify-content: center;">
+                        <img src="../assets/images/garbi-logo.png" class="img-responsive">
+                        <div class="divider-center"></div>
+                        <img src="../assets/images/chanlink-logo.png" class="img-responsive">
                     </div>
-                </article>
-                <article class="home__assets section" id="home__assets">
-                    <div class="container container-2">
-                        <header class="home__title-normal mb-5 d-flex align-items-center">
-                            Assets
-                            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
+                </div>
+            </article>
+            <article class="home__assets section" id="home__assets">
+                <div class="container container-2">
+                    <header class="home__title-normal mb-5 d-flex align-items-center">
+                        Assets
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
                                     fill:none;
                                 }</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"></path><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>
-                        </header>
-                        <div class="row row-asset">
-                            <div class="col-lg-4 col-asset">
-                                <div class="item garbi__box-1">
-                                    <div class="image">
-                                        <img src="../assets/images/usdc_logo.png" class="logo-item">
-                                    </div>
-                                     <div class="info">
-                                        <div>USDC</div> 
-                                    <div >
+                    </header>
+                    <div class="row row-asset">
+                        <div class="col-lg-4 col-asset">
+                            <div class="item garbi__box-1">
+                                <div class="image">
+                                    <img src="../assets/images/usdc_logo.png" class="logo-item">
+                                </div>
+                                <div class="info">
+                                    <div>USDC</div>
+                                    <div>
                                         $<span class="usdc-price">Loading</span>
-                                    </div
-                                    ></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-asset">
-                                <div class="item garbi__box-1">
-                                    <div class="image">
-                                        <img src="../assets/images/usdt_logo.png" class="logo-item">
-                                    </div>
-                                     <div class="info">
-                                        <div>USDT</div> 
-                                    <div >
+                        </div>
+                        <div class="col-lg-4 col-asset">
+                            <div class="item garbi__box-1">
+                                <div class="image">
+                                    <img src="../assets/images/usdt_logo.png" class="logo-item">
+                                </div>
+                                <div class="info">
+                                    <div>USDT</div>
+                                    <div>
                                         $<span class="usdt-price">Loading</span>
-                                    </div
-                                    ></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-asset">
-                                <div class="item garbi__box-1">
-                                    <div class="image">
-                                        <img src="../assets/images/dai_logo.png" class="logo-item">
-                                    </div>
-                                     <div class="info">
-                                        <div>DAI</div> 
-                                    <div >
+                        </div>
+                        <div class="col-lg-4 col-asset">
+                            <div class="item garbi__box-1">
+                                <div class="image">
+                                    <img src="../assets/images/dai_logo.png" class="logo-item">
+                                </div>
+                                <div class="info">
+                                    <div>DAI</div>
+                                    <div>
                                         $<span class="dai-price">Loading</span>
-                                    </div
-                                    ></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </article>
-                <article class="home__reason-integration section d-flex align-items-end ">
-                    <div class="container container-2">
-                        <header class="home__title-normal mb-5 d-flex align-items-center">
-                            Why does Garbi Protocol integrate Chainlink Price Feed?
-                            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
+                </div>
+            </article>
+            <article class="home__reason-integration section d-flex align-items-end ">
+                <div class="container container-2">
+                    <header class="home__title-normal mb-5 d-flex align-items-center">
+                        Why does Garbi Protocol integrate Chainlink Price Feed?
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{
                                     fill:none;
                                 }</style></defs><title></title><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"></path><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"></path></g><g id="frame"><rect class="cls-1" height="32" width="32"></rect></g></svg>
-                        </header>
-                        <div class="row pt-3">
-                            <div class="col-md-8 offset-md-2">
-                                <div class="des mb-5 pb-4">
-                                    <span>Data Quality is Key</span> — By integrating Chainlink Price Feeds, Garbi Protocol gains access to high-quality price data sourced from a multitude of premium data aggregators. This ensures comprehensive market coverage and accurate pricing, as the data is aggregated from hundreds of exchanges, weighted by volume, and cleaned of outliers and wash trading. Chainlink's robust data aggregation model generates global market prices that are inherently resistant to inaccuracies or manipulation from any single or small set of exchanges.
-                                </div>
-                                <div class="des mb-5 pb-4">
-                                    <span>Decentralized Infrastructure</span> — Chainlink Price Feeds rely on a decentralized network of independent oracle nodes, ensuring that the data is sourced from multiple, independent sources. This creates a tamper-resistant and highly available price feed that is capable of providing reliable data to DeFi protocols, even during periods of high network congestion or volatility. Additionally, Chainlink’s decentralized infrastructure allows for easy integration with a wide range of blockchain platforms and DeFi applications, making it a popular choice for developers seeking to incorporate accurate and reliable price data into their projects.
-                                </div>
-                                <div class="des mb-5 pb-4">
-                                    <span>Decentralized Network</span> —  Chainlink Price Feeds leverage the decentralized nature of blockchain technology by utilizing a three-tiered approach to decentralization. This includes decentralization at the data source, oracle node, and oracle network levels, ensuring that the price data is highly resistant to downtime and tampering by either the data provider or oracle network. This architecture allows for a highly secure and reliable system, providing a trusted source of price data for DeFi applications.
-                                </div>
-                                <div class="des mb-5">
-                                    <span>Enhanced User Trust</span> — Chainlink has implemented a comprehensive reputation system and a suite of on-chain monitoring tools that empower users to verify the performance of oracle networks and node operators, both historically and in real-time. This increased transparency and accountability promote trust and confidence in the quality of the data delivered by Chainlink Price Feeds.
-                                </div>
+                    </header>
+                    <div class="row pt-3">
+                        <div class="col-md-8 offset-md-2">
+                            <div class="des mb-5 pb-4">
+                                <span>Data Quality is Key</span> — By integrating Chainlink Price Feeds, Garbi Protocol gains access to high-quality price data sourced from a multitude of premium data aggregators. This ensures comprehensive market coverage
+                                and accurate pricing, as the data is aggregated from hundreds of exchanges, weighted by volume, and cleaned of outliers and wash trading. Chainlink's robust data aggregation model generates global market prices that are
+                                inherently resistant to inaccuracies or manipulation from any single or small set of exchanges.
+                            </div>
+                            <div class="des mb-5 pb-4">
+                                <span>Decentralized Infrastructure</span> — Chainlink Price Feeds rely on a decentralized network of independent oracle nodes, ensuring that the data is sourced from multiple, independent sources. This creates a tamper-resistant
+                                and highly available price feed that is capable of providing reliable data to DeFi protocols, even during periods of high network congestion or volatility. Additionally, Chainlink’s decentralized infrastructure allows for
+                                easy integration with a wide range of blockchain platforms and DeFi applications, making it a popular choice for developers seeking to incorporate accurate and reliable price data into their projects.
+                            </div>
+                            <div class="des mb-5 pb-4">
+                                <span>Decentralized Network</span> — Chainlink Price Feeds leverage the decentralized nature of blockchain technology by utilizing a three-tiered approach to decentralization. This includes decentralization at the data
+                                source, oracle node, and oracle network levels, ensuring that the price data is highly resistant to downtime and tampering by either the data provider or oracle network. This architecture allows for a highly secure and
+                                reliable system, providing a trusted source of price data for DeFi applications.
+                            </div>
+                            <div class="des mb-5">
+                                <span>Enhanced User Trust</span> — Chainlink has implemented a comprehensive reputation system and a suite of on-chain monitoring tools that empower users to verify the performance of oracle networks and node operators,
+                                both historically and in real-time. This increased transparency and accountability promote trust and confidence in the quality of the data delivered by Chainlink Price Feeds.
                             </div>
                         </div>
                     </div>
-                </article>
-            </main>
+                </div>
+            </article>
+        </main>
 
-            <footer class="footer">
-                <nav class="navbar navbar-expand-lg">
-                    <div class="container container-1">
-                        <div class="row flex-grow-1 align-items-center">
-                            <div class="col-lg-4">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>© 2023 Garbi Protocol</div>
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+        <footer class="footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2023 Garbi Protocol</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
                                         <i class="fas fa-bars"></i>
                                     </button>
-                                </div>
                             </div>
-                            <div class="col-lg-8">
-                                <div class="collapse navbar-collapse" id="navbar-footer">
-                                    <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="risks.html" class="">Risks</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://garbi-protocol.gitbook.io/docs/">Docs</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://twitter.com/garbi_protocol/" rel="noopener noreferrer">#Twitter</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://t.me/garbiprotocol" rel="noopener noreferrer">@Telegram</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="v1/index.html">V1</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Version 2.0.5</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="risks.html" class="">Risks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://garbi-protocol.gitbook.io/docs/">Docs</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://twitter.com/garbi_protocol/" rel="noopener noreferrer">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://t.me/garbiprotocol" rel="noopener noreferrer">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="v1/index.html">V1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Version 2.0.5</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                </nav>
-            </footer>
-        </div>
-        <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
-            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
-                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
-                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Your <a href="" target="_blank" class="transaction-hash">transaction</a> is sent to the Blockchain.</p>
                 </div>
-                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#confirm-popup').hide()">
-                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
-                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+            </nav>
+        </footer>
+    </div>
+    <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
+        <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+            <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Your <a href="" target="_blank" class="transaction-hash">transaction</a> is sent to the Blockchain.</p>
+            </div>
+            <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#confirm-popup').hide()">
+                <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                    <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
                         <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
                         <path d="m.1.1 7.82304289 7.82304289"></path>
                         <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
                         </g>
                         </svg>
-                    </div>
                 </div>
-            </li>
-        </ul>
-        <ul id="success-confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none; top: 0; justify-content: unset;">
-            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
-                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
-                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Your <a href="" target="_blank" class="transaction-hash">transaction</a> is confirmed.</p>
-                </div>
-                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#success-confirm-popup').hide()">
-                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
-                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+            </div>
+        </li>
+    </ul>
+    <ul id="success-confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none; top: 0; justify-content: unset;">
+        <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+            <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Your <a href="" target="_blank" class="transaction-hash">transaction</a> is confirmed.</p>
+            </div>
+            <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#success-confirm-popup').hide()">
+                <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                    <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
                         <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
                         <path d="m.1.1 7.82304289 7.82304289"></path>
                         <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
                         </g>
                         </svg>
-                    </div>
                 </div>
-            </li>
-        </ul>
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/js/custom.js"></script>
-        <script src="../assets/js/custom.menu.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            </div>
+        </li>
+    </ul>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/custom.js"></script>
+    <script src="../assets/js/custom.menu.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    </body>
-    <script>
-            var abiHelper = new $.ABI();
-            var coreHelper = new $.Core();
-            var configHelper = new $.CONFIG();
-            var contractBaseHelper = new $.CONTRACTBASE();
-            var storeHelper = new $.STORE();
-            var chainId = 42161;
-            $('.alert-banner').hide();
-            if (typeof window.ethereum !== 'undefined') {
-              const web3 = new Web3(window.ethereum);
-              window.ethereum.enable();
-              web3.eth.getChainId()
-                .then(chainId => {
-                  if (chainId !== 42161) {
-                    $('.alert-banner').show(); 
-                  }
-                  else {
+</body>
+<script>
+    var abiHelper = new $.ABI();
+    var coreHelper = new $.Core();
+    var configHelper = new $.CONFIG();
+    var contractBaseHelper = new $.CONTRACTBASE();
+    var storeHelper = new $.STORE();
+    var chainId = 42161;
+    $('.alert-banner').hide();
+    if (typeof window.ethereum !== 'undefined') {
+        const web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        web3.eth.getChainId()
+            .then(chainId => {
+                if (chainId !== 42161) {
+                    $('.alert-banner').show();
+                } else {
                     $('.alert-banner').hide();
-                  }
-                })
-                .catch(error => {
-                  console.error(error);
-                });
-            } else {
-              console.log("Metamask not found");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    } else {
+        console.log("Metamask not found");
+    }
+    $(document).ready(function() {
+        abiHelper.init({});
+        coreHelper.init({});
+        configHelper.init({});
+        storeHelper.init({});
+        contractBaseHelper.init({
+            chainId
+        });
+
+        let _abiGrabiOracle = abiHelper.getGarbiOracleABI();
+        let _contractsObj = configHelper.getContracts(chainId);
+        let _usdtAddr = configHelper.getTokenByTokenName(chainId, 'usdt');
+        let _usdcAddr = configHelper.getTokenByTokenName(chainId, 'usdc');
+        let _daiAddr = configHelper.getTokenByTokenName(chainId, 'dai');
+        let PriceDecimal = 8;
+        let _contractGarbiOracleRead = contractBaseHelper.getReadContract(_contractsObj['garbiOracle']['contract'], _abiGrabiOracle);
+        _contractGarbiOracleRead.methods.getLatestPrice(_usdtAddr).call().then(function(result) {
+            let USDTprice = result / 10 ** PriceDecimal;
+            $('.usdt-price').text(USDTprice.toFixed(6));
+        });
+        _contractGarbiOracleRead.methods.getLatestPrice(_usdcAddr).call().then(function(result) {
+            let USDCprice = result / 10 ** PriceDecimal;
+            $('.usdc-price').text(USDCprice.toFixed(6));
+        });
+        _contractGarbiOracleRead.methods.getLatestPrice(_daiAddr).call().then(function(result) {
+            let DAIprice = result / 10 ** PriceDecimal;
+            $('.dai-price').text(DAIprice.toFixed(6));
+        });
+
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
             }
-            $(document).ready(function () {
-                abiHelper.init({});
-                coreHelper.init({});
-                configHelper.init({});
-                storeHelper.init({});
-                contractBaseHelper.init({
-                    chainId
-                });
+            document.cookie = name + "=" + JSON.stringify(value) + expires + "; path=/";
+        }
 
-                let _abiGrabiOracle = abiHelper.getGarbiOracleABI();
-                let _contractsObj = configHelper.getContracts(chainId);
-                let _usdtAddr = configHelper.getTokenByTokenName(chainId, 'usdt');
-                let _usdcAddr = configHelper.getTokenByTokenName(chainId, 'usdc');
-                let _daiAddr = configHelper.getTokenByTokenName(chainId, 'dai');
-                let PriceDecimal = 8;
-                let _contractGarbiOracleRead = contractBaseHelper.getReadContract(_contractsObj['garbiOracle']['contract'], _abiGrabiOracle);
-                _contractGarbiOracleRead.methods.getLatestPrice(_usdtAddr).call().then(function (result) {
-                    let USDTprice = result / 10**PriceDecimal;
-                    $('.usdt-price').text(USDTprice.toFixed(6));
-                });
-                _contractGarbiOracleRead.methods.getLatestPrice(_usdcAddr).call().then(function (result) {
-                    let USDCprice = result / 10**PriceDecimal;
-                    $('.usdc-price').text(USDCprice.toFixed(6));
-                });
-                _contractGarbiOracleRead.methods.getLatestPrice(_daiAddr).call().then(function (result) {
-                    let DAIprice = result / 10**PriceDecimal;
-                    $('.dai-price').text(DAIprice.toFixed(6));
-                });
-                
-                function setCookie(name, value, days) {
-                  let expires = "";
-                  if (days) {
-                    const date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                    expires = "; expires=" + date.toUTCString();
-                  }
-                  document.cookie = name + "=" + JSON.stringify(value) + expires + "; path=/";
+        function getCookie(name) {
+            const cookieName = name + "=";
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookieArray = decodedCookie.split(';');
+            for (let i = 0; i < cookieArray.length; i++) {
+                let cookie = cookieArray[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
                 }
-                function getCookie(name) {
-                  const cookieName = name + "=";
-                  const decodedCookie = decodeURIComponent(document.cookie);
-                  const cookieArray = decodedCookie.split(';');
-                  for (let i = 0; i < cookieArray.length; i++) {
-                    let cookie = cookieArray[i];
-                    while (cookie.charAt(0) === ' ') {
-                      cookie = cookie.substring(1);
-                    }
-                    if (cookie.indexOf(cookieName) === 0) {
-                      return cookie.substring(cookieName.length, cookie.length);
-                    }
-                  }
-                  return null;
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
                 }
+            }
+            return null;
+        }
 
-                let myData = getCookie("myData");
-                if (myData) {
+        let myData = getCookie("myData");
+        if (myData) {
+            const data = JSON.parse(myData);
+            let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
+            let numTransactions = data.results.metrics.transactions;
+            let numUaw = data.results.metrics.uaw;
+            let numAsset = coreHelper.formatBalance(147000, 2);
+            $('#total-trade-vol').text(numVolume);
+            $('#total-trading-vol').text(numTransactions);
+            $('.user-active-wallet').text(numUaw);
+            $('.total-asset-value').text(numAsset);
+        }
+        if (myData == null) {
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-BLOBR-KEY': 'JvHWzgoPqMKCjZ99uxMa8BS37GLwGtIy'
+                },
+            };
+            fetch('https://api.dappradar.com/4tsxo4vuhotaojtl/dapps/24697?range=30d', options)
+                .then(response => response.json())
+                .then(response => {
+                    setCookie("myData", response, 7);
+
+                    const myData = getCookie("myData");
                     const data = JSON.parse(myData);
                     let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
                     let numTransactions = data.results.metrics.transactions;
@@ -605,34 +635,11 @@
                     $('#total-trading-vol').text(numTransactions);
                     $('.user-active-wallet').text(numUaw);
                     $('.total-asset-value').text(numAsset);
-                }
-                if (myData == null) {
-                  const options = {
-                  method: 'GET',
-                  headers: {
-                        'X-BLOBR-KEY': 'JvHWzgoPqMKCjZ99uxMa8BS37GLwGtIy'
-                      },
-                    };
-                    fetch('https://api.dappradar.com/4tsxo4vuhotaojtl/dapps/24697?range=30d', options)
-                      .then(response => response.json())
-                      .then(response => {
-                        setCookie("myData", response, 7);
+                })
+                .catch(err => console.error(err));
+        };
 
-                        const myData = getCookie("myData");
-                        const data = JSON.parse(myData);
-                        let numVolume = coreHelper.formatBalance(data.results.metrics.volume, 2);
-                        let numTransactions = data.results.metrics.transactions;
-                        let numUaw = data.results.metrics.uaw;
-                        let numAsset = coreHelper.formatBalance(147000, 2);
-                        $('#total-trade-vol').text(numVolume);
-                        $('#total-trading-vol').text(numTransactions);
-                        $('.user-active-wallet').text(numUaw);
-                        $('.total-asset-value').text(numAsset);
-                    })
-                    .catch(err => console.error(err));
-                };
-
-            });
-    </script>
+    });
+</script>
 
 </html>

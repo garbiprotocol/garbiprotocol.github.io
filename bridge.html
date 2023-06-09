@@ -876,7 +876,7 @@
     var garbiBridgeConfig = new $.GARBI_BRIDGE_CONFIG();
     var garbiBridge = new $.GARBI_BRIDGE();
     var dataHelper = new $.DATA();
-    var network = new $.GARBI_NETWORK();
+    var networkHelper = new $.GARBI_NETWORK();
     var chainId = 421613;
     $('.alert-banner').hide();
     if (typeof window.ethereum !== 'undefined') {
@@ -929,7 +929,7 @@
 
         $('select[name=network-from]').change(async function() {
             let selectNetwork = $('select[name=network-from]').val();
-            network.SwichNetworkByChainName(selectNetwork);
+            networkHelper.SwichNetworkByChainName(selectNetwork);
         });
         $('select[name=network-to]').change(async function() {
             let networkRecieve = $('select[name=network-to]').val();
@@ -959,7 +959,7 @@
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
             let userSelectNetworkGRBBalance = await garbiBridge.GetBalance(selectNetwork, 'grb', userAddr);
-            
+
             let selectNetworkHandleAddress = (BRIDGE_ETH == false) ?
                 garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork) :
                 garbiBridgeConfig.GetEETHandleAddressByNetworkName(selectNetwork);
@@ -973,14 +973,14 @@
 
             if (userSelectNetworkGRBBalance / 1e18 < 3 || userInputValue == "") {
                 $('.button-move-funds').addClass("disable");
-                
+
             } else {
                 if (userInputValue > recieveTokenPool / 1e18 || userInputValue > userSelectNetworkBalance / 1e18) {
                     $('.button-move-funds').addClass("disable");
-                    
+
                 } else {
                     $('.button-move-funds').removeClass("disable");
-                    
+
                 }
             }
             if (selectNetwork == "ArbitrumNova") {
@@ -1000,7 +1000,7 @@
             $('.token-select').text(selectTokenName);
             $('.token-select-symbol').text(selectTokenSymbol);
             $('.grb-balance').text((userSelectNetworkGRBBalance / 1e18).toFixed(4));
-            
+
         }, 1000);
         setInterval(async function() {
             let userAddr = coreHelper.getUserAccount();
@@ -1010,8 +1010,8 @@
 
             let networkRecieve = $('select[name=network-to]').val();
             let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
-            let selectNetworkName = await network.GetNetworkByNetworkName(selectNetwork).chainName;
-            let recieveNetworkName = await network.GetNetworkByNetworkName(networkRecieve).chainName;
+            let selectNetworkName = await networkHelper.GetNetworkByNetworkName(selectNetwork).chainName;
+            let recieveNetworkName = await networkHelper.GetNetworkByNetworkName(networkRecieve).chainName;
 
             let selectNetworkHandleAddress = (BRIDGE_ETH == false) ?
                 garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork) :
@@ -1054,7 +1054,7 @@
                 $('.button-approve-grb').show();
                 return;
             }
-            network.SwichNetworkByChainName(selectNetwork);
+            networkHelper.SwichNetworkByChainName(selectNetwork);
             if (BRIDGE_ETH == false) {
                 let checkAllowanceToken = await garbiBridge.GetAllowanceOfTokenDepositToERC20Handle(selectNetwork, selectToken);
                 if (userInputValue > checkAllowanceToken / 1e18) {
@@ -1101,7 +1101,7 @@
 
                     async function SyncEvent(chainName, depositNonce, fromBlock = null) {
                         let eventName = "ProposalVote";
-                        let network = network.GetNetworkByNetworkName(chainName);
+                        let network = networkHelper.GetNetworkByNetworkName(chainName);
                         let rpc = network.rpcList[0];
                         let _web3 = new Web3(new Web3.providers.HttpProvider(rpc));
                         fromBlock = (fromBlock == null) ? await _web3.eth.getBlockNumber() : fromBlock;
@@ -1150,7 +1150,7 @@
                             }
                             // do something with data ...
                             let transactionHashRelayer = ["transaction-hash-relayer-0", "transaction-hash-relayer-1", "transaction-hash-relayer-2"];
-                            let blockExplorerUrlBridge = garbiBridgeConfig.GetblockExplorerUrlsNetworkName(chainName);
+                            let blockExplorerUrlBridge = networkHelper.GetblockExplorerUrlsNetworkName(chainName);
                             switch (dataEvent[0].yesVotesTotal) {
                                 case '1':
                                     let randomTansactionHashRelayer = Math.floor(Math.random() * transactionHashRelayer.length);

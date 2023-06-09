@@ -261,11 +261,11 @@
                             </ul>
                         </article>
                         <article class="garbi__box-1 mb-3 mt-3 p-3">
-                                <p class="f-700">Vault's stats</p>
-                                <div>Apr: <span class="apy">-</span></div>
-                                <div>Total: <span class="tvl">-</span></div>
-                                <div>Platform Fee: 2.5%</div>
-                                <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
+                            <p class="f-700">Vault's stats</p>
+                            <div>Apr: <span class="apy">-</span></div>
+                            <div>Total: <span class="tvl">-</span></div>
+                            <div>Platform Fee: 2.5%</div>
+                            <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
                         </article>
                     </div>
                     <div class="col-lg-5">
@@ -397,7 +397,7 @@
     var configHelper = new $.CONFIG();
     var contractBaseHelper = new $.CONTRACTBASE();
     var garbiFarm = new $.GARBI_FARM_V2();
-    var network = new $.GARBI_NETWORK();
+    var networkHelper = new $.GARBI_NETWORK();
 
     var chainId = 42161;
     var pid = 3;
@@ -425,9 +425,9 @@
         $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
 
 
-        let curChainId =await network.GetChainIdToMain();
+        let curChainId = await networkHelper.GetChainIdToMain();
         if (curChainId != chainId) {
-            network.SwichNetworkByChainId(chainId);
+            networkHelper.SwichNetworkByChainId(chainId);
         }
         setInterval(async function() {
             let userAddr = coreHelper.getUserAccount();

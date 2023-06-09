@@ -36,7 +36,7 @@ $.GARBI_NETWORK.prototype = (function() {
             return network[chainName].chainId;
         },
 
-        GetNetworkByCbainId(chainId) {
+        GetNetworkByChainId(chainId) {
             let lengthNetworkConfig = Object.keys(network).length;
             for (let i = 0; i < lengthNetworkConfig; i++) {
                 if (chainId == Object.values(network)[i].chainId) {
@@ -51,7 +51,7 @@ $.GARBI_NETWORK.prototype = (function() {
         },
 
         async SwichNetworkByChainId(chainId) {
-            let network = this.GetNetworkByCbainId(chainId);
+            let network = this.GetNetworkByChainId(chainId);
             await this.SwichNetwork(network);
         },
 
@@ -114,6 +114,15 @@ $.GARBI_NETWORK.prototype = (function() {
 
         ConvertChainIdToHex(chainId) {
             return `0x${parseInt(chainId, 10).toString(16)}`;
-        }
+        },
+
+        GetblockExplorerUrlsNetworkName(chainName) {
+            return network[chainName].blockExplorerUrls;
+        },
+
+        GetblockExplorerUrlsNetworkId(chainId) {
+            let network = this.GetNetworkByChainId(chainId);
+            return network.blockExplorerUrls;
+        },
     }
 }(jQuery))
