@@ -75,13 +75,13 @@
                                                 </a>
                                             <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
                                                 <li>
+                                                    <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
+                                                </li>
+                                                <li>
                                                     <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="earn.html">Classic Earn</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -203,7 +203,7 @@
                                                             <td>
                                                                 <div class="d-flex align-items-center">
                                                                     <div class="logo">
-                                                                        <span><img class="" style="width: 30px" src="./assets/images/eth_logo.png"></span>
+                                                                        <span><img class="" style="width: 30px" src="./assets/images/weth-logo.png"></span>
                                                                         <span></span>
                                                                     </div>
                                                                     <div class="info pl-12">
@@ -313,18 +313,17 @@
     var garbiFarm = new $.GARBI_FARM_V2();
 
     var typeOfFarmContract = "garbi_pool";
-    var chainId0 = 42161; // main net
-    var chainId1 = 42170; // nova
+    var chainId = 42161; // main net
     var pid = 25;
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
         configHelper.init({});
         contractBaseHelper.init({
-            chainId: chainId0
+            chainId: chainId
         });
         garbiFarm.init({
-            chainId: chainId0,
+            chainId: chainId,
             pid: pid,
         });
         run();
@@ -333,8 +332,7 @@
     async function run() {
         let userAddr = coreHelper.getUserAccount();
 
-        initData(chainId0);
-        initData(chainId1);
+        initData(chainId);
 
         async function initData(chainId) {
             let poolsOfChainId = configHelper.getAllPidOfFarmContractByType(typeOfFarmContract, chainId);

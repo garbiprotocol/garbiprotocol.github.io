@@ -24,6 +24,7 @@
     <script src="./js/contract/arbitrum/base.contract.js"></script>
     <script src="./js/contract/arbitrum/data.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
+    <script src="./js/contract/arbitrum/garbi.farm.contract.v2.js"></script>
 
     <title>GEC Vault - Garbi Protocol</title>
     <style id="svelte-166mr51-style">
@@ -191,13 +192,13 @@
                                                 </a>
                                             <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
                                                 <li>
+                                                    <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
+                                                </li>
+                                                <li>
                                                     <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
                                                 </li>
                                                 <li>
                                                     <a class="dropdown-item" href="earn.html">Classic Earn</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -228,74 +229,79 @@
                     </div>
                 </nav>
             </header>
-        <main class="page__swap">
-            <section class="blog__container">
-                <article class="swap__main garbi__box-1 p-3 mb-3">
-                    <div class="d-flex align-items-center justify-content-between mb-14">
-                        <div class="f-700">
-                            <span>GEC Vault</span>
-                        </div>
-                    </div>
-
-                    <ul>
-                        <li style="list-style-type: none; margin-left: -30px;">
-                            <p> Stake GEC to earn veGRB.</p>
-                            <label for="currency_0">
-                                <span class="currency-laybal"> 
-                                    <img src="./assets/images/gec-logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GEC</span>
-                                    <button class="maxBalanceCoin max-want-bal">Max: </button>
-                                    <span class="u-want-bal">Loading</span>
-                                </span>
-                            </label>
-                            <div class="addLp__form_input mb-2">
-                                <input autofocus type="" class="swap__form-input" name="deposit_amt" value="" placeholder="0.0">
+        <main class="page__swap page-earn">
+            <section class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <article class="swap__main garbi__box-1 p-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-14">
+                                <div class="f-700">
+                                    <span>GEC Vault</span>
+                                </div>
                             </div>
-                        </li>
-                        <li style="list-style-type: none; margin-left: -30px;">
-                            <button type="button" class="header__btn-connect text-center mt-3  btn-approve" style="display: none">Approve GEC</button>
-                            <button type="button" class="header__btn-connect text-center mt-3 btn-farm btn-deposit">Deposit</button>
 
-                        </li>
-                    </ul>
-                </article>
-                <article class="swap__main garbi__box-1 p-3 mb-3">
-                    <div class="d-flex align-items-center justify-content-between mb-14">
-                        <div class="f-700">
-                            <span>Your account</span>
-                        </div>
+                            <ul>
+                                <li style="list-style-type: none; margin-left: -30px;">
+                                    <p> Stake GEC to earn veGRB.</p>
+                                    <label for="currency_0" style="display:block;">
+                                        <span class="currency-laybal"> 
+                                            <span class="token-name"><img src="./assets/images/gec-logo.png" style="margin-left: 0;" class="token-icon">GEC</span>
+                                            <button class="maxBalanceCoin max-want-bal">Balance: <span class="u-want-bal">Loading</span></button>
+                                        </span>
+                                    </label>
+                                    <div class="addLp__form_input mb-2">
+                                        <input autofocus type="" class="swap__form-input" name="deposit_amt" value="" placeholder="0.0">
+                                    </div>
+                                </li>
+                                <li style="list-style-type: none; margin-left: -30px;">
+                                    <button type="button" class="header__btn-connect text-center mt-3  btn-approve" style="display: none">Approve GEC</button>
+                                    <button type="button" class="header__btn-connect text-center mt-3 btn-farm btn-deposit">Deposit</button>
+
+                                </li>
+                            </ul>
+                        </article>
+                        <article class="garbi__box-1 p-3 mb-3 mt-3">
+                            <p class="f-700">Vault's stats</p>
+
+                            <div>Apr: <span class="apy">-</span></div>
+                            <div>Total: <span class="tvl">-</span></div>
+                        </article>
                     </div>
-                    <ul>
-                        <li style="list-style-type: none; margin-left: -30px;" class="mt-3">
-                            <p>Staked: <span class="u-share">Loading</span></p>
-                            <p>Earned:
-                                <span class="u-pending-grb">Loading</span>
-                                <span>veGRB <button type="button" class="header__btn-connect mt-3 text-center btn-harvest">Harvest</button></span>
-
-                            </p>
-                            <label for="currency_0">
-                                <span class="currency-laybal"> 
-                                    <img src="./assets/images/gec-logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GEC</span>
-                                    <button class="maxBalanceCoin max-share">Max: </button>
-                                    <span class="u-share">Loading</span>
-                                </span>
-                            </label>
-                            <div class="addLp__form_input mb-2">
-                                <input type="" class="swap__form-input" name="withdraw_amt" value="" placeholder="0.0">
+                    <div class="col-lg-6">
+                        <article class="swap__main garbi__box-1 p-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-14">
+                                <div class="f-700">
+                                    <span>Your account</span>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
-                    <div>
-                        <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw">Withdraw your GEC</button>
+                            <ul>
+                                <li style="list-style-type: none; margin-left: -30px;" class="mt-3">
+                                    <p style="margin-bottom: 0;">Staked: <span class="u-share">Loading</span></p>
+                                    <p>Earned:
+                                        <span class="u-pending-grb">Loading</span>
+                                        <span>veGRB <button type="button" class="header__btn-connect mt-3 text-center btn-harvest">Harvest</button></span>
+
+                                    </p>
+                                    <label for="currency_0" style="display:block;">
+                                        <span class="currency-laybal"> 
+                                            <span class="token-name"><img src="./assets/images/gec-logo.png" style="margin-left: 0;" class="token-icon"> GEC</span>
+                                            <button class="maxBalanceCoin max-share">Balance: <span class="u-share">Loading</span> </button>
+                                            
+                                        </span>
+                                    </label>
+                                    <div class="addLp__form_input mb-2">
+                                        <input type="" class="swap__form-input" name="withdraw_amt" value="" placeholder="0.0">
+                                    </div>
+                                </li>
+                            </ul>
+                            <div>
+                                <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw btn-claim">Withdraw your GEC</button>
+                            </div>
+                        </article>
                     </div>
-                    <article class="mb-3 mt-3">
-                        <p class="f-700">Vault's stats</p>
-
-                        <div>Apr: <span class="apy">-</span></div>
-                        <div>Total: <span class="tvl">-</span></div>
-                    </article>
-
-                </article>
-
+                </div>
+                
+                
             </section>
         </main>
 
@@ -391,215 +397,90 @@
     var coreHelper = new $.Core();
     var configHelper = new $.CONFIG();
     var contractBaseHelper = new $.CONTRACTBASE();
-    var storeHelper = new $.STORE();
-    var dataHelper = new $.DATA();
-    var garbiFarmHelper = new $.GARBI_FARM();
-    var pid = 12;
+    var garbiFarm = new $.GARBI_FARM_V2();
+
     var chainId = 42161;
-    $('.alert-banner').hide();
-        if (typeof window.ethereum !== 'undefined') {
-          const web3 = new Web3(window.ethereum);
-          window.ethereum.enable();
-          web3.eth.getChainId()
-            .then(chainId => {
-              if (chainId !== 42161) {
-                $('.alert-banner').show();
-              }
-              else {
-                $('.alert-banner').hide();
-              }
-            })
-            .catch(error => {
-              console.error(error);
-            });
-        } else {
-          console.log("Metamask not found");
-        }
+    var pid = 12;
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
         configHelper.init({});
-        storeHelper.init({});
         contractBaseHelper.init({
-            "chainId": chainId
+            chainId: chainId
         });
-        dataHelper.init({
-            "chainId": chainId
+        garbiFarm.init({
+            chainId: chainId,
+            pid: pid,
         });
-        garbiFarmHelper.init({
-            "chainId": chainId,
-            "pid": pid
-        });
-        coreHelper.initBTNName('btn-farm', 'Deposit');
-        garbiFarmHelper.initFarmDetailPageInterface(pid);
-        //garbiFarmHelper.onchangeMaxWantBall(pid);
-        //garbiFarmHelper.onchangeMaxShare(pid);
-        //garbiFarmHelper.checkAllowce(pid, "btn-approve", "btn-deposit");
-        //garbiFarmHelper.approve(pid, "btn-approve");
-        //garbiFarmHelper.deposit(pid, `btn-deposit`, `input[name=deposit_amt]`);
-        garbiFarmHelper.harvest(pid, `btn-harvest`);
-        //garbiFarmHelper.withdraw(pid, `btn-withdraw`, `input[name=withdraw_amt]`);
-        let erc20TokenABI = abiHelper.getTokenABI();
-        $('.max-want-bal').click(function() {
-            let userWallet = coreHelper.getUserAccount();
-            let contractsObj = configHelper.getContracts(chainId);
-            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
-            let farm = farmsObj[pid];
-            let farmInfoOf = storeHelper.getValue('farmInfoOf');
-            let userFarmInfoObj = farmInfoOf && farmInfoOf[userWallet] ? farmInfoOf[userWallet] : {};
-            let userFarmInfoByPoolContract = userFarmInfoObj[farm['contract']];
-            $(`input[name=deposit_amt]`).val(userFarmInfoByPoolContract["userWantBal"].toFixed(6));
-        });
-        $('.max-share').click(function() {
-            let userWallet = coreHelper.getUserAccount();
-            let contractsObj = configHelper.getContracts(chainId);
-            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
-            let farm = farmsObj[pid];
-            let farmInfoOf = storeHelper.getValue('farmInfoOf');
-            let userFarmInfoObj = farmInfoOf && farmInfoOf[userWallet] ? farmInfoOf[userWallet] : {};
-            let userFarmInfoByPoolContract = userFarmInfoObj[farm['contract']];
-            $(`input[name=withdraw_amt`).val(userFarmInfoByPoolContract["userWantShare"].toFixed(6));
-        });
-        $('.btn-deposit').click(function() {
-            let userWallet = coreHelper.getUserAccount();
-            let contractsObj = configHelper.getContracts(chainId);
-            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
-            let farm = farmsObj[pid];
-            console.log(farm);
-            let wantTokenContract = contractBaseHelper.getReadContract(farm['want'], erc20TokenABI);
-            if (!userWallet) {
-                return false;
-
-            }
-            wantTokenContract.methods.allowance(userWallet, farm['contract']).call().then(result => {
-                if (result == 0) { //need approve
-                    $('.btn-approve').show();
-                } else {
-                    let amount = $(`input[name=deposit_amt]`).val();
-                    if (amount <= 0) {
-                        return false;
-                    }
-                    let userAssetBalances = storeHelper.getValue('balanceOf');
-                    let userWantBalance = userAssetBalances[configHelper.getTokenByTokenName(chainId, 'gec').toLowerCase()];
-                    if(amount > userWantBalance) {
-                        amount = userWantBalance;
-                    }
-                    let userWallet = coreHelper.getUserAccount();
-                    let farmABI = abiHelper.getGarbiFarmPoolABI();
-                    let farmContract = contractBaseHelper.getMainContract(farm["contract"], farmABI);
-                    farmContract
-                        .methods
-                        .deposit(
-                            coreHelper.toBN(amount, farm["wantDecimal"])
-                        )
-                        .send({
-                            from: userWallet
-                        })
-                        .on('transactionHash', (hash) => {
-                            coreHelper.showPopup('confirm-popup');
-                            $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
-                        })
-                        .on('confirmation', (confirmationNumber, receipt) => {
-                            $(`input[name=deposit_amt]`).val("");
-                            coreHelper.hidePopup('confirm-popup', 0);
-                            coreHelper.showPopup('success-confirm-popup');
-                            coreHelper.hidePopup('success-confirm-popup', 10000);
-                        })
-                        .on('receipt', (receipt) => {
-                            $(`input[name=deposit_amt]`).val("");
-                            coreHelper.hidePopup('confirm-popup', 0);
-                            coreHelper.showPopup('success-confirm-popup');
-                            coreHelper.hidePopup('success-confirm-popup', 10000);
-                        })
-                        .on('error', (err, receipt) => {
-                            console.log(err);
-                        });
-                }
-            })
-        });
-        $('.btn-approve').click(function() {
-            let userWallet = coreHelper.getUserAccount();
-            let contractsObj = configHelper.getContracts(chainId);
-            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
-            let farm = farmsObj[pid];
-            let wantTokenContract = contractBaseHelper.getMainContract(farm['want'], erc20TokenABI);
-            wantTokenContract.methods
-                    .approve(
-                            farm['contract'],
-                            coreHelper.getAmountAllow()
-                            )
-                    .send({
-                        from: userWallet
-                    })
-                    .on('transactionHash', (hash) => {
-                        coreHelper.showPopup('confirm-popup');
-                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
-                    })
-                    .on('confirmation', (confirmationNumber, receipt) => {
-                        $('.btn-approve').hide();
-                        coreHelper.hidePopup('confirm-popup', 0);
-                        coreHelper.showPopup('success-confirm-popup');
-                        coreHelper.hidePopup('success-confirm-popup', 10000);
-                    })
-                    .on('receipt', (receipt) => {
-                        $('.btn-approve').hide();
-                        coreHelper.hidePopup('confirm-popup', 0);
-                        coreHelper.showPopup('success-confirm-popup');
-                        coreHelper.hidePopup('success-confirm-popup', 10000);
-                    })
-                    .on('error', (err, receipt) => {
-                        console.log(err);
-                    }); 
-        });
-        $('.btn-withdraw').click(function() {
-            let userWallet = coreHelper.getUserAccount();
-            let contractsObj = configHelper.getContracts(chainId);
-            let farmsObj = contractsObj.farms ? contractsObj.farms : {};
-            let farm = farmsObj[pid];
-            
-            let amount = $(`input[name=withdraw_amt`).val();
-            if (amount <= 0) {
-                return false;
-            }
-            let farmInfoOf = storeHelper.getValue('farmInfoOf');
-            let userFarmInfoObj = farmInfoOf && farmInfoOf[userWallet] ? farmInfoOf[userWallet] : {};
-            let userFarmInfoByPoolContract = userFarmInfoObj[farm['contract']];
-            
-            let farmABI = abiHelper.getGarbiFarmPoolABI();
-            let farmContract = contractBaseHelper.getMainContract(farm["contract"], farmABI);
-            let amountBigInt = coreHelper.toBN(amount, farm["wantDecimal"]);
-            if(amountBigInt > userFarmInfoByPoolContract['userWantShareBigInt']) {
-                amountBigInt = userFarmInfoByPoolContract['userWantShareBigInt'];
-            }
-            farmContract
-                .methods
-                .withdraw(
-                    amountBigInt
-                )
-                .send({
-                    from: userWallet
-                })
-                .on('transactionHash', (hash) => {
-                    coreHelper.showPopup('confirm-popup');
-                    $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
-                })
-                .on('confirmation', (confirmationNumber, receipt) => {
-                    $(`input[name=withdraw_amt`).val("");
-                    coreHelper.hidePopup('confirm-popup', 0);
-                    coreHelper.showPopup('success-confirm-popup');
-                    coreHelper.hidePopup('success-confirm-popup', 10000);
-                })
-                .on('receipt', (receipt) => {
-                    $(`input[name=withdraw_amt`).val("");
-                    coreHelper.hidePopup('confirm-popup', 0);
-                    coreHelper.showPopup('success-confirm-popup');
-                    coreHelper.hidePopup('success-confirm-popup', 10000);
-                })
-                .on('error', (err, receipt) => {
-                    console.log(err);
-                });
-        });
+        run();
     });
+
+    async function run() {
+        let userAddr = coreHelper.getUserAccount();
+        let userData = await garbiFarm.GetDataUser(userAddr);
+        $('.u-want-bal').html(`${ coreHelper.numberWithCommas(userData.userWantBal, 6) }`);
+        $('.u-share').html(`${ coreHelper.numberWithCommas(userData.userWantShare, 6) }`);
+        $('.u-pending-grb').html(`${ coreHelper.numberWithCommas(userData.userGRBPending, 6) }`);
+        $(`.apy`).html(`${ coreHelper.numberWithCommas(userData.apy, 2) }%`);
+        $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
+
+        setInterval(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            let userData = await garbiFarm.GetDataUser(userAddr);
+            $('.u-want-bal').html(`${ coreHelper.numberWithCommas(userData.userWantBal, 6) }`);
+            $('.u-share').html(`${ coreHelper.numberWithCommas(userData.userWantShare, 6) }`);
+            $('.u-pending-grb').html(`${ coreHelper.numberWithCommas(userData.userGRBPending, 6) }`);
+            $(`.apy`).html(`${ coreHelper.numberWithCommas(userData.apy, 2) }%`);
+            $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
+        }, 15000);
+
+        setInterval(async function() {
+            let userInputVal = $('input[name=deposit_amt]').val();
+            if (userInputVal > userData.userWantBal) {
+                $('.btn-deposit').addClass("disable");
+            } else {
+                $('.btn-deposit').removeClass("disable");
+            }
+        }, 1000);
+
+
+        $(`.max-want-bal`).on("click", () => {
+            let userBalance = $('.u-want-bal').text();
+            $('input[name=deposit_amt]').val(userBalance);
+        });
+        $(`.max-share`).on("click", () => {
+            let userMaxShare = $('.currency-laybal .u-share').text();
+            $('input[name=withdraw_amt]').val(userMaxShare);
+        });
+
+        $('.btn-deposit').click(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            let userInputVal = $('input[name=deposit_amt]').val();
+            let checkAllowce = await garbiFarm.GetAllowanceWantToFarmContract(userAddr);
+            let data = await garbiFarm.GetTokenWantOfFarmContractByPid();
+            let wantDecimal = data.wantDecimal;
+            if (checkAllowce / wantDecimal < userInputVal) {
+                $('.btn-approve').show();
+            } else {
+                garbiFarm.Deposit(userAddr, coreHelper.toBN(userInputVal, wantDecimal));
+            }
+        });
+        $('.btn-approve').click(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            garbiFarm.ApproveWantToFarmContract(userAddr);
+        });
+        $('.btn-harvest').click(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            garbiFarm.Harvest(userAddr);
+        });
+        $('.btn-withdraw').click(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            let userWantWithdraw = $('input[name=withdraw_amt]').val();
+            let data = await garbiFarm.GetTokenWantOfFarmContractByPid();
+            let wantDecimal = data.wantDecimal;
+            garbiFarm.Withdraw(userAddr, coreHelper.toBN(userInputVal, wantDecimal));
+        });
+    }
 </script>
 
 </html>

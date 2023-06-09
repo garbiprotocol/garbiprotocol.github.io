@@ -191,6 +191,9 @@
                                             </a>
                                         <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
                                             <li>
+                                                <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
+                                            </li>
+                                            <li>
                                                 <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
                                             </li>
                                             <li>
@@ -225,76 +228,79 @@
                 </div>
             </nav>
         </header>
-        <main class="page__swap">
-            <section class="blog__container">
-                <article class="swap__main garbi__box-1 p-3 mb-3">
-                    <div class="d-flex align-items-center justify-content-between mb-14">
-                        <div class="f-700">
-                            <span>Single WETH Vault</span>
-                        </div>
-                    </div>
-
-                    <ul>
-                        <li style="list-style-type: none; margin-left: -30px;">
-                            <p> Stake WETH to earn veGRB.</p>
-                            <label for="currency_0">
-                                <span class="currency-laybal"> 
-                                    <img src="./assets/images/eth_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">WETH</span>
-                                    <button class="maxBalanceCoin max-want-bal">Max: </button>
-                                    <span class="u-want-bal">Loading</span>
-                                </span>
-                            </label>
-                            <div class="addLp__form_input mb-2">
-                                <input autofocus type="" class="swap__form-input" name="deposit_amt" value="" placeholder="0.0">
+        <main class="page__swap page-earn">
+            <section class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <article class="swap__main garbi__box-1 p-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-14">
+                                <div class="f-700">
+                                    <span>Single WETH Bridge Arbitrum One Vault</span>
+                                </div>
                             </div>
-                        </li>
-                        <li style="list-style-type: none; margin-left: -30px;">
-                            <button type="button" class="header__btn-connect text-center mt-3  btn-approve" style="display:none">Approve</button>
-                            <button type="button" class="header__btn-connect text-center mt-3 btn-farm btn-deposit">Deposit</button>
 
-                        </li>
-                    </ul>
-                </article>
-                <article class="swap__main garbi__box-1 p-3 mb-3">
-                    <div class="d-flex align-items-center justify-content-between mb-14">
-                        <div class="f-700">
-                            <span>Your account</span>
-                        </div>
+                            <ul>
+                                <li style="list-style-type: none; margin-left: -30px;">
+                                    <p>Stake WETH to earn veGRB.</p>
+                                    <label for="currency_0" style="display: block;">
+                                        <span class="currency-laybal"> 
+                                            <span class="token-name"><img src="./assets/images/weth-logo.png" style="margin-left: 0;" class="token-icon">WETH</span>
+                                            <button class="maxBalanceCoin max-want-bal">Balance: <span class="u-want-bal">Loading</span></button>
+                                            
+                                        </span>
+                                    </label>
+                                    <div class="addLp__form_input mb-2">
+                                        <input autofocus type="" class="swap__form-input" name="deposit_amt" value="" placeholder="0.0">
+                                    </div>
+                                </li>
+                                <li style="list-style-type: none; margin-left: -30px;">
+                                    <button type="button" class="header__btn-connect text-center mt-3  btn-approve" style="display:none">Approve</button>
+                                    <button type="button" class="header__btn-connect text-center mt-3 btn-farm btn-deposit">Deposit</button>
+
+                                </li>
+                            </ul>
+                        </article>
+                        <article class="garbi__box-1 mb-3 mt-3 p-3">
+                                <p class="f-700">Vault's stats</p>
+                                <div>Apr: <span class="apy">-</span></div>
+                                <div>Total: <span class="tvl">-</span></div>
+                                <div>Platform Fee: 2.5%</div>
+                                <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
+                        </article>
                     </div>
-                    <ul>
-                        <li style="list-style-type: none; margin-left: -30px;" class="mt-3">
-                            <p>Staked: <span class="u-share">Loading</span></p>
-                            <p>Earned:
-                                <span class="u-pending-grb">Loading</span>
-                                <span>veGRB <button type="button" class="header__btn-connect mt-3 text-center btn-harvest">Harvest</button></span>
-
-                            </p>
-                            <label for="currency_0" style='display: block;'>
-                                <span class="currency-laybal"> 
-                                    <span class="token-name"><img src="./assets/images/eth_logo.png" style="margin-left: 0;" class="token-icon"> WETH</span>
-                                    <button class="maxBalanceCoin max-share">Balance: <span class="u-share">Loading</span></button>
-                                    
-                                </span>
-                            </label>
-                            <div class="addLp__form_input mb-2">
-                                <input type="" class="swap__form-input" name="withdraw_amt" value="" placeholder="0.0">
+                    <div class="col-lg-5">
+                        <article class="swap__main garbi__box-1 p-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-14">
+                                <div class="f-700">
+                                    <span>Your account</span>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
-                    <div>
-                        <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw">Withdraw your WETH</button>
+                            <ul>
+                                <li style="list-style-type: none; margin-left: -30px;" class="mt-3">
+                                    <p style="margin-bottom: 0;">Staked: <span class="u-share">Loading</span></p>
+                                    <p>Earned:
+                                        <span class="u-pending-grb">Loading</span>
+                                        <span>veGRB <button type="button" class="header__btn-connect mt-3 text-center btn-harvest">Harvest</button></span>
+
+                                    </p>
+                                    <label for="currency_0" style="display:block;">
+                                        <span class="currency-laybal"> 
+                                            <span class="token-name"><img src="./assets/images/weth-logo.png" style="margin-left: 0;" class="token-icon"> WETH</span>
+                                            <button class="maxBalanceCoin max-share">Balance: <span class="u-share">Loading</span></button>
+                                            
+                                        </span>
+                                    </label>
+                                    <div class="addLp__form_input mb-2">
+                                        <input type="" class="swap__form-input" name="withdraw_amt" value="" placeholder="0.0">
+                                    </div>
+                                </li>
+                            </ul>
+                            <div>
+                                <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw btn-claim">Withdraw your WETH</button>
+                            </div>
+                        </article>
                     </div>
-                    <article class="mb-3 mt-3">
-                        <p class="f-700">Vault's stats</p>
-
-                        <div>Apr: <span class="apy">-</span></div>
-                        <div>Total: <span class="tvl">-</span></div>
-                        <div>Platform Fee: 2.5%</div>
-                        <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
-                    </article>
-
-                </article>
-
+                </div>
             </section>
         </main>
 
@@ -393,8 +399,8 @@
     var garbiFarm = new $.GARBI_FARM_V2();
     var network = new $.GARBI_NETWORK();
 
-    var chainId = 42170;
-    var pid = 0;
+    var chainId = 421613;
+    var pid = 25;
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
@@ -417,6 +423,7 @@
         $('.u-pending-grb').html(`${ coreHelper.numberWithCommas(userData.userGRBPending, 6) }`);
         $(`.apy`).html(`${ coreHelper.numberWithCommas(userData.apy, 2) }%`);
         $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
+
 
         let curChainId =await network.GetChainIdToMain();
         if (curChainId != chainId) {

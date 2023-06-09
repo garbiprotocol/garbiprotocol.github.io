@@ -366,13 +366,13 @@
                                                 </a>
                                         <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
                                             <li>
+                                                <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
+                                            </li>
+                                            <li>
                                                 <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" href="earn.html">Classic Earn</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -539,24 +539,9 @@
                             </div>
                             <button type="button" class="header__btn-connect w-100 text-center button-approve-grb" style="display:none;margin-bottom: 10px;">Approve GRB for bridge fee</button>
                             <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-bottom: 10px;">Approve <span class="token-select"> to Bridge</button>
-                            <button type="button" class="header__btn-connect w-100 text-center button-move-funds">Move funds to <span class="recieve-chain"></span></button>
-                            <!-- Modal -->
-                            <!-- <div class="modal fade" id="token-bridge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Bridge</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="description">
-                                                <p class="wait-bridge">Transferring <span class="value-move"></span> <span class="token-select"></span> to <span class="recieve-chain"></span> (pending...).</p>
-                                                <p class="bridge-success" style="display:none;">Transferring <span class="value-move"> </span> <span class="token-select"></span> to <span class="recieve-chain"></span> (success ✅).</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+                            <button type="button" class="header__btn-connect w-100 text-center button-move-funds disable">Move funds to <span class="recieve-chain"></span></button>
+
+
                             <div class="modal fade" id="modal-bridge-popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
                                     <div class="modal-content">
@@ -973,30 +958,31 @@
             let selectTokenSymbol = await garbiBridgeConfig.GetTokenSymbolByNetworkName(selectNetwork, selectToken);
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
-            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkerc20HandleAddress);
             let userSelectNetworkGRBBalance = await garbiBridge.GetBalance(selectNetwork, 'grb', userAddr);
+            
+            let selectNetworkHandleAddress = (BRIDGE_ETH == false) ?
+                garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork) :
+                garbiBridgeConfig.GetEETHandleAddressByNetworkName(selectNetwork);
 
             let recieveNetworkHandleAddress = (BRIDGE_ETH == false) ?
                 garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve) :
                 garbiBridgeConfig.GetEETHandleAddressByNetworkName(networkRecieve);
 
+            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkHandleAddress);
 
-            if (userSelectNetworkGRBBalance / 1e18 < 3) {
+
+            if (userSelectNetworkGRBBalance / 1e18 < 3 || userInputValue == "") {
                 $('.button-move-funds').addClass("disable");
+                
             } else {
-                if (userInputValue > recieveTokenPool / 1e18) {
+                if (userInputValue > recieveTokenPool / 1e18 || userInputValue > userSelectNetworkBalance / 1e18) {
                     $('.button-move-funds').addClass("disable");
+                    
                 } else {
                     $('.button-move-funds').removeClass("disable");
-                }
-
-                if (userInputValue > userSelectNetworkBalance / 1e18) {
-                    $('.button-move-funds').addClass("disable");
-                } else {
-                    $('.button-move-funds').removeClass("disable");
+                    
                 }
             }
-
             if (selectNetwork == "ArbitrumNova") {
                 $('.network-select img').attr('src', './assets/images/nova-wallet.png');
             }
@@ -1014,7 +1000,7 @@
             $('.token-select').text(selectTokenName);
             $('.token-select-symbol').text(selectTokenSymbol);
             $('.grb-balance').text((userSelectNetworkGRBBalance / 1e18).toFixed(4));
-            network.SwichNetworkByChainName(selectNetwork);
+            
         }, 1000);
         setInterval(async function() {
             let userAddr = coreHelper.getUserAccount();
@@ -1037,7 +1023,6 @@
 
             let selectTokenPool = await garbiBridge.GetBalance(selectNetwork, selectToken, selectNetworkHandleAddress);
             let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkHandleAddress);
-
             let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
             let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
 
@@ -1049,6 +1034,7 @@
 
             $('.select-network-info .value-pool').text((selectTokenPool / 1e18).toFixed(4) + " " + selectTokenName);
             $('.recieve-network-info .value-pool').text((recieveTokenPool / 1e18).toFixed(4) + " " + selectTokenName);
+
         }, 3000);
 
         $('.button-move-funds').click(async function() {
@@ -1068,7 +1054,7 @@
                 $('.button-approve-grb').show();
                 return;
             }
-
+            network.SwichNetworkByChainName(selectNetwork);
             if (BRIDGE_ETH == false) {
                 let checkAllowanceToken = await garbiBridge.GetAllowanceOfTokenDepositToERC20Handle(selectNetwork, selectToken);
                 if (userInputValue > checkAllowanceToken / 1e18) {
