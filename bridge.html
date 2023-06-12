@@ -947,7 +947,7 @@
             let userBalance = parseFloat($(this).text());
             $('.stable-swap input[name=amountIn]').val(userBalance);
         });
-
+        networkHelper.SwichNetworkByChainName(selectNetwork);
         setInterval(async function() {
             let userAddr = coreHelper.getUserAccount();
             let selectNetwork = $('select[name=network-from]').val();
@@ -1226,6 +1226,7 @@
             let to = $('select[name=network-to]').val();
             $('select[name=network-from]').selectpicker('val', to);
             $('select[name=network-to]').selectpicker('val', from);
+            networkHelper.SwichNetworkByChainName(to);
         });
     };
 </script>
