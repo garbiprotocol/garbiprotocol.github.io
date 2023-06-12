@@ -504,7 +504,7 @@
             let curChainId = await networkHelper.GetChainIdToMain();
             if (curChainId != chainId) {
                 networkHelper.SwichNetworkByChainId(chainId);
-                return
+                return;
             }
             let userAddr = coreHelper.getUserAccount();
             let userWantWithdraw = $('input[name=withdraw_amt]').val();

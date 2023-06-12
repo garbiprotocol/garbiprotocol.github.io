@@ -395,7 +395,7 @@
 
 </body>
 <script>
-   var abiHelper = new $.ABI();
+    var abiHelper = new $.ABI();
     var coreHelper = new $.Core();
     var configHelper = new $.CONFIG();
     var contractBaseHelper = new $.CONTRACTBASE();
@@ -467,6 +467,11 @@
         });
 
         $('.btn-deposit').click(async function() {
+            let curChainId = await networkHelper.GetChainIdToMain();
+            if (curChainId != chainId) {
+                networkHelper.SwichNetworkByChainId(chainId);
+                return;
+            }
             let userAddr = coreHelper.getUserAccount();
             let userInputVal = $('input[name=deposit_amt]').val();
             let checkAllowce = await garbiFarm.GetAllowanceWantToFarmContract(userAddr);
@@ -479,14 +484,29 @@
             }
         });
         $('.btn-approve').click(async function() {
+            let curChainId = await networkHelper.GetChainIdToMain();
+            if (curChainId != chainId) {
+                networkHelper.SwichNetworkByChainId(chainId);
+                return;
+            }
             let userAddr = coreHelper.getUserAccount();
             garbiFarm.ApproveWantToFarmContract(userAddr);
         });
         $('.btn-harvest').click(async function() {
+            let curChainId = await networkHelper.GetChainIdToMain();
+            if (curChainId != chainId) {
+                networkHelper.SwichNetworkByChainId(chainId);
+                return;
+            }
             let userAddr = coreHelper.getUserAccount();
             garbiFarm.Harvest(userAddr);
         });
         $('.btn-withdraw').click(async function() {
+            let curChainId = await networkHelper.GetChainIdToMain();
+            if (curChainId != chainId) {
+                networkHelper.SwichNetworkByChainId(chainId);
+                return;
+            }
             let userAddr = coreHelper.getUserAccount();
             let userWantWithdraw = $('input[name=withdraw_amt]').val();
             let data = await garbiFarm.GetTokenWantOfFarmContractByPid();
