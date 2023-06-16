@@ -34,11 +34,11 @@ $.GARBI_BRIDGE_CONFIG.prototype = (function() {
         },
 
         ArbitrumGoerli: {
-            bridgeContract: "0x07fcf5f82706beafd7a57a73eed64d23e157c21c",
+            bridgeContract: "0x8E45D454857F718592C71170e3aAc77b14Afef27",
             erc20Handle: "0xd54d619470905440842bc87d6031694764381e1e", // fake
-            ethHandle: "0xaff8569b4e2aa48557a87c139aff5b7316d557c6",
+            ethHandle: "0x8AAbe98da8Fd219C1f9bd9f04d7b62c4fDDA2168",
             farm: {
-                weth: "0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C",
+                weth: "0x5CD2E0Bd1f602270bF69A21616BcD3E9d852d526",
             }
         },
         ArbitrumNova: {

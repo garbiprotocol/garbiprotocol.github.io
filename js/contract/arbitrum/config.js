@@ -420,12 +420,12 @@ $.CONFIG.prototype = (function() {
                     price: 1,
                     version: 1
                 },
-                25: {
+                27: {
                     type: 'garbi_bridge_pool',
-                    contract: '0xE4FEA722e459C8598bD1f8Aed3F02D950E47974C',
+                    contract: '0x5CD2E0Bd1f602270bF69A21616BcD3E9d852d526',
                     want: '0xe39ab88f8a4777030a534146a9ca3b52bd5d43a3', // 
                     wantDecimal: 18,
-                    pid: 25,
+                    pid: 27,
                     isActive: true,
                     isERC20: true,
                     isActive: true,
