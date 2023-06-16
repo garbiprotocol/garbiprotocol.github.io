@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 import './interfaces/IGarbiMining.sol';
 import './interfaces/IWETH.sol';
-import './interfaces/IETHHandleBridge.sol';
+import './interfaces/IETHBridge.sol';
 
 contract GarbiFarmSingleWETHBridge is ReentrancyGuard, Ownable {
 
@@ -20,8 +20,9 @@ contract GarbiFarmSingleWETHBridge is ReentrancyGuard, Ownable {
     uint256 public PLATFORM_FEE = 25; //2.5% 25/1000
 
     address public platformFundAddress;
+    address public ETHHandlerBridge;
 
-    IETHHandleBridge public ETHHandlerBridge;
+    IETHBridge public ETHBridge;
     IGarbiMining public miningMachine;
 
     uint256 public pidOfMining;
@@ -44,7 +45,6 @@ contract GarbiFarmSingleWETHBridge is ReentrancyGuard, Ownable {
 
     event onDeposit(address _user, uint256 _amount);
     event onWithdraw(address _user, uint256 _amount);
-    event onEmergencyWithdraw(address _user, uint256 _amount);
 
     event onQueuedTransactionsChangeAddress(string _functionName, string _fieldName, address _value);
     event onQueuedTransactionsChangeUint(string _functionName, string _fieldName, uint256 _value);
@@ -52,11 +52,9 @@ contract GarbiFarmSingleWETHBridge is ReentrancyGuard, Ownable {
 
     constructor(
         IGarbiMining _miningMachine,
-        IETHHandleBridge _ETHHandlerBridge,
         IWETH _want,
         uint256 _pidOfMining
         ) {
-        ETHHandlerBridge = _ETHHandlerBridge;
         want = _want;
         miningMachine = _miningMachine;
         pidOfMining = _pidOfMining;
@@ -116,7 +114,17 @@ contract GarbiFarmSingleWETHBridge is ReentrancyGuard, Ownable {
         _validateTimelock(_timelock);
         require(_timelock.addressOf[keccak256(abi.encode('ETHHandlerBridge'))] != address(0), "INVALID_ADDRESS");
 
-        ETHHandlerBridge = IETHHandleBridge(_timelock.addressOf[keccak256(abi.encode('ETHHandlerBridge'))]);
+        ETHHandlerBridge = _timelock.addressOf[keccak256(abi.encode('ETHHandlerBridge'))];
+        _timelock.queuedTransactions = false;
+    }
+
+    function setETHBridge() public onlyOwner 
+    {
+        TimeLock storage _timelock = timeLockOf[keccak256(abi.encode('setETHBridge'))];
+        _validateTimelock(_timelock);
+        require(_timelock.addressOf[keccak256(abi.encode('ETHBridge'))] != address(0), "INVALID_ADDRESS");
+
+        ETHBridge = IETHBridge(_timelock.addressOf[keccak256(abi.encode('ETHBridge'))]);
         _timelock.queuedTransactions = false;
     }
 
@@ -192,7 +200,8 @@ contract GarbiFarmSingleWETHBridge is ReentrancyGuard, Ownable {
         totalShare = totalShare.sub(_wantAmt);
 
         // withdraw eth from ethHandle to this.
-        ETHHandlerBridge.withdraw(_wantAmt);
+        bytes memory data = abi.encode(address(want), address(this), _wantAmt);
+        ETHBridge.farmWithdraw(ETHHandlerBridge, data);
 
         // wrap eth to weth
         want.deposit{value: _wantAmt}();
@@ -206,30 +215,6 @@ contract GarbiFarmSingleWETHBridge is ReentrancyGuard, Ownable {
         miningMachine.updateUser(pidOfMining, msg.sender);
 
         emit onWithdraw(msg.sender, _wantAmt);
-    }
-    // Withdraw without caring about rewards. EMERGENCY ONLY.
-    function emergencyWithdraw() public 
-    {
-        uint256 _share = shareOf[msg.sender];
-        require(_share > 0, 'INVALID_AMOUNT');
-
-        shareOf[msg.sender] = 0;
-        totalShare = totalShare.sub(_share);
-
-        // withdraw eth from ethHandle to this.
-        ETHHandlerBridge.withdraw(_share);
-
-        // wrap eth to weth
-        want.deposit{value: _share}();
-
-        uint256 _wantBal = want.balanceOf(address(this));
-        if (_wantBal < _share) {
-            _share = _wantBal;
-        }
-
-        want.transfer(msg.sender, _share);
-
-        emit onEmergencyWithdraw(msg.sender, _share);
     }
 
     function harvest(address _user) public returns(uint256 _pendingVeGRB) { 

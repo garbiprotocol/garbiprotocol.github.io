@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 import './interfaces/IGarbiMining.sol';
-import './interfaces/IERC20HandleBridge.sol';
+import './interfaces/IERC20Bridge.sol';
 
 contract GarbiFarmSingleERC20Bridge is ReentrancyGuard, Ownable {
 
@@ -19,8 +19,9 @@ contract GarbiFarmSingleERC20Bridge is ReentrancyGuard, Ownable {
     uint256 public PLATFORM_FEE = 25; //2.5% 25/1000
 
     address public platformFundAddress;
-
-    IERC20HandleBridge public ERC20HandleBridge;
+    address public ERC20HandleBridge;
+    
+    IERC20Bridge public ERC20Bridge;
     IGarbiMining public miningMachine;
 
     uint256 public pidOfMining;
@@ -43,7 +44,6 @@ contract GarbiFarmSingleERC20Bridge is ReentrancyGuard, Ownable {
 
     event onDeposit(address _user, uint256 _amount);
     event onWithdraw(address _user, uint256 _amount);
-    event onEmergencyWithdraw(address _user, uint256 _amount);
 
     event onQueuedTransactionsChangeAddress(string _functionName, string _fieldName, address _value);
     event onQueuedTransactionsChangeUint(string _functionName, string _fieldName, uint256 _value);
@@ -113,7 +113,17 @@ contract GarbiFarmSingleERC20Bridge is ReentrancyGuard, Ownable {
         _validateTimelock(_timelock);
         require(_timelock.addressOf[keccak256(abi.encode('  '))] != address(0), "INVALID_ADDRESS");
 
-        ERC20HandleBridge = IERC20HandleBridge(_timelock.addressOf[keccak256(abi.encode('ERC20HandleBridge'))]);
+        ERC20HandleBridge = _timelock.addressOf[keccak256(abi.encode('ERC20HandleBridge'))];
+        _timelock.queuedTransactions = false;
+    }
+
+    function setERC20Bridge() public onlyOwner 
+    {
+        TimeLock storage _timelock = timeLockOf[keccak256(abi.encode('setERC20HandlerBridge'))];
+        _validateTimelock(_timelock);
+        require(_timelock.addressOf[keccak256(abi.encode('  '))] != address(0), "INVALID_ADDRESS");
+
+        ERC20Bridge = IERC20Bridge(_timelock.addressOf[keccak256(abi.encode('ERC20HandleBridge'))]);
         _timelock.queuedTransactions = false;
     }
 
@@ -168,7 +178,7 @@ contract GarbiFarmSingleERC20Bridge is ReentrancyGuard, Ownable {
 
         uint256 _wantAmtAfterFee = _wantAmt.sub(platformFee);
         // transfer to ERC20HandleBridge
-        want.transfer(address(ERC20HandleBridge), _wantAmtAfterFee);
+        want.transfer(ERC20HandleBridge, _wantAmtAfterFee);
 
         shareOf[msg.sender] = shareOf[msg.sender].add(_wantAmtAfterFee);
         totalShare = totalShare.add(_wantAmtAfterFee);
@@ -187,7 +197,9 @@ contract GarbiFarmSingleERC20Bridge is ReentrancyGuard, Ownable {
         shareOf[msg.sender] = shareOf[msg.sender].sub(_wantAmt);
         totalShare = totalShare.sub(_wantAmt);
 
-        ERC20HandleBridge.withdraw(_wantAmt);
+        bytes memory data = abi.encode(address(want), address(this), _wantAmt);
+        ERC20Bridge.farmWithdraw(ERC20HandleBridge, data);
+
         uint256 _wantBal = want.balanceOf(address(this)); 
         if (_wantBal < _wantAmt) {
             _wantAmt = _wantBal;
@@ -197,25 +209,6 @@ contract GarbiFarmSingleERC20Bridge is ReentrancyGuard, Ownable {
         miningMachine.updateUser(pidOfMining, msg.sender);
     	// 
         emit onWithdraw(msg.sender, _wantAmt);
-    }
-    // Withdraw without caring about rewards. EMERGENCY ONLY.
-    function emergencyWithdraw() public 
-    {
-        uint256 _share = shareOf[msg.sender];
-        require(_share > 0, 'INVALID_AMOUNT');
-
-        shareOf[msg.sender] = 0;
-        totalShare = totalShare.sub(_share);
-
-        ERC20HandleBridge.withdraw(_share);
-        uint256 _wantBal = want.balanceOf(address(this));
-        if (_wantBal < _share) {
-            _share = _wantBal;
-        }
-
-        want.transfer(msg.sender, _share);
-
-        emit onEmergencyWithdraw(msg.sender, _share);
     }
 
     function harvest(address _user) public returns(uint256 _pendingVeGRB) { 

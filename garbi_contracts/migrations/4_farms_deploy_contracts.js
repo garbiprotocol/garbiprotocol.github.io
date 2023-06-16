@@ -49,7 +49,7 @@ const GarbiFarmPixilSaga = artifacts.require("GarbiFarmPixilSaga");
 // const pidOfMiningGEC = 12;
 //end production
 //testnet arbitrum goerli
-// const GarbiMining = "0xb63234acac10029eaebf63a0f28584cd096df62b";
+const GarbiMining = "0xb63234acac10029eaebf63a0f28584cd096df62b";
 //
 //const GRB = "0xd1eb8a5798e04703ec5324c99405f581bd6318b8";
 //const pidOfMiningSingleGRB = 9;
@@ -62,16 +62,17 @@ const GarbiFarmPixilSaga = artifacts.require("GarbiFarmPixilSaga");
 //const GEC = "0x965782738c1acca851104444bda0a03ee68355dc";
 //const pidOfMiningGEC = 13;
 
-// const WETH = "0xe39ab88f8a4777030a534146a9ca3b52bd5d43a3";
-// const MockETHHandle = "0x733c04f2C3e2216EdBD7E0BcdBdf8a13bfF9Dea4";
+const WETH = "0xe39ab88f8a4777030a534146a9ca3b52bd5d43a3";
+const ETHHandle = "0x8AAbe98da8Fd219C1f9bd9f04d7b62c4fDDA2168";
+const pidOfMiningSingleWETHBridge = 26;
 //end testnet
 
 // test in arbitrum nova
-const GarbiMining = "0xf139d03D4CD2f86c9a9a65a9558A1898aD1278DD";
-const WETH = "0x722E8BdD2ce80A4422E880164f2079488e115365";
-const MockETHHandle = "0xC4F2eDC6f1Bc6fD816D21Cb5c30ea4e81e6Bd148";
+// const GarbiMining = "0xf139d03D4CD2f86c9a9a65a9558A1898aD1278DD";
+// const WETH = "0x722E8BdD2ce80A4422E880164f2079488e115365";
+// const MockETHHandle = "0xC4F2eDC6f1Bc6fD816D21Cb5c30ea4e81e6Bd148";
 
-const pidOfMiningSingleWETHBridge = 0;
+// const pidOfMiningSingleWETHBridge = 0;
 
 // end test
 
@@ -89,7 +90,7 @@ module.exports = function(deployer) {
     //    deployer.deploy(GarbiStakeGRB, GarbiMining, veGRB, pidOfMiningSingleVeGRB1year, blockToUnlock1year);
     //    deployer.deploy(GarbiFarmGEC, GarbiMining, GEC, pidOfMiningGEC);
     //    deployer.deploy(GarbiFarmPixilSaga, GarbiMining, GRB, 15);
-    deployer.deploy(GarbiFarmSingleWETHBridge, GarbiMining, MockETHHandle, WETH, pidOfMiningSingleWETHBridge);
+    deployer.deploy(GarbiFarmSingleWETHBridge, GarbiMining, WETH, pidOfMiningSingleWETHBridge);
     // deployer.deploy(MockETHHandle);
     // deployer.deploy(Test);
 };
