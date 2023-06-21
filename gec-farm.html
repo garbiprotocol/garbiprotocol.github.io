@@ -399,6 +399,24 @@
 
     var chainId = 42161;
     var pid = 12;
+    $('.alert-banner').hide();
+    if (typeof window.ethereum !== 'undefined') {
+        const web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        web3.eth.getChainId()
+            .then(chainId => {
+                if (chainId !== 42161) {
+                    $('.alert-banner').show();
+                } else {
+                    $('.alert-banner').hide();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    } else {
+        console.log("Metamask not found");
+    }
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
