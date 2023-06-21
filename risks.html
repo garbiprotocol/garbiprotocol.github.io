@@ -15,10 +15,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="../assets/js/web3.min.js"></script>
-    <script src="../assets/js/trustwallet.js"></script>
-    <script src="../js/contract/bsc/core.js"></script>
-
+    <script src="./assets/js/web3.min.js"></script>
+    <script src="./assets/js/trustwallet.js"></script>
+    <script src="./js/contract/arbitrum/abi.js"></script>
+    <script src="./js/contract/arbitrum/config.js"></script>
+    <script src="./js/data/store.js"></script>
+    <script src="./js/contract/arbitrum/core.js"></script>
+    <script src="./js/contract/arbitrum/base.contract.js"></script>
+    <script src="./js/contract/arbitrum/data.js"></script>
+    <script src="./js/contract/arbitrum/garbi-swap-info.contract.js"></script>
+    <script src="./js/contract/arbitrum/garbi-swap.contract.js"></script>
 
     <title>Risk - Garbi Protocol</title>
 </head>
@@ -60,17 +66,11 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="swap.html">Swap</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="bridge.html">Bridge</a>
-                                    </li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Earn 
                                                 </a>
                                         <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
-                                            <li>
-                                                <a class="dropdown-item" href="bridge-earn.html">Bridge Earn</a>
-                                            </li>
                                             <li>
                                                 <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
                                             </li>
@@ -111,8 +111,8 @@
                 <div class="blog__thumb d-flex align-items-center justify-content-center p-relative ">
                     <img src="../assets/images/blog-thumb-2.jpg" class="bg-background-position d-none d-md-block" />
                     <div class="p-relative z-index-5 text-center">
-                        <div class=""><img src="../assets/images/garbi_logo.png" /></div>
-                        <div class="blog__title">Risks of using Garbi Protocol</div>
+                        <div class=""><img src="../assets/images/home-img-1.png" /></div>
+                        <div class="blog__title text-white">Risks of using Garbi Protocol</div>
                     </div>
                 </div>
 
@@ -196,29 +196,29 @@
     <script src="../assets/js/custom.menu.js"></script>
 </body>
 <script>
-    // var coreHelper = new $.Core();
-    // $('.alert-banner').hide();
-    //     if (typeof window.ethereum !== 'undefined') {
-    //       const web3 = new Web3(window.ethereum);
-    //       window.ethereum.enable();
-    //       web3.eth.getChainId()
-    //         .then(chainId => {
-    //           if (chainId !== 42161) {
-    //             $('.alert-banner').show();
-    //           }
-    //           else {
-    //             $('.alert-banner').hide();
-    //           }
-    //         })
-    //         .catch(error => {
-    //           console.error(error);
-    //         });
-    //     } else {
-    //       console.log("Metamask not found");
-    //     }
-    // $(document).ready(function () {
-    //     coreHelper.init({});
-    // });
+    var coreHelper = new $.Core();
+    $('.alert-banner').hide();
+        if (typeof window.ethereum !== 'undefined') {
+          const web3 = new Web3(window.ethereum);
+          window.ethereum.enable();
+          web3.eth.getChainId()
+            .then(chainId => {
+              if (chainId !== 42161) {
+                $('.alert-banner').show();
+              }
+              else {
+                $('.alert-banner').hide();
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        } else {
+          console.log("Metamask not found");
+        }
+    $(document).ready(function () {
+        coreHelper.init({});
+    });
 </script>
 
 </html>
