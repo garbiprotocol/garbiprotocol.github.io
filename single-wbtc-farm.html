@@ -453,11 +453,7 @@
         $(`.apy`).html(`${ coreHelper.numberWithCommas(userData.apy, 2) }%`);
         $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
 
-        let curChainId = await networkHelper.GetChainIdToMain();
-        if (curChainId != chainId) {
-            networkHelper.SwichNetworkByChainId(chainId);
-        }
-
+        
         setInterval(async function() {
             let userAddr = coreHelper.getUserAccount();
             let userData = await garbiFarm.GetDataUser(userAddr);
