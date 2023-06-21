@@ -24,6 +24,7 @@
     <script src="../js/contract/arbitrum/base.contract.js"></script>
     <script src="../js/contract/arbitrum/protoco.liquidity.launch.js"></script>
     <script src="../js/contract/arbitrum/data.js"></script>
+    <script src="./js/contract/arbitrum/network.js"></script>
 
     <title>Garbi Protocol</title>
     <style id="svelte-166mr51-style">
@@ -149,7 +150,7 @@
     <div class="wrapper">
         <header class="header" id="header">
             <div class="alert-banner" style="background: rgb(45, 66, 252)">
-                <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
+                <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, <button class="switch-network-btn">switch to a network</button> that supports it.</div>
             </div>
             <nav class="navbar navbar-expand-lg">
                 <div class="container container-1">
@@ -533,6 +534,7 @@
     var configHelper = new $.CONFIG();
     var contractBaseHelper = new $.CONTRACTBASE();
     var storeHelper = new $.STORE();
+    var networkHelper = new $.GARBI_NETWORK();
     var chainId = 42161;
     $('.alert-banner').hide();
     if (typeof window.ethereum !== 'undefined') {
@@ -580,7 +582,22 @@
             let DAIprice = result / 10 ** PriceDecimal;
             $('.dai-price').text(DAIprice.toFixed(6));
         });
-
+        // $('.switch-network-btn').click(function () {
+        //     networkHelper.SwichNetworkByChainId(chainId);
+        //     CheckChainId();
+        //     async function CheckChainId () {
+        //         let curChainId = await networkHelper.GetChainIdToMain();
+        //         if (curChainId != chainId) {
+        //             $('.alert-banner').show();
+        //             setTimeout(() => {
+        //                 CheckChainId();
+        //             }, 1000);
+        //         }
+        //         else {
+        //             $('.alert-banner').hide();
+        //         }
+        //     }           
+        // });
         function setCookie(name, value, days) {
             let expires = "";
             if (days) {
@@ -647,5 +664,5 @@
 
     });
 </script>
-
+<script src="./js/utils/ui-helper.js"></script>
 </html>
