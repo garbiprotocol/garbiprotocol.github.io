@@ -1,227 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
-              />
-        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
-              referrerpolicy="no-referrer" />
-        <link rel="shortcut icon" href="../assets/images/garbi_favicon.png" type="image/x-icon">
-        <link href="../assets/css/style.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="../assets/js/web3.min.js"></script>
-        <script src="../assets/js/trustwallet.js"></script>
-        <script src="../js/contract/bsc/core.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="../assets/images/garbi_favicon.png" type="image/x-icon">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="./assets/js/web3.min.js"></script>
+    <script src="./assets/js/trustwallet.js"></script>
+    <script src="./js/contract/arbitrum/abi.js"></script>
+    <script src="./js/contract/arbitrum/config.js"></script>
+    <script src="./js/data/store.js"></script>
+    <script src="./js/contract/arbitrum/core.js"></script>
+    <script src="./js/contract/arbitrum/base.contract.js"></script>
+    <script src="./js/contract/arbitrum/data.js"></script>
+    <script src="./js/contract/arbitrum/garbi-swap-info.contract.js"></script>
+    <script src="./js/contract/arbitrum/garbi-swap.contract.js"></script>
+    <script src="./js/contract/arbitrum/network.js"></script>
 
+    <title>Risk - Garbi Protocol</title>
+</head>
 
-        <title>Risk - Garbi Protocol</title>
-    </head>
-
-    <body>
-        <div class="wrapper">
-            <header class="header" id="header">
-                <div class="alert-banner" style="background: rgb(45, 66, 252)">
-                    <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
-                </div>
-                <nav class="navbar navbar-expand-lg">
-                    <div class="container container-1">
-                        <div class="row flex-grow-1 align-items-center">
-                            <div class="col-6 col-lg-2">
-                                <div class="d-flex align-items-center">
-                                    <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <div class="alert-banner" style="background: rgb(45, 66, 252)">
+                <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, <button class="switch-network-btn">switch to a network</button> that supports it.</div>
+            </div>
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
                                         <i class="fas fa-bars"></i>
                                     </button>
-                                    <div class="logo" onclick="window.location='index.html'">
-                                        <img src="./assets/images/garbi.png" />
-                                    </div>
+                                <div class="logo" onclick="window.location='index.html'">
+                                    <img src="./assets/images/garbi.png" />
                                 </div>
                             </div>
-                            <div class="col-6 col-lg-2 order-lg-3">
-                                <div class="d-flex align-items-center justify-content-end">
-                                    <span class="wrap-user-acct">0x000</span>
-                                    <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
-                                    <span class="dropMenu">
+                        </div>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
+                                <!-- <span class="dropMenu">
                                         <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
                                         <div class="ctmenu-sub  swap-box">
                                             <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
                                         </div>
-                                    </span>
-                                </div>
+                                    </span> -->
                             </div>
-                            <div class="col-lg-8">
-                                <div class="collapse navbar-collapse" id="navbar-header">
-                                    <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
-                                            <li>
-                                                <a class="nav-link" href="swap.html">Swap</a>
-                                            </li>
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                     Earn 
                                                 </a>
-                                                <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
-                                                     <li>
-                                                        <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" href="earn.html">Classic Earn</a>
-                                                    </li>
-                                                </ul>   
+                                        <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
+                                            <li>
+                                                <a class="dropdown-item" href="earn.html">Classic Earn</a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
-                                            </li>
-                                            <li class="nav-item dropdown">
-                                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                 GRB-WETH Liquidity
                                               </a>
-                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                                                    <li>
-                                                        <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
-                                                    </li>
-                                                </ul>                                
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="v1/index.html">V1</a>
+                                            <li>
+                                                <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
-                                            </li>
-                                            <!-- <li class="nav-item">
-                                                <a class="nav-link" href="deposit.html">Deposit</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="withdraw.html">Withdraw</a>
-                                            </li> -->
-                                            
                                         </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </header>
-            <main class="page__blog">
-                <div class="container container-2">
-                    <div class="blog__thumb d-flex align-items-center justify-content-center p-relative ">
-                        <img src="../assets/images/blog-thumb-2.jpg" class="bg-background-position d-none d-md-block" />
-                        <div class="p-relative z-index-5 text-center">
-                            <div class=""><img src="../assets/images/garbi_logo.png" /></div>
-                            <div class="blog__title">Risks of using Garbi Protocol</div>
-                        </div>
-                    </div>
+                                    </li>
 
-                    <div class="blog__container mt-4 pt-0 mt-md-5 pt-md-5">
-                        <div class="blog__description">
-                            <p>
-                                Before making a deposit, it is best to research and understand the risks involved.
-                            </p>
-                            <p>
-                                The owner CANNOT upgrade smart contracts. This limits actions in case of emergency but leaves users fully in control of their funds.
-                            </p>
-                            <p>
-                                Garbi will be transitioning to a DAO to be fully decentralized.
-                            </p>
-                            <p>
-                                When staking, you use multiple smart contract products, each of which has its own risks.
-                            </p>
-                            <h4>
-                                Audits
-                            </h4>
-                            <p>
-                                Garbi smart contracts are open-source on our Github page, so we welcome all users to join us and participate/audit our Smart Contracts.
-                            </p>
-                            <p>However, security audits don't eliminate risks. Please don’t supply your life savings or assets you can’t afford to lose.</p>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </main>
+            </nav>
+        </header>
+        <main class="page__blog">
+            <div class="container container-2">
+                <div class="blog__thumb d-flex align-items-center justify-content-center p-relative ">
+                    <img src="../assets/images/blog-thumb-2.jpg" class="bg-background-position d-none d-md-block" />
+                    <div class="p-relative z-index-5 text-center">
+                        <div class=""><img src="../assets/images/home-img-1.png" /></div>
+                        <div class="blog__title text-white">Risks of using Garbi Protocol</div>
+                    </div>
+                </div>
 
-            <footer class="footer">
-                <nav class="navbar navbar-expand-lg">
-                    <div class="container container-1">
-                        <div class="row flex-grow-1 align-items-center">
-                            <div class="col-lg-4">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>© 2023 Garbi Protocol</div>
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                <div class="blog__container mt-4 pt-0 mt-md-5 pt-md-5">
+                    <div class="blog__description">
+                        <p>
+                            Before making a deposit, it is best to research and understand the risks involved.
+                        </p>
+                        <p>
+                            The owner CANNOT upgrade smart contracts. This limits actions in case of emergency but leaves users fully in control of their funds.
+                        </p>
+                        <p>
+                            Garbi will be transitioning to a DAO to be fully decentralized.
+                        </p>
+                        <p>
+                            When staking, you use multiple smart contract products, each of which has its own risks.
+                        </p>
+                        <h4>
+                            Audits
+                        </h4>
+                        <p>
+                            Garbi smart contracts are open-source on our Github page, so we welcome all users to join us and participate/audit our Smart Contracts.
+                        </p>
+                        <p>However, security audits don't eliminate risks. Please don’t supply your life savings or assets you can’t afford to lose.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2023 Garbi Protocol</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
                                         <i class="fas fa-bars"></i>
                                     </button>
-                                </div>
                             </div>
-                            <div class="col-lg-8">
-                                <div class="collapse navbar-collapse" id="navbar-footer">
-                                    <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="risks.html" class="">Risks</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://garbi-protocol.gitbook.io/docs/">Docs</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://twitter.com/garbi_protocol/" rel="noopener noreferrer">#Twitter</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://t.me/garbiprotocol" rel="noopener noreferrer">@Telegram</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="whitelist.html">Early Whitelist Access</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Version 2.0.4</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="risks.html" class="">Risks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://garbi-protocol.gitbook.io/docs/">Docs</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://twitter.com/garbi_protocol/" rel="noopener noreferrer">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://t.me/garbiprotocol" rel="noopener noreferrer">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="v1/index.html">V1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Version 2.0.5</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                </nav>
-            </footer>
-        </div>
+                </div>
+            </nav>
+        </footer>
+    </div>
 
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="../assets/js/custom.js"></script>
-        <script src="../assets/js/custom.menu.js"></script>
-    </body>
-    <script>
-                                        var coreHelper = new $.Core();
-                                        $('.alert-banner').hide();
-                                            if (typeof window.ethereum !== 'undefined') {
-                                              const web3 = new Web3(window.ethereum);
-                                              window.ethereum.enable();
-                                              web3.eth.getChainId()
-                                                .then(chainId => {
-                                                  if (chainId !== 42161) {
-                                                    $('.alert-banner').show();
-                                                  }
-                                                  else {
-                                                    $('.alert-banner').hide();
-                                                  }
-                                                })
-                                                .catch(error => {
-                                                  console.error(error);
-                                                });
-                                            } else {
-                                              console.log("Metamask not found");
-                                            }
-                                        $(document).ready(function () {
-                                            coreHelper.init({});
-                                        });
-    </script>
-
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../assets/js/custom.js"></script>
+    <script src="../assets/js/custom.menu.js"></script>
+</body>
+<script>
+    var coreHelper = new $.Core();
+    var networkHelper = new $.GARBI_NETWORK();
+    $('.alert-banner').hide();
+        if (typeof window.ethereum !== 'undefined') {
+          const web3 = new Web3(window.ethereum);
+          window.ethereum.enable();
+          web3.eth.getChainId()
+            .then(chainId => {
+              if (chainId !== 42161) {
+                $('.alert-banner').show();
+              }
+              else {
+                $('.alert-banner').hide();
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        } else {
+          console.log("Metamask not found");
+        }
+    $(document).ready(function () {
+        coreHelper.init({});
+    });
+</script>
+<script src="./js/utils/ui-helper.js"></script>
 </html>

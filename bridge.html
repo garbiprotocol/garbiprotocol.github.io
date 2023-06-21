@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link href="./assets/css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./assets/images/garbi_favicon.png" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="./assets/js/web3.min.js"></script>
+    <script src="./assets/js/ethers-v4.min.js"></script>
+    <script src="./assets/js/trustwallet.js"></script>
+    <script src="./js/contract/arbitrum/abi.js"></script>
+    <script src="./js/contract/arbitrum/config.js"></script>
+    <script src="./js/data/store.js"></script>
+    <script src="./js/contract/arbitrum/core.js"></script>
+    <script src="./js/contract/arbitrum/base.contract.js"></script>
+    <script src="./js/contract/arbitrum/data.js"></script>
+    <script src="./js/contract/arbitrum/garbi-swap-info.contract.js"></script>
+    <script src="./js/contract/arbitrum/garbi-swap.contract.js"></script>
+    <script src="./js/garbiBridge/garbi-bridge-abi.js"></script>
+    <script src="./js/garbiBridge/garbi-bridge-config.js"></script>
+    <script src="./js/contract/arbitrum/network.js"></script>
+
+    <title>Bridge - Garbi Protocol</title>
+
+    <style id="svelte-166mr51-style">
+        ul.svelte-166mr51 {
+            display: flex;
+            flex-flow: column nowrap;
+            position: fixed;
+            font-size: 16px;
+            padding: 0 0.75em;
+            margin: 0;
+            list-style-type: none;
+            width: 20em;
+            bottom: 0;
+            right: 0;
+            font-family: 'Helvetica Neue';
+            max-height: 100vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            color: #4a4a4a;
+            background: transparent;
+            scrollbar-width: none;
+            box-sizing: border-box;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99999999
+        }
+        
+        @media only screen and (max-width: 450px) {
+            ul.svelte-166mr51 {
+                width: 100%
+            }
+        }
+        
+        .bn-notify-custom.bn-notify-dark-mode {
+            background: #283944;
+            color: #ffffff;
+            background: rgba(40, 57, 68, 0.9)
+        }
+        
+        .bn-notify-clickable:hover {
+            cursor: pointer
+        }
+        
+        .svelte-166mr51::-webkit-scrollbar {
+            display: none
+        }
+        
+        li.svelte-166mr51 {
+            position: relative;
+            display: flex;
+            padding: 0.75em;
+            font-size: 0.889em;
+            font-family: inherit;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            color: inherit;
+            transition: background 300ms ease-in-out, color 300ms ease-in-out;
+            pointer-events: all;
+            background: #ffffff;
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.9)
+        }
+        
+        div.svelte-166mr51 {
+            position: absolute;
+            top: 0.75em;
+            right: 0.75em;
+            font-size: inherit;
+            font-family: inherit
+        }
+        
+        */
+    </style>
+    <style id="svelte-7rn0pv-style">
+        div.svelte-7rn0pv {
+            height: 100%;
+            font-size: inherit;
+            font-family: inherit;
+            width: 1.5em
+        }
+    </style>
+    <style id="svelte-5f7pqk-style">
+        div.svelte-5f7pqk {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            font-size: inherit;
+            font-family: inherit;
+            margin-left: 0.75em;
+            width: 90%
+        }
+        
+        p.svelte-5f7pqk {
+            display: flex;
+            align-items: center;
+            margin: 0.5em 0 0 0;
+            opacity: 0.7;
+            font-size: 0.889em;
+            line-height: 1.15;
+            font-family: inherit
+        }
+        
+        span.svelte-5f7pqk {
+            font-family: inherit;
+            display: flex;
+            align-items: center
+        }
+    </style>
+    <style id="svelte-12gqi36-style">
+        p.svelte-12gqi36 {
+            margin: 0;
+            font-family: inherit;
+            font-size: inherit
+        }
+    </style>
+    <style id="svelte-1ociadw-style">
+        svg.svelte-1ociadw {
+            margin: 0 0.25em 0 0.5em
+        }
+    </style>
+
+    <!-- css popup bridge -->
+    <style>
+        .container-modal {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .voting {
+            display: flex;
+            align-items: center;
+        }
+        
+        .line {
+            margin: 0px 40px 35px 60px;
+            display: flex;
+        }
+        
+        .line:last-child {
+            margin-bottom: 0;
+        }
+        
+        .cube {
+            width: 50px;
+            height: 50px;
+            transform-style: preserve-3d;
+            transform: rotateX(45deg) rotateY(45deg);
+            animation: rotate 8s infinite linear;
+        }
+        
+        .cube-center {
+            width: 50px;
+            height: 50px;
+            transform-style: preserve-3d;
+            transform: rotateX(45deg) rotateY(45deg);
+            animation: rotate 8s infinite linear;
+        }
+        
+        .face {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 2px solid white;
+            background-color: #DEE1E2;
+            transition: border-color 0.5s ease-in-out;
+        }
+        
+        .front {
+            transform: translateZ(25px);
+        }
+        
+        .back {
+            transform: translateZ(-25px) rotateY(180deg);
+        }
+        
+        .right {
+            transform: translateX(25px) rotateY(90deg);
+        }
+        
+        .left {
+            transform: translateX(-25px) rotateY(-90deg);
+        }
+        
+        .top {
+            transform: translateY(-25px) rotateX(90deg);
+        }
+        
+        .bottom {
+            transform: translateY(25px) rotateX(-90deg);
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotateX(0) rotateY(0);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+        
+        .line-connector-0 {
+            width: 150px;
+            /* Adjust the length as needed */
+            height: 2px;
+            background-color: blue;
+            margin-top: 25px;
+        }
+        
+        .line-connector-1 {
+            width: 225px;
+            height: 2px;
+            background-color: blue;
+            position: absolute;
+            margin-left: 125px;
+            margin-top: 25px;
+            transform: translate(-50%, -50%) rotate(35deg);
+            transform-origin: top left;
+        }
+        
+        .line-connector-1::before {
+            content: "";
+            width: 150px;
+            height: 2px;
+            /* border-top: 2px dashed white; */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .line-connector-2 {
+            width: 225px;
+            /* Adjust the length as needed */
+            height: 2px;
+            background-color: blue;
+            position: absolute;
+            margin-left: -90px;
+            margin-top: 160px;
+            transform: translate(50%, 50%) rotate(-35deg);
+            transform-origin: top left;
+        }
+        
+        .line-connector-2::before {
+            content: "";
+            width: 150px;
+            height: 2px;
+            /* border-top: 2px dashed white; */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .status {
+            margin-top: 70px;
+            margin-left: -86px;
+            text-align: center;
+        }
+        
+        .status span.name {
+            font-weight: bold;
+        }
+        
+        .status span.success-status {
+            color: #099105;
+        }
+        
+        .status span.success-status a {
+            color: #099105;
+        }
+        
+        #relayer-bridge .status {
+            margin-left: -80px!important;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .spin-animation {
+            animation: spin 2s linear infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                                        <i class="fas fa-bars"></i>
+                                    </button>
+                                <div class="logo" onclick="window.location='index.html'">
+                                    <img src="./assets/images/garbi.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
+                                <!-- <span class="dropMenu">
+                                        <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                        <div class="ctmenu-sub  swap-box">
+                                            <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
+                                        </div>
+                                    </span> -->
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Earn 
+                                                </a>
+                                        <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="earn.html">Classic Earn</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                GRB-WETH Liquidity
+                                              </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="page__swap">
+            <section class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <article class="swap__main garbi__box-1 p-3 mb-4 stable-swap" id="bridge-form">
+                            <div class="d-flex align-items-center justify-content-between mb-14">
+                                <div class="f-700">Bridge</div>
+                            </div>
+                            <div class="swap__form pb-1 stable-swap-pay">
+                                <div class="swap__form-item mb-1">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <select class="selectpicker swap__form-select mb-1" name="network-from">
+                                                    <option
+                                                        value="ArbitrumGoerli"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arbitrum-logo.png' /></span>Arbitrum Goerli</div>"
+                                                        >Arbitrum Goerli
+                                                    </option>
+                                                    <option
+                                                        value="ArbitrumOne"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arbitrum-logo.png' /></span>Arbitrum One</div>"
+                                                        >Arbitrum One
+                                                    </option>
+                                                    <option
+                                                        value="ArbitrumNova"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
+                                                        >Arbitrum Nova
+                                                    </option>
+                                                </select>
+                                            <select class="selectpicker swap__form-select mb-1" name="token-from">
+                                                    <option
+                                                        value="cyberCredit"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>Cyber Credit</div>"
+                                                        >Cyber Credit
+                                                    </option>
+                                                    <!-- <option
+                                                        value="vegrb"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
+                                                        >veGRB</option>
+                                                    <option
+                                                        value="grb"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
+                                                        >GRB</option> -->
+                                                    <option
+                                                        value="eth"
+                                                        data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth.png' /></span>ETH</div>"
+                                                        >ETH</option>
+                                                    </option>
+                                                </select>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-5 d-flex align-items-center">
+                                                    <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-from-bal">Loading</span></div>
+                                                </div>
+                                                <div class="col-7">
+                                                    <input class="swap__form-input" name="amountIn" placeholder="0.0" autofocus value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <img src="./assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
+
+                                <div class="swap__form-item stable-swap-out">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <select class=" selectpicker swap__form-select mb-1" name="network-to">
+                                                <option
+                                                    value="ArbitrumNova"
+                                                    data-content="<div class='swap__form-item-select'><span><img src='./assets/images/nova-logo.png' /></span>Arbitrum Nova</div>"
+                                                    >Arbitrum Nova
+                                                </option>
+                                                <option
+                                                    value="ArbitrumGoerli"
+                                                    data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arbitrum-logo.png' /></span>Arbitrum Goerli</div>"
+                                                    >ArbitrumGoerli
+                                                </option>
+                                                <option
+                                                    value="ArbitrumOne"
+                                                    data-content="<div class='swap__form-item-select'><span><img src='./assets/images/arbitrum-logo.png' /></span>Arbitrum One</div>"
+                                                    >Arbitrum One
+                                                </option>         
+                                            </select>
+                                            <div class="token">
+                                                <select class="selectpicker swap__form-select mb-1" name="token-to" disabled>
+                                                        <option
+                                                            value="cyberCredit"
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/cyber-credit-logo.png' /></span>Cyber Credit</div>"
+                                                            >Cyber Credit
+                                                        </option>
+                                                        <!-- <option
+                                                            value="vegrb"
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>veGRB</div>"
+                                                            >veGRB</option>
+                                                        <option
+                                                            value="grb"
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/grb_token.png' /></span>GRB</div>"
+                                                            >GRB</option> -->
+                                                        <option
+                                                            value="eth"
+                                                            data-content="<div class='swap__form-item-select'><span><img src='./assets/images/eth.png' /></span>ETH</div>"
+                                                            >ETH</option>
+                                                        </option>
+                                                    </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ">
+                                            <div class="row">
+                                                <div class="col-5 d-flex align-items-center">
+                                                    <div class="color-2 f-roboto f-14 f-400">Balance: <span class="user-to-bal">Loading</span></div>
+                                                </div>
+                                                <div class="col-7">
+                                                    <input class="swap__form-input" placeholder="0.0" name="amountOut" readonly/>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between ">
+                                <div class="fees-area">
+                                    <div class="position-card__row__info">
+                                        <p class="body">Your GRB balance: <span class="grb-balance">Loading</span></p>
+                                    </div>
+                                    <div class="position-card__row__balance">
+                                        <p class="body body--link ">
+                                            <span class="" style="">Fees:<span class="swap-fee"> 3</span> GRB</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="header__btn-connect w-100 text-center button-approve-grb" style="display:none;margin-bottom: 10px;">Approve GRB for bridge fee</button>
+                            <button type="button" class="header__btn-connect w-100 text-center button-approve" style="display:none;margin-bottom: 10px;">Approve <span class="token-select"> to Bridge</button>
+                            <button type="button" class="header__btn-connect w-100 text-center button-move-funds disable">Move funds to <span class="recieve-chain"></span></button>
+
+
+                            <div class="modal fade" id="modal-bridge-popup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa-solid fa-arrow-left"></i></span></button>
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">Bridge Status Overview</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="infor">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <div class="time">
+                                                            <p>Estimated time</p>
+                                                            <div class="time-detail">
+                                                                ~<span class="estimated-time"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="value">
+                                                            <p>Value:</p>
+                                                            <div class="detail">
+                                                                <span class="amountInputBridge"><span class="value-move"> </span> </span>
+                                                                <span class="tokenDeposit"><span class="token-select-symbol"></span></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="status-transaction pc-view">
+                                                <div class="container-modal">
+                                                    <div class="network-select">
+                                                        <img src="" style="width: 50px; height: 50px;">
+                                                        <p class="name-select-network"><span class="select-chain"></span></p>
+                                                        <a href="" target="_blank" class="transaction-hash">Tx: <span class="hash-deponsit"></span></a>
+                                                    </div>
+                                                    <div class="voting">
+                                                        <img src="./assets/images/arrow.png" alt="">
+                                                        <div class="status-voting">
+                                                            <div class="line" id="transaction-hash-relayer-0">
+
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status">
+                                                                    <span class="name">Relayer#1</span><br>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate fa-spin"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line" id="transaction-hash-relayer-1">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status">
+                                                                    <span class="name">Relayer#2</span><br>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</a></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line" id="transaction-hash-relayer-2">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status">
+                                                                    <span class="name">Relayer#3</span><br>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <img src="./assets/images/arrow-2.png" alt="">
+                                                        <div class="line" id="relayer-bridge">
+                                                            <div class="cube">
+                                                                <div class="face front"></div>
+                                                                <div class="face back"></div>
+                                                                <div class="face right"></div>
+                                                                <div class="face left"></div>
+                                                                <div class="face top"></div>
+                                                                <div class="face bottom"></div>
+                                                            </div>
+                                                            <div class="status">
+                                                                <span class="name">Bridge Proposal</span><br>
+                                                                <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                <span class="success-status" style="display:none;"><a href="#" class="transaction-bridge-hash"><i class="fa-regular fa-circle-check"></i> Executed</a></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <img src="./assets/images/arrow-3.png" alt="">
+                                                    <div class="network-receive">
+                                                        <img src="" style="width: 50px; height: 50px;">
+                                                        <p class="name-receive-network"><span class="recieve-chain"></span></p>
+                                                        <a href="" target="_blank" class="transaction-bridge">Tx: <span class="hash-bridge"></span></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="status-transaction mobile-view" style="display:none">
+                                                <div class="container-modal">
+                                                    <div class="network-select">
+                                                        <p class="name-select-network"><span class="title">Step 1:</span> Transfer funds to <span class="select-chain"></span> (<a href="" target="_blank" class="transaction-hash">Tx: <span class="hash-deponsit"></span></a>)</p>
+
+                                                    </div>
+                                                    <div class="voting">
+                                                        <p class="step-status-voting"><span class="title">Step 2:</span> The relayers are currently voting</p>
+                                                        <div class="status-voting">
+                                                            <div class="line" id="transaction-hash-relayer-0">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status">
+                                                                    <span class="name">Relayer#1</span><br>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate fa-spin"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line" id="transaction-hash-relayer-1">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status">
+                                                                    <span class="name">Relayer#2</span><br>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</a></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="line" id="transaction-hash-relayer-2">
+                                                                <div class="cube">
+                                                                    <div class="face front"></div>
+                                                                    <div class="face back"></div>
+                                                                    <div class="face right"></div>
+                                                                    <div class="face left"></div>
+                                                                    <div class="face top"></div>
+                                                                    <div class="face bottom"></div>
+                                                                </div>
+                                                                <div class="status">
+                                                                    <span class="name">Relayer#3</span><br>
+                                                                    <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                    <span class="success-status" style="display:none"><i class="fa-regular fa-circle-check"></i> Voted</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="step-relayer-bridge"><span class="title">Step 3:</span> The Bridge Proposal is currently being executed</p>
+                                                        <div class="line" id="relayer-bridge">
+                                                            <div class="cube">
+                                                                <div class="face front"></div>
+                                                                <div class="face back"></div>
+                                                                <div class="face right"></div>
+                                                                <div class="face left"></div>
+                                                                <div class="face top"></div>
+                                                                <div class="face bottom"></div>
+                                                            </div>
+                                                            <div class="status">
+                                                                <span class="name">Bridge Proposal</span><br>
+                                                                <span class="textStatus"><i class="spin-animation fa-solid fa-arrows-rotate"></i> Awaiting Vote</span>
+                                                                <span class="success-status" style="display:none;"><a href="#" class="transaction-bridge-hash"><i class="fa-regular fa-circle-check"></i> Executed</a></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="network-receive">
+                                                        <p class="name-receive-network"><span class="title">Step 4:</span> Transfer funds to <span class="recieve-chain"></span> (<a href="" target="_blank" class="transaction-bridge">Tx: <span class="hash-bridge"></span></a>)</p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="modal-body">
+                                            <p>Timestamp <span class="timestampPopupBridge"></span></p>
+                                            <p>value <span class="amountInputBridge"></span> <span class="tokenDeposit"></span></p>
+                                            <p>Total vote: <span class="totalVoted">2</span>/<span class="totalYesVotesConfig">3</span></p>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </article>
+                        <article class="garbi__box-1 p-3 mb-3">
+                            <p class="f-700">Asset Pool</p>
+                            <div class="select-network-info">
+                                <span class="select-chain">Arbitrum One</span>: <span class="value-pool">Loading</span>
+                            </div>
+                            <div class="recieve-network-info">
+                                <span class="recieve-chain">Arbitrum Nova</span>: <span class="value-pool">Loading</span>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <article class="garbi__box-1 p-3 mb-3">
+                            <p class="f-700">What is Bridge?</p>
+
+                            <p>Welcome to the Garbi Stable Bridge - where blockchain interoperability meets stable, predictable transaction costs. Our platform harnesses the power of an advanced voting algorithm, facilitating seamless asset transfer between
+                                diverse blockchain networks, all with a fixed fee model.</p>
+
+                            <p>Garbi Stable Bridge presents a unique blend of democratization, community decision-making, and cost predictability. Our bridge requests are validated through a transparent voting mechanism, making the process trustworthy and
+                                verifiable.
+                            </p>
+
+                            <p>We aim to break the blockchain silos by enabling smooth transactions across different networks, with the added benefit of a fixed fee, no matter the size or frequency of your transactions. With us, you can bid farewell to fluctuating
+                                transaction costs.</p>
+
+                            <p>Step into the world of Garbi Stable Bridge and be part of our mission to connect the blockchain world under a single, predictable fee structure. Experience the next level of decentralization and control, tailored to your financial
+                                predictability.
+                            </p>
+
+                        </article>
+
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <footer class="footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2023 Garbi Protocol</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                                        <i class="fas fa-bars"></i>
+                                    </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="risks.html" class="">Risks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://garbi-protocol.gitbook.io/docs/">Docs</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://twitter.com/garbi_protocol/" rel="noopener noreferrer">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://t.me/garbiprotocol" rel="noopener noreferrer">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="v1/index.html">V1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Version 2.0.5</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+    </div>
+    <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
+        <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+            <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Your <a href="" target="_blank" class="transaction-hash">transaction</a> is sent to the Blockchain.</p>
+            </div>
+            <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#confirm-popup').hide()">
+                <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                    <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
+                        <path d="m.1.1 7.82304289 7.82304289"></path>
+                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
+                        </g>
+                        </svg>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <ul id="success-confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none; top: 0; justify-content: unset;">
+        <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+            <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Your <a href="" target="_blank" class="transaction-hash">transaction</a> is confirmed.</p>
+            </div>
+            <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#success-confirm-popup').hide()">
+                <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                    <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
+                        <path d="m.1.1 7.82304289 7.82304289"></path>
+                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
+                        </g>
+                        </svg>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./assets/js/custom.js"></script>
+    <script src="./assets/js/custom.menu.js"></script>
+    <script src="./js/garbiBridge/garbi-bridge-core.js"></script>
+
+</body>
+<script>
+    var abiHelper = new $.ABI();
+    var garbiBridgeAbi = new $.GARBI_BRIDGE_ABI();
+    var coreHelper = new $.Core();
+    var configHelper = new $.CONFIG();
+    var contractBaseHelper = new $.CONTRACTBASE();
+    var storeHelper = new $.STORE();
+    var garbiBridgeConfig = new $.GARBI_BRIDGE_CONFIG();
+    var garbiBridge = new $.GARBI_BRIDGE();
+    var dataHelper = new $.DATA();
+    var networkHelper = new $.GARBI_NETWORK();
+    var chainId = 421613;
+    $('.alert-banner').hide();
+    if (typeof window.ethereum !== 'undefined') {
+        const web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        web3.eth.getChainId()
+            .then(chainId => {
+                if (chainId !== 42161) {
+                    $('.alert-banner').show();
+                } else {
+                    $('.alert-banner').hide();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    } else {
+        console.log("Metamask not found");
+    }
+    $(document).ready(function() {
+        abiHelper.init({});
+        garbiBridgeAbi.init({});
+        coreHelper.init({});
+        configHelper.init({});
+        storeHelper.init({});
+        contractBaseHelper.init({
+            chainId
+        });
+        dataHelper.init({
+            chainId
+        });
+        // bridge
+        garbiBridgeConfig.init({});
+        garbiBridge.init({
+            chainId,
+        });
+        run();
+    });
+    async function run() {
+        var BRIDGE_ETH = false;
+        let userAddr = coreHelper.getUserAccount();
+        let networkRecieve = $('select[name=network-to]').val();
+        let selectNetwork = $('select[name=network-from]').val();
+        let selectToken = $('select[name=token-from]').val();
+        let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
+        let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
+
+        $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance / 1e18).toFixed(4));
+        $('.stable-swap-pay .user-to-bal').text((userNetworkRecieveBalance / 1e18).toFixed(4));
+
+        $('select[name=network-from]').change(async function() {
+            let selectNetwork = $('select[name=network-from]').val();
+            networkHelper.SwichNetworkByChainName(selectNetwork);
+        });
+        $('select[name=network-to]').change(async function() {
+            let networkRecieve = $('select[name=network-to]').val();
+            let userNetworkRecieveBalance = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
+            $('.stable-swap-pay .user-to-bal').text(userNetworkRecieveBalance / 1e18);
+        });
+
+        $('select[name="token-from"]').on('change', async function() {
+            let selectToken = $('select[name=token-from]').val();
+            BRIDGE_ETH = (selectToken != "eth") ? false : true;
+            $('select[name=token-to]').val(selectToken).selectpicker('refresh');
+        });
+
+        $('.stable-swap-pay .user-from-bal').click(function() {
+            let userBalance = parseFloat($(this).text());
+            $('.stable-swap input[name=amountIn]').val(userBalance);
+        });
+        networkHelper.SwichNetworkByChainName(selectNetwork);
+        setInterval(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            let selectNetwork = $('select[name=network-from]').val();
+            let networkRecieve = $('select[name=network-to]').val();
+            let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
+            let selectToken = $('select[name=token-from]').val();
+            let selectTokenName = await garbiBridgeConfig.GetTokenNameByNetworkName(selectNetwork, selectToken);
+            let selectTokenSymbol = await garbiBridgeConfig.GetTokenSymbolByNetworkName(selectNetwork, selectToken);
+            let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
+            let recieveNetworkerc20HandleAddress = garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve);
+            let userSelectNetworkGRBBalance = await garbiBridge.GetBalance(selectNetwork, 'grb', userAddr);
+
+            let selectNetworkHandleAddress = (BRIDGE_ETH == false) ?
+                garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork) :
+                garbiBridgeConfig.GetEETHandleAddressByNetworkName(selectNetwork);
+
+            let recieveNetworkHandleAddress = (BRIDGE_ETH == false) ?
+                garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve) :
+                garbiBridgeConfig.GetEETHandleAddressByNetworkName(networkRecieve);
+
+            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkHandleAddress);
+
+
+            if (userSelectNetworkGRBBalance / 1e18 < 3 || userInputValue == "") {
+                $('.button-move-funds').addClass("disable");
+
+            } else {
+                if (userInputValue > recieveTokenPool / 1e18 || userInputValue > userSelectNetworkBalance / 1e18) {
+                    $('.button-move-funds').addClass("disable");
+
+                } else {
+                    $('.button-move-funds').removeClass("disable");
+
+                }
+            }
+            if (selectNetwork == "ArbitrumNova") {
+                $('.network-select img').attr('src', './assets/images/nova-wallet.png');
+            }
+            if (selectNetwork == "ArbitrumGoerli") {
+                $('.network-select img').attr('src', './assets/images/arbitrum-wallet.png');
+            }
+            if (networkRecieve == "ArbitrumNova") {
+                $('.network-receive img').attr('src', './assets/images/nova-wallet.png');
+            }
+            if (networkRecieve == "ArbitrumGoerli") {
+                $('.network-receive img').attr('src', './assets/images/arbitrum-wallet.png');
+            }
+            $('.stable-swap-out .swap__form-input').val(userInputValue);
+            $('.value-move').text(userInputValue);
+            $('.token-select').text(selectTokenName);
+            $('.token-select-symbol').text(selectTokenSymbol);
+            $('.grb-balance').text((userSelectNetworkGRBBalance / 1e18).toFixed(4));
+
+        }, 1000);
+        setInterval(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            let selectNetwork = $('select[name=network-from]').val();
+            let selectToken = $('select[name=token-from]').val();
+            let selectTokenName = await garbiBridgeConfig.GetTokenNameByNetworkName(selectNetwork, selectToken);
+
+            let networkRecieve = $('select[name=network-to]').val();
+            let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
+            let selectNetworkName = await networkHelper.GetNetworkByNetworkName(selectNetwork).chainName;
+            let recieveNetworkName = await networkHelper.GetNetworkByNetworkName(networkRecieve).chainName;
+
+            let selectNetworkHandleAddress = (BRIDGE_ETH == false) ?
+                garbiBridgeConfig.GetERC20HandleAddressByNetworkName(selectNetwork) :
+                garbiBridgeConfig.GetEETHandleAddressByNetworkName(selectNetwork);
+
+            let recieveNetworkHandleAddress = (BRIDGE_ETH == false) ?
+                garbiBridgeConfig.GetERC20HandleAddressByNetworkName(networkRecieve) :
+                garbiBridgeConfig.GetEETHandleAddressByNetworkName(networkRecieve);
+
+            let selectTokenPool = await garbiBridge.GetBalance(selectNetwork, selectToken, selectNetworkHandleAddress);
+            let recieveTokenPool = await garbiBridge.GetBalance(networkRecieve, selectToken, recieveNetworkHandleAddress);
+            let userSelectNetworkBalance = await garbiBridge.GetBalance(selectNetwork, selectToken, userAddr);
+            let newBalanceRecive = await garbiBridge.GetBalance(networkRecieve, selectToken, userAddr);
+
+            $('.stable-swap-pay .user-from-bal').text((userSelectNetworkBalance / 1e18).toFixed(4));
+            $('.stable-swap-pay .user-to-bal').text((newBalanceRecive / 1e18).toFixed(4));
+
+            $('.select-chain').text(selectNetworkName);
+            $('.recieve-chain').text(recieveNetworkName);
+
+            $('.select-network-info .value-pool').text((selectTokenPool / 1e18).toFixed(4) + " " + selectTokenName);
+            $('.recieve-network-info .value-pool').text((recieveTokenPool / 1e18).toFixed(4) + " " + selectTokenName);
+
+        }, 3000);
+
+        $('.button-move-funds').click(async function() {
+
+            let userAddr = coreHelper.getUserAccount();
+
+            let userInputValue = $('.stable-swap-pay input[name=amountIn]').val();
+
+            let selectNetwork = $('select[name=network-from]').val();
+            let networkRecieve = $('select[name=network-to]').val();
+
+            let selectToken = $('select[name=token-from]').val();
+
+            let checkAllowanceGRB = await garbiBridge.GetAllowanceOfGRBToBridgeContract(selectNetwork, 'grb');
+
+            if (checkAllowanceGRB / 1e18 < 3) {
+                $('.button-approve-grb').show();
+                return;
+            }
+            networkHelper.SwichNetworkByChainName(selectNetwork);
+            if (BRIDGE_ETH == false) {
+                let checkAllowanceToken = await garbiBridge.GetAllowanceOfTokenDepositToERC20Handle(selectNetwork, selectToken);
+                if (userInputValue > checkAllowanceToken / 1e18) {
+                    $('.button-approve').show();
+                    return;
+                }
+                garbiBridge.BridgeERC20(selectNetwork, networkRecieve, selectToken, userInputValue);
+            } else {
+                let receipt = await garbiBridge.BridgeETH(selectNetwork, networkRecieve, selectToken, userInputValue);
+                if (receipt.status == true) {
+                    $('#modal-bridge-popup').modal('show');
+                    let estimatedTime = garbiBridgeConfig.GetEstimateTimeBridgeSuccess(selectNetwork, networkRecieve)
+                    $('.estimated-time').text(estimatedTime / 60 + " minutes");
+                    $('.transaction-bridge').hide();
+                    $('.hash-deponsit').text(`${receipt.transactionHash.slice(0,5)}...${receipt.transactionHash.slice(-5)}`);
+                    $('.name-select-network').css({
+                        "opacity": "1",
+                    });
+                    $('.network-receive img').css({
+                        "filter": "grayscale(100%)",
+                        "opacity": "0.5",
+                    });
+                    $('.step-status-voting').css({
+                        "opacity": "0.5",
+                    });
+                    $('.step-relayer-bridge').css({
+                        "opacity": "0.5",
+                    });
+                    $('.name-receive-network').css({
+                        "opacity": "0.5",
+                    });
+                    $('.face').css({
+                        "background-color": "#DEE1E2",
+                    });
+                    $('.textStatus').show();
+                    $('.success-status').hide();
+                    $('.status').css({
+                        "margin-left": "-86px",
+                    });
+
+                    let depositNonce = receipt.events.Deposit.returnValues.depositNonce;
+
+                    SyncEvent(networkRecieve, depositNonce);
+
+                    async function SyncEvent(chainName, depositNonce, fromBlock = null) {
+                        let eventName = "ProposalVote";
+                        let network = networkHelper.GetNetworkByNetworkName(chainName);
+                        let rpc = network.rpcList[0];
+                        let _web3 = new Web3(new Web3.providers.HttpProvider(rpc));
+                        fromBlock = (fromBlock == null) ? await _web3.eth.getBlockNumber() : fromBlock;
+                        let latestBlock = await _web3.eth.getBlockNumber();
+
+                        let bridgeAbi = garbiBridgeAbi.GetBridgeContractABI();
+                        let contractConfig = garbiBridgeConfig.GetContractAddressByNetworkName(chainName);
+                        let bridgeContractAddress = contractConfig.bridgeContract;
+                        let bridgeContract = new _web3.eth.Contract(bridgeAbi, bridgeContractAddress);
+
+                        let dataEvent = {};
+
+                        let event = await bridgeContract.getPastEvents(eventName, {
+                            fromBlock: fromBlock,
+                            toBlock: latestBlock,
+                        });
+                        if (event.length > 0) {
+                            for (let index = 0; index < event.length; index++) {
+                                const element = event[index];
+                                if (depositNonce == element.returnValues.depositNonce) {
+                                    dataEvent[index] = {};
+                                    dataEvent[index].dataHash = element.returnValues.dataHash;
+                                    dataEvent[index].originDomainID = element.returnValues.originDomainID;
+
+                                    dataEvent[index].transactionHash = element.transactionHash;
+                                    dataEvent[index].status = element.returnValues.status;
+
+                                    let proposal = await bridgeContract.methods.
+                                    getProposal(dataEvent[index].originDomainID, depositNonce, dataEvent[index].dataHash).call();
+                                    dataEvent[index].yesVotesTotal = proposal._yesVotesTotal;
+                                }
+                            }
+                        }
+
+                        let totalYesVotesConfigContract = garbiBridgeConfig.GetTotalYesVotes();
+
+                        if (Object.keys(dataEvent).length == 0) {
+                            setTimeout(() => {
+                                SyncEvent(chainName, depositNonce, latestBlock);
+                            }, 3000);
+                        } else {
+                            if (dataEvent[0].yesVotesTotal < totalYesVotesConfigContract) {
+                                setTimeout(() => {
+                                    SyncEvent(chainName, depositNonce, latestBlock);
+                                }, 3000);
+                            }
+                            // do something with data ...
+                            let transactionHashRelayer = ["transaction-hash-relayer-0", "transaction-hash-relayer-1", "transaction-hash-relayer-2"];
+                            let blockExplorerUrlBridge = networkHelper.GetblockExplorerUrlsNetworkName(chainName);
+                            switch (dataEvent[0].yesVotesTotal) {
+                                case '1':
+                                    let randomTansactionHashRelayer = Math.floor(Math.random() * transactionHashRelayer.length);
+                                    let randomRelayer = transactionHashRelayer[randomTansactionHashRelayer];
+
+                                    $('#' + randomRelayer + ' .textStatus').hide();
+                                    $('#' + randomRelayer + ' .success-status').show();
+                                    $('#' + randomRelayer + ' .status').css({
+                                        "margin-left": "-61px",
+                                    });
+                                    $('#' + randomRelayer + ' .face').css({
+                                        "background-color": "#12B4DA",
+                                    });
+                                    $('.step-status-voting').css({
+                                        "opacity": "1",
+                                    });
+                                    break;
+                                case '2':
+                                    $('.textStatus').hide();
+                                    $('.success-status').show();
+                                    $('.transaction-bridge').show();
+
+                                    $('.step-status-voting').css({
+                                        "opacity": "1",
+                                    });
+                                    $('.status').css({
+                                        "margin-left": "-61px",
+                                    })
+                                    $('.face').css({
+                                        "background-color": "#12B4DA",
+                                    });
+                                    let transactionHashReceipt = dataEvent[Object.keys(dataEvent).length - 1].transactionHash;
+
+                                    $('.transaction-bridge').attr("href", blockExplorerUrlBridge + transactionHashReceipt);
+                                    $('.hash-bridge').text(`${transactionHashReceipt.slice(0,5)}...${transactionHashReceipt.slice(-5)}`)
+                                    $('.network-receive img').css({
+                                        "filter": "none",
+                                        "opacity": "1",
+                                    });
+                                    $('.step-relayer-bridge').css({
+                                        "opacity": "1",
+                                    });
+                                    $('.name-receive-network').css({
+                                        "opacity": "1",
+                                    });
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
+        $('.button-approve').click(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            let selectNetwork = $('select[name=network-from]').val();
+            let selectToken = $('select[name=token-from]').val();
+
+            garbiBridge.ApproveTokenDepositToERC20Handle(selectNetwork, selectToken);
+        });
+
+        $('.button-approve-grb').click(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            let selectNetwork = $('select[name=network-from]').val();
+
+            garbiBridge.ApproveGRBToBridgeContract(selectNetwork);
+        });
+
+        $('.stable-swap-pay .btn-reverse-pair').click(function() {
+            $('.stable-swap-pay .user-from-bal').text("Loading");
+            $('.stable-swap-out .user-to-bal').text("Loading");
+            let from = $('select[name=network-from]').val();
+            let to = $('select[name=network-to]').val();
+            $('select[name=network-from]').selectpicker('val', to);
+            $('select[name=network-to]').selectpicker('val', from);
+            networkHelper.SwichNetworkByChainName(to);
+        });
+    };
+</script>
+</html>

@@ -1,4 +1,3 @@
-
 const GarbiswapWhitelist = artifacts.require("GarbiswapWhitelist");
 const GarbiTimeLock = artifacts.require("GarbiTimeLock");
 const GarbiswapFeeMachine = artifacts.require("GarbiswapFeeMachine");
@@ -16,17 +15,17 @@ const GarbiTimeLockController = artifacts.require("GarbiTimeLockController");
 const TestTimeLockController = artifacts.require("TestTimeLockController");
 
 //production
-const GRB = "0x5Fd71280b6385157b291b9962f22153FC9E79000";
-const performanceMachineContract = "0xd9d820dd337fa2da2edef1ee240cc236dbc23359";
-const veGRB = "0x14c302dca44528a2b00b932afdf01e9d48100b7b";
-const GarbiTimeLockAddress = "0xb9f4b946d73b7a414e45875e4e38f066d29dfdb1";
-const GarbiswapWhitelistAddress = "0xf4a4d3906d49ea542b82ec03f973202c485da7fc";
-const garbiECContract = "0x5eba4d078a28578d24aa536f70448d507e1cc78e";
-const garbiOracleContract = "0xb4e6898c12e782f0e01f610d9f73df1055095cbc";
-const repositoryManagerContract = "0x7cc0dca4d117e2fc19a471dc75ba44e82386e8ee";
-const DAI = "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1";
-const USDT = "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9";
-const USDC = "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8";
+// const GRB = "0x5Fd71280b6385157b291b9962f22153FC9E79000";
+// const performanceMachineContract = "0xd9d820dd337fa2da2edef1ee240cc236dbc23359";
+// const veGRB = "0x14c302dca44528a2b00b932afdf01e9d48100b7b";
+// const GarbiTimeLockAddress = "0xb9f4b946d73b7a414e45875e4e38f066d29dfdb1";
+// const GarbiswapWhitelistAddress = "0xf4a4d3906d49ea542b82ec03f973202c485da7fc";
+// const garbiECContract = "0x5eba4d078a28578d24aa536f70448d507e1cc78e";
+// const garbiOracleContract = "0xb4e6898c12e782f0e01f610d9f73df1055095cbc";
+// const repositoryManagerContract = "0x7cc0dca4d117e2fc19a471dc75ba44e82386e8ee";
+// const DAI = "0xda10009cbd5d07dd0cecc66161fc93d7c9000da1";
+// const USDT = "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9";
+// const USDC = "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8";
 //end production
 
 //testnet
@@ -42,39 +41,43 @@ const USDC = "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8";
 //const GUSDC = "0x29680BD5F3f324001Add9229d6B44615353f554c";
 //const GWETH = "0xE0EcA46EA3308E8184e3b462b8A722F93A8F6F27";
 //end testnet
+
+// test nova
+const veGRB = "0xCB6ffC1D591cd3FF1637bE8175085b15408998D3";
+//end test
 const startBlock = 1;
 
 module.exports = function(deployer) {
-//    deployer.deploy(GarbiTimeLock).then(function(){
-//        return  deployer.deploy(GarbiswapFeeMachine, 
-//                        veGRB, 
-//                        performanceMachineContract, 
-//                        performanceMachineContract, 
-//                        GarbiTimeLock.address
-//                ).then(function() {
-//                    //return deployer.deploy(GarbiTreasury, GRB, GarbiTimeLock.address);
-//                });
-//    });
-//    deployer.deploy(GarbiMining, 
-//                    veGRB, 
-//                    startBlock
-//                    );
-//    deployer.deploy(GarbiPerformanceFund);
-//    deployer.deploy(GarbiPlatformFund);
-//    deployer.deploy(GarbiswapWhitelist);
-//      deployer.deploy(GarbiOracle);
-//    deployer.deploy(GarbiVestGRB,
-//                    GRB,
-//                    veGRB, 
-//                    GarbiswapWhitelistAddress,
-//                    GarbiTimeLockAddress,
-//                    );
-//      deployer.deploy(GarbiRepositoryManager, garbiECContract, GarbiswapWhitelistAddress);
-//      deployer.deploy(GarbiRepository, DAI, garbiOracleContract, repositoryManagerContract);
-//      deployer.deploy(GarbiRepository, USDC, garbiOracleContract, repositoryManagerContract);
-//      deployer.deploy(GarbiRepository, USDT, garbiOracleContract, repositoryManagerContract);
-////       deployer.deploy(BalanceInfo);
-//       deployer.deploy(GECExchangeInfo);
-        deployer.deploy(GarbiTimeLockController, 1, ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], "0x632414bbF1C1DE108Aec3Ff3B716ace89e582063");
-        deployer.deploy(TestTimeLockController);
+    //    deployer.deploy(GarbiTimeLock).then(function(){
+    //        return  deployer.deploy(GarbiswapFeeMachine, 
+    //                        veGRB, 
+    //                        performanceMachineContract, 
+    //                        performanceMachineContract, 
+    //                        GarbiTimeLock.address
+    //                ).then(function() {
+    //                    //return deployer.deploy(GarbiTreasury, GRB, GarbiTimeLock.address);
+    //                });
+    //    });
+    // deployer.deploy(GarbiMining,
+    //     veGRB,
+    //     startBlock
+    // );
+    //    deployer.deploy(GarbiPerformanceFund);
+    //    deployer.deploy(GarbiPlatformFund);
+    //    deployer.deploy(GarbiswapWhitelist);
+    //      deployer.deploy(GarbiOracle);
+    //    deployer.deploy(GarbiVestGRB,
+    //                    GRB,
+    //                    veGRB, 
+    //                    GarbiswapWhitelistAddress,
+    //                    GarbiTimeLockAddress,
+    //                    );
+    //      deployer.deploy(GarbiRepositoryManager, garbiECContract, GarbiswapWhitelistAddress);
+    //      deployer.deploy(GarbiRepository, DAI, garbiOracleContract, repositoryManagerContract);
+    //      deployer.deploy(GarbiRepository, USDC, garbiOracleContract, repositoryManagerContract);
+    //      deployer.deploy(GarbiRepository, USDT, garbiOracleContract, repositoryManagerContract);
+    ////       deployer.deploy(BalanceInfo);
+    //       deployer.deploy(GECExchangeInfo);
+    // deployer.deploy(GarbiTimeLockController, 1, ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], ["0x632414bbF1C1DE108Aec3Ff3B716ace89e582063"], "0x632414bbF1C1DE108Aec3Ff3B716ace89e582063");
+    // deployer.deploy(TestTimeLockController);
 };

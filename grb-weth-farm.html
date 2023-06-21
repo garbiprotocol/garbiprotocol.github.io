@@ -23,7 +23,10 @@
     <script src="./js/contract/arbitrum/core.js"></script>
     <script src="./js/contract/arbitrum/base.contract.js"></script>
     <script src="./js/contract/arbitrum/data.js"></script>
+    <script src="./js/contract/arbitrum/network.js"></script>
+    <script src="./js/contract/arbitrum/base.erc20.token.js"></script>
     <script src="./js/contract/arbitrum/garbi.farm.contract.js"></script>
+    <script src="./js/contract/arbitrum/garbi.farm.contract.v2.js"></script>
 
     <title>GRB-WETH Vault - Garbi Protocol</title>
     <style id="svelte-166mr51-style">
@@ -149,7 +152,7 @@
     <div class="wrapper">
         <header class="header" id="header">
             <div class="alert-banner" style="background: rgb(45, 66, 252)">
-                <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, switch to a network that supports it.</div>
+                <div class="message">Please note that Garbi Protocol is currently only supported on the Arbitrum One network. To use Garbi Protocol, <button class="switch-network-btn">switch to a network</button> that supports it.</div>
             </div>
             <nav class="navbar navbar-expand-lg">
                 <div class="container container-1">
@@ -157,8 +160,8 @@
                         <div class="col-6 col-lg-2">
                             <div class="d-flex align-items-center">
                                 <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
-                                    <i class="fas fa-bars"></i>
-                                </button>
+                                        <i class="fas fa-bars"></i>
+                                    </button>
                                 <div class="logo" onclick="window.location='index.html'">
                                     <img src="./assets/images/garbi.png" />
                                 </div>
@@ -168,185 +171,181 @@
                             <div class="d-flex align-items-center justify-content-end">
                                 <span class="wrap-user-acct">0x000</span>
                                 <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
-                                <span class="dropMenu">
-                                    <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
-                                    <div class="ctmenu-sub  swap-box">
-                                        <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
-                                    </div>
-                                </span>
+                                <!-- <span class="dropMenu">
+                                        <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                        <div class="ctmenu-sub  swap-box">
+                                            <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
+                                        </div>
+                                    </span> -->
                             </div>
                         </div>
                         <div class="col-lg-8">
                             <div class="collapse navbar-collapse" id="navbar-header">
                                 <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
-                                        <li>
-                                            <a class="nav-link" href="swap.html">Swap</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Earn 
-                                            </a>
-                                            <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
-                                                <li>
-                                                    <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="earn.html">Classic Earn</a>
-                                                </li>
-                                                
-                                            </ul>   
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            GRB-WETH Liquidity
-                                          </a>
-                                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
-                                                <li>
-                                                    <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
-                                                </li>
-                                            </ul>                                
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="v1/index.html">V1</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
-                                        </li>
-                                        <!-- <li class="nav-item">
-                                            <a class="nav-link" href="deposit.html">Deposit</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="withdraw.html">Withdraw</a>
-                                        </li> -->
-                                        
-                                    </ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="earnDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Earn 
+                                                </a>
+                                        <ul class="dropdown-menu" aria-labelledby="earnDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="nft-lp-earn.html">NFT-LP Earn</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="earn.html">Classic Earn</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="equity-cert-exchange.html">GEC Exchange</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="vest.html">Vest veGRB to GRB</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                GRB-WETH Liquidity
+                                              </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMore">
+                                            <li>
+                                                <a class="dropdown-item" href="https://app.uniswap.org/#/add/0x5Fd71280b6385157b291b9962f22153FC9E79000/ETH/3000?minPrice=0.0001&maxPrice=0.001" target="_blank">Uniswap V3</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="deposit.html">GarbiSwap</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </nav>
         </header>
-        <main class="page__swap">
-            <section class="blog__container">
-                <article class="swap__main garbi__box-1 p-3 mb-3">
-                    <div class="d-flex align-items-center justify-content-between mb-14">
-                        <div class="f-700">
-                            <span>GRB-WETH Vault</span>
-                        </div>
-                    </div>
-
-                    <ul>
-                        <li style="list-style-type: none; margin-left: -30px;">
-                            <p> Stake GRB-WETH GarbiLP to earn veGRB. <a href="./deposit.html" target="_blank" style="text-decoration: none; color: rgb(0, 162, 255);"><b> GET GRB-WETH GarbiLP token.</b></a></p>
-                            <label for="currency_0">
-                                <span class="currency-laybal"> 
-                                    <img src="./assets/images/grb_token.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GRB-WETH GarbiLP</span>
-                                    <button class="maxBalanceCoin max-want-bal">Max: </button>
-                                    <span class="u-want-bal">Loading</span>
-                                </span>
-                            </label>
-                            <div class="addLp__form_input mb-2">
-                                <input autofocus type="" class="swap__form-input" name="deposit_amt" value="" placeholder="0.0">
+        <main class="page__swap page-earn">
+            <section class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <article class="swap__main garbi__box-1 p-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-14">
+                                <div class="f-700">
+                                    <span>GRB-WETH Vault</span>
+                                </div>
                             </div>
-                        </li>
-                        <li style="list-style-type: none; margin-left: -30px;">
-                            <button type="button" class="header__btn-connect text-center mt-3  btn-approve">Approve</button>
-                            <button type="button" class="header__btn-connect text-center mt-3 btn-farm btn-deposit">Deposit</button>
 
-                        </li>
-                    </ul>
-                </article>
-                <article class="swap__main garbi__box-1 p-3 mb-3">
-                    <div class="d-flex align-items-center justify-content-between mb-14">
-                        <div class="f-700">
-                            <span>Your account</span>
-                        </div>
+                            <ul>
+                                <li style="list-style-type: none; margin-left: -30px;">
+                                    <p> Stake GRB-WETH GarbiLP to earn veGRB. <a href="./deposit.html" target="_blank" style="text-decoration: none; color: rgb(0, 162, 255);"><b> GET GRB-WETH GarbiLP token.</b></a></p>
+                                    <label for="currency_0" style="display:block;">
+                                        <span class="currency-laybal"> 
+                                            <span class="token-name"><img src="./assets/images/grb_token.png" style="margin-left: 0;" class="token-icon"> GRB-WETH GarbiLP</span>
+                                            <button class="maxBalanceCoin max-want-bal">Balance: <span class="u-want-bal">Loading</span></button>
+                                        </span>
+                                    </label>
+                                    <div class="addLp__form_input mb-2">
+                                        <input autofocus type="" class="swap__form-input" name="deposit_amt" value="" placeholder="0.0">
+                                    </div>
+                                </li>
+                                <li style="list-style-type: none; margin-left: -30px;">
+                                    <button type="button" class="header__btn-connect text-center mt-3  btn-approve" style="display:none;">Approve</button>
+                                    <button type="button" class="header__btn-connect text-center mt-3 btn-farm btn-deposit">Deposit</button>
+
+                                </li>
+                            </ul>
+                        </article>
+                        <article class="garbi__box-1 p-3 mb-3 mt-3">
+                            <p class="f-700">Vault's stats</p>
+
+                            <div>Apr: <span class="apy">-</span></div>
+                            <div>Total: <span class="tvl">-</span></div>
+                            <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
+                        </article>
                     </div>
-                    <ul>
-                        <li style="list-style-type: none; margin-left: -30px;" class="mt-3">
-                            <p>Staked: <span class="u-share">Loading</span></p>
-                            <p>Earned:
-                                <span class="u-pending-grb">Loading</span>
-                                <span>veGRB <button type="button" class="header__btn-connect mt-3 text-center btn-harvest">Harvest</button></span>
-
-                            </p>
-                            <label for="currency_0">
-                                <span class="currency-laybal"> 
-                                    <img src="./assets/images/grb_token.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">GRB-WETH GarbiLP</span>
-                                    <button class="maxBalanceCoin max-share">Max: </button>
-                                    <span class="u-share">Loading</span>
-                                </span>
-                            </label>
-                            <div class="addLp__form_input mb-2">
-                                <input type="" class="swap__form-input" name="withdraw_amt" value="" placeholder="0.0">
+                    <div class="col-lg-6">
+                        <article class="swap__main garbi__box-1 p-3 mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-14">
+                                <div class="f-700">
+                                    <span>Your account</span>
+                                </div>
                             </div>
-                        </li>
-                    </ul>
-                    <div>
-                        <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw">Withdraw your GarbiLP</button>
+                            <ul>
+                                <li style="list-style-type: none; margin-left: -30px;" class="mt-3">
+                                    <p>Staked: <span class="u-share">Loading</span></p>
+                                    <p>Earned:
+                                        <span class="u-pending-grb">Loading</span>
+                                        <span>veGRB <button type="button" class="header__btn-connect mt-3 text-center btn-harvest">Harvest</button></span>
+
+                                    </p>
+                                    <label for="currency_0" style="display:block;">
+                                        <span class="currency-laybal"> 
+                                            <span class="token-name"><img src="./assets/images/grb_token.png" style="margin-left: 0;" class="token-icon"> GRB-WETH GarbiLP</span>
+                                            <button class="maxBalanceCoin max-share">Balance: <span class="u-share">Loading</span> </button>
+                                        </span>
+                                    </label>
+                                    <div class="addLp__form_input mb-2">
+                                        <input type="" class="swap__form-input" name="withdraw_amt" value="" placeholder="0.0">
+                                    </div>
+                                </li>
+                            </ul>
+                            <div>
+                                <button type="button" class="header__btn-connect mt-2 text-center btn-withdraw btn-claim">Withdraw your GarbiLP</button>
+                            </div>
+
+                        </article>
                     </div>
-                    <article class="mb-3 mt-3">
-                        <p class="f-700">Vault's stats</p>
-
-                        <div>Apr: <span class="apy">-</span></div>
-                        <div>Total: <span class="tvl">-</span></div>
-                        <div>Withdraw Model: Remove your deposit at anytime no fee.</div>
-                    </article>
-
-                </article>
-
+                </div>
             </section>
         </main>
 
         <footer class="footer">
-                <nav class="navbar navbar-expand-lg">
-                    <div class="container container-1">
-                        <div class="row flex-grow-1 align-items-center">
-                            <div class="col-lg-4">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>© 2023 Garbi Protocol</div>
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-4">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2023 Garbi Protocol</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
                                         <i class="fas fa-bars"></i>
                                     </button>
-                                </div>
                             </div>
-                            <div class="col-lg-8">
-                                <div class="collapse navbar-collapse" id="navbar-footer">
-                                    <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="risks.html" class="">Risks</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://garbi-protocol.gitbook.io/docs/">Docs</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://twitter.com/garbi_protocol/" rel="noopener noreferrer">#Twitter</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://t.me/garbiprotocol" rel="noopener noreferrer">@Telegram</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#">Version 2.0.4</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="risks.html" class="">Risks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://garbi-protocol.gitbook.io/docs/">Docs</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://twitter.com/garbi_protocol/" rel="noopener noreferrer">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://t.me/garbiprotocol" rel="noopener noreferrer">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://github.com/garbiprotocol">git@</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="v1/index.html">V1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="no-loss-lottery.html">Lottery</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Version 2.0.5</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                </nav>
-            </footer>
+                </div>
+            </nav>
+        </footer>
     </div>
     <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
         <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
@@ -393,56 +392,139 @@
     var coreHelper = new $.Core();
     var configHelper = new $.CONFIG();
     var contractBaseHelper = new $.CONTRACTBASE();
-    var storeHelper = new $.STORE();
-    var dataHelper = new $.DATA();
-    var garbiFarmHelper = new $.GARBI_FARM();
-    var pid = 5;
+    var erc20Helper = new $.BASE_ERC20_TOKEN();
+    var garbiFarm = new $.GARBI_FARM_V2();
+    var networkHelper = new $.GARBI_NETWORK();
+
     var chainId = 42161;
+    var pid = 5;
     $('.alert-banner').hide();
-        if (typeof window.ethereum !== 'undefined') {
-          const web3 = new Web3(window.ethereum);
-          window.ethereum.enable();
-          web3.eth.getChainId()
+    if (typeof window.ethereum !== 'undefined') {
+        const web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+        web3.eth.getChainId()
             .then(chainId => {
-              if (chainId !== 42161) {
-                $('.alert-banner').show();
-              }
-              else {
-                $('.alert-banner').hide();
-              }
+                if (chainId !== 42161) {
+                    $('.alert-banner').show();
+                } else {
+                    $('.alert-banner').hide();
+                }
             })
             .catch(error => {
-              console.error(error);
+                console.error(error);
             });
-        } else {
-          console.log("Metamask not found");
-        }
+    } else {
+        console.log("Metamask not found");
+    }
     $(document).ready(function() {
         abiHelper.init({});
         coreHelper.init({});
         configHelper.init({});
-        storeHelper.init({});
         contractBaseHelper.init({
-            "chainId": chainId
+            chainId: chainId
         });
-        dataHelper.init({
-            "chainId": chainId
-        });
-        garbiFarmHelper.init({
-            "chainId": chainId,
-            "pid": pid
+        let erc20Abi = abiHelper.getERC20ABI();
+        let tokenAddress = configHelper.getFarmContractByPid(chainId, pid).want;
+        erc20Helper.init({
+            chainId: chainId,
+            tokenAddress: tokenAddress,
+            tokenAbi: erc20Abi,
         })
-        coreHelper.initBTNName('btn-farm', 'Deposit');
-        garbiFarmHelper.initFarmDetailPageInterface(pid);
-        garbiFarmHelper.onchangeMaxWantBall(pid);
-        garbiFarmHelper.onchangeMaxShare(pid);
-        garbiFarmHelper.checkAllowce(pid, "btn-approve", "btn-deposit");
-        garbiFarmHelper.approve(pid, "btn-approve");
-        garbiFarmHelper.deposit(pid, `btn-deposit`, `input[name=deposit_amt]`);
-        garbiFarmHelper.harvest(pid, `btn-harvest`);
-        garbiFarmHelper.withdraw(pid, `btn-withdraw`, `input[name=withdraw_amt]`);
-        
-    });
-</script>
 
+        garbiFarm.init({
+            chainId: chainId,
+            pid: pid,
+            tokenAction: erc20Helper,
+        });
+        run();
+    });
+
+    async function run() {
+        let userAddr = coreHelper.getUserAccount();
+        let userData = await garbiFarm.GetDataUser(userAddr);
+        $('.u-want-bal').html(`${ coreHelper.numberWithCommas(userData.userWantBal, 6) }`);
+        $('.u-share').html(`${ coreHelper.numberWithCommas(userData.userWantShare, 6) }`);
+        $('.u-pending-grb').html(`${ coreHelper.numberWithCommas(userData.userGRBPending, 6) }`);
+        $(`.apy`).html(`${ coreHelper.numberWithCommas(userData.apy, 2) }%`);
+        $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
+
+        setInterval(async function() {
+            let userAddr = coreHelper.getUserAccount();
+            let userData = await garbiFarm.GetDataUser(userAddr);
+            $('.u-want-bal').html(`${ coreHelper.numberWithCommas(userData.userWantBal, 6) }`);
+            $('.u-share').html(`${ coreHelper.numberWithCommas(userData.userWantShare, 6) }`);
+            $('.u-pending-grb').html(`${ coreHelper.numberWithCommas(userData.userGRBPending, 6) }`);
+            $(`.apy`).html(`${ coreHelper.numberWithCommas(userData.apy, 2) }%`);
+            $(`.tvl`).html(`${ coreHelper.formatBalance(userData.tvl, 2) }`);
+        }, 15000);
+
+        setInterval(async function() {
+            let userInputVal = $('input[name=deposit_amt]').val();
+            if (userInputVal > userData.userWantBal) {
+                $('.btn-deposit').addClass("disable");
+            } else {
+                $('.btn-deposit').removeClass("disable");
+            }
+        }, 1000);
+
+
+        $(`.max-want-bal`).on("click", () => {
+            let userBalance = $('.u-want-bal').text();
+            $('input[name=deposit_amt]').val(userBalance);
+        });
+        $(`.max-share`).on("click", () => {
+            let userMaxShare = $('.currency-laybal .u-share').text();
+            $('input[name=withdraw_amt]').val(userMaxShare);
+        });
+
+        $('.btn-deposit').click(async function() {
+            let curChainId = await networkHelper.GetChainIdToMain();
+            if (curChainId != chainId) {
+                networkHelper.SwichNetworkByChainId(chainId);
+                return;
+            }
+            let userAddr = coreHelper.getUserAccount();
+            let userInputVal = $('input[name=deposit_amt]').val();
+            let checkAllowce = await garbiFarm.GetAllowanceWantToFarmContract(userAddr);
+            let data = await garbiFarm.GetTokenWantOfFarmContractByPid();
+            let wantDecimal = data.wantDecimal;
+            if (checkAllowce / wantDecimal < userInputVal) {
+                $('.btn-approve').show();
+            } else {
+                garbiFarm.Deposit(userAddr, coreHelper.toBN(userInputVal, wantDecimal));
+            }
+        });
+        $('.btn-approve').click(async function() {
+            let curChainId = await networkHelper.GetChainIdToMain();
+            if (curChainId != chainId) {
+                networkHelper.SwichNetworkByChainId(chainId);
+                return;
+            }
+            let userAddr = coreHelper.getUserAccount();
+            garbiFarm.ApproveWantToFarmContract(userAddr);
+        });
+        $('.btn-harvest').click(async function() {
+            let curChainId = await networkHelper.GetChainIdToMain();
+            if (curChainId != chainId) {
+                networkHelper.SwichNetworkByChainId(chainId);
+                return;
+            }
+            let userAddr = coreHelper.getUserAccount();
+            garbiFarm.Harvest(userAddr);
+        });
+        $('.btn-withdraw').click(async function() {
+            let curChainId = await networkHelper.GetChainIdToMain();
+            if (curChainId != chainId) {
+                networkHelper.SwichNetworkByChainId(chainId);
+                return;
+            }
+            let userAddr = coreHelper.getUserAccount();
+            let userWantWithdraw = $('input[name=withdraw_amt]').val();
+            let data = await garbiFarm.GetTokenWantOfFarmContractByPid();
+            let wantDecimal = data.wantDecimal;
+            garbiFarm.Withdraw(userAddr, coreHelper.toBN(userWantWithdraw, wantDecimal));
+        });
+    }
+</script>
+<script src="./js/utils/ui-helper.js"></script>
 </html>

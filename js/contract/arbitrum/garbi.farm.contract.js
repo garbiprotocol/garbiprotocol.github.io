@@ -21,11 +21,11 @@ $.GARBI_FARM.prototype = (function() {
         },
         async updateGRBPrice() {
             let self = this;
-//            let _abiPairGRBWETH = abiHelper.getGarbiSwapABI();
-//            let _contractPairGRBWETHread = contractBaseHelper.getReadContract("0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874", _abiPairGRBWETH);
-//            let result = await _contractPairGRBWETHread.methods.getBaseOutput(coreHelper.toBN(1, GRB_TOKEN_DECIMAL)).call();
-//            let WETHDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, 'weth');
-//            let WETHPrice = configHelper.getPriceByTokenName(setting.chainId, 'weth');
+            //            let _abiPairGRBWETH = abiHelper.getGarbiSwapABI();
+            //            let _contractPairGRBWETHread = contractBaseHelper.getReadContract("0x26cf5ba5b29f23f20fa82ba684f15e1eb5bf4874", _abiPairGRBWETH);
+            //            let result = await _contractPairGRBWETHread.methods.getBaseOutput(coreHelper.toBN(1, GRB_TOKEN_DECIMAL)).call();
+            //            let WETHDecimal = configHelper.getTokenDecimalByTokenName(setting.chainId, 'weth');
+            //            let WETHPrice = configHelper.getPriceByTokenName(setting.chainId, 'weth');
             $.get("https://api.coingecko.com/api/v3/simple/price?ids=garbi-protocol%2Cethereum&vs_currencies=usd", function(data) {
                 GRBPrice = data["garbi-protocol"]["usd"];
             });
@@ -102,7 +102,7 @@ $.GARBI_FARM.prototype = (function() {
         async approve(_pid, _classBTN) {
             let _self = this;
             let _pool = _self._getPool(_pid);
-            $(`.${_classBTN}`).click(function(e) {  
+            $(`.${_classBTN}`).click(function(e) {
                 let _user = coreHelper.getUserAccount();
                 let _token = _self._getTokenContract(_pool["want"]);
                 if (!_token) {
@@ -122,7 +122,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
-                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);
@@ -161,7 +161,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
-                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);
@@ -201,7 +201,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
-                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);
@@ -239,7 +239,7 @@ $.GARBI_FARM.prototype = (function() {
                     })
                     .on('transactionHash', (hash) => {
                         coreHelper.showPopup('confirm-popup');
-                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/"+hash);
+                        $('.transaction-hash').attr("href", "https://arbiscan.io/tx/" + hash);
                     })
                     .on('confirmation', (confirmationNumber, receipt) => {
                         _self._showSuccessPopup(receipt);
@@ -262,6 +262,7 @@ $.GARBI_FARM.prototype = (function() {
                 let _userFarmInfoByPoolContract = _userFarmInfoObj[item.contract] ? _userFarmInfoObj[item.contract] : null;
                 _initInterface(item.pid, _userFarmInfoByPoolContract);
             });
+
             function _initInterface(_pid, _data) {
                 if (!_data) return false;
                 $(`#apr-${_pid}`).html(`${ coreHelper.numberWithCommas(_data["apy"], 2) }%`);
@@ -281,7 +282,7 @@ $.GARBI_FARM.prototype = (function() {
             let _userFarmInfoByPoolContract = _userFarmInfoObj[_pool.contract];
             if (_userFarmInfoByPoolContract) {
                 $(`.apy`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["apy"], 2) }%`);
-                $(`.tvl`).html(`$${ coreHelper.formatBalance(_userFarmInfoByPoolContract["tvl"], 2) }`);
+                $(`.tvl`).html(`${ coreHelper.formatBalance(_userFarmInfoByPoolContract["tvl"], 2) }`);
                 $(`.u-share`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["userWantShare"], 6) }`);
                 $(`.u-want-bal`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["userWantBal"], 6) }`);
                 $(`.u-pending-grb`).html(`${ coreHelper.numberWithCommas(_userFarmInfoByPoolContract["userGRBPending"], 6) }`);
@@ -346,7 +347,7 @@ $.GARBI_FARM.prototype = (function() {
             _data["userWantShareBigInt"] = _r["userWantShare_"];
             _data["userETHBal"] = coreHelper.parseFloatNumber(parseInt(_r["userETHBal_"]) / (10 ** 18), 18);
             // Calculate TVL and APY
-            
+
             _data["price"] = _pool["price"];
             _data["tvl"] = _data["totalWantShare"] * _data["price"];
             if (_data["tvl"] > 0) {
@@ -364,7 +365,7 @@ $.GARBI_FARM.prototype = (function() {
             // set farm data by pool (using the contract of pool is key)
             _farmInfoOf[_user][_contract] = _farmInfoOf[_user][_contract] ? _farmInfoOf[_user][_contract] : {};
             _farmInfoOf[_user][_contract] = _data;
-            
+
             storeHelper.setVaule('farmInfoOf', _farmInfoOf);
             storeHelper.setVaule('tvlOf', _data[_contract]);
             // Check and Push the pool of user joined
